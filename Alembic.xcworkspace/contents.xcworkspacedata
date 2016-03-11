@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../Alembic/LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:../Alembic/README.md">
+   </FileRef>
+   <FileRef
+      location = "group:Alembic.playground">
+   </FileRef>
+   <FileRef
+      location = "container:../Alembic/Alembic.xcodeproj">
+   </FileRef>
+</Workspace>
