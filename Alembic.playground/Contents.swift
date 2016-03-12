@@ -210,9 +210,8 @@ do {
     ]
     let j = JSON(json)
     let url = try j.distil(["a", 0, "b"]).to(NSURL)
-    let nested: [[String: NSURL]] = try j.distil("a")([JSON]).flatMap {
-        try $0.distil()
-    }
+    let nested: [[String: NSURL]] = try j.distil("a")([JSON])
+        .flatMap { try $0.distil() }
 } catch(let e) {
     e
 }
