@@ -38,7 +38,7 @@ public protocol DistilResultType {
 }
 
 public extension DistilResultType {
-    public func map<T>(transform: Value throws -> T) throws -> T {
+    public func map<T>(@noescape transform: Value throws -> T) throws -> T {
         return try transform(value())
     }
     
@@ -48,7 +48,7 @@ public extension DistilResultType {
         }
     }
     
-    func filter(predicate: Value -> Bool) throws -> Value {
+    func filter(@noescape predicate: Value -> Bool) throws -> Value {
         return try map {
             if predicate($0) { return $0 }
             throw DistilError.FilteredValue($0)
@@ -61,7 +61,7 @@ public extension DistilResultType {
         }
     }
     
-    func catchUp(with: ErrorType -> Value) -> Value {
+    func catchUp(@noescape with: ErrorType -> Value) -> Value {
         do {
             return try map { $0 }
         } catch let e {
@@ -85,7 +85,7 @@ public extension DistilResultType {
 }
 
 public extension DistilResultType where Value: OptionalType {
-    func remapNil(with: () -> Value.Wrapped) throws -> Value.Wrapped {
+    func remapNil(@noescape with: () -> Value.Wrapped) throws -> Value.Wrapped {
         return try map { $0.optionalValue ?? with() }
     }
     
@@ -103,7 +103,7 @@ public extension DistilResultType where Value: OptionalType {
         return remapNil { with }
     }
     
-    func ensure(with: () -> Value.Wrapped) -> Value.Wrapped {
+    func ensure(@noescape with: () -> Value.Wrapped) -> Value.Wrapped {
         do {
             return try remapNil(with)
         } catch {
@@ -137,7 +137,7 @@ public extension DistilResultType where Value: OptionalType {
 }
 
 public extension DistilResultType where Value: CollectionType {
-    func remapEmpty(with: () -> Value) throws -> Value {
+    func remapEmpty(@noescape with: () -> Value) throws -> Value {
         return try map {
             if $0.isEmpty { return with() }
             return $0

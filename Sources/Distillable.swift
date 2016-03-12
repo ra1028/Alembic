@@ -4,6 +4,12 @@ public protocol Distillable {
     static func distil(j: JSON) throws -> Self
 }
 
+extension JSON: Distillable {
+    public static func distil(j: JSON) throws -> JSON {
+        return j
+    }
+}
+
 extension String: Distillable {
     public static func distil(j: JSON) throws -> String {
         return try cast(j)
