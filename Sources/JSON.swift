@@ -20,7 +20,7 @@ public struct JSON {
         guard let json = string.dataUsingEncoding(encoding, allowLossyConversion: allowLossyConversion) else {
             throw DistilError.TypeMismatch(expectedType: String.self, actual: string)
         }
-        try self.init(data: json)
+        try self.init(data: json, options: options)
     }
 }
 
