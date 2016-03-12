@@ -24,7 +24,7 @@ public struct JSON {
     }
 }
 
-// MARK: - solve value functions
+// MARK: - distil value functions
 
 public extension JSON {
     func distil<T: Distillable>(_: T.Type = T.self) throws -> T {
@@ -64,7 +64,7 @@ public extension JSON {
     }
 }
 
-// MARK: - solve optional value functions
+// MARK: - distil optional value functions
 
 public extension JSON {
     func optional<T: Distillable>(path: JSONPath) -> Optional<T>.Type throws -> Optional<T> {
@@ -94,7 +94,7 @@ public extension JSON {
     }
 }
 
-// MARK: - solve array functions
+// MARK: - distil array functions
 
 public extension JSON {
     func distil<T: Distillable>(_: [T].Type = [T].self) throws -> [T] {
@@ -132,7 +132,7 @@ public extension JSON {
     }
 }
 
-// MARK: - solve optional array functions
+// MARK: - distil optional array functions
 
 public extension JSON {
     func optional<T: Distillable>(path: JSONPath) -> Optional<[T]>.Type throws -> Optional<[T]> {
@@ -162,7 +162,7 @@ public extension JSON {
     }
 }
 
-// MARK: - solve dictionary functions
+// MARK: - distil dictionary functions
 
 public extension JSON {
     func distil<T: Distillable>(_: [String: T].Type = [String: T].self) throws -> [String: T] {
@@ -204,7 +204,7 @@ public extension JSON {
     }
 }
 
-// MARK: - solve optional dictionary functions
+// MARK: - distil optional dictionary functions
 
 public extension JSON {
     func optional<T: Distillable>(path: JSONPath) -> Optional<[String: T]>.Type throws -> Optional<[String: T]> {
