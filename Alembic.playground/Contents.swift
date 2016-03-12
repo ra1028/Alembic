@@ -72,9 +72,8 @@ do {
 
 do {
     let raw = ["1", "2", "3", "4", "5"]
-    let array: [Int] = try JSON(raw).distil()
-        .map {
-            $0.map { Int($0) }.flatMap { $0 }
+    let array: [Int] = try JSON(raw).distil().map {
+        $0.map { Int($0) }.flatMap{ $0 }
     }
 } catch(let e) {
     e
@@ -232,4 +231,17 @@ let abJson = [
 ]
 let abj = JSON(abJson)
 let urlArray: [NSURL] = abj.optional([0, "A"]).ensure([])
+let error = abj.optional([1, "B", 0, "C"]).ensure("").to(String)
 let hello = abj.optional([1, "B", 0, "D"]).ensure("").to(String)
+
+do {
+    let json = [
+        "key1": [String: String](),
+        "key2": NSNull()
+    ]
+    let j = JSON(json)
+    let empty: [String: String] = try j.distil("key1").filterEmpty()
+    let nilArray: [String] = try j.optional("key2").filterNil()
+} catch let e {
+    e
+}

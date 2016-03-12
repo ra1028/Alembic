@@ -11,8 +11,8 @@ public struct DistilResult<Value>: DistilResultType {
         return try process()
     }
     
-    public func map<T>(transform: Value throws -> T) throws -> T {
-        return try transform(process())
+    public func value() throws -> Value {
+        return try process()
     }
 }
 
@@ -27,18 +27,21 @@ public struct DistilCatchedResult<Value>: DistilResultType {
         return process()
     }
     
-    public func map<T>(transform: Value throws -> T) throws -> T {
-        return try transform(process())
+    public func value() throws -> Value {
+        return process()
     }
 }
 
 public protocol DistilResultType {
     typealias Value
-    
-    func map<T>(transform: Value throws -> T) throws -> T
+    func value() throws -> Value
 }
 
 public extension DistilResultType {
+    public func map<T>(transform: Value throws -> T) throws -> T {
+        return try transform(value())
+    }
+    
     func map<T>(transform: Value throws -> T) -> DistilResult<T> {
         return DistilResult<T>() {
             try self.map(transform)
@@ -123,13 +126,45 @@ public extension DistilResultType where Value: OptionalType {
     }
     
     func filterNil() throws -> Value.Wrapped {
-        let value: Value = try filter { $0.optionalValue != nil }
-        return value.optionalValue!
+        return try filter { $0.optionalValue != nil }.optionalValue!
     }
     
     func filterNil() -> DistilResult<Value.Wrapped> {
         return DistilResult<Value.Wrapped> {
             try self.filterNil()
+        }
+    }
+}
+
+public extension DistilResultType where Value: CollectionType {
+    func remapEmpty(with: () -> Value) throws -> Value {
+        return try map {
+            if $0.isEmpty { return with() }
+            return $0
+        }
+    }
+    
+    func remapEmpty(with: () -> Value) -> DistilResult<Value> {
+        return DistilResult() {
+            try self.remapEmpty(with)
+        }
+    }
+    
+    func remapEmpty(with: Value) throws -> Value {
+        return try remapEmpty { with }
+    }
+    
+    func remapEmpty(with: Value) -> DistilResult<Value> {
+        return remapEmpty { with }
+    }
+    
+    func filterEmpty() throws -> Value {
+        return try filter { !$0.isEmpty }
+    }
+    
+    func filterEmpty() -> DistilResult<Value> {
+        return DistilResult() {
+            try self.filterEmpty()
         }
     }
 }
