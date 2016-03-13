@@ -1,3 +1,11 @@
+//
+//  DistilResult.swift
+//  Alembic
+//
+//  Created by Ryo Aoyama on 3/13/16.
+//  Copyright © 2016 Ryo Aoyama. All rights reserved.
+//
+
 import Foundation
 
 public struct DistilResult<Value>: DistilResultType {
@@ -63,7 +71,7 @@ public extension DistilResultType {
     
     func catchUp(@noescape with: ErrorType -> Value) -> Value {
         do {
-            return try map { $0 }
+            return try value()
         } catch let e {
             return with(e)
         }
@@ -75,8 +83,8 @@ public extension DistilResultType {
         }
     }
     
-    func catchUp(with: Value) -> Value {
-        return catchUp { _ in with }
+    func catchUp(@autoclosure with: () -> Value) -> Value {
+        return catchUp { _ in with() }
     }
     
     func catchUp(with: Value) -> DistilCatchedResult<Value> {
@@ -95,8 +103,8 @@ public extension DistilResultType where Value: OptionalType {
         }
     }
     
-    func remapNil(with: Value.Wrapped) throws -> Value.Wrapped {
-        return try remapNil { with }
+    func remapNil(@autoclosure with: () -> Value.Wrapped) throws -> Value.Wrapped {
+        return try remapNil { with() }
     }
     
     func remapNil(with: Value.Wrapped) -> DistilResult<Value.Wrapped> {
@@ -117,8 +125,8 @@ public extension DistilResultType where Value: OptionalType {
         }
     }
     
-    func ensure(with: Value.Wrapped) -> Value.Wrapped {
-        return ensure { with }
+    func ensure(@autoclosure with: () -> Value.Wrapped) -> Value.Wrapped {
+        return ensure { with() }
     }
     
     func ensure(with: Value.Wrapped) -> DistilCatchedResult<Value.Wrapped> {
@@ -150,8 +158,8 @@ public extension DistilResultType where Value: CollectionType {
         }
     }
     
-    func remapEmpty(with: Value) throws -> Value {
-        return try remapEmpty { with }
+    func remapEmpty(@autoclosure with: () -> Value) throws -> Value {
+        return try remapEmpty { with() }
     }
     
     func remapEmpty(with: Value) -> DistilResult<Value> {

@@ -27,24 +27,32 @@ struct Person: Distillable {
     let float: Float
     let bool: Bool
     let number: NSNumber
+    let rawValue: AnyObject
     let nested: String
+    let nestedDict: [String: String]
     let array: [String]
+    let arrayOption: [String]?
     let dictionary: [String: Int]
+    let dictionaryOption: [String: Int]?
     let url: NSURL
     
     static func distil(j: JSON) throws -> Person {
         return try Person(
-            firstName: j.distil("first_name"),
-            lastName: j.distil("last_name"),
+            firstName: j.distil("first_name").filter { !$0.isEmpty },
+            lastName: j.distil("last_name").filter { !$0.isEmpty },
             age: j.distil("age"),
             int64: j.distil("int64"),
             height: j.distil("height"),
             float: j.distil("float"),
             bool: j.distil("bool"),
             number: j.distil("number"),
+            rawValue: j.distil("raw_value")(JSON).raw,
             nested: j.distil(["nested", "value"]),
-            array: j.distil("array"),
-            dictionary: j.distil("dictionary"),
+            nestedDict: j.distil(["nested", "dict"]),
+            array: j.distil("array").filterEmpty(),
+            arrayOption: j.optional("arrayOption"),
+            dictionary: j.distil("dictionary").filterEmpty(),
+            dictionaryOption: j.optional("dictionaryOption"),
             url: j.distil("url_string")
                 .map { NSURL(string: $0) }
                 .filterNil()
@@ -136,10 +144,13 @@ let json: [String: AnyObject] = [
     "raw_value": "RawValue",
     "nested": [
         "value": "The nested value",
-    ],
-    "array": ["123", "456"] as [AnyObject],
+        "dict": [ "key": "The nested value" ] as [String: AnyObject]
+        ] as [String: AnyObject],
+    "array": [ "123", "456" ] as [AnyObject],
+    "arrayOption": NSNull(),
     "dictionary": [ "A": 1, "B": 2 ] as [String: AnyObject],
-    "url_string": "http://example.com"
+    // "dictionaryOption" key is missing
+    "url_string": "https://github.com/ra1028"
 ]
 
 do {
@@ -154,8 +165,8 @@ do {
 do {
     let person: Person = try JSON(json).distil()
     print(person)
-} catch {
-    "Threw the error :<"
+} catch let e {
+    e
 }
 
 let raw = [
@@ -184,9 +195,11 @@ do {
 
 do {
     let json = "{\"a\": {\"b\": {\"c\": 150}}}"
-    let int = try JSON(string: json).distil(["a", "b", "c"])(Int)
+    let j = try JSON(string: json)
+    let int = try j.distil(["a", "b", "c"])(Int)
         .map { "\($0)" }
         .to(String)
+    let optInt: Int? = try j.distil(["a", "b", "c"])(Int)
 } catch(let e) {
     print(e)
 }
@@ -211,7 +224,7 @@ do {
     let j = JSON(json)
     let url = try j.distil(["a", 0, "b"]).to(NSURL)
     let nested: [[String: NSURL]] = try j.distil("a")([JSON])
-        .flatMap { try $0.distil() }
+        .map { try $0.distil() }
 } catch(let e) {
     e
 }
