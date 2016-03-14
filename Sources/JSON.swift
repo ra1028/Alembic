@@ -242,6 +242,27 @@ public extension JSON {
     }
 }
 
+// MARK: - serialize functions
+
+public extension JSON {
+    static func serializeToData(object: JSONSerializable, options: NSJSONWritingOptions = []) -> NSData {
+        return serializeToData(object.serialize().object, options: options)
+    }
+    
+    static func serializeToData(object: JSONSerializable, rootKey: String, options: NSJSONWritingOptions = []) -> NSData {
+        let jsonObject = [rootKey: object.serialize().object]
+        return serializeToData(jsonObject, options: options)
+    }
+    
+    static func serializeToString(object: JSONSerializable, options: NSJSONWritingOptions = []) -> String {
+        return String(data: serializeToData(object, options: options), encoding: NSUTF8StringEncoding)!
+    }
+    
+    static func serializeToString(object: JSONSerializable, rootKey: String, options: NSJSONWritingOptions = []) -> String {
+        return String(data: serializeToData(object, rootKey: rootKey, options: options), encoding: NSUTF8StringEncoding)!
+    }
+}
+
 // MARK: - CustomStringConvertible
 
 extension JSON: CustomStringConvertible {
@@ -302,5 +323,9 @@ private extension JSON {
             throw DistilError.TypeMismatch(expectedType: T.self, actual: object)
         }
         return value
+    }
+    
+    static func serializeToData(object: AnyObject, options: NSJSONWritingOptions = []) -> NSData {
+        return try! NSJSONSerialization.dataWithJSONObject(object, options: options)
     }
 }

@@ -18,7 +18,7 @@ enum Sample: Int, Distillable {
     case C = 3
 }
 
-struct Person: Distillable {
+struct Person: Distillable, JSONSerializable {
     let firstName: String
     let lastName: String
     let age: Int
@@ -57,6 +57,34 @@ struct Person: Distillable {
                 .map { NSURL(string: $0) }
                 .filterNil()
         )
+    }
+    
+    func serialize() -> JSONObject {
+//        return JSONObject.dictionary {
+//            $0.inject(firstName, "key1")
+//            $0.inject(lastName, "key2")
+//            $0.inject(nested, ["nested", "value"])
+//            $0.inject(JSONValue(nestedDict), ["nested","dict"])
+//        }
+        return [
+            "first_name": firstName,
+            "last_name": lastName,
+            "age": age,
+            "int64": int64,
+            "height": height,
+            "float": float,
+            "bool": bool,
+            "number": number,
+            "raw_value": rawValue as! String,
+            "nested": JSONValue([
+                "value": JSONValue(nested),
+                "dict": JSONValue(nestedDict)]),
+            "array": JSONValue(array),
+            "arrayOption": arrayOption.map { JSONValue($0) } ?? nil,
+            "dictionary": JSONValue(dictionary),
+            "dictionaryOption": dictionaryOption.map { JSONValue($0) } ?? nil,
+            "url_string": url.absoluteString
+        ]
     }
 }
     
@@ -165,6 +193,7 @@ do {
 do {
     let person: Person = try JSON(json).distil()
     print(person)
+    let data = JSON.serializeToString(person)
 } catch let e {
     e
 }
