@@ -245,21 +245,20 @@ public extension JSON {
 // MARK: - serialize functions
 
 public extension JSON {
-    static func serializeToData(object: JSONSerializable, options: NSJSONWritingOptions = []) -> NSData {
-        return serializeToData(object.serialize().object, options: options)
+    static func serializeToData(serializable: JSONSerializable, options: NSJSONWritingOptions = []) -> NSData {
+        return serializeToData(serializable.serialize().object, options: options)
     }
     
-    static func serializeToData(object: JSONSerializable, rootKey: String, options: NSJSONWritingOptions = []) -> NSData {
-        let jsonObject = [rootKey: object.serialize().object]
-        return serializeToData(jsonObject, options: options)
+    static func serializeToData(serializable: JSONSerializable, rootKey: String, options: NSJSONWritingOptions = []) -> NSData {
+        return serializeToData([rootKey: serializable.serialize().object], options: options)
     }
     
-    static func serializeToString(object: JSONSerializable, options: NSJSONWritingOptions = []) -> String {
-        return String(data: serializeToData(object, options: options), encoding: NSUTF8StringEncoding)!
+    static func serializeToString(serializable: JSONSerializable, options: NSJSONWritingOptions = []) -> String {
+        return String(data: serializeToData(serializable, options: options), encoding: NSUTF8StringEncoding)!
     }
     
-    static func serializeToString(object: JSONSerializable, rootKey: String, options: NSJSONWritingOptions = []) -> String {
-        return String(data: serializeToData(object, rootKey: rootKey, options: options), encoding: NSUTF8StringEncoding)!
+    static func serializeToString(serializable: JSONSerializable, rootKey: String, options: NSJSONWritingOptions = []) -> String {
+        return String(data: serializeToData(serializable, rootKey: rootKey, options: options), encoding: NSUTF8StringEncoding)!
     }
 }
 

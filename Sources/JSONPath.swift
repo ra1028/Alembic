@@ -11,6 +11,10 @@ import Foundation
 public struct JSONPath: Equatable {
     let paths: [JSONPathElement]
     
+    public init(_ path: JSONPathElement) {
+        paths = [path]
+    }
+    
     public init(_ paths: [JSONPathElement]) {
         self.paths = paths
     }
@@ -32,21 +36,21 @@ extension JSONPath: CustomStringConvertible {
 
 extension JSONPath: StringLiteralConvertible {
     public init(unicodeScalarLiteral value: String) {
-        self.init([JSONPathElement(value)])
+        self.init(JSONPathElement(value))
     }
     
     public init(extendedGraphemeClusterLiteral value: String) {
-        self.init([JSONPathElement(value)])
+        self.init(JSONPathElement(value))
     }
     
     public init(stringLiteral value: String) {
-        self.init([JSONPathElement(value)])
+        self.init(JSONPathElement(value))
     }
 }
 
 extension JSONPath: IntegerLiteralConvertible {
     public init(integerLiteral value: Int) {
-        self.init([JSONPathElement(value)])
+        self.init(JSONPathElement(value))
     }
 }
 

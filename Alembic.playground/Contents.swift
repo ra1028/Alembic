@@ -60,12 +60,6 @@ struct Person: Distillable, JSONSerializable {
     }
     
     func serialize() -> JSONObject {
-//        return JSONObject.dictionary {
-//            $0.inject(firstName, "key1")
-//            $0.inject(lastName, "key2")
-//            $0.inject(nested, ["nested", "value"])
-//            $0.inject(JSONValue(nestedDict), ["nested","dict"])
-//        }
         return [
             "first_name": firstName,
             "last_name": lastName,
@@ -80,9 +74,9 @@ struct Person: Distillable, JSONSerializable {
                 "value": JSONValue(nested),
                 "dict": JSONValue(nestedDict)]),
             "array": JSONValue(array),
-            "arrayOption": arrayOption.map { JSONValue($0) } ?? nil,
+            "arrayOption": arrayOption.map { JSONValue($0) } ?? .null,
             "dictionary": JSONValue(dictionary),
-            "dictionaryOption": dictionaryOption.map { JSONValue($0) } ?? nil,
+            "dictionaryOption": dictionaryOption.map { JSONValue($0) } ?? .null,
             "url_string": url.absoluteString
         ]
     }

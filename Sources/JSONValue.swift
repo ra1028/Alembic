@@ -17,6 +17,10 @@ public struct JSONValue {
 }
 
 public extension JSONValue {
+    static var null: JSONValue {
+        return JSONValue(value: NSNull())
+    }
+    
     init(_ number: NSNumber) {
         value = number
     }
@@ -34,10 +38,6 @@ public extension JSONValue {
             new[old.0] = old.1.jsonValue().value
             return new
         }
-    }
-    
-    static func null() -> JSONValue {
-        return JSONValue(value: NSNull())
     }
 }
 
@@ -75,7 +75,7 @@ extension JSONValue: BooleanLiteralConvertible {
 
 extension JSONValue: NilLiteralConvertible {
     public init(nilLiteral: ()) {
-        self = JSONValue.null()
+        self = JSONValue.null
     }
 }
 
