@@ -18,7 +18,7 @@ enum Sample: Int, Distillable {
     case C = 3
 }
 
-struct Person: Distillable, JSONSerializable {
+final class Person: Distillable, JSONSerializable {
     let firstName: String
     let lastName: String
     let age: Int
@@ -36,8 +36,44 @@ struct Person: Distillable, JSONSerializable {
     let dictionaryOption: [String: Int]?
     let url: NSURL
     
-    static func distil(j: JSON) throws -> Person {
-        return try Person(
+    init(
+        firstName: String,
+        lastName: String,
+        age: Int,
+        int64: Int64,
+        height: Double,
+        float: Float,
+        bool: Bool,
+        number: NSNumber,
+        rawValue: AnyObject,
+        nested: String,
+        nestedDict: [String: String],
+        array: [String],
+        arrayOption: [String]?,
+        dictionary: [String: Int],
+        dictionaryOption: [String: Int]?,
+        url: NSURL
+        ) {
+        self.firstName = firstName
+        self.lastName = lastName
+        self.age = age
+        self.int64 = int64
+        self.height = height
+        self.float = float
+        self.bool = bool
+        self.number = number
+        self.rawValue = rawValue
+        self.nested = nested
+        self.nestedDict = nestedDict
+        self.array = array
+        self.arrayOption = arrayOption
+        self.dictionary = dictionary
+        self.dictionaryOption = dictionaryOption
+        self.url = url
+    }
+    
+    static func distil(j: JSON) throws -> Self {
+        return try self.init(
             firstName: j.distil("first_name").filter { !$0.isEmpty },
             lastName: j.distil("last_name").filter { !$0.isEmpty },
             age: j.distil("age"),
@@ -54,7 +90,7 @@ struct Person: Distillable, JSONSerializable {
             dictionary: j.distil("dictionary").filterEmpty(),
             dictionaryOption: j.optional("dictionaryOption"),
             url: j.distil("url_string")
-                .map { NSURL(string: $0) }
+                .map(NSURL.init(string:))
                 .filterNil()
         )
     }
