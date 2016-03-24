@@ -11,3 +11,9 @@ import Foundation
 public protocol Serializable {
     func serialize() -> JSONObject
 }
+
+extension JSONObject: Serializable {
+    public func serialize() -> JSONObject {
+        return self
+    }
+}

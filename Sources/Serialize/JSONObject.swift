@@ -26,6 +26,22 @@ public extension JSONObject {
         dictionary.forEach { new[$0] = $1.jsonValue().value }
         object = new
     }
+    
+    func toData(options: NSJSONWritingOptions = []) -> NSData {
+        return JSON.serializeToData(self, options: options)
+    }
+    
+    func toData(rootKey: String, options: NSJSONWritingOptions = []) -> NSData {
+        return JSON.serializeToData(self, rootKey: rootKey, options: options)
+    }
+    
+    func toString(options: NSJSONWritingOptions = []) -> String {
+        return JSON.serializeToString(self, options: options)
+    }
+    
+    func toString(rootKey: String, options: NSJSONWritingOptions = []) -> String {
+        return JSON.serializeToString(self, rootKey: rootKey, options: options)
+    }
 }
 
 extension JSONObject: ArrayLiteralConvertible {
