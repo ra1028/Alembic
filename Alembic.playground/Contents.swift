@@ -18,7 +18,7 @@ enum Sample: Int, Distillable {
     case C = 3
 }
 
-final class Person: Decodable, Serializable {
+class Person: Distillable, Serializable {
     let firstName: String
     let lastName: String
     let age: Int
@@ -36,27 +36,31 @@ final class Person: Decodable, Serializable {
     let dictionaryOption: [String: Int]?
     let url: NSURL
     
-    init(j: JSON) throws {
+    required init(json j: JSON) throws {
         try (
-            firstName = j.distil("first_name").filter { !$0.isEmpty },
-            lastName = j.distil("last_name").filter { !$0.isEmpty },
-            age = j.distil("age"),
-            int64 = j.distil("int64"),
-            height = j.distil("height"),
-            float = j.distil("float"),
-            bool = j.distil("bool"),
-            number = j.distil("number"),
-            rawValue = j.distil("raw_value")(JSON).raw,
-            nested = j.distil(["nested", "value"]),
-            nestedDict = j.distil(["nested", "dict"]),
-            array = j.distil("array").filterEmpty(),
-            arrayOption = j.optional("arrayOption"),
-            dictionary = j.distil("dictionary").filterEmpty(),
-            dictionaryOption = j.optional("dictionaryOption"),
-            url = j.distil("url_string")
+            firstName = (j <| "first_name").filter { !$0.isEmpty },
+            lastName = (j <| "last_name").filter { !$0.isEmpty },
+            age = j <| "age",
+            int64 = j <| "int64",
+            height = j <| "height",
+            float = j <| "float",
+            bool = j <| "bool",
+            number = j <| "number",
+            rawValue = (j <| "raw_value")(JSON).raw,
+            nested = j <| ["nested", "value"],
+            nestedDict = j <| ["nested", "dict"],
+            array = (j <| "array").filterEmpty(),
+            arrayOption = j <|? "arrayOption",
+            dictionary = (j <| "dictionary").filterEmpty(),
+            dictionaryOption = j <|? "dictionaryOption",
+            url = (j <| "url_string")
                 .map(NSURL.init(string:))
                 .filterNil()
         )
+    }
+    
+    static func distil(j: JSON) throws -> Self {
+        return try self.init(json: j)
     }
     
     func serialize() -> JSONObject {
@@ -111,7 +115,7 @@ do {
 
 do {
     let hexString = ["color": "012C57"]
-    let color: UIColor = try JSON(hexString).distil("color").map(hexColor)
+    let color: UIColor = try (JSON(hexString) <| ("color")).map(hexColor)
 } catch(let e) {
     e
 }
@@ -122,7 +126,7 @@ do {
             "nest2": [1, 2, 3, 4, 5]
         ]
     ]    
-    let text: [Int] = try JSON(raw).distil(["nest1", "nest2"])
+    let text: [Int] = try JSON(raw) <| ["nest1", "nest2"]
 } catch(let e) {
     e
 }
@@ -178,7 +182,7 @@ do {
     let raw = [
         "nest": [1, 2, 3, 4, 5]
     ]
-    let array: [Int] = try JSON(raw).distil("nest")
+    let array: [Int] = try (JSON(raw) <| "nest")
 } catch(let e) {
     e
 }
@@ -195,7 +199,7 @@ let raw = [
         "count": 150
     ]
 ]
-let string: String = JSON(raw).distil(["people", "count"])
+let string: String = (JSON(raw) <| ["people", "count"])
     .filter { $0 > 100 }
     .map { "\($0) counts" }
     .catchUp("")
@@ -217,10 +221,10 @@ do {
 do {
     let json = "{\"a\": {\"b\": {\"c\": 150}}}"
     let j = try JSON(string: json)
-    let int = try j.distil(["a", "b", "c"])(Int)
+    let int = try (j <| ["a", "b", "c"])(Int)
         .map { "\($0)" }
         .to(String)
-    let optInt: Int? = try j.distil(["a", "b", "c"])(Int)
+    let optInt: Int? = try (j <| ["a", "b", "c"])(Int)
 } catch(let e) {
     print(e)
 }
@@ -243,8 +247,8 @@ do {
         ]
     ]
     let j = JSON(json)
-    let url = try j.distil(["a", 0, "b"]).to(NSURL)
-    let nested: [[String: NSURL]] = try j.distil("a")([JSON])
+    let url: NSURL = try j <| ["a", 0, "b"]
+    let nested: [[String: NSURL]] = try (j <| "a")([JSON])
         .map { try $0.distil() }
 } catch(let e) {
     e
@@ -266,9 +270,9 @@ let abJson = [
     ]
 ]
 let abj = JSON(abJson)
-let urlArray: [NSURL] = abj.optional([0, "A"]).ensure([])
-let error = abj.optional([1, "B", 0, "C"]).ensure("").to(String)
-let hello = abj.optional([1, "B", 0, "D"]).ensure("").to(String)
+let urlArray: [NSURL] = (abj <|? [0, "A"]).ensure([])
+let error = (abj <|? [1, "B", 0, "C"]).ensure("").to(String)
+let hello = (abj <|? [1, "B", 0, "D"]).ensure("").to(String)
 
 do {
     let json = [
@@ -276,9 +280,8 @@ do {
         "key2": NSNull()
     ]
     let j = JSON(json)
-    let empty: [String: String] = try j.distil("key1")
-        .remapEmpty(["empty": "empty"])        
-    let nilArray: [String] = try j.optional("key2").filterNil()
+    let empty: [String: String] = try (j <| "key1").remapEmpty(["empty": "empty"])
+    let nilArray: [String] = try (j <|? "key2").filterNil()
 } catch let e {
     e
 }
