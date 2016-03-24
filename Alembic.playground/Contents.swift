@@ -36,63 +36,31 @@ final class Person: Distillable, JSONSerializable {
     let dictionaryOption: [String: Int]?
     let url: NSURL
     
-    init(
-        firstName: String,
-        lastName: String,
-        age: Int,
-        int64: Int64,
-        height: Double,
-        float: Float,
-        bool: Bool,
-        number: NSNumber,
-        rawValue: AnyObject,
-        nested: String,
-        nestedDict: [String: String],
-        array: [String],
-        arrayOption: [String]?,
-        dictionary: [String: Int],
-        dictionaryOption: [String: Int]?,
-        url: NSURL
-        ) {
-        self.firstName = firstName
-        self.lastName = lastName
-        self.age = age
-        self.int64 = int64
-        self.height = height
-        self.float = float
-        self.bool = bool
-        self.number = number
-        self.rawValue = rawValue
-        self.nested = nested
-        self.nestedDict = nestedDict
-        self.array = array
-        self.arrayOption = arrayOption
-        self.dictionary = dictionary
-        self.dictionaryOption = dictionaryOption
-        self.url = url
-    }
-    
-    static func distil(j: JSON) throws -> Self {
-        return try self.init(
-            firstName: j.distil("first_name").filter { !$0.isEmpty },
-            lastName: j.distil("last_name").filter { !$0.isEmpty },
-            age: j.distil("age"),
-            int64: j.distil("int64"),
-            height: j.distil("height"),
-            float: j.distil("float"),
-            bool: j.distil("bool"),
-            number: j.distil("number"),
-            rawValue: j.distil("raw_value")(JSON).raw,
-            nested: j.distil(["nested", "value"]),
-            nestedDict: j.distil(["nested", "dict"]),
-            array: j.distil("array").filterEmpty(),
-            arrayOption: j.optional("arrayOption"),
-            dictionary: j.distil("dictionary").filterEmpty(),
-            dictionaryOption: j.optional("dictionaryOption"),
-            url: j.distil("url_string")
+    init(j: JSON) throws {
+        try (
+            firstName = j.distil("first_name").filter { !$0.isEmpty },
+            lastName = j.distil("last_name").filter { !$0.isEmpty },
+            age = j.distil("age"),
+            int64 = j.distil("int64"),
+            height = j.distil("height"),
+            float = j.distil("float"),
+            bool = j.distil("bool"),
+            number = j.distil("number"),
+            rawValue = j.distil("raw_value")(JSON).raw,
+            nested = j.distil(["nested", "value"]),
+            nestedDict = j.distil(["nested", "dict"]),
+            array = j.distil("array").filterEmpty(),
+            arrayOption = j.optional("arrayOption"),
+            dictionary = j.distil("dictionary").filterEmpty(),
+            dictionaryOption = j.optional("dictionaryOption"),
+            url = j.distil("url_string")
                 .map(NSURL.init(string:))
                 .filterNil()
         )
+    }
+    
+    static func distil(j: JSON) throws -> Self {
+        return try self.init(j: j)
     }
     
     func serialize() -> JSONObject {
@@ -222,7 +190,6 @@ do {
 
 do {
     let person: Person = try JSON(json).distil()
-    print(person)
     let data = JSON.serializeToString(person)
 } catch let e {
     e
