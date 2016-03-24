@@ -18,7 +18,7 @@ enum Sample: Int, Distillable {
     case C = 3
 }
 
-final class Person: Distillable, JSONSerializable {
+final class Person: Decodable, Serializable {
     let firstName: String
     let lastName: String
     let age: Int
@@ -57,10 +57,6 @@ final class Person: Distillable, JSONSerializable {
                 .map(NSURL.init(string:))
                 .filterNil()
         )
-    }
-    
-    static func distil(j: JSON) throws -> Self {
-        return try self.init(j: j)
     }
     
     func serialize() -> JSONObject {
@@ -153,8 +149,7 @@ let date: NSDate = JSON(dateString).distil(String)
         return formatter.dateFromString(s)
     }
     .filterNil()
-    .catchUp { _ in NSDate() }
-
+    .catchUp(NSDate())
 
 // JSON decode example
 
@@ -203,7 +198,7 @@ let raw = [
 let string: String = JSON(raw).distil(["people", "count"])
     .filter { $0 > 100 }
     .map { "\($0) counts" }
-    .catchUp { _ in "" }
+    .catchUp("")
 
 do {
     let a: Int = try JSON(100).distil()
@@ -281,7 +276,8 @@ do {
         "key2": NSNull()
     ]
     let j = JSON(json)
-    let empty: [String: String] = try j.distil("key1").filterEmpty()
+    let empty: [String: String] = try j.distil("key1")
+        .remapEmpty(["empty": "empty"])        
     let nilArray: [String] = try j.optional("key2").filterNil()
 } catch let e {
     e

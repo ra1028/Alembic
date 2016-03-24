@@ -246,19 +246,19 @@ public extension JSON {
 // MARK: - serialize functions
 
 public extension JSON {
-    static func serializeToData(serializable: JSONSerializable, options: NSJSONWritingOptions = []) -> NSData {
+    static func serializeToData(serializable: Serializable, options: NSJSONWritingOptions = []) -> NSData {
         return serializeToData(serializable.serialize().object, options: options)
     }
     
-    static func serializeToData(serializable: JSONSerializable, rootKey: String, options: NSJSONWritingOptions = []) -> NSData {
+    static func serializeToData(serializable: Serializable, rootKey: String, options: NSJSONWritingOptions = []) -> NSData {
         return serializeToData([rootKey: serializable.serialize().object], options: options)
     }
     
-    static func serializeToString(serializable: JSONSerializable, options: NSJSONWritingOptions = []) -> String {
+    static func serializeToString(serializable: Serializable, options: NSJSONWritingOptions = []) -> String {
         return String(data: serializeToData(serializable, options: options), encoding: NSUTF8StringEncoding)!
     }
     
-    static func serializeToString(serializable: JSONSerializable, rootKey: String, options: NSJSONWritingOptions = []) -> String {
+    static func serializeToString(serializable: Serializable, rootKey: String, options: NSJSONWritingOptions = []) -> String {
         return String(data: serializeToData(serializable, rootKey: rootKey, options: options), encoding: NSUTF8StringEncoding)!
     }
 }

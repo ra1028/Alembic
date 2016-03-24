@@ -1,5 +1,5 @@
 //
-//  JSONSerializable.swift
+//  Serializable.swift
 //  Alembic
 //
 //  Created by Ryo Aoyama on 3/14/16.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol JSONSerializable {
+public protocol Serializable {
     func serialize() -> JSONObject
 }

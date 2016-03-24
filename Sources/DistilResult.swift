@@ -42,6 +42,7 @@ public struct DistilCatchedResult<Value>: DistilResultType {
 
 public protocol DistilResultType {
     associatedtype Value
+    
     func value() throws -> Value
 }
 
@@ -69,26 +70,26 @@ public extension DistilResultType {
         }
     }
     
-    func catchUp(@noescape with: ErrorType -> Value) -> Value {
+    func catchUp(@noescape with: () -> Value) -> Value {
         do {
             return try value()
-        } catch let e {
-            return with(e)
+        } catch {
+            return with()
         }
     }
     
-    func catchUp(with: ErrorType -> Value) -> DistilCatchedResult<Value> {
+    func catchUp(with: () -> Value) -> DistilCatchedResult<Value> {
         return DistilCatchedResult() {
             self.catchUp(with)
         }
     }
     
     func catchUp(@autoclosure with: () -> Value) -> Value {
-        return catchUp { _ in with() }
+        return catchUp { with() }
     }
     
     func catchUp(with: Value) -> DistilCatchedResult<Value> {
-        return catchUp { _ in with }
+        return catchUp { with }
     }
 }
 
@@ -113,7 +114,7 @@ public extension DistilResultType where Value: OptionalType {
     
     func ensure(@noescape with: () -> Value.Wrapped) -> Value.Wrapped {
         do {
-            return try remapNil(with)
+            return try remapNil { with() }
         } catch {
             return with()
         }
