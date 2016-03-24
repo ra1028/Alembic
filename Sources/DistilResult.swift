@@ -41,7 +41,7 @@ public struct DistilCatchedResult<Value>: DistilResultType {
 }
 
 public protocol DistilResultType {
-    typealias Value
+    associatedtype Value
     func value() throws -> Value
 }
 

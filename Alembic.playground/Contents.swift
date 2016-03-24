@@ -74,9 +74,9 @@ struct Person: Distillable, JSONSerializable {
                 "value": JSONValue(nested),
                 "dict": JSONValue(nestedDict)]),
             "array": JSONValue(array),
-            "arrayOption": arrayOption.map { JSONValue($0) } ?? .null,
+            "arrayOption": arrayOption.map(JSONValue.init) ?? .null,
             "dictionary": JSONValue(dictionary),
-            "dictionaryOption": dictionaryOption.map { JSONValue($0) } ?? .null,
+            "dictionaryOption": dictionaryOption.map(JSONValue.init) ?? .null,
             "url_string": url.absoluteString
         ]
     }

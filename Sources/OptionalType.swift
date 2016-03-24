@@ -7,7 +7,7 @@
 //
 
 public protocol OptionalType {
-    typealias Wrapped
+    associatedtype Wrapped
     
     var optionalValue: Optional<Wrapped> { get }
 }

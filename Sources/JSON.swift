@@ -175,11 +175,12 @@ public extension JSON {
 public extension JSON {
     func distil<T: Distillable>(_: [String: T].Type = [String: T].self) throws -> [String: T] {
         let dictionary: [String: AnyObject] = try cast(raw)
-        return try dictionary.reduce([String: T](minimumCapacity: dictionary.count)) { (var new, old) in
-            let value: T = try JSON(old.1).distil()
-            new[old.0] = value
-            return new
+        var new = [String: T](minimumCapacity: dictionary.count)
+        try dictionary.forEach {
+            let value: T = try JSON($1).distil()
+            new[$0] = value
         }
+        return new
     }
     
     func distil<T: Distillable>(path: JSONPath) -> [String: T].Type throws -> [String: T] {

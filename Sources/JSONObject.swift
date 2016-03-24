@@ -22,10 +22,9 @@ public extension JSONObject {
     }
     
     init<T: JSONValueConvertible>(_ dictionary: [String: T]) {
-        object = dictionary.reduce([String: AnyObject]()) { (var new, old) in
-            new[old.0] = old.1.jsonValue().value
-            return new
-        }
+        var new = [String: AnyObject](minimumCapacity: dictionary.count)
+        dictionary.forEach { new[$0] = $1.jsonValue().value }
+        object = new
     }
 }
 
@@ -38,10 +37,8 @@ extension JSONObject: ArrayLiteralConvertible {
 
 extension JSONObject: DictionaryLiteralConvertible {
     public init(dictionaryLiteral elements: (String, JSONValueConvertible)...) {
-        let dictionary = elements.reduce([String: AnyObject](minimumCapacity: elements.count)) { (var new, element) in
-            new[element.0] = element.1.jsonValue().value
-            return new
-        }
+        var dictionary = [String: AnyObject](minimumCapacity: elements.count)
+        elements.forEach { dictionary[$0] = $1.jsonValue().value }
         self.init(object: dictionary)
     }
 }
