@@ -1,0 +1,49 @@
+{
+    "string": "Alembic",
+    "int": 777,
+    "double": 77.7,
+    "float": 77.7,
+    "bool": true,
+    "array": [
+        "A", "B", "C"
+    ],
+    "dictionary": {
+        "A": 1, "B": 2, "C": 3
+    },
+    "user": {
+        "id": 100,
+        "name": "ra1028",
+        "weight": 132.28,
+        "gender": "male",
+        "smoker": true,
+        "contact": {
+            "email": "r.fe51028.r@gmail.com",
+            "url": "https://github.com/ra1028"
+        },
+        "friends": [
+            {
+                "id": 101,
+                "name": "ABCDE",
+                "weight": 120.00,
+                "gender": "female",
+                "smoker": false,
+                "contact": {
+                    "email": "abcde@example.com",
+                    "url": "https://example"
+                },
+                "friends": []
+            }
+        ]
+    },
+    "numbers": {
+        "number": 1,
+        "int8": 2,
+        "uint8": 3,
+        "int16": 4,
+        "uint16": 5,
+        "int32": 6,
+        "uint32": 7,
+        "int64": 8,
+        "uint64": 9
+    }
+}

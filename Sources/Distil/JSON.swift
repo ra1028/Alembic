@@ -20,13 +20,13 @@ public struct JSON {
             let json = try NSJSONSerialization.JSONObjectWithData(data, options: options)
             self.init(json)
         } catch {
-            throw DistilError.TypeMismatch(expectedType: NSData.self, actual: data)
+            throw DistilError.TypeMismatch(expected: NSData.self, actual: data)
         }
     }
     
     public init (string: String, encoding: NSStringEncoding = NSUTF8StringEncoding, allowLossyConversion: Bool = false, options: NSJSONReadingOptions = .AllowFragments) throws {
         guard let json = string.dataUsingEncoding(encoding, allowLossyConversion: allowLossyConversion) else {
-            throw DistilError.TypeMismatch(expectedType: String.self, actual: string)
+            throw DistilError.TypeMismatch(expected: String.self, actual: string)
         }
         try self.init(data: json, options: options)
     }
@@ -320,7 +320,7 @@ private extension JSON {
     
     func cast<T>(object: AnyObject) throws -> T {
         guard let value = object as? T else {
-            throw DistilError.TypeMismatch(expectedType: T.self, actual: object)
+            throw DistilError.TypeMismatch(expected: T.self, actual: object)
         }
         return value
     }

@@ -30,12 +30,12 @@ public extension JSONValue {
     }
     
     init<T: JSONValueConvertible>(_ array: [T]) {
-        value = array.map { $0.jsonValue().value }
+        value = array.map { $0.jsonValue.value }
     }
     
     init<T: JSONValueConvertible>(_ dictionary: [String: T]) {
         var new = [String: AnyObject](minimumCapacity: dictionary.count)
-        dictionary.forEach { new[$0] = $1.jsonValue().value }
+        dictionary.forEach { new[$0] = $1.jsonValue.value }
         value = new
     }
 }
@@ -80,7 +80,7 @@ extension JSONValue: NilLiteralConvertible {
 
 extension JSONValue: ArrayLiteralConvertible {
     public init(arrayLiteral elements: JSONValueConvertible...) {
-        let array = elements.map { $0.jsonValue().value }
+        let array = elements.map { $0.jsonValue.value }
         self.init(value: array)
     }
 }
@@ -88,7 +88,7 @@ extension JSONValue: ArrayLiteralConvertible {
 extension JSONValue: DictionaryLiteralConvertible {
     public init(dictionaryLiteral elements: (String, JSONValueConvertible)...) {
         var dictionary = [String: AnyObject](minimumCapacity: elements.count)
-        elements.forEach { dictionary[$0] = $1.jsonValue().value }
+        elements.forEach { dictionary[$0] = $1.jsonValue.value }
         self.init(value: dictionary)
     }
 }

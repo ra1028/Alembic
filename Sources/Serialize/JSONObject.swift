@@ -18,12 +18,12 @@ public struct JSONObject {
 
 public extension JSONObject {
     init<T: JSONValueConvertible>(_ array: [T]) {
-        object = array.map { $0.jsonValue().value }
+        object = array.map { $0.jsonValue.value }
     }
     
     init<T: JSONValueConvertible>(_ dictionary: [String: T]) {
         var new = [String: AnyObject](minimumCapacity: dictionary.count)
-        dictionary.forEach { new[$0] = $1.jsonValue().value }
+        dictionary.forEach { new[$0] = $1.jsonValue.value }
         object = new
     }
     
@@ -46,7 +46,7 @@ public extension JSONObject {
 
 extension JSONObject: ArrayLiteralConvertible {
     public init(arrayLiteral elements: JSONValueConvertible...) {
-        let array = elements.map { $0.jsonValue().value }
+        let array = elements.map { $0.jsonValue.value }
         self.init(object: array)
     }
 }
@@ -54,7 +54,7 @@ extension JSONObject: ArrayLiteralConvertible {
 extension JSONObject: DictionaryLiteralConvertible {
     public init(dictionaryLiteral elements: (String, JSONValueConvertible)...) {
         var dictionary = [String: AnyObject](minimumCapacity: elements.count)
-        elements.forEach { dictionary[$0] = $1.jsonValue().value }
+        elements.forEach { dictionary[$0] = $1.jsonValue.value }
         self.init(object: dictionary)
     }
 }

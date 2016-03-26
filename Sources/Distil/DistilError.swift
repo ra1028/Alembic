@@ -8,7 +8,7 @@
 
 public enum DistilError: ErrorType {
     case MissingPath(JSONPath)
-    case TypeMismatch(expectedType: Any.Type, actual: AnyObject)
+    case TypeMismatch(expected: Any.Type, actual: AnyObject)
     case FilteredValue(Any)
 }
 
@@ -19,7 +19,7 @@ extension DistilError: CustomStringConvertible {
         case let .MissingPath(path):
             return "MissingPath(\(path))"
         case let .TypeMismatch(expected, actual):
-            return "TypeMismatch(expectedType: \(expected), actual: \(actual.dynamicType)(\(actual)))"
+            return "TypeMismatch(expected: \(expected), actual: \(actual.dynamicType)(\(actual)))"
         case let .FilteredValue(value):
             return "FilteredValue(\(value))"
         }

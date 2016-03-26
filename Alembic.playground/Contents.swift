@@ -232,7 +232,7 @@ do {
 extension NSURL: Distillable {
     public static func distil(j: JSON) throws -> Self {
         guard let url = try self.init(string: j.distil()) else {
-            throw DistilError.TypeMismatch(expectedType: NSURL.self, actual: j.raw)
+            throw DistilError.TypeMismatch(expected: NSURL.self, actual: j.raw)
         }
         return url
     }
