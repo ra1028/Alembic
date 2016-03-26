@@ -11,12 +11,12 @@ import Foundation
 class JSONProvider {
     static func data(file: String) -> NSData? {
         return NSBundle(forClass: JSONProvider.self).pathForResource(file, ofType: "json")
-            .flatMap { NSData(contentsOfFile: $0) }
+            .flatMap(NSData.init(contentsOfFile:))
     }
     
     static func object(file: String) -> AnyObject? {
-        return data(file).map {
+        return data(file).flatMap {
             try? NSJSONSerialization.JSONObjectWithData($0, options: [])
-        } ?? nil
+        }
     }
 }

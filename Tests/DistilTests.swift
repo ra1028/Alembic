@@ -26,6 +26,8 @@ class DistilTests: XCTestCase {
             let bool: Bool = try j <| "bool"
             let array: [String] = try j <| "array"
             let dictionary: [String: Int] = try j <| "dictionary"
+            let nestedValue: Int = try j <| ["nested", "array", 2]
+            let nestedArray: [Int] = try j <| ["nested", "array"]
             
             XCTAssert(string == "Alembic")
             XCTAssert(int == 777)
@@ -34,13 +36,15 @@ class DistilTests: XCTestCase {
             XCTAssert(bool == true)
             XCTAssert(array == ["A", "B", "C"])
             XCTAssert(dictionary == ["A": 1, "B": 2, "C": 3])
+            XCTAssert(nestedValue == 3)
+            XCTAssert(nestedArray == [1, 2, 3, 4, 5])
         } catch let e {
             XCTFail("\(e)")
         }
         
     }
     
-    func testDistilUser() {
+    func testClassMapping() {
         guard let data = JSONProvider.data("DistilTests"),
             j = try? JSON(data: data) else {
                 XCTFail()
@@ -63,7 +67,7 @@ class DistilTests: XCTestCase {
         }
     }
     
-    func testNumbers() {
+    func testStructMapping() {
         guard let object = JSONProvider.object("DistilTests") else {
             XCTFail()
             return
@@ -143,7 +147,7 @@ private struct Numbers: Distillable {
     let uint64: UInt64
     
     private static func distil(j: JSON) throws -> Numbers {
-        return try Numbers.init(
+        return try Numbers(
             number: j <| "number",
             int8: j <| "int8",
             uint8: j <| "uint8",
