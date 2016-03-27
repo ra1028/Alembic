@@ -12,7 +12,6 @@ public enum DistilError: ErrorType {
     case FilteredValue(Any)
 }
 
-
 extension DistilError: CustomStringConvertible {
     public var description: String {
         switch self {

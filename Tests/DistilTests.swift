@@ -11,14 +11,10 @@ import Alembic
 
 class DistilTests: XCTestCase {
     func testDistil() {
-        guard let object = JSONProvider.object("DistilTests") else {
-            XCTFail()
-            return
-        }
-        
-        let j = JSON(object)
-        
         do {
+            let object = TestJSON.Distil.object
+            let j = JSON(object)
+            
             let string: String = try j <| "string"
             let int: Int = try j <| "int"
             let double: Double = try j <| "double"
@@ -29,64 +25,82 @@ class DistilTests: XCTestCase {
             let nestedValue: Int = try j <| ["nested", "array", 2]
             let nestedArray: [Int] = try j <| ["nested", "array"]
             
-            XCTAssert(string == "Alembic")
-            XCTAssert(int == 777)
-            XCTAssert(double == 77.7)
-            XCTAssert(float == 77.7)
-            XCTAssert(bool == true)
-            XCTAssert(array == ["A", "B", "C"])
-            XCTAssert(dictionary == ["A": 1, "B": 2, "C": 3])
-            XCTAssert(nestedValue == 3)
-            XCTAssert(nestedArray == [1, 2, 3, 4, 5])
+            XCTAssertEqual(string, "Alembic")
+            XCTAssertEqual(int, 777)
+            XCTAssertEqual(double, 77.7)
+            XCTAssertEqual(float, 77.7)
+            XCTAssertEqual(bool, true)
+            XCTAssertEqual(array, ["A", "B", "C"])
+            XCTAssertEqual(dictionary, ["A": 1, "B": 2, "C": 3])
+            XCTAssertEqual(nestedValue, 3)
+            XCTAssertEqual(nestedArray, [1, 2, 3, 4, 5])
+        } catch let e {
+            XCTFail("\(e)")
+        }
+    }
+    
+    func testDistilError() {
+        let object = TestJSON.Distil.object
+        let j = JSON(object)
+        
+        do {
+            _ = try (j <| "missing_key").to(String)
+            
+            XCTFail("Expect the error to occur")
+        } catch let DistilError.MissingPath(path) where path == "missing_key" {
+            XCTAssert(true)
         } catch let e {
             XCTFail("\(e)")
         }
         
+        do {
+            _ = try (j <| "int_string").to(Int)
+            
+            XCTFail("Expect the error to occur")
+        } catch let DistilError.TypeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
+            XCTAssert(expected == Int.self)
+            XCTAssertEqual(actual as? String, "1")
+        } catch let e {
+            XCTFail("\(e)")
+        }
     }
     
     func testClassMapping() {
-        guard let data = JSONProvider.data("DistilTests"),
-            j = try? JSON(data: data) else {
-                XCTFail()
-                return
-        }
-        
         do {
+            let data = TestJSON.Distil.data
+            let j = try JSON(data: data)
+            
             let user: User = try j <| "user"
             
-            XCTAssert(user.id == 100)
-            XCTAssert(user.name == "ra1028")
-            XCTAssert(user.weight == 132.28)
-            XCTAssert(user.gender == .Male)
-            XCTAssert(user.smoker == true)
-            XCTAssert(user.email == "r.fe51028.r@gmail.com")
-            XCTAssert(user.url.absoluteString == "https://github.com/ra1028")
-            XCTAssert(user.friends.count == 1)
+            XCTAssertEqual(user.id, 100)
+            XCTAssertEqual(user.name, "ra1028")
+            XCTAssertEqual(user.weight, 132.28)
+            XCTAssertEqual(user.gender, Gender.Male)
+            XCTAssertEqual(user.smoker, true)
+            XCTAssertEqual(user.email, "r.fe51028.r@gmail.com")
+            XCTAssertEqual(user.url.absoluteString, "https://github.com/ra1028")
+            XCTAssertEqual(user.friends.count, 1)
         } catch let e {
             XCTFail("\(e)")
         }
     }
     
     func testStructMapping() {
-        guard let object = JSONProvider.object("DistilTests") else {
-            XCTFail()
-            return
-        }
-        
-        let j = JSON(object)
-        
         do {
+            let string = TestJSON.Distil.string
+            let j = try JSON.init(string: string)
+            
             let numbers: Numbers = try j <| "numbers"
             
-            XCTAssert(numbers.number == 1)
-            XCTAssert(numbers.int8 == 2)
-            XCTAssert(numbers.uint8 == 3)
-            XCTAssert(numbers.int16 == 4)
-            XCTAssert(numbers.uint16 == 5)
-            XCTAssert(numbers.int32 == 6)
-            XCTAssert(numbers.uint32 == 7)
-            XCTAssert(numbers.int64 == 8)
-            XCTAssert(numbers.uint64 == 9)
+            XCTAssertEqual(numbers.number, 1)
+            XCTAssertEqual(numbers.int8, 2)
+            XCTAssertEqual(numbers.uint8, 3)
+            XCTAssertEqual(numbers.int16, 4)
+            XCTAssertEqual(numbers.uint16, 5)
+            XCTAssertEqual(numbers.int32, 6)
+            XCTAssertEqual(numbers.uint32, 7)
+            XCTAssertEqual(numbers.int64, 8)
+            XCTAssertEqual(numbers.uint64, 9)
         } catch let e {
             XCTFail("\(e)")
         }
