@@ -76,9 +76,13 @@ class SerializeTests: XCTestCase {
     }
 }
 
-private enum Gender: String, Distillable {
+private enum Gender: String, Distillable, JSONValueConvertible {
     case Male = "male"
     case Female = "female"
+    
+    private var jsonValue: JSONValue {
+        return JSONValue(rawValue)
+    }
 }
 
 private struct User: Distillable, Serializable {
@@ -101,7 +105,7 @@ private struct User: Distillable, Serializable {
             "id": id,
             "name": name,
             "weight": weight,
-            "gender": gender.rawValue
+            "gender": gender
         ]
     }
 }
