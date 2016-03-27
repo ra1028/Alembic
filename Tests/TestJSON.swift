@@ -12,12 +12,14 @@ enum TestJSON {
     case Distil
     case Optional
     case Transform
+    case Serialize
     
     var fileName: String {
         switch self {
         case .Distil: return "DistilTests"
         case .Optional: return "OptionalTests"
         case .Transform: return "TransformTests"
+        case .Serialize: return "SerializeTests"
         }
     }
     
@@ -31,6 +33,18 @@ enum TestJSON {
     }
     
     var object: AnyObject {
-        return try! NSJSONSerialization.JSONObjectWithData(data, options: [])
+        return try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+    }
+    
+    func data(rootKey: String) -> NSData {
+        return try! NSJSONSerialization.dataWithJSONObject(object(rootKey), options: [])
+    }
+    
+    func string(rootKey: String) -> String {
+        return String(data: data(rootKey), encoding: NSUTF8StringEncoding)!
+    }
+    
+    func object(rootKey: String) -> AnyObject {
+        return (object as! [String: AnyObject])[rootKey]!
     }
 }

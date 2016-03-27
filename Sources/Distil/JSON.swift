@@ -249,7 +249,7 @@ public extension JSON {
     }
 }
 
-// MARK: - serialize functions
+// MARK: - serialize value functions
 
 public extension JSON {
     static func serializeToData(serializable: Serializable, options: NSJSONWritingOptions = []) -> NSData {
@@ -265,6 +265,26 @@ public extension JSON {
     }
     
     static func serializeToString(serializable: Serializable, rootKey: String, options: NSJSONWritingOptions = []) -> String {
+        return String(data: serializeToData(serializable, rootKey: rootKey, options: options), encoding: NSUTF8StringEncoding)!
+    }
+}
+
+// MARK: - serialize array functions
+
+public extension JSON {
+    static func serializeToData<T: Serializable>(serializables: [T], options: NSJSONWritingOptions = []) -> NSData {
+        return serializeToData(serializables.map { $0.serialize().object }, options: options)
+    }
+    
+    static func serializeToData<T: Serializable>(serializables: [T], rootKey: String, options: NSJSONWritingOptions = []) -> NSData {
+        return serializeToData([rootKey: serializables.map { $0.serialize().object }], options: options)
+    }
+    
+    static func serializeToString<T: Serializable>(serializable: [T], options: NSJSONWritingOptions = []) -> String {
+        return String(data: serializeToData(serializable, options: options), encoding: NSUTF8StringEncoding)!
+    }
+    
+    static func serializeToString<T: Serializable>(serializable: [T], rootKey: String, options: NSJSONWritingOptions = []) -> String {
         return String(data: serializeToData(serializable, rootKey: rootKey, options: options), encoding: NSUTF8StringEncoding)!
     }
 }

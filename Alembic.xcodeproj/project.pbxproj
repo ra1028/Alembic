@@ -18,6 +18,8 @@
 		2A28D45E1CA4A78400964742 /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4531CA4A78400964742 /* JSONValue.swift */; };
 		2A28D45F1CA4A78400964742 /* JSONValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4541CA4A78400964742 /* JSONValueConvertible.swift */; };
 		2A28D4601CA4A78400964742 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4551CA4A78400964742 /* Serializable.swift */; };
+		2A316B141CA84D5A00765945 /* SerializeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A316B131CA84D5A00765945 /* SerializeTests.swift */; };
+		2A316B161CA84DD800765945 /* SerializeTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A316B151CA84DD800765945 /* SerializeTests.json */; };
 		2A4211761CA6192300776678 /* TestJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4211751CA6192300776678 /* TestJSON.swift */; };
 		2A430E3F1CA6177E00BBD85D /* DistilTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A430E3E1CA6177E00BBD85D /* DistilTests.json */; };
 		2A430E431CA617C000BBD85D /* TransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A430E421CA617C000BBD85D /* TransformTests.swift */; };
@@ -50,6 +52,8 @@
 		2A28D4531CA4A78400964742 /* JSONValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
 		2A28D4541CA4A78400964742 /* JSONValueConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONValueConvertible.swift; sourceTree = "<group>"; };
 		2A28D4551CA4A78400964742 /* Serializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializable.swift; sourceTree = "<group>"; };
+		2A316B131CA84D5A00765945 /* SerializeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializeTests.swift; sourceTree = "<group>"; };
+		2A316B151CA84DD800765945 /* SerializeTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SerializeTests.json; sourceTree = "<group>"; };
 		2A4211751CA6192300776678 /* TestJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestJSON.swift; sourceTree = "<group>"; };
 		2A430E3E1CA6177E00BBD85D /* DistilTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DistilTests.json; sourceTree = "<group>"; };
 		2A430E421CA617C000BBD85D /* TransformTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformTests.swift; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 				2A4B61BA1CA6060900C65FEE /* DistilTests.swift */,
 				2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */,
 				2A430E421CA617C000BBD85D /* TransformTests.swift */,
+				2A316B131CA84D5A00765945 /* SerializeTests.swift */,
 				2A4B61BC1CA6060900C65FEE /* Info.plist */,
 			);
 			path = Tests;
@@ -133,6 +138,7 @@
 				2A430E3E1CA6177E00BBD85D /* DistilTests.json */,
 				2AB98DCE1CA7A16400559A62 /* OptionalTests.json */,
 				2AB98DD01CA7B37300559A62 /* TransformTests.json */,
+				2A316B151CA84DD800765945 /* SerializeTests.json */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -260,6 +266,7 @@
 			files = (
 				2A430E3F1CA6177E00BBD85D /* DistilTests.json in Resources */,
 				2AB98DCF1CA7A16400559A62 /* OptionalTests.json in Resources */,
+				2A316B161CA84DD800765945 /* SerializeTests.json in Resources */,
 				2AB98DD11CA7B37300559A62 /* TransformTests.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A4B61BB1CA6060900C65FEE /* DistilTests.swift in Sources */,
+				2A316B141CA84D5A00765945 /* SerializeTests.swift in Sources */,
 				2A430E431CA617C000BBD85D /* TransformTests.swift in Sources */,
 				2A4211761CA6192300776678 /* TestJSON.swift in Sources */,
 				2ADE565D1CA61F1F0031B61C /* OptionalTests.swift in Sources */,

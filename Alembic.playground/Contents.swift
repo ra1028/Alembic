@@ -15,13 +15,13 @@ let jsonObject = [
 
 class User: Distillable, Serializable {
     let id: Int
-    let name: String
+    let name: String?
     let url: NSURL
     
     required init(json j: JSON) throws {
         try (
             id = j <| "id",
-            name = j <| "name",
+            name = j <|? "name",
             url = (j <| ["contact", "url"])
                 .map(NSURL.init(string:))
                 .filterNil()
@@ -35,7 +35,7 @@ class User: Distillable, Serializable {
     func serialize() -> JSONObject {
         return [
             "id": id,
-            "name": name,
+            "name": name.map { JSONValue($0) } ?? .null,
             "url": url.absoluteString
         ]
     }

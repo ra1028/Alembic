@@ -140,7 +140,7 @@ private class User: Distillable {
             smoker = j <| "smoker",
             email = j <| ["contact", "email"],
             url = j <| ["contact", "url"],
-            friends = j <| "friends",
+            friends = j <| "friends"
         )
     }
     
