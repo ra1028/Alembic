@@ -126,24 +126,24 @@ public protocol Distillable {
 ```
 
 __Default supported types__  
-- String
-- Int
-- Double
-- Float
-- Bool
-- NSNumber
-- Int8
-- UInt8
-- Int16
-- UInt16
-- Int32
-- UInt32
-- Int64
-- UInt64
-- RawRepresentable
-- JSON
-- Array\<T: Distillable\>
-- Dictionaly\<String, T: Distillable\>
+- String  
+- Int  
+- Double  
+- Float  
+- Bool  
+- NSNumber  
+- Int8  
+- UInt8  
+- Int16  
+- UInt16  
+- Int32  
+- UInt32  
+- Int64  
+- UInt64  
+- RawRepresentable  
+- JSON  
+- Array\<T: Distillable\>  
+- Dictionaly\<String, T: Distillable\>  
 
 __Example__
 ```
@@ -406,22 +406,22 @@ public protocol Serializable {
   Struct for constraint to the types allowed as the value of JSON.  
 
 __Defaults JSONValueConvertible implemented types__  
-- String
-- Int
-- Double
-- Float
-- Bool
-- NSNumber
-- Int8
-- UInt8
-- Int16
-- UInt16
-- Int32
-- UInt32
-- Int64
-- UInt64
-- RawRepresentable
-- JSONValue
+- String  
+- Int  
+- Double  
+- Float  
+- Bool  
+- NSNumber  
+- Int8  
+- UInt8  
+- Int16  
+- UInt16  
+- Int32  
+- UInt32  
+- Int64  
+- UInt64  
+- RawRepresentable  
+- JSONValue  
 
 __Example__
 ```
