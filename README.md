@@ -9,7 +9,7 @@
 do {
     let j = try JSON(data: jsonData)
 
-    let string: String = try j <| "string_key"
+    let string = try j["string_key"].to(String)
     let twice: Int = (j <| "int_key")
         .map { $0 * 2 }
         .filter { $0 > 0 }
@@ -151,15 +151,30 @@ let jsonObject = [
     "string_key": "string",  
     "array_key": [1, 2, 3, 4, 5],
 ]
+let j = JSON(jsonObject)
+```
+```
 do {
-    let j = JSON(jsonObject)
-
+    let string: String = try j.distil("string_key")  // "string"
+    let array = try j.distil("array_key").to([Int])  // [1, 2, 3, 4, 5]
+} catch {
+    // Do error handling...
+}
+```
+Using custom operator  
+```
+do {
     let string: String = try j <| "string_key"  // "string"
-    let array: [Int] = try j <| "array_key"  // [1, 2, 3, 4, 5]
-
-    // also
-    // let string = try (j <| "string_key").to(String)
-    // let string: String = try j.distil("string_key")
+    let array = try (j <| "array_key").to([Int])  // [1, 2, 3, 4, 5]
+} catch {
+    // Do error handling...
+}
+```
+Using subscript
+```
+do {
+    let string = try j["string_key"].to(String)  // "string"
+    let array = try j["array_key"].to([Int])  // [1, 2, 3, 4, 5]
 } catch {
     // Do error handling...
 }
@@ -177,10 +192,13 @@ let jsonObject = [
         "array_key": [1, 2, 3, 4, 5]
     ]
 ]
-do {
-    let j = JSON(jsonObject)
+let j = JSON(jsonObject)
+```
+```
+do {  
     let int: Int = try j <| ["nested", "int_key"]  // 100
-    let intFromArray: Int = try j <| ["nested", "array_key", 2]  // 3
+    let intFromArray: Int = try j <| ["nested", "array_key", 2]  // 3    
+    let withSubscript = try j["nested"]["array_key"][2].to(Int)  // 3
 } catch {
     // Do error handling...
 }
@@ -325,6 +343,17 @@ let jsonObject = [
 let j = JSON(jsonObject)
 let timeStamp = (j <|? "time_stamp")([String]?)
     .filterNil()
+    .map {
+        let formatter = NSDateFormatter()
+        formatter.locale = .systemLocale()
+        formatter.timeZone = .localTimeZone()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return $0.flatMap(formatter.dateFromString)
+    }
+    .catchUp([])
+    .to([NSDate])
+
+let withSubscript = j["time_stamp"].toResult([String])
     .map {
         let formatter = NSDateFormatter()
         formatter.locale = .systemLocale()
