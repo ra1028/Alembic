@@ -154,10 +154,11 @@ let jsonObject = [
 do {
     let j = JSON(jsonObject)
 
-    let string: String = try j <| "string_key" // let string = try (j <| "string_key").to(String)
+    let string: String = try j <| "string_key"
     let array: [Int] = try j <| "array_key"
 
     // also
+    // let string = try (j <| "string_key").to(String)
     // let string: String = try j.distil("string_key")
 } catch {
     // Do error handling...
