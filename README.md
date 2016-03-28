@@ -154,8 +154,8 @@ let jsonObject = [
 do {
     let j = JSON(jsonObject)
 
-    let string: String = try j <| "string_key"
-    let array: [Int] = try j <| "array_key"
+    let string: String = try j <| "string_key"  // "string"
+    let array: [Int] = try j <| "array_key"  // [1, 2, 3, 4, 5]
 
     // also
     // let string = try (j <| "string_key").to(String)
@@ -179,8 +179,8 @@ let jsonObject = [
 ]
 do {
     let j = JSON(jsonObject)
-    let int: Int = try j <| ["nested", "int_key"]
-    let intFromArray: Int = try j <| ["nested", "array_key", 2]
+    let int: Int = try j <| ["nested", "int_key"]  // 100
+    let intFromArray: Int = try j <| ["nested", "array_key", 2]  // 3
 } catch {
     // Do error handling...
 }
@@ -406,7 +406,7 @@ public protocol Serializable {
 - JSONValueConvertible  
   The protocol that to be convert to ``JSONValue`` with ease.
 - JSONValue  
-  Struct for constraint to the types allowed as the value of JSON.  
+  For constraint to the types that allowed as value of JSON.   
 
 __Defaults JSONValueConvertible implemented types__  
 - String  
@@ -424,7 +424,7 @@ __Defaults JSONValueConvertible implemented types__
 - Int64  
 - UInt64  
 - RawRepresentable  
-- JSONValue  f
+- JSONValue  
 
 __Example__
 ```
