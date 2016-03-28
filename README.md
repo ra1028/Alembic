@@ -9,7 +9,7 @@
 do {
     let j = try JSON(data: jsonData)
 
-    let string: String = try j <| "string_key"
+    let string = try (j <| "string_key").to(String)
     let twice: Int = (j <| "int_key")
         .map { $0 * 2 }
         .filter { $0 > 0 }
@@ -153,8 +153,10 @@ let jsonObject = [
 ]
 do {
     let j = JSON(jsonObject)
-    let string: String = try j <| "string_key"    
-    let array: [Int] = try j <| "array_key"    
+
+    let string: String = try j <| "string_key" // let string = try (j <| "string_key").to(String)
+    let array: [Int] = try j <| "array_key"
+
     // also
     // let string: String = try j.distil("string_key")
 } catch {
