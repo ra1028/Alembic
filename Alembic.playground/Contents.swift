@@ -125,7 +125,6 @@ class User: Distillable, Serializable {
 
 do {
     let j = JSON(jsonObject)
-    
     let string: String = try j <| "string_key"
     let twice: Int = (j <| "int_key")
         .map { $0 * 2 }

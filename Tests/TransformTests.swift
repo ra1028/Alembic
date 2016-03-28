@@ -74,4 +74,17 @@ class TransformTests: XCTestCase {
             XCTFail("\(e)")
         }
     }
+    
+    func testSubscriptTransform() {
+        let object = TestJSON.Transform.object
+        let j = JSON(object)
+        
+        let map = j["key"].toResult()
+            .map { "map_" + $0 }
+            .catchUp("")
+            .to(String)
+        
+        XCTAssertEqual(map, "map_value")
+
+    }
 }

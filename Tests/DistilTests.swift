@@ -39,6 +39,25 @@ class DistilTests: XCTestCase {
         }
     }
     
+    func testDistilSubscript() {
+        do {
+            let object = TestJSON.Distil.object
+            let j = JSON(object)
+            
+            let string = try j["string"].to(String)
+            let array = try j["array"].to([String])
+            let dictionary  = try j["dictionary"].to([String: Int])
+            let nestedValue = try j["nested"]["array"][2].to(Int)
+            
+            XCTAssertEqual(string, "Alembic")
+            XCTAssertEqual(array, ["A", "B", "C"])
+            XCTAssertEqual(dictionary, ["A": 1, "B": 2, "C": 3])
+            XCTAssertEqual(nestedValue, 3)
+        } catch let e {
+            XCTFail("\(e)")
+        }
+    }
+    
     func testDistilError() {
         let object = TestJSON.Distil.object
         let j = JSON(object)
