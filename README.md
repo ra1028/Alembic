@@ -126,24 +126,24 @@ public protocol Distillable {
 ```
 
 __Default supported types__  
-- String  
-- Int  
-- Double  
-- Float  
-- Bool  
-- NSNumber  
-- Int8  
-- UInt8  
-- Int16  
-- UInt16  
-- Int32  
-- UInt32  
-- Int64  
-- UInt64  
-- RawRepresentable  
-- JSON  
-- Array\<T: Distillable\>  
-- Dictionaly\<String, T: Distillable\>  
+- ``String``  
+- ``Int``  
+- ``Double``  
+- ``Float``  
+- ``Bool``  
+- ``NSNumber``  
+- ``Int8``  
+- ``UInt8``  
+- ``Int16``  
+- ``UInt16``  
+- ``Int32``  
+- ``UInt32``  
+- ``Int64``  
+- ``UInt64``  
+- ``RawRepresentable``  
+- ``JSON``  
+- ``Array<T: Distillable>``  
+- ``Dictionaly<String, T: Distillable>``  
 
 __Example__
 ```
@@ -409,22 +409,22 @@ public protocol Serializable {
   For constraint to the types that allowed as value of JSON.   
 
 __Defaults JSONValueConvertible implemented types__  
-- String  
-- Int  
-- Double  
-- Float  
-- Bool  
-- NSNumber  
-- Int8  
-- UInt8  
-- Int16  
-- UInt16  
-- Int32  
-- UInt32  
-- Int64  
-- UInt64  
-- RawRepresentable  
-- JSONValue  
+- ``String``  
+- ``Int``  
+- ``Double``  
+- ``Float``  
+- ``Bool``  
+- ``NSNumber``  
+- ``Int8``  
+- ``UInt8``  
+- ``Int16``  
+- ``UInt16``  
+- ``Int32``  
+- ``UInt32``  
+- ``Int64``  
+- ``UInt64``  
+- ``RawRepresentable``  
+- ``JSONValue``  
 
 __Example__
 ```
@@ -458,9 +458,21 @@ struct User: Serializable {
 }
 ```
 
+---
+
+## Contribution
+Welcome to fork and submit pull requests.  
+
+Before submitting pull request, please ensure you have passed the included tests.  
+If your pull request including new function, please write test cases for it.  
+
+(Also, welcome the offer of Alembic logo image :pray:)
+
+---
+
 ## About  
 Alembic is inspired by object mapping library [Argo](https://github.com/thoughtbot/Argo).  
-Greatly thanks for author!!.
+Greatly thanks for author!!.  
 
 ---
 
