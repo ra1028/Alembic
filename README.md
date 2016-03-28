@@ -9,7 +9,7 @@
 do {
     let j = try JSON(data: jsonData)
 
-    let string = try (j <| "string_key").to(String)
+    let string: String = try j <| "string_key"
     let twice: Int = (j <| "int_key")
         .map { $0 * 2 }
         .filter { $0 > 0 }
@@ -230,7 +230,7 @@ let int: String = (j <| "key").catchUp("substitute")
 ```
 
 ### Value transformation
-Alembic supports functional value transformation during the parsing process like ``String`` -> NSDate.  
+Alembic supports functional value transformation during the parsing process like ``String`` -> ``NSDate``.  
 
 __functions__
 <table>
