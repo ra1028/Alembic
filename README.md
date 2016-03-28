@@ -155,7 +155,7 @@ do {
     let j = JSON(jsonObject)
     let string: String = try j <| "string_key"    
     let array: [Int] = try j <| "array_key"    
-    // can use `distil(keypath)`
+    // also
     // let string: String = try j.distil("string_key")
 } catch {
     // Do error handling...
@@ -207,7 +207,7 @@ struct Sample: Distillable {
     static func distil(j: JSON) throws -> Sample {
         return try Sample(
             string: j <| "string_key",
-            int: j <|? "int_optional_key"
+            int: j <|? "int_key"
         )
     }
 }
@@ -290,10 +290,10 @@ occur DistillError.FilteredValue.</td>
 </tr>
 
 <tr>
-<td>remapEmpty(replace: (Value: CollectionType))</td>
+<td>remapEmpty(replace: Value)</td>
 <td>If the value is empty of CollectionType,  
 replace it.</td>
-<td>Value.Wrapped</td>
+<td>replace</td>
 <td>throw</td>
 </tr>
 
@@ -301,7 +301,7 @@ replace it.</td>
 <td>filterEmpty()</td>
 <td>If the value is empty of CollectionType,  
 occur DistillError.FilteredValue.</td>
-<td>Value.Wrapped</td>
+<td>Value</td>
 <td>throw</td>
 </tr>
 
@@ -322,12 +322,12 @@ let jsonObject = [
 let j = JSON(jsonObject)
 let timeStamp = (j <|? "time_stamp")([String]?)
     .filterNil()
-    .map { s -> [NSDate] in
+    .map {
         let formatter = NSDateFormatter()
         formatter.locale = .systemLocale()
         formatter.timeZone = .localTimeZone()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return s.flatMap(formatter.dateFromString)
+        return $0.flatMap(formatter.dateFromString)
     }
     .catchUp([])
     .to([NSDate])
@@ -421,7 +421,7 @@ __Defaults JSONValueConvertible implemented types__
 - Int64  
 - UInt64  
 - RawRepresentable  
-- JSONValue  
+- JSONValue  f
 
 __Example__
 ```

@@ -63,12 +63,12 @@ let jsonObject4 = [
 let j4 = JSON(jsonObject4)
 let timeStamp = (j4 <|? "time_stamp")([String]?)
     .filterNil()
-    .map { s -> [NSDate] in
+    .map {
         let formatter = NSDateFormatter()
         formatter.locale = .systemLocale()
         formatter.timeZone = .localTimeZone()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return s.flatMap(formatter.dateFromString)
+        return $0.flatMap(formatter.dateFromString)
     }
     .catchUp([])
     .to([NSDate])
