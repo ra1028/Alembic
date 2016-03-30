@@ -203,11 +203,36 @@ let int: Int = try j.distil("nested", "array", 2])  // 3
 ```
 Using custom Operator
 ```
-let int: Int = try j <| ["nested", "array_key", 2]  // 3  
+let int: Int = try j <| ["nested", "array", 2]  // 3  
 ```
 Using subscript
 ```
-let int = try j["nested"]["array_key"][2].to(Int)  // 3  
+let int = try j["nested"]["array"][2].to(Int)  // 3  
+```
+
+### Optional objects parsing
+Has functions to parsing optional objects.  
+If the key is missing, returns nil.  
+
+__Example__
+```
+let jsonObject = [
+    "nested": [
+      // Keys is nothing...
+    ]
+]
+let j = JSON(jsonObject)
+```
+```
+let int: Int? = try j.optional("nested", "key"])  // nil
+```
+Using custom Operator
+```
+let int: Int? = try j <|? ["nested", "key"]  // nil
+```
+Using subscript
+```
+let int = try j["nested"]["key"].optional(Int?)  // nil
 ```
 
 ### Custom `Distillable` value and Object mapping
@@ -242,7 +267,7 @@ struct Sample: Distillable {
 
 ### Want you remove the `try` ?
 Alembic has `catchUp(value)` function.  
-Refer the next section(Value transfromation) for details.  
+Refer the next [Value transfromation Section](#value transformation) for details.  
 Use it to remove `try/catch` as following.  
 
 __Example__
