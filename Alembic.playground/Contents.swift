@@ -117,7 +117,7 @@ class User: Distillable, Serializable {
     func serialize() -> JSONObject {
         return [
             "id": id,
-            "name": name.map { JSONValue($0) } ?? .null,
+            "name": JSONValue(name),
             "url": url.absoluteString
         ]
     }

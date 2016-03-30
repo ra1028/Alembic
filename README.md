@@ -4,6 +4,19 @@
 
 ---
 
+## Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Playground](#playground)
+- [Contribution](#contribution)
+- [About](#about)
+- [License](#license)
+
+---
+
 ## Overview  
 ```
 do {
@@ -43,7 +56,7 @@ class User: Distillable, Serializable {
     func serialize() -> JSONObject {
         return [
             "id": id,
-            "name": name.map { JSONValue($0) } ?? .null,
+            "name": JSONValue(name),
             "url": url.absoluteString
         ]
     }
@@ -58,7 +71,7 @@ class User: Distillable, Serializable {
 - Type-safe serialize object to JSON
 - Powerful parsed value transformation
 - Error handling
-- class, struct, enum support with non-optional ``let`` properties
+- class, struct, enum support with non-optional `let` properties
 - Functional, Protocol-oriented designs
 
 ---
@@ -97,19 +110,23 @@ github "ra1028/Alembic", :files => "Sources/**/*.swift"
 ## Usage
 
 ### Initialization
-``import Alembic``  
+`import Alembic`  
 ```
 let j = JSON(jsonObject)
 ```
+JSON from NSData
 ```
 let j = try JSON(data: jsonData)
-//or
+```
+```
 let j = try JSON(data: jsonData, options: .AllowFragments)
-```  
+```
+JSON from String  
 ```
 let j = try JSON(string: jsonString)
-// or
-let j = JSON(
+```
+```
+let j = try JSON(
     string: jsonString,
     encoding: NSUTF8StringEncoding,
     allowLossyConversion: false,
@@ -118,7 +135,7 @@ let j = JSON(
 ```
 
 ### JSON parsing
-To enable parsing, a class, struct, or enum just needs to implement the ``Distillable`` protocol.  
+To enable parsing, a class, struct, or enum just needs to implement the `Distillable` protocol.  
 ```
 public protocol Distillable {
     static func distil(j: JSON) throws -> Self
@@ -126,24 +143,24 @@ public protocol Distillable {
 ```
 
 __Default supported types__  
-- ``String``  
-- ``Int``  
-- ``Double``  
-- ``Float``  
-- ``Bool``  
-- ``NSNumber``  
-- ``Int8``  
-- ``UInt8``  
-- ``Int16``  
-- ``UInt16``  
-- ``Int32``  
-- ``UInt32``  
-- ``Int64``  
-- ``UInt64``  
-- ``RawRepresentable``  
-- ``JSON``  
-- ``Array<T: Distillable>``  
-- ``Dictionaly<String, T: Distillable>``  
+- `String`
+- `Int`  
+- `Double`   
+- `Float`  
+- `Bool`  
+- `NSNumber`  
+- `Int8`  
+- `UInt8`  
+- `Int16`  
+- `UInt16`  
+- `Int32`  
+- `UInt32`  
+- `Int64`  
+- `UInt64`  
+- `RawRepresentable`  
+- `JSON`  
+- `Array<T: Distillable>`  
+- `Dictionaly<String, T: Distillable>`  
 
 __Example__
 ```
@@ -154,30 +171,18 @@ let jsonObject = [
 let j = JSON(jsonObject)
 ```
 ```
-do {
-    let string: String = try j.distil("string_key")  // "string"
-    let array = try j.distil("array_key").to([Int])  // [1, 2, 3, 4, 5]
-} catch {
-    // Do error handling...
-}
+let string: String = try j.distil("string_key")  // "string"
+let array = try j.distil("array_key").to([Int])  // [1, 2, 3, 4, 5]
 ```
 Using custom operator  
 ```
-do {
-    let string: String = try j <| "string_key"  // "string"
-    let array = try (j <| "array_key").to([Int])  // [1, 2, 3, 4, 5]
-} catch {
-    // Do error handling...
-}
+let string: String = try j <| "string_key"  // "string"
+let array = try (j <| "array_key").to([Int])  // [1, 2, 3, 4, 5]
 ```
 Using subscript
 ```
-do {
-    let string = try j["string_key"].to(String)  // "string"
-    let array = try j["array_key"].to([Int])  // [1, 2, 3, 4, 5]
-} catch {
-    // Do error handling...
-}
+let string = try j["string_key"].to(String)  // "string"
+let array = try j["array_key"].to([Int])  // [1, 2, 3, 4, 5]
 ```
 
 ### Nested objects parsing
@@ -187,28 +192,29 @@ Keys and indexes can be summarized in the same array.
 __Example__
 ```
 let jsonObject = [
-    "nested": [
-        "int_key": 100,
-        "array_key": [1, 2, 3, 4, 5]
+    "nested": [        
+        "array": [1, 2, 3, 4, 5]
     ]
 ]
 let j = JSON(jsonObject)
 ```
 ```
-do {  
-    let int: Int = try j <| ["nested", "int_key"]  // 100
-    let intFromArray: Int = try j <| ["nested", "array_key", 2]  // 3    
-    let withSubscript = try j["nested"]["array_key"][2].to(Int)  // 3
-} catch {
-    // Do error handling...
-}
+let int: Int = try j.distil("nested", "array", 2])  // 3        
+```
+Using custom Operator
+```
+let int: Int = try j <| ["nested", "array_key", 2]  // 3  
+```
+Using subscript
+```
+let int = try j["nested"]["array_key"][2].to(Int)  // 3  
 ```
 
-### Custom ``Distillable`` value and Object mapping
-If implement ``Distillable`` protocol to existing classes like ``NSURL``, it be able to parse from JSON.  
+### Custom `Distillable` value and Object mapping
+If implement `Distillable` protocol to existing classes like `NSURL`, it be able to parse from JSON.  
 Your class, struct, or enum model is also the same.  
-To mapping your models, confirm to the ``Distillable`` protocol.  
-Then, parse the value from JSON to all your model properties in the ``distill(j: JSON)`` function.
+To mapping your models, confirm to the `Distillable` protocol.  
+Then, parse the value from JSON to all your model properties in the `distill(j: JSON)` function.
 
 ```
 extension NSURL: Distillable {
@@ -234,21 +240,22 @@ struct Sample: Distillable {
 }
 ```
 
-### Want you remove the ``try`` ?
-Alembic has ``catchUp(value)`` function.  
+### Want you remove the `try` ?
+Alembic has `catchUp(value)` function.  
 Refer the next section(Value transfromation) for details.  
-Use it to remove ``try/catch`` as following.  
+Use it to remove `try/catch` as following.  
 
 __Example__
 ```
 let jsonObject = ["key": "value"]
 let j = JSON(jsonObject)
-
+```
+```
 let int: String = (j <| "key").catchUp("substitute")
 ```
 
 ### Value transformation
-Alembic supports functional value transformation during the parsing process like ``String`` -> ``NSDate``.  
+Alembic supports functional value transformation during the parsing process like `String` -> `NSDate`.  
 
 __functions__
 <table>
@@ -341,6 +348,22 @@ let jsonObject = [
     ]
 ]
 let j = JSON(jsonObject)
+```
+```
+let timeStamp = j.optional("time_stamp")([String]?)
+    .filterNil()
+    .map {
+        let formatter = NSDateFormatter()
+        formatter.locale = .systemLocale()
+        formatter.timeZone = .localTimeZone()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return $0.flatMap(formatter.dateFromString)
+    }
+    .catchUp([])
+    .to([NSDate])
+```
+Using custom operator
+```
 let timeStamp = (j <|? "time_stamp")([String]?)
     .filterNil()
     .map {
@@ -352,7 +375,9 @@ let timeStamp = (j <|? "time_stamp")([String]?)
     }
     .catchUp([])
     .to([NSDate])
-
+```
+Using subscript
+```
 let withSubscript = j["time_stamp"].toResult([String])
     .map {
         let formatter = NSDateFormatter()
@@ -364,9 +389,10 @@ let withSubscript = j["time_stamp"].toResult([String])
     .catchUp([])
     .to([NSDate])
 ```
+
 ### Error handling
-Alembic has simple error handling designs as following.
-If you don't care about error handling, use ``try?`` or ``(j <| "key").catchUp(value)``.
+Alembic has simple error handling designs as following.  
+If you don't care about error handling, use `try?` or `(j <| "key").catchUp(value)`.  
 
 <table>
 <thead>
@@ -421,39 +447,39 @@ try? j <|? path</td>
 </table>
 
 ### Serialize objects to JSON
-To Serialize objects to ``NSData`` or ``String`` of JSON, your models should implements the ``Serializable`` protocol.  
+To Serialize objects to `NSData` or `String` of JSON, your models should implements the `Serializable` protocol.  
 ```
 public protocol Serializable {
     func serialize() -> JSONObject
 }
 ```
-``serialize()`` function returns the ``JSONObject``.  
+`serialize()` function returns the `JSONObject`.  
 
 - JSONObject  
-  ``init`` with ``Array<T: JSONValueConvertible>`` or ``Dictionary<String, T: JSONValueConvertible>`` only.  
-  Implemented the ``ArrayLiteralConvertible`` and ``DictionaryLiteralConvertible``.
+  `init` with `Array<T: JSONValueConvertible>` or `Dictionary<String, T: JSONValueConvertible>` only.  
+  Implemented the `ArrayLiteralConvertible` and `DictionaryLiteralConvertible`.
 - JSONValueConvertible  
-  The protocol that to be convert to ``JSONValue`` with ease.
+  The protocol that to be convert to `JSONValue` with ease.
 - JSONValue  
   For constraint to the types that allowed as value of JSON.   
 
 __Defaults JSONValueConvertible implemented types__  
-- ``String``  
-- ``Int``  
-- ``Double``  
-- ``Float``  
-- ``Bool``  
-- ``NSNumber``  
-- ``Int8``  
-- ``UInt8``  
-- ``Int16``  
-- ``UInt16``  
-- ``Int32``  
-- ``UInt32``  
-- ``Int64``  
-- ``UInt64``  
-- ``RawRepresentable``  
-- ``JSONValue``  
+- `String`  
+- `Int`  
+- `Double`  
+- `Float`  
+- `Bool`  
+- `NSNumber`  
+- `Int8`  
+- `UInt8`  
+- `Int16`  
+- `UInt16`  
+- `Int32`  
+- `UInt32`  
+- `Int64`  
+- `UInt64`  
+- `RawRepresentable`  
+- `JSONValue`  
 
 __Example__
 ```
@@ -489,6 +515,14 @@ struct User: Serializable {
 
 ---
 
+## Playground
+- Open `Alembic.xcworkspace`
+- Build Alembic
+- Then, open `Alembic` playground in `Alembic.xcworkspace` tree view.
+- Play Alembic!
+
+---
+
 ## Contribution
 Welcome to fork and submit pull requests.  
 
@@ -500,8 +534,8 @@ If your pull request including new function, please write test cases for it.
 ---
 
 ## About  
-Alembic is inspired by object mapping library [Argo](https://github.com/thoughtbot/Argo).  
-Greatly thanks for author!!.  
+Alembic is inspired by great libs [Argo](https://github.com/thoughtbot/Argo),  [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON).  
+Greatly thanks for authors!! :beers:.  
 
 ---
 

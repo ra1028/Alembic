@@ -11,6 +11,6 @@
       location = "group:Alembic.playground">
    </FileRef>
    <FileRef
-      location = "container:../Alembic/Alembic.xcodeproj">
+      location = "group:Alembic.xcodeproj">
    </FileRef>
 </Workspace>
