@@ -31,20 +31,25 @@
 do {
     let j = try JSON(data: jsonData)
 
-    // Parse by subscript
-    let string = try j["string_key"].to(String)
+    // Flexible syntax
+    let string1 = try j.distil("key").to(String)
+    let string2 = try (j <| "key").to(String)
+    let string3 = try j["key"].to(String)
 
-    // Parse by function, and value transform
-    let twice: Int = j.distil("int_key")
+    // Value transformation
+    let twice: Int = (j <| "int")
         .map { $0 * 2 }
         .filter { $0 > 0 }
         .catchUp(0)
 
-    // Mapping to object by custom operator
+    // Mapping to object
     let user: User = try j <| "user"
 
     // Serialize object to NSData of JSON
     let userJSONData = JSON.serializeToData(user)
+
+    // Serialize object to NSData of JSON
+    let userJSONString = JSON.serializeToString(user)
 } catch {
     // Do error handling...
 }
@@ -101,7 +106,6 @@ class User: Distillable, Serializable {
 ## Installation
 
 ### [CocoaPods](https://cocoapods.org/)  
-// TODO:  
 Add the following to your Podfile:
 ```
 use_frameworks!
@@ -563,7 +567,7 @@ struct User: Serializable {
 
 ### More Example
 See the Alembic `Tests` for more examples.  
-If you want to try Alembic, use Alembic [Playground](#playground).
+If you want to try Alembic, use Alembic Playground.
 
 ---
 
