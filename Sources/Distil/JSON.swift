@@ -17,6 +17,12 @@ public struct JSON {
         }
     }
     
+    public subscript(path: JSONPathElement...) -> DistilSubscripted {
+        return DistilSubscripted {
+            return try self.distil(JSONPath(path))(JSON).raw
+        }
+    }
+    
     public init(_ raw: AnyObject) {
         self.raw = raw
     }

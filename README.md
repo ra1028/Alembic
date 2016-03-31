@@ -10,6 +10,15 @@
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+  + [Initialization](#initialization)
+  + [JSON parsing](#json-parsing)
+  + [Nested objects parsing](#nested-objects-parsing)
+  + [Optional objects parsing](#optional-objects-parsing)
+  + [Custom Distillable value and object mapping](custom-`distillable`-value-and-object-mapping)
+  + [Want you remove the try ?](#want-you-remove-the-`try`-?)
+  + [Value transformation](#value-transformation)
+  + [Error handling](#error-handling)
+  + [Serialize objects to JSON](#serialize-objects-to-json)
 - [Playground](#playground)
 - [Contribution](#contribution)
 - [About](#about)
@@ -21,10 +30,10 @@
 ```
 do {
     let j = try JSON(data: jsonData)
-    
+
     // Parse by subscript
     let string = try j["string_key"].to(String)
-    
+
     // Parse by function, and value transform
     let twice: Int = j.distil("int_key")
         .map { $0 * 2 }
@@ -33,7 +42,7 @@ do {
 
     // Mapping to object by custom operator
     let user: User = try j <| "user"
-    
+
     // Serialize object to NSData of JSON
     let userJSONData = JSON.serializeToData(user)
 } catch {
@@ -119,6 +128,7 @@ github "ra1028/Alembic", :files => "Sources/**/*.swift"
 ```
 import Alembic
 ```
+JSON from AnyObject
 ```
 let j = JSON(jsonObject)
 ```
@@ -151,7 +161,8 @@ public protocol Distillable {
 ```
 
 __Default supported types__  
-- `String`
+- `JSON`  
+- `String`  
 - `Int`  
 - `Double`   
 - `Float`  
@@ -166,7 +177,6 @@ __Default supported types__
 - `Int64`  
 - `UInt64`  
 - `RawRepresentable`  
-- `JSON`  
 - `Array<T: Distillable>`  
 - `Dictionary<String, T: Distillable>`  
 
@@ -195,7 +205,7 @@ let array = try j["array_key"].to([Int])  // [1, 2, 3, 4, 5]
 ```
 
 ### Nested objects parsing
-Alembic supports JSON keys and JSON array indexes.  
+Supports parsing nested objects with keys and indexes.  
 Keys and indexes can be summarized in the same array.  
 
 __Example__
@@ -217,7 +227,7 @@ let int: Int = try j <| ["nested", "array", 2]  // 3
 ```
 subscript
 ```
-let int = try j["nested"]["array"][2].to(Int)  // 3  
+let int = try j["nested", "array", 2].to(Int)  // 3  
 ```
 
 ### Optional objects parsing
@@ -244,7 +254,7 @@ subscript
 // Parse optional value with subscript is not support
 ```
 
-### Custom `Distillable` value and Object mapping
+### Custom `Distillable` value and object mapping
 If implement `Distillable` protocol to existing classes like `NSURL`, it be able to parse from JSON.  
 Your class, struct, or enum model is also the same.  
 To mapping your models, confirm to the `Distillable` protocol.  
@@ -417,6 +427,11 @@ let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
 Alembic has simple error handling designs as following.  
 If you don't care about error handling, use `try?` or `(j <| "key").catchUp(value)`.  
 
+__DistilError__
+- case MissingPath(JSONPath)  
+- case TypeMismatch(expected: Any.Type, actual: AnyObject)  
+- case FilteredValue(Any)  
+
 <table>
 <thead>
 <tr>
@@ -557,7 +572,7 @@ struct User: Serializable {
 ---
 
 ## Contribution
-Welcome to fork and submit pull requests.  
+Welcome to fork and submit pull requests!!  
 
 Before submitting pull request, please ensure you have passed the included tests.  
 If your pull request including new function, please write test cases for it.  
@@ -567,7 +582,8 @@ If your pull request including new function, please write test cases for it.
 ---
 
 ## About  
-Alembic is inspired by great libs [Argo](https://github.com/thoughtbot/Argo),  [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON).  
+Alembic is inspired by great libs [Argo](https://github.com/thoughtbot/Argo), [Himotoki](https://github.com/ikesyo/Himotoki), [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON),
+.  
 Greatly thanks for authors!! :beers:.  
 
 ---

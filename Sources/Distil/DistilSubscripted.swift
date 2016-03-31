@@ -13,13 +13,7 @@ public struct DistilSubscripted {
     
     init(process: () throws -> AnyObject) {
         self.process = process
-    }
-    
-    public subscript(path: JSONPathElement) -> DistilSubscripted {
-        return DistilSubscripted {
-            return try JSON(self.process()).distil(JSONPath(path))(JSON).raw
-        }
-    }
+    }    
 }
 
 // MARK: - distil value functions
