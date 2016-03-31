@@ -1,6 +1,6 @@
 # Alembic
 [![Swift2.2](https://img.shields.io/badge/swift2.2-compatible-blue.svg?style=flat)](https://developer.apple.com/swift)  
-#### Functional JSON parsing, object mapping, and serialize to JSON.
+#### Functional JSON parsing, mapping to object, and serialize to JSON.
 
 ---
 
@@ -22,16 +22,16 @@
 do {
     let j = try JSON(data: jsonData)
     
-    // Parse with subscript
+    // Parse by subscript
     let string = try j["string_key"].to(String)
     
-    // Parse with function
+    // Parse by function, and value transform
     let twice: Int = j.distil("int_key")
         .map { $0 * 2 }
         .filter { $0 > 0 }
         .catchUp(0)
 
-    // Parse with custom operator
+    // Mapping to object by custom operator
     let user: User = try j <| "user"
     
     // Serialize object to NSData of JSON
@@ -285,13 +285,12 @@ let jsonObject = ["key": "value"]
 let j = JSON(jsonObject)
 ```
 ```
-let int: String = (j <| "key").catchUp("sub value")
+let int: String = (j <| "key").catchUp("sub-value")
 ```
 
 ### Value transformation
 Alembic supports functional value transformation during the parsing process like `String` -> `NSDate`.  
 
-__functions__
 <table>
 
 <thead>
