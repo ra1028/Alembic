@@ -11,10 +11,10 @@ import Alembic
 
 class OptionalTests: XCTestCase {
     func testOptional() {
+        let object = TestJSON.Optional.object
+        let j = JSON(object)
+        
         do {
-            let data = TestJSON.Optional.data
-            let j = try JSON(data: data)
-            
             let string: String? = try j <|? "string"
             let int: Int? = try j <|? "int"
             let double: Double? = try j <|? "double"
@@ -34,6 +34,49 @@ class OptionalTests: XCTestCase {
             XCTAssertNotNil(dictionary)
             XCTAssertNil(nestedValue)
             XCTAssertNil(nestedArray)
+        } catch let e {
+            XCTFail("\(e)")
+        }
+        
+        do {
+            _ = try (j <|? "string").to(Int?)
+            
+            XCTFail("Expect the error to occur")
+        } catch let DistilError.TypeMismatch(expected: expected, actual: actual) {
+            XCTAssert(expected == Int?.self)
+            XCTAssertEqual(actual as? String, "Alembic")
+        } catch let e {
+            XCTFail("\(e)")
+        }
+    }
+    
+    func testOptionalSubscript() {
+        let object = TestJSON.Optional.object
+        let j = JSON(object)
+        
+        do {
+            let string: String? = try j["string"].optional()
+            let bool: Bool? = try j["bool"].optional()
+            let array: [String]? = try j["array"].optional()
+            let dictionary: [String: Int]? = try j["dictionary"].optional()
+            let nestedValue: Int? = try j["nested", "array", 2].optional()
+            
+            XCTAssertEqual(string, "Alembic")
+            XCTAssertNil(bool)
+            XCTAssertNotNil(array)
+            XCTAssertNotNil(dictionary)
+            XCTAssertNil(nestedValue)
+        } catch let e {
+            XCTFail("\(e)")
+        }
+        
+        do {
+            _ = try j["string"].optional().to(Int?)
+            
+            XCTFail("Expect the error to occur")
+        } catch let DistilError.TypeMismatch(expected: expected, actual: actual) {
+            XCTAssert(expected == Int?.self)
+            XCTAssertEqual(actual as? String, "Alembic")
         } catch let e {
             XCTFail("\(e)")
         }

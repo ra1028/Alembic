@@ -227,7 +227,7 @@ let int: Int = try j <| ["nested", "array", 2]  // 3
 ```
 subscript
 ```
-let int = try j["nested", "array", 2].to(Int)  // 3  
+let int: Int = try j["nested", "array", 2].distil()  // 3  
 ```
 
 ### Optional objects parsing
@@ -251,7 +251,7 @@ let int: Int? = try j <|? ["nested", "key"]  // nil
 ```
 subscript
 ```
-// Parse optional value with subscript is not support
+let int: Int? = try j["nested", "key"].optional()  // nil
 ```
 
 ### Custom `Distillable` value and object mapping
@@ -561,13 +561,17 @@ struct User: Serializable {
 }
 ```
 
+### More Example
+See the Alembic `Tests` for more examples.  
+If you want to try Alembic, use Alembic [Playground](#playground).
+
 ---
 
 ## Playground
 - Open `Alembic.xcworkspace`
 - Build Alembic
 - Then, open `Alembic` playground in `Alembic.xcworkspace` tree view.
-- Play Alembic!
+- Enjoy Alembic!
 
 ---
 

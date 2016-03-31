@@ -16,7 +16,7 @@ let jsonObject = [
 let jsonObject2 = [
     "string_key": "string",
     "nested": ["int_key": 100],
-    "array_key": [1, 2, 3, 4, 5],
+    "array_key": [1, 2, 3, 4, 5]
 ]
 
 let j = JSON(jsonObject2)
@@ -24,6 +24,7 @@ let string: String = try j <| "string_key"
 let int: Int = try j <| ["nested", "int_key"]
 let array: [Int] = try j <| "array_key"
 let intFromArray: Int = try j <| ["array_key", 2]
+let missing: Int? = try j["missing_key"].optional()
 
 let jsonObject3 = [
     "nested": [
@@ -127,6 +128,3 @@ do {
 } catch let e {
     // Do error handling...
 }
-
-
-

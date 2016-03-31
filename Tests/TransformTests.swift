@@ -85,6 +85,17 @@ class TransformTests: XCTestCase {
             .to(String)
         
         XCTAssertEqual(map, "map_value")
-
+        
+        do {
+            _ = try j["null"].optional()
+                .filterNil()
+                .to(String)
+            
+            XCTFail("Expect the error to occur")
+        } catch let DistilError.FilteredValue(value) {
+            XCTAssertNotNil(value)
+        } catch let e {
+            XCTFail("\(e)")
+        }
     }
 }

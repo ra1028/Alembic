@@ -12,15 +12,11 @@ public struct JSON {
     public let raw: AnyObject
     
     public subscript(path: JSONPathElement) -> DistilSubscripted {
-        return DistilSubscripted {
-            return try self.distil(JSONPath(path))(JSON).raw
-        }
+        return DistilSubscripted(self, JSONPath(path))
     }
     
     public subscript(path: JSONPathElement...) -> DistilSubscripted {
-        return DistilSubscripted {
-            return try self.distil(JSONPath(path))(JSON).raw
-        }
+        return DistilSubscripted(self, JSONPath(path))
     }
     
     public init(_ raw: AnyObject) {

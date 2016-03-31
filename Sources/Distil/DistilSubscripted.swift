@@ -9,22 +9,34 @@
 import Foundation
 
 public struct DistilSubscripted {
-    private let process: () throws -> AnyObject
+    private let j: JSON
+    private let path: JSONPath
     
-    init(process: () throws -> AnyObject) {
-        self.process = process
+    init(_ j: JSON, _ path: JSONPath) {
+        self.j = j
+        self.path = path
     }    
+}
+
+public extension DistilSubscripted {
+    func to<T: Distillable>(_: T.Type) throws -> T {
+        return try distil()
+    }
+    
+    func to<T: Distillable>(_: [T].Type) throws -> [T] {
+        return try distil()
+    }
+    
+    func to<T: Distillable>(_: [String: T].Type) throws -> [String: T] {
+        return try distil()
+    }
 }
 
 // MARK: - distil value functions
 
 public extension DistilSubscripted {
-    func to<T: Distillable>(_: T.Type) throws -> T {
-        return try JSON(process()).distil()
-    }
-    
     func distil<T: Distillable>(_: T.Type = T.self) throws -> T {
-        return try to(T)
+        return try j.distil(path)
     }
     
     func distil<T: Distillable>(_: T.Type = T.self) -> DistilBox<T> {
@@ -34,15 +46,25 @@ public extension DistilSubscripted {
     }
 }
 
+// MARK: - distil optional value functions
+
+public extension DistilSubscripted {
+    func optional<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) throws -> Optional<T> {
+        return try j.optional(path)
+    }
+    
+    func optional<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) -> DistilBox<Optional<T>> {
+        return DistilBox {
+            try self.optional()
+        }
+    }
+}
+
 // MARK: - distil array functions
 
 public extension DistilSubscripted {
-    func to<T: Distillable>(_: [T].Type) throws -> [T] {
-        return try JSON(process()).distil()
-    }
-    
     func distil<T: Distillable>(_: [T].Type = [T].self) throws -> [T] {
-        return try to([T])
+        return try j.distil(path)
     }
     
     func distil<T: Distillable>(_: [T].Type = [T].self) -> DistilBox<[T]> {
@@ -52,20 +74,44 @@ public extension DistilSubscripted {
     }
 }
 
+// MARK: - distil optional array functions
+
+public extension DistilSubscripted {
+    func optional<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) throws -> Optional<[T]> {
+        return try j.optional(path)
+    }
+    
+    func optional<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) -> DistilBox<Optional<[T]>> {
+        return DistilBox {
+            try self.optional()
+        }
+    }
+}
+
 // MARK: - distil dictionary functions
 
 public extension DistilSubscripted {
-    func to<T: Distillable>(_: [String: T].Type) throws -> [String: T] {
-        return try JSON(process()).distil()
-    }
-    
     func distil<T: Distillable>(_: [String: T].Type = [String: T].self) throws -> [String: T] {
-        return try to([String: T])
+        return try j.distil(path)
     }
     
     func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> DistilBox<[String: T]> {
         return DistilBox {
             try self.distil()
+        }
+    }
+}
+
+// MARK: - distil optional dictionary functions
+
+public extension DistilSubscripted {
+    func optional<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) throws -> Optional<[String: T]> {
+        return try j.optional(path)
+    }
+    
+    func optional<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) -> DistilBox<Optional<[String: T]>> {
+        return DistilBox {
+            try self.optional()
         }
     }
 }
