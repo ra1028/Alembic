@@ -1,6 +1,6 @@
 # Alembic
 [![Swift2.2](https://img.shields.io/badge/swift2.2-compatible-blue.svg?style=flat)](https://developer.apple.com/swift)  
-#### Functional JSON parsing, mapping to object, and serialize to JSON
+#### Functional JSON parsing, mapping to objects, and serialize to JSON
 
 ---
 
@@ -290,7 +290,7 @@ struct Sample: Distillable {
 
 ### Want you remove the `try` ?
 Alembic has `catchUp(value)` function.  
-Refer the next [Value transfromation Section](#value transformation) for details.  
+Refer the next [Value transfromation](#value-transformation) section for details.  
 Use it to remove `try/catch` as following.  
 
 __Example__
