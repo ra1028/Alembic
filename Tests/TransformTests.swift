@@ -79,7 +79,7 @@ class TransformTests: XCTestCase {
         let object = TestJSON.Transform.object
         let j = JSON(object)
         
-        let map = j["key"].toResult()
+        let map = j["key"].distil()
             .map { "map_" + $0 }
             .catchUp("")
             .to(String)

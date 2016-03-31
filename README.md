@@ -21,14 +21,20 @@
 ```
 do {
     let j = try JSON(data: jsonData)
-
+    
+    // Parse with subscript
     let string = try j["string_key"].to(String)
-    let twice: Int = (j <| "int_key")
+    
+    // Parse with function
+    let twice: Int = j.distil("int_key")
         .map { $0 * 2 }
         .filter { $0 > 0 }
         .catchUp(0)
-    let user: User = try j <| "user"
 
+    // Parse with custom operator
+    let user: User = try j <| "user"
+    
+    // Serialize object to NSData of JSON
     let userJSONData = JSON.serializeToData(user)
 } catch {
     // Do error handling...
@@ -110,7 +116,9 @@ github "ra1028/Alembic", :files => "Sources/**/*.swift"
 ## Usage
 
 ### Initialization
-`import Alembic`  
+```
+import Alembic
+```
 ```
 let j = JSON(jsonObject)
 ```
@@ -160,7 +168,7 @@ __Default supported types__
 - `RawRepresentable`  
 - `JSON`  
 - `Array<T: Distillable>`  
-- `Dictionaly<String, T: Distillable>`  
+- `Dictionary<String, T: Distillable>`  
 
 __Example__
 ```
@@ -170,18 +178,19 @@ let jsonObject = [
 ]
 let j = JSON(jsonObject)
 ```
+function
 ```
 let string: String = try j.distil("string_key")  // "string"
 let array = try j.distil("array_key").to([Int])  // [1, 2, 3, 4, 5]
 ```
-Using custom operator  
+custom operator  
 ```
 let string: String = try j <| "string_key"  // "string"
 let array = try (j <| "array_key").to([Int])  // [1, 2, 3, 4, 5]
 ```
-Using subscript
+subscript
 ```
-let string = try j["string_key"].to(String)  // "string"
+let string: String = try j["string_key"].distil()  // "string"
 let array = try j["array_key"].to([Int])  // [1, 2, 3, 4, 5]
 ```
 
@@ -198,14 +207,15 @@ let jsonObject = [
 ]
 let j = JSON(jsonObject)
 ```
+function
 ```
 let int: Int = try j.distil("nested", "array", 2])  // 3        
 ```
-Using custom Operator
+custom operator
 ```
 let int: Int = try j <| ["nested", "array", 2]  // 3  
 ```
-Using subscript
+subscript
 ```
 let int = try j["nested"]["array"][2].to(Int)  // 3  
 ```
@@ -217,22 +227,21 @@ If the key is missing, returns nil.
 __Example__
 ```
 let jsonObject = [
-    "nested": [
-      // Keys is nothing...
-    ]
+    "nested": [:] // Nested key is nothing...
 ]
 let j = JSON(jsonObject)
 ```
+function
 ```
-let int: Int? = try j.optional("nested", "key"])  // nil
+let int: Int? = try j.optional(["nested", "key"])  // nil
 ```
-Using custom Operator
+custom Operator
 ```
 let int: Int? = try j <|? ["nested", "key"]  // nil
 ```
-Using subscript
+subscript
 ```
-let int = try j["nested"]["key"].optional(Int?)  // nil
+// Parse optional value with subscript is not support
 ```
 
 ### Custom `Distillable` value and Object mapping
@@ -245,7 +254,7 @@ Then, parse the value from JSON to all your model properties in the `distill(j: 
 extension NSURL: Distillable {
     public static func distil(j: JSON) throws -> Self {
         guard let url = try self.init(string: j.distil()) else {
-            throw DistilError.TypeMismatch(expected: NSURL.self, actual: j.raw)
+            throw DistilError.TypeMismatch(expected: self, actual: j.raw)
         }
         return url
     }
@@ -276,7 +285,7 @@ let jsonObject = ["key": "value"]
 let j = JSON(jsonObject)
 ```
 ```
-let int: String = (j <| "key").catchUp("substitute")
+let int: String = (j <| "key").catchUp("sub value")
 ```
 
 ### Value transformation
@@ -314,7 +323,7 @@ occur DistillError.FilteredValue.</td>
 <tr>
 <td>catchUp(replace: Value)</td>
 <td>If the error is occur, replace it.  
-No longer to required the error handling.</td>
+Error handling is not required.</td>
 <td>replace</td>
 <td></td>
 </tr>
@@ -329,7 +338,7 @@ No longer to required the error handling.</td>
 <tr>
 <td>ensure(replace: Value.Wrapped)</td>
 <td>If the value is nil or the error is occur, replace it.  
-No longer to required the error handling.</td>
+Error handling is not required.</td>
 <td>replace</td>
 <td></td>
 </tr>
@@ -364,55 +373,45 @@ occur DistillError.FilteredValue.</td>
 __Example__
 ```
 let jsonObject = [
-    "time_stamp": [
-        "2016-04-01 00:00:00",
-        "2016-04-02 01:00:00",
-        "2016-04-03 02:00:00",
-        "2016-04-04 03:00:00",
-        "2016-04-05 04:00:00",
-    ]
+    "time_string": "2016-04-01 00:00:00"
 ]
 let j = JSON(jsonObject)
 ```
+function
 ```
-let timeStamp = j.optional("time_stamp")([String]?)
-    .filterNil()
-    .map {
+let date: NSDate = j.distil("time_string")(String)  // "Apr 1, 2016, 12:00 AM"
+    .map { s -> NSDate? in
         let formatter = NSDateFormatter()
         formatter.locale = .systemLocale()
         formatter.timeZone = .localTimeZone()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return $0.flatMap(formatter.dateFromString)
+        return formatter.dateFromString(s)
     }
-    .catchUp([])
-    .to([NSDate])
+    .ensure(NSDate())
 ```
-Using custom operator
+custom operator
 ```
-let timeStamp = (j <|? "time_stamp")([String]?)
-    .filterNil()
-    .map {
+let date: NSDate = (j <| "time_string")(String)  // "Apr 1, 2016, 12:00 AM"
+    .map { s -> NSDate? in
         let formatter = NSDateFormatter()
         formatter.locale = .systemLocale()
         formatter.timeZone = .localTimeZone()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return $0.flatMap(formatter.dateFromString)
+        return formatter.dateFromString(s)
     }
-    .catchUp([])
-    .to([NSDate])
+    .ensure(NSDate())
 ```
-Using subscript
+subscript
 ```
-let withSubscript = j["time_stamp"].toResult([String])
-    .map {
+let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
+    .map { s -> NSDate? in
         let formatter = NSDateFormatter()
         formatter.locale = .systemLocale()
         formatter.timeZone = .localTimeZone()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return $0.flatMap(formatter.dateFromString)
+        return formatter.dateFromString(s)
     }
-    .catchUp([])
-    .to([NSDate])
+    .ensure(NSDate())
 ```
 
 ### Error handling
@@ -433,8 +432,11 @@ If you don't care about error handling, use `try?` or `(j <| "key").catchUp(valu
 <tbody>
 
 <tr>
-<td>try j.distil(path)  
-try j <| path</td>
+<td>
+try j.distil(path)  
+try j <| path
+try j[path].to(type)
+</td>
 <td>throw</td>
 <td>throw</td>
 <td>throw</td>
@@ -442,8 +444,10 @@ try j <| path</td>
 </tr>
 
 <tr>
-<td>try j.optional(path)  
-try j <|? path</td>
+<td>
+try j.optional(path)  
+try j <|? path
+</td>
 <td>nil</td>
 <td>nil</td>
 <td>throw</td>
@@ -451,8 +455,11 @@ try j <|? path</td>
 </tr>
 
 <tr>
-<td>try? j.distil(path)  
-try? j <| path</td>
+<td>
+try? j.distil(path)  
+try? j <| path
+try? j[path].to(type)
+</td>
 <td>nil</td>
 <td>nil</td>
 <td>nil</td>
@@ -460,8 +467,10 @@ try? j <| path</td>
 </tr>
 
 <tr>
-<td>try? j.optional(path)  
-try? j <|? path</td>
+<td>
+try? j.optional(path)  
+try? j <|? path
+</td>
 <td>nil</td>
 <td>nil</td>
 <td>nil</td>

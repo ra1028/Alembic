@@ -1,5 +1,5 @@
 //
-//  DistilResult.swift
+//  DistilBox.swift
 //  Alembic
 //
 //  Created by Ryo Aoyama on 3/13/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct DistilResult<Value>: DistilResultType {
+public struct DistilBox<Value>: DistilBoxType {
     private let process: () throws -> Value
     
     init(process: () throws -> Value) {
@@ -24,7 +24,7 @@ public struct DistilResult<Value>: DistilResultType {
     }
 }
 
-public struct DistilCatchedResult<Value>: DistilResultType {
+public struct DistilSecureBox<Value>: DistilBoxType {
     private let process: () -> Value
     
     init(process: () -> Value) {
@@ -40,19 +40,19 @@ public struct DistilCatchedResult<Value>: DistilResultType {
     }
 }
 
-public protocol DistilResultType {
+public protocol DistilBoxType {
     associatedtype Value
     
     func value() throws -> Value
 }
 
-public extension DistilResultType {
+public extension DistilBoxType {
     public func map<T>(@noescape transform: Value throws -> T) throws -> T {
         return try transform(value())
     }
     
-    func map<T>(transform: Value throws -> T) -> DistilResult<T> {
-        return DistilResult<T>() {
+    func map<T>(transform: Value throws -> T) -> DistilBox<T> {
+        return DistilBox<T>() {
             try self.map(transform)
         }
     }
@@ -64,8 +64,8 @@ public extension DistilResultType {
         }
     }
     
-    func filter(predicate: Value -> Bool) -> DistilResult<Value> {
-        return DistilResult() {
+    func filter(predicate: Value -> Bool) -> DistilBox<Value> {
+        return DistilBox {
             try self.filter(predicate)
         }
     }
@@ -78,8 +78,8 @@ public extension DistilResultType {
         }
     }
     
-    func catchUp(with: () -> Value) -> DistilCatchedResult<Value> {
-        return DistilCatchedResult() {
+    func catchUp(with: () -> Value) -> DistilSecureBox<Value> {
+        return DistilSecureBox {
             self.catchUp(with)
         }
     }
@@ -88,18 +88,18 @@ public extension DistilResultType {
         return catchUp { with() }
     }
     
-    func catchUp(with: Value) -> DistilCatchedResult<Value> {
+    func catchUp(with: Value) -> DistilSecureBox<Value> {
         return catchUp { with }
     }
 }
 
-public extension DistilResultType where Value: OptionalType {
+public extension DistilBoxType where Value: OptionalType {
     func remapNil(@noescape with: () -> Value.Wrapped) throws -> Value.Wrapped {
         return try map { $0.optionalValue ?? with() }
     }
     
-    func remapNil(with: () -> Value.Wrapped) -> DistilResult<Value.Wrapped> {
-        return DistilResult<Value.Wrapped>() {
+    func remapNil(with: () -> Value.Wrapped) -> DistilBox<Value.Wrapped> {
+        return DistilBox<Value.Wrapped>() {
             try self.remapNil(with)
         }
     }
@@ -108,7 +108,7 @@ public extension DistilResultType where Value: OptionalType {
         return try remapNil { with() }
     }
     
-    func remapNil(with: Value.Wrapped) -> DistilResult<Value.Wrapped> {
+    func remapNil(with: Value.Wrapped) -> DistilBox<Value.Wrapped> {
         return remapNil { with }
     }
     
@@ -120,8 +120,8 @@ public extension DistilResultType where Value: OptionalType {
         }
     }
     
-    func ensure(with: () -> Value.Wrapped) -> DistilCatchedResult<Value.Wrapped> {
-        return DistilCatchedResult<Value.Wrapped>() {
+    func ensure(with: () -> Value.Wrapped) -> DistilSecureBox<Value.Wrapped> {
+        return DistilSecureBox<Value.Wrapped>() {
             self.ensure(with)
         }
     }
@@ -130,7 +130,7 @@ public extension DistilResultType where Value: OptionalType {
         return ensure { with() }
     }
     
-    func ensure(with: Value.Wrapped) -> DistilCatchedResult<Value.Wrapped> {
+    func ensure(with: Value.Wrapped) -> DistilSecureBox<Value.Wrapped> {
         return ensure { with }
     }
     
@@ -138,14 +138,14 @@ public extension DistilResultType where Value: OptionalType {
         return try filter { $0.optionalValue != nil }.optionalValue!
     }
     
-    func filterNil() -> DistilResult<Value.Wrapped> {
-        return DistilResult<Value.Wrapped> {
+    func filterNil() -> DistilBox<Value.Wrapped> {
+        return DistilBox<Value.Wrapped> {
             try self.filterNil()
         }
     }
 }
 
-public extension DistilResultType where Value: CollectionType {
+public extension DistilBoxType where Value: CollectionType {
     func remapEmpty(@noescape with: () -> Value) throws -> Value {
         return try map {
             if $0.isEmpty { return with() }
@@ -153,8 +153,8 @@ public extension DistilResultType where Value: CollectionType {
         }
     }
     
-    func remapEmpty(with: () -> Value) -> DistilResult<Value> {
-        return DistilResult() {
+    func remapEmpty(with: () -> Value) -> DistilBox<Value> {
+        return DistilBox {
             try self.remapEmpty(with)
         }
     }
@@ -163,7 +163,7 @@ public extension DistilResultType where Value: CollectionType {
         return try remapEmpty { with() }
     }
     
-    func remapEmpty(with: Value) -> DistilResult<Value> {
+    func remapEmpty(with: Value) -> DistilBox<Value> {
         return remapEmpty { with }
     }
     
@@ -171,8 +171,8 @@ public extension DistilResultType where Value: CollectionType {
         return try filter { !$0.isEmpty }
     }
     
-    func filterEmpty() -> DistilResult<Value> {
-        return DistilResult() {
+    func filterEmpty() -> DistilBox<Value> {
+        return DistilBox {
             try self.filterEmpty()
         }
     }

@@ -26,16 +26,16 @@ public struct DistilSubscripted {
 
 public extension DistilSubscripted {
     func to<T: Distillable>(_: T.Type) throws -> T {
-        let object = try process()
-        guard let value = object as? T else {
-            throw DistilError.TypeMismatch(expected: T.self, actual: object)
-        }
-        return value
+        return try cast(try process())
     }
     
-    func toResult<T: Distillable>(_: T.Type = T.self) -> DistilResult<T> {
-        return DistilResult {
-            return try self.to(T)
+    func distil<T: Distillable>(_: T.Type = T.self) throws -> T {
+        return try to(T)
+    }
+    
+    func distil<T: Distillable>(_: T.Type = T.self) -> DistilBox<T> {
+        return DistilBox {
+            try self.distil()
         }
     }
 }
@@ -43,17 +43,17 @@ public extension DistilSubscripted {
 // MARK: - distil array functions
 
 public extension DistilSubscripted {
-    public func to<T: Distillable>(_: [T].Type) throws -> [T] {
-        let object = try process()
-        guard let value = object as? [T] else {
-            throw DistilError.TypeMismatch(expected: [T].self, actual: object)
-        }
-        return value
+    func to<T: Distillable>(_: [T].Type) throws -> [T] {
+        return try cast(try process())
     }
     
-    public func toResult<T: Distillable>(_: [T].Type = [T].self) -> DistilResult<[T]> {
-        return DistilResult {
-            return try self.to([T])
+    func distil<T: Distillable>(_: [T].Type = [T].self) throws -> [T] {
+        return try to([T])
+    }
+    
+    func distil<T: Distillable>(_: [T].Type = [T].self) -> DistilBox<[T]> {
+        return DistilBox {
+            try self.distil()
         }
     }
 }
@@ -62,16 +62,27 @@ public extension DistilSubscripted {
 
 public extension DistilSubscripted {
     func to<T: Distillable>(_: [String: T].Type) throws -> [String: T] {
-        let object = try process()
-        guard let value = object as? [String: T] else {
-            throw DistilError.TypeMismatch(expected: [String: T].self, actual: object)
-        }
-        return value
+        return try cast(try process())
     }
     
-    func toResult<T: Distillable>(_: [String: T].Type = [String: T].self) -> DistilResult<[String: T]> {
-        return DistilResult {
-            return try self.to([String: T])
+    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) throws -> [String: T] {
+        return try to([String: T])
+    }
+    
+    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> DistilBox<[String: T]> {
+        return DistilBox {
+            try self.distil()
         }
+    }
+}
+
+// MARK: - private functions
+
+private extension DistilSubscripted {
+    func cast<T>(object: AnyObject) throws -> T {
+        guard let value = object as? T else {
+            throw DistilError.TypeMismatch(expected: T.self, actual: object)
+        }
+        return value
     }
 }

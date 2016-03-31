@@ -11,7 +11,7 @@
 		2A28D4571CA4A78400964742 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44A1CA4A78400964742 /* OptionalType.swift */; };
 		2A28D4581CA4A78400964742 /* DistilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44C1CA4A78400964742 /* DistilError.swift */; };
 		2A28D4591CA4A78400964742 /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44D1CA4A78400964742 /* Distillable.swift */; };
-		2A28D45A1CA4A78400964742 /* DistilResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* DistilResult.swift */; };
+		2A28D45A1CA4A78400964742 /* DistilBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* DistilBox.swift */; };
 		2A28D45B1CA4A78400964742 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44F1CA4A78400964742 /* JSON.swift */; };
 		2A28D45C1CA4A78400964742 /* JSONPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4501CA4A78400964742 /* JSONPath.swift */; };
 		2A28D45D1CA4A78400964742 /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4521CA4A78400964742 /* JSONObject.swift */; };
@@ -46,7 +46,7 @@
 		2A28D44A1CA4A78400964742 /* OptionalType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
 		2A28D44C1CA4A78400964742 /* DistilError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilError.swift; sourceTree = "<group>"; };
 		2A28D44D1CA4A78400964742 /* Distillable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distillable.swift; sourceTree = "<group>"; };
-		2A28D44E1CA4A78400964742 /* DistilResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilResult.swift; sourceTree = "<group>"; };
+		2A28D44E1CA4A78400964742 /* DistilBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilBox.swift; sourceTree = "<group>"; };
 		2A28D44F1CA4A78400964742 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		2A28D4501CA4A78400964742 /* JSONPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONPath.swift; sourceTree = "<group>"; };
 		2A28D4521CA4A78400964742 /* JSONObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONObject.swift; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 				2A28D44F1CA4A78400964742 /* JSON.swift */,
 				2A28D4501CA4A78400964742 /* JSONPath.swift */,
 				2A28D44D1CA4A78400964742 /* Distillable.swift */,
-				2A28D44E1CA4A78400964742 /* DistilResult.swift */,
+				2A28D44E1CA4A78400964742 /* DistilBox.swift */,
 				2A28D44C1CA4A78400964742 /* DistilError.swift */,
 				2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */,
 			);
@@ -303,7 +303,7 @@
 				2A28D45D1CA4A78400964742 /* JSONObject.swift in Sources */,
 				2A28D4601CA4A78400964742 /* Serializable.swift in Sources */,
 				2A28D45F1CA4A78400964742 /* JSONValueConvertible.swift in Sources */,
-				2A28D45A1CA4A78400964742 /* DistilResult.swift in Sources */,
+				2A28D45A1CA4A78400964742 /* DistilBox.swift in Sources */,
 				2AC332E71CA9CFA2005E5B2D /* DistilSubscripted.swift in Sources */,
 				2A28D4561CA4A78400964742 /* Operators.swift in Sources */,
 				2A28D4591CA4A78400964742 /* Distillable.swift in Sources */,

@@ -23,15 +23,15 @@ public func <| <T: Distillable>(j: JSON, path: JSONPath) -> T.Type throws -> T {
     }
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> DistilResult<T> {
-    return DistilResult() {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> DistilBox<T> {
+    return DistilBox {
         try j <| path
     }
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> T.Type -> DistilResult<T> {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> T.Type -> DistilBox<T> {
     return  { _ in
-        DistilResult() {
+        DistilBox {
             try j <| path
         }
     }
@@ -49,15 +49,15 @@ public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<T>.Type th
     }
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> DistilResult<Optional<T>> {
-    return DistilResult() {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> DistilBox<Optional<T>> {
+    return DistilBox {
         try j <|? path
     }
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<T>.Type -> DistilResult<Optional<T>> {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<T>.Type -> DistilBox<Optional<T>> {
     return  { _ in
-        DistilResult() {
+        DistilBox {
             try j <|? path
         }
     }
@@ -75,15 +75,15 @@ public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [T].Type throws -> [
     }
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> DistilResult<[T]> {
-    return DistilResult() {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> DistilBox<[T]> {
+    return DistilBox {
         try j <| path
     }
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [T].Type -> DistilResult<[T]> {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [T].Type -> DistilBox<[T]> {
     return  { _ in
-        DistilResult() {
+        DistilBox {
             try j <| path
         }
     }
@@ -101,15 +101,15 @@ public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[T]>.Type 
     }
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> DistilResult<Optional<[T]>> {
-    return DistilResult() {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> DistilBox<Optional<[T]>> {
+    return DistilBox {
         try j <|? path
     }
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[T]>.Type -> DistilResult<Optional<[T]>> {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[T]>.Type -> DistilBox<Optional<[T]>> {
     return  { _ in
-        DistilResult() {
+        DistilBox {
             try j <|? path
         }
     }
@@ -127,15 +127,15 @@ public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [String: T].Type thr
     }
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> DistilResult<[String: T]> {
-    return DistilResult() {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> DistilBox<[String: T]> {
+    return DistilBox {
         try j <| path
     }
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [String: T].Type -> DistilResult<[String: T]> {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [String: T].Type -> DistilBox<[String: T]> {
     return  { _ in
-        DistilResult() {
+        DistilBox {
             try j <| path
         }
     }
@@ -153,15 +153,15 @@ public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[String: T
     }
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> DistilResult<Optional<[String: T]>> {
-    return DistilResult() {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> DistilBox<Optional<[String: T]>> {
+    return DistilBox {
         try j <|? path
     }
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[String: T]>.Type -> DistilResult<Optional<[String: T]>> {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[String: T]>.Type -> DistilBox<Optional<[String: T]>> {
     return  { _ in
-        DistilResult() {
+        DistilBox {
             try j <|? path
         }
     }
