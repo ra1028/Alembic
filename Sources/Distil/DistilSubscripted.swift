@@ -26,7 +26,7 @@ public struct DistilSubscripted {
 
 public extension DistilSubscripted {
     func to<T: Distillable>(_: T.Type) throws -> T {
-        return try cast(try process())
+        return try JSON(process()).distil()
     }
     
     func distil<T: Distillable>(_: T.Type = T.self) throws -> T {
@@ -44,7 +44,7 @@ public extension DistilSubscripted {
 
 public extension DistilSubscripted {
     func to<T: Distillable>(_: [T].Type) throws -> [T] {
-        return try cast(try process())
+        return try JSON(process()).distil()
     }
     
     func distil<T: Distillable>(_: [T].Type = [T].self) throws -> [T] {
@@ -62,7 +62,7 @@ public extension DistilSubscripted {
 
 public extension DistilSubscripted {
     func to<T: Distillable>(_: [String: T].Type) throws -> [String: T] {
-        return try cast(try process())
+        return try JSON(process()).distil()
     }
     
     func distil<T: Distillable>(_: [String: T].Type = [String: T].self) throws -> [String: T] {
@@ -73,16 +73,5 @@ public extension DistilSubscripted {
         return DistilBox {
             try self.distil()
         }
-    }
-}
-
-// MARK: - private functions
-
-private extension DistilSubscripted {
-    func cast<T>(object: AnyObject) throws -> T {
-        guard let value = object as? T else {
-            throw DistilError.TypeMismatch(expected: T.self, actual: object)
-        }
-        return value
     }
 }
