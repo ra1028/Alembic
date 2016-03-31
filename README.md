@@ -48,7 +48,7 @@ do {
     // Serialize object to NSData of JSON
     let userJSONData = JSON.serializeToData(user)
 
-    // Serialize object to NSData of JSON
+    // Serialize object to String of JSON
     let userJSONString = JSON.serializeToString(user)
 } catch {
     // Do error handling...
