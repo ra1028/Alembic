@@ -219,7 +219,7 @@ let j = JSON(jsonObject)
 ```
 function
 ```
-let int: Int = try j.distil("nested", "array", 2])  // 3        
+let int: Int = try j.distil(["nested", "array", 2])  // 3        
 ```
 custom operator
 ```
