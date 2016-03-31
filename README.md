@@ -1,6 +1,6 @@
 # Alembic
 [![Swift2.2](https://img.shields.io/badge/swift2.2-compatible-blue.svg?style=flat)](https://developer.apple.com/swift)  
-#### Functional JSON parsing, mapping to object, and serialize to JSON.
+#### Functional JSON parsing, mapping to object, and serialize to JSON
 
 ---
 
@@ -88,6 +88,7 @@ class User: Distillable, Serializable {
 - Error handling
 - class, struct, enum support with non-optional `let` properties
 - Functional, Protocol-oriented designs
+- Flexible syntax
 
 ---
 
@@ -99,7 +100,7 @@ class User: Distillable, Serializable {
 
 ## Installation
 
-### [CocoaPods](https://cocoapods.org/)
+### [CocoaPods](https://cocoapods.org/)  
 // TODO:  
 Add the following to your Podfile:
 ```
@@ -107,14 +108,13 @@ use_frameworks!
 pod 'Alembic'
 ```
 
-### [Carthage](https://github.com/Carthage/Carthage)
-// TODO:  
+### [Carthage](https://github.com/Carthage/Carthage)  
 Add the following to your Cartfile:
 ```
 github "ra1028/Alembic"
 ```
 
-### [CocoaSeeds](https://github.com/devxoul/CocoaSeeds)
+### [CocoaSeeds](https://github.com/devxoul/CocoaSeeds)  
 Add the following to your Seedfile:
 ```
 github "ra1028/Alembic", :files => "Sources/**/*.swift"
