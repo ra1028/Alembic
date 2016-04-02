@@ -7,7 +7,7 @@ Pod::Spec.new do |spec|
   spec.source = { :git => 'https://github.com/ra1028/Alembic.git', :tag => spec.version.to_s }
   spec.license = { :type => 'MIT', :file => 'LICENSE' }
   spec.platform = :ios, '8.0'
-  spec.source_files = 'Alembic/**/*.swift'
+  spec.source_files = 'Sources/**/*.swift'
   spec.requires_arc = true
   spec.ios.deployment_target = '8.0'
 end
