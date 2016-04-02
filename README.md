@@ -274,7 +274,7 @@ extension NSURL: Distillable {
 ```
 
 ### Object mapping  
-To mapping your models, needs to confirm to the `Distillable` protocol.  
+To mapping your models, need confirm to the `Distillable` protocol.  
 Then, parse the objects from JSON to all your model properties.  
 
 __Example__
@@ -318,14 +318,14 @@ Alembic supports functional value transformation during the parsing process like
 <tr>
 <td>filter(Value -> Bool)</td>
 <td>If the value is filtered by predicates,  
-occur DistillError.FilteredValue.</td>
+throw DistillError.FilteredValue.</td>
 <td>Value</td>
 <td>throw</td>
 </tr>
 
 <tr>
 <td>catchUp(replace: Value)</td>
-<td>If the error is occur, replace it.  
+<td>If the error was thrown, replace it.  
 Error handling is not required.</td>
 <td>replace</td>
 <td></td>
@@ -340,7 +340,7 @@ Error handling is not required.</td>
 
 <tr>
 <td>ensure(replace: Value.Wrapped)</td>
-<td>If the value is nil or the error is occur, replace it.  
+<td>If the value is nil or the error was thrown, replace it.  
 Error handling is not required.</td>
 <td>replace</td>
 <td></td>
@@ -349,7 +349,7 @@ Error handling is not required.</td>
 <tr>
 <td>filterNil()</td>
 <td>If the value is nil,  
-occur DistillError.FilteredValue.</td>
+throw DistillError.FilteredValue.</td>
 <td>Value.Wrapped</td>
 <td>throw</td>
 </tr>
@@ -365,7 +365,7 @@ replace it.</td>
 <tr>
 <td>filterEmpty()</td>
 <td>If the value is empty of CollectionType,  
-occur DistillError.FilteredValue.</td>
+throw DistillError.FilteredValue.</td>
 <td>Value</td>
 <td>throw</td>
 </tr>
