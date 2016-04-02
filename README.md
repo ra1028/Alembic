@@ -590,8 +590,10 @@ If your pull request including new function, please write test cases for it.
 ---
 
 ## About  
-Alembic is inspired by great libs [Argo](https://github.com/thoughtbot/Argo), [Himotoki](https://github.com/ikesyo/Himotoki), [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON),
-.  
+Alembic is inspired by great libs
+[Argo](https://github.com/thoughtbot/Argo),
+[Himotoki](https://github.com/ikesyo/Himotoki),
+[SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON).  
 Greatly thanks for authors!! :beers:.  
 
 ---
