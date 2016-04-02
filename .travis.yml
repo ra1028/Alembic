@@ -9,8 +9,7 @@ env:
 script:
   - pod lib lint --allow-warnings
   - set -o pipefail
-  - xcodebuild test -workspace Alembic.xcworkspace -scheme Alembic -destination 'platform=iOS Simulator,name=iPhone 6s' | xcpretty - c
-
+  - xcodebuild test -workspace Alembic.xcworkspace -scheme Alembic -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6s' | xcpretty - c
 before_deploy:
   - carthage build --no-skip-current
   - carthage archive Alembic

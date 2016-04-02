@@ -28,7 +28,7 @@
 ---
 
 ## Overview  
-```
+```Swift
 do {
     let j = try JSON(data: jsonData)
 
@@ -108,20 +108,20 @@ class User: Distillable, Serializable {
 
 ### [CocoaPods](https://cocoapods.org/)  
 Add the following to your Podfile:
-```
+```ruby
 use_frameworks!
 pod 'Alembic'
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage)  
 Add the following to your Cartfile:
-```
+```ruby
 github "ra1028/Alembic"
 ```
 
 ### [CocoaSeeds](https://github.com/devxoul/CocoaSeeds)  
 Add the following to your Seedfile:
-```
+```ruby
 github "ra1028/Alembic", :files => "Sources/**/*.swift"
 ```
 
@@ -130,25 +130,25 @@ github "ra1028/Alembic", :files => "Sources/**/*.swift"
 ## Usage
 
 ### Initialization
-```
+```Swift
 import Alembic
 ```
 JSON from AnyObject
-```
+```Swift
 let j = JSON(jsonObject)
 ```
 JSON from NSData
-```
+```Swift
 let j = try JSON(data: jsonData)
 ```
-```
+```Swift
 let j = try JSON(data: jsonData, options: .AllowFragments)
 ```
 JSON from String  
-```
+```Swift
 let j = try JSON(string: jsonString)
 ```
-```
+```Swift
 let j = try JSON(
     string: jsonString,
     encoding: NSUTF8StringEncoding,
@@ -159,7 +159,7 @@ let j = try JSON(
 
 ### JSON parsing
 To enable parsing, a class, struct, or enum just needs to implement the `Distillable` protocol.  
-```
+```Swift
 public protocol Distillable {
     static func distil(j: JSON) throws -> Self
 }
@@ -186,7 +186,7 @@ __Default supported types__
 - `Dictionary<String, T: Distillable>`  
 
 __Example__
-```
+```Swift
 let jsonObject = [
     "string_key": "string",  
     "array_key": [1, 2, 3, 4, 5],
@@ -194,17 +194,17 @@ let jsonObject = [
 let j = JSON(jsonObject)
 ```
 function
-```
+```Swift
 let string: String = try j.distil("string_key")  // "string"
 let array = try j.distil("array_key").to([Int])  // [1, 2, 3, 4, 5]
 ```
 custom operator  
-```
+```Swift
 let string: String = try j <| "string_key"  // "string"
 let array = try (j <| "array_key").to([Int])  // [1, 2, 3, 4, 5]
 ```
 subscript
-```
+```Swift
 let string: String = try j["string_key"].distil()  // "string"
 let array = try j["array_key"].to([Int])  // [1, 2, 3, 4, 5]
 ```
@@ -214,7 +214,7 @@ Supports parsing nested objects with keys and indexes.
 Keys and indexes can be summarized in the same array.  
 
 __Example__
-```
+```Swift
 let jsonObject = [
     "nested": [        
         "array": [1, 2, 3, 4, 5]
@@ -223,15 +223,15 @@ let jsonObject = [
 let j = JSON(jsonObject)
 ```
 function
-```
+```Swift
 let int: Int = try j.distil(["nested", "array", 2])  // 3        
 ```
 custom operator
-```
+```Swift
 let int: Int = try j <| ["nested", "array", 2]  // 3  
 ```
 subscript
-```
+```Swift
 let int: Int = try j["nested", "array", 2].distil()  // 3  
 ```
 
@@ -240,22 +240,22 @@ Has functions to parsing optional objects.
 If the key is missing, returns nil.  
 
 __Example__
-```
+```Swift
 let jsonObject = [
     "nested": [:] // Nested key is nothing...
 ]
 let j = JSON(jsonObject)
 ```
 function
-```
+```Swift
 let int: Int? = try j.optional(["nested", "key"])  // nil
 ```
 custom Operator
-```
+```Swift
 let int: Int? = try j <|? ["nested", "key"]  // nil
 ```
 subscript
-```
+```Swift
 let int: Int? = try j["nested", "key"].optional()  // nil
 ```
 
@@ -263,7 +263,7 @@ let int: Int? = try j["nested", "key"].optional()  // nil
 If implement `Distillable` protocol to existing classes like `NSURL`, it be able to parse from JSON.  
 
 __Example__
-```
+```Swift
 extension NSURL: Distillable {
     public static func distil(j: JSON) throws -> Self {
         guard let url = try self.init(string: j.distil()) else {
@@ -279,7 +279,7 @@ To mapping your models, need confirm to the `Distillable` protocol.
 Then, parse the objects from JSON to all your model properties.  
 
 __Example__
-```
+```Swift
 struct Sample: Distillable {
     let string: String
     let int: Int?
@@ -375,14 +375,14 @@ throw DistillError.FilteredValue.</td>
 </table>
 
 __Example__
-```
+```Swift
 let jsonObject = [
     "time_string": "2016-04-01 00:00:00"
 ]
 let j = JSON(jsonObject)
 ```
 function
-```
+```Swift
 let date: NSDate = j.distil("time_string")(String)  // "Apr 1, 2016, 12:00 AM"
     .map { s -> NSDate? in
         let formatter = NSDateFormatter()
@@ -394,7 +394,7 @@ let date: NSDate = j.distil("time_string")(String)  // "Apr 1, 2016, 12:00 AM"
     .ensure(NSDate())
 ```
 custom operator
-```
+```Swift
 let date: NSDate = (j <| "time_string")(String)  // "Apr 1, 2016, 12:00 AM"
     .map { s -> NSDate? in
         let formatter = NSDateFormatter()
@@ -406,7 +406,7 @@ let date: NSDate = (j <| "time_string")(String)  // "Apr 1, 2016, 12:00 AM"
     .ensure(NSDate())
 ```
 subscript
-```
+```Swift
 let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
     .map { s -> NSDate? in
         let formatter = NSDateFormatter()
@@ -492,16 +492,16 @@ try? j[path].optional()
 
 __Don't wanna handling the error?__  
 If you don't care about error handling, use `try?` or `(j <| "key").catchUp(value)`.  
-```
+```Swift
 let value: String? = try? j <| "key"
 ```
-```
+```Swift
 let value: String = (j <| "key").catchUp("sub-value")
 ```
 
 ### Serialize objects to JSON
 To Serialize objects to `NSData` or `String` of JSON, your models should implements the `Serializable` protocol.  
-```
+```Swift
 public protocol Serializable {
     func serialize() -> JSONObject
 }
@@ -535,7 +535,7 @@ __Defaults JSONValueConvertible implemented types__
 - `JSONValue`  
 
 __Example__
-```
+```Swift
 let user: User = ...
 let data = JSON.serializeToData(user)
 let string = JSON.serializeToString(user)
