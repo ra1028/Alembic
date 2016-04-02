@@ -1,6 +1,8 @@
 # Alembic
 [![Build Status](https://travis-ci.org/ra1028/Alembic.svg?branch=master)](https://travis-ci.org/ra1028/Alembic)
-[![Swift2.2](https://img.shields.io/badge/swift2.2-compatible-blue.svg?style=flat)](https://developer.apple.com/swift)  
+[![Swift2.2](https://img.shields.io/badge/swift2.2-compatible-blue.svg?style=flat)](https://developer.apple.com/swift)
+[![CocoaPods Shield](https://img.shields.io/cocoapods/v/Alembic.svg)](https://cocoapods.org/pods/Alembic)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)  
 #### Functional JSON parsing, mapping to objects, and serialize to JSON
 
 ---
