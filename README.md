@@ -1,4 +1,5 @@
 # Alembic
+[![Build Status](https://travis-ci.org/ra1028/Alembic.svg?branch=master)](https://travis-ci.org/ra1028/Alembic)
 [![Swift2.2](https://img.shields.io/badge/swift2.2-compatible-blue.svg?style=flat)](https://developer.apple.com/swift)  
 #### Functional JSON parsing, mapping to objects, and serialize to JSON
 
@@ -491,8 +492,6 @@ try? j[path].optional()
 
 __Don't wanna handling the error?__  
 If you don't care about error handling, use `try?` or `(j <| "key").catchUp(value)`.  
-
-__Example__  
 ```
 let value: String? = try? j <| "key"
 ```
@@ -566,6 +565,8 @@ struct User: Serializable {
     }
 }
 ```
+
+---
 
 ### More Example
 See the Alembic `Tests` for more examples.  
