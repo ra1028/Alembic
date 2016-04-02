@@ -86,14 +86,14 @@ class User: Distillable, Serializable {
 ---
 
 ## Features
-- JSON parsing with ease
-- Mapping JSON to objects
-- Type-safe serialize object to JSON
-- Powerful parsed value transformation
-- Error handling
-- class, struct, enum support with non-optional `let` properties
-- Functional, Protocol-oriented designs
-- Flexible syntax
+- [x] JSON parsing with ease
+- [x] Mapping JSON to objects
+- [x] Type-safe serialize object to JSON
+- [x] Powerful parsed value transformation
+- [x] Error handling
+- [x] class, struct, enum support with non-optional `let` properties
+- [x] Functional, Protocol-oriented designs
+- [x] Flexible syntax
 
 ---
 
