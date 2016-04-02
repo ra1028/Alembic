@@ -14,8 +14,8 @@
   + [JSON parsing](#json-parsing)
   + [Nested objects parsing](#nested-objects-parsing)
   + [Optional objects parsing](#optional-objects-parsing)
-  + [Custom Distillable value and object mapping](custom-`distillable`-value-and-object-mapping)
-  + [Want you remove the try ?](#want-you-remove-the-`try`-?)
+  + [Custom objects parsing](#custom-objects-parsing)
+  + [Object mapping](#object-mapping)  
   + [Value transformation](#value-transformation)
   + [Error handling](#error-handling)
   + [Serialize objects to JSON](#serialize-objects-to-json)
@@ -258,12 +258,10 @@ subscript
 let int: Int? = try j["nested", "key"].optional()  // nil
 ```
 
-### Custom `Distillable` value and object mapping
+### Custom objects parsing
 If implement `Distillable` protocol to existing classes like `NSURL`, it be able to parse from JSON.  
-Your class, struct, or enum model is also the same.  
-To mapping your models, confirm to the `Distillable` protocol.  
-Then, parse the value from JSON to all your model properties in the `distill(j: JSON)` function.
 
+__Example__
 ```
 extension NSURL: Distillable {
     public static func distil(j: JSON) throws -> Self {
@@ -274,6 +272,12 @@ extension NSURL: Distillable {
     }
 }
 ```
+
+### Object mapping  
+To mapping your models, needs to confirm to the `Distillable` protocol.  
+Then, parse the objects from JSON to all your model properties.  
+
+__Example__
 ```
 struct Sample: Distillable {
     let string: String
@@ -286,20 +290,6 @@ struct Sample: Distillable {
         )
     }
 }
-```
-
-### Want you remove the `try` ?
-Alembic has `catchUp(value)` function.  
-Refer the next [Value transfromation](#value-transformation) section for details.  
-Use it to remove `try/catch` as following.  
-
-__Example__
-```
-let jsonObject = ["key": "value"]
-let j = JSON(jsonObject)
-```
-```
-let int: String = (j <| "key").catchUp("sub-value")
 ```
 
 ### Value transformation
@@ -429,7 +419,6 @@ let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
 
 ### Error handling
 Alembic has simple error handling designs as following.  
-If you don't care about error handling, use `try?` or `(j <| "key").catchUp(value)`.  
 
 __DistilError__
 - case MissingPath(JSONPath)  
@@ -453,7 +442,7 @@ __DistilError__
 <td>
 try j.distil(path)  
 try j <| path
-try j[path].to(type)
+try j[path].distil()
 </td>
 <td>throw</td>
 <td>throw</td>
@@ -465,6 +454,7 @@ try j[path].to(type)
 <td>
 try j.optional(path)  
 try j <|? path
+try j[path].optional()
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -476,7 +466,7 @@ try j <|? path
 <td>
 try? j.distil(path)  
 try? j <| path
-try? j[path].to(type)
+try? j[path].distil()
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -488,6 +478,7 @@ try? j[path].to(type)
 <td>
 try? j.optional(path)  
 try? j <|? path
+try? j[path].optional()
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -497,6 +488,17 @@ try? j <|? path
 
 </tbody>
 </table>
+
+__Don't wanna handling the error?__  
+If you don't care about error handling, use `try?` or `(j <| "key").catchUp(value)`.  
+
+__Example__  
+```
+let value: String? = try? j <| "key"
+```
+```
+let value: String = (j <| "key").catchUp("sub-value")
+```
 
 ### Serialize objects to JSON
 To Serialize objects to `NSData` or `String` of JSON, your models should implements the `Serializable` protocol.  
