@@ -17,6 +17,7 @@
 		2AB98DD11CA7B37300559A62 /* TransformTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DD01CA7B37300559A62 /* TransformTests.json */; };
 		2ADE565D1CA61F1F0031B61C /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */; };
 		2AE41A1D1CB164450042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; };
+		2AE41A331CB166AF0042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,8 @@
 		2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		2AE41A1C1CB164450042A52F /* Alembic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alembic.h; sourceTree = "<group>"; };
 		2AE41A201CB164C10042A52F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2AE41A271CB165A50042A52F /* Alembic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alembic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AE41A311CB1660A0042A52F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2A9656801CB12EDC005677D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AE41A231CB165A50042A52F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -140,6 +150,7 @@
 			children = (
 				2A4B61B81CA6060900C65FEE /* Tests.xctest */,
 				2A9656841CB12EDC005677D9 /* Alembic.framework */,
+				2AE41A271CB165A50042A52F /* Alembic.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -160,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				2AE41A1F1CB164C10042A52F /* Alembic-iOS */,
+				2AE41A301CB1660A0042A52F /* Alembic-OSX */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -172,6 +184,14 @@
 			path = "Alembic-iOS";
 			sourceTree = "<group>";
 		};
+		2AE41A301CB1660A0042A52F /* Alembic-OSX */ = {
+			isa = PBXGroup;
+			children = (
+				2AE41A311CB1660A0042A52F /* Info.plist */,
+			);
+			path = "Alembic-OSX";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -180,6 +200,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AE41A1D1CB164450042A52F /* Alembic.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AE41A241CB165A50042A52F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AE41A331CB166AF0042A52F /* Alembic.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +249,24 @@
 			productReference = 2A9656841CB12EDC005677D9 /* Alembic.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		2AE41A261CB165A50042A52F /* Alembic-OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AE41A2C1CB165A50042A52F /* Build configuration list for PBXNativeTarget "Alembic-OSX" */;
+			buildPhases = (
+				2AE41A221CB165A50042A52F /* Sources */,
+				2AE41A231CB165A50042A52F /* Frameworks */,
+				2AE41A241CB165A50042A52F /* Headers */,
+				2AE41A251CB165A50042A52F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Alembic-OSX";
+			productName = "Alembic-OSX";
+			productReference = 2AE41A271CB165A50042A52F /* Alembic.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -239,6 +285,9 @@
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 35SS6N9UMP;
 					};
+					2AE41A261CB165A50042A52F = {
+						CreatedOnToolsVersion = 7.3;
+					};
 				};
 			};
 			buildConfigurationList = 2AC11E891C935BFB00D4C2FE /* Build configuration list for PBXProject "Alembic" */;
@@ -255,6 +304,7 @@
 			targets = (
 				2A9656831CB12EDC005677D9 /* Alembic-iOS */,
 				2A4B61B71CA6060900C65FEE /* Tests */,
+				2AE41A261CB165A50042A52F /* Alembic-OSX */,
 			);
 		};
 /* End PBXProject section */
@@ -278,6 +328,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2AE41A251CB165A50042A52F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -294,6 +351,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2A96567F1CB12EDC005677D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AE41A221CB165A50042A52F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -401,6 +465,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -443,12 +508,57 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		2AE41A2D1CB165A50042A52F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Configuration/Alembic-OSX/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.Alembic-OSX";
+				PRODUCT_NAME = Alembic;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		2AE41A2E1CB165A50042A52F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Configuration/Alembic-OSX/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.Alembic-OSX";
+				PRODUCT_NAME = Alembic;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -481,6 +591,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		2AE41A2C1CB165A50042A52F /* Build configuration list for PBXNativeTarget "Alembic-OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AE41A2D1CB165A50042A52F /* Debug */,
+				2AE41A2E1CB165A50042A52F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
