@@ -5,26 +5,11 @@ env:
   global:
     - LC_CTYPE=en_US.UTF-8
 
-before_install:
-  - brew update
-
 script:
   - pod lib lint --allow-warnings
   - set -o pipefail
   - xcodebuild test -scheme Alembic-OSX | xcpretty -c
   - xcodebuild test -scheme Alembic-iOS -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6s' | xcpretty - c
-before_deploy:
-  - carthage build --no-skip-current
-  - carthage archive Alembic
-
-deploy:
-  provider: releases
-  api_key: gcZawLD+ov2hB0voJjMWjMEKNqfrzkP+vJUUZoL7CsKe6iSvVnOeuy320LRp7D/6pP15STFQ+8/nOiQpmI2xEKWcluur2M+zsOvyMi6JD8UO3/p+snTpvvbsynYPfLD79MmPuZJQw6X1UftEFlmdYJ86XYcIOyUl9U5/+fXVIFRJnRbfay/YV8otanwLubefVg9UhFJKoT5Az7sszL9Sti8QNt57Ma1BSpMJesZ3zdH6JdWR1QXqWgx+Jw0yDfEENZBXdx8PFNxMBUcjctwThIZ8r8JFRqlQbgkGvZW9SbJHqhoipidVGN+Ew2IUdfncfVAP1F/QV2ld+AlhTPq60R6Ny2uAFJWrbZcm5j0lj+MTheaLZ7M6PiOKsIqHICsewZWh8HEPbBLScdQliMUkycnusH9JBh06TdaIGTSlWHPNGuUny7JhG+olu49Hjonlxstn+WwUhd1gYphhgKVqUwepXWxSJZNMzndzm4okVYsyJt/w7gnnph8EL/gSZUI5+IlFsMHUQsvLuyOB5/mL+8d0tYZjskOQM32Q4vzfV7oICXrb/Jws5qKwI+FhSUZXaUzR9aMM7qnI66LrSi4a7i8brfSUm/p/WNDjwFEJLZFsSR7QQPyehaNXamcCUkR7WWJcfV24JQ2tkdp2CYBuQA8RkjTe3Z69muo+J/6ExI0=
-  file: Alembic.framework.zip
-  skip_cleanup: true
-  on:
-    repo: ra1028/Alembic
-    tags: true
 
 notifications:
  email: false
