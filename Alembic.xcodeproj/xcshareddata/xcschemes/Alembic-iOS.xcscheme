@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0720"
+   LastUpgradeVersion = "0730"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2AC11E8E1C935BFB00D4C2FE"
+               BlueprintIdentifier = "2A9656831CB12EDC005677D9"
                BuildableName = "Alembic.framework"
-               BlueprintName = "Alembic"
+               BlueprintName = "Alembic-iOS"
                ReferencedContainer = "container:Alembic.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2AC11E8E1C935BFB00D4C2FE"
+            BlueprintIdentifier = "2A9656831CB12EDC005677D9"
             BuildableName = "Alembic.framework"
-            BlueprintName = "Alembic"
+            BlueprintName = "Alembic-iOS"
             ReferencedContainer = "container:Alembic.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2AC11E8E1C935BFB00D4C2FE"
+            BlueprintIdentifier = "2A9656831CB12EDC005677D9"
             BuildableName = "Alembic.framework"
-            BlueprintName = "Alembic"
+            BlueprintName = "Alembic-iOS"
             ReferencedContainer = "container:Alembic.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -82,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2AC11E8E1C935BFB00D4C2FE"
+            BlueprintIdentifier = "2A9656831CB12EDC005677D9"
             BuildableName = "Alembic.framework"
-            BlueprintName = "Alembic"
+            BlueprintName = "Alembic-iOS"
             ReferencedContainer = "container:Alembic.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

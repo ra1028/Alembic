@@ -7,39 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A28D4561CA4A78400964742 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4491CA4A78400964742 /* Operators.swift */; };
-		2A28D4571CA4A78400964742 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44A1CA4A78400964742 /* OptionalType.swift */; };
-		2A28D4581CA4A78400964742 /* DistilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44C1CA4A78400964742 /* DistilError.swift */; };
-		2A28D4591CA4A78400964742 /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44D1CA4A78400964742 /* Distillable.swift */; };
-		2A28D45A1CA4A78400964742 /* DistilBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* DistilBox.swift */; };
-		2A28D45B1CA4A78400964742 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44F1CA4A78400964742 /* JSON.swift */; };
-		2A28D45C1CA4A78400964742 /* JSONPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4501CA4A78400964742 /* JSONPath.swift */; };
-		2A28D45D1CA4A78400964742 /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4521CA4A78400964742 /* JSONObject.swift */; };
-		2A28D45E1CA4A78400964742 /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4531CA4A78400964742 /* JSONValue.swift */; };
-		2A28D45F1CA4A78400964742 /* JSONValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4541CA4A78400964742 /* JSONValueConvertible.swift */; };
-		2A28D4601CA4A78400964742 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4551CA4A78400964742 /* Serializable.swift */; };
 		2A316B141CA84D5A00765945 /* SerializeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A316B131CA84D5A00765945 /* SerializeTests.swift */; };
 		2A316B161CA84DD800765945 /* SerializeTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A316B151CA84DD800765945 /* SerializeTests.json */; };
 		2A4211761CA6192300776678 /* TestJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4211751CA6192300776678 /* TestJSON.swift */; };
 		2A430E3F1CA6177E00BBD85D /* DistilTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A430E3E1CA6177E00BBD85D /* DistilTests.json */; };
 		2A430E431CA617C000BBD85D /* TransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A430E421CA617C000BBD85D /* TransformTests.swift */; };
 		2A4B61BB1CA6060900C65FEE /* DistilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4B61BA1CA6060900C65FEE /* DistilTests.swift */; };
-		2A4B61BD1CA6060900C65FEE /* Alembic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AC11E8F1C935BFB00D4C2FE /* Alembic.framework */; };
 		2AB98DCF1CA7A16400559A62 /* OptionalTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DCE1CA7A16400559A62 /* OptionalTests.json */; };
 		2AB98DD11CA7B37300559A62 /* TransformTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DD01CA7B37300559A62 /* TransformTests.json */; };
-		2AC332E71CA9CFA2005E5B2D /* DistilSubscripted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */; };
 		2ADE565D1CA61F1F0031B61C /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */; };
+		2AE41A1D1CB164450042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		2A4B61BE1CA6060900C65FEE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2AC11E861C935BFB00D4C2FE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2AC11E8E1C935BFB00D4C2FE;
-			remoteInfo = Alembic;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2A28D4491CA4A78400964742 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
@@ -61,12 +39,14 @@
 		2A4B61B81CA6060900C65FEE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A4B61BA1CA6060900C65FEE /* DistilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistilTests.swift; sourceTree = "<group>"; };
 		2A4B61BC1CA6060900C65FEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A9656841CB12EDC005677D9 /* Alembic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alembic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AB98DCE1CA7A16400559A62 /* OptionalTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OptionalTests.json; sourceTree = "<group>"; };
 		2AB98DD01CA7B37300559A62 /* TransformTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TransformTests.json; sourceTree = "<group>"; };
-		2AC11E8F1C935BFB00D4C2FE /* Alembic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alembic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AC11E9F1C935DA100D4C2FE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilSubscripted.swift; sourceTree = "<group>"; };
 		2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
+		2AE41A1C1CB164450042A52F /* Alembic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alembic.h; sourceTree = "<group>"; };
+		2AE41A201CB164C10042A52F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,11 +54,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A4B61BD1CA6060900C65FEE /* Alembic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2AC11E8B1C935BFB00D4C2FE /* Frameworks */ = {
+		2A9656801CB12EDC005677D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -151,6 +130,7 @@
 			children = (
 				2AC11E9B1C935DA100D4C2FE /* Sources */,
 				2A4B61B91CA6060900C65FEE /* Tests */,
+				2AE41A1E1CB164C10042A52F /* Configuration */,
 				2AC11E901C935BFB00D4C2FE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -158,8 +138,8 @@
 		2AC11E901C935BFB00D4C2FE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2AC11E8F1C935BFB00D4C2FE /* Alembic.framework */,
 				2A4B61B81CA6060900C65FEE /* Tests.xctest */,
+				2A9656841CB12EDC005677D9 /* Alembic.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,6 +147,7 @@
 		2AC11E9B1C935DA100D4C2FE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				2AE41A1C1CB164450042A52F /* Alembic.h */,
 				2AC11E9F1C935DA100D4C2FE /* Info.plist */,
 				2A28D4481CA4A78400964742 /* Common */,
 				2A28D44B1CA4A78400964742 /* Distil */,
@@ -175,13 +156,30 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		2AE41A1E1CB164C10042A52F /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				2AE41A1F1CB164C10042A52F /* Alembic-iOS */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		2AE41A1F1CB164C10042A52F /* Alembic-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				2AE41A201CB164C10042A52F /* Info.plist */,
+			);
+			path = "Alembic-iOS";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		2AC11E8C1C935BFB00D4C2FE /* Headers */ = {
+		2A9656811CB12EDC005677D9 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AE41A1D1CB164450042A52F /* Alembic.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,29 +197,28 @@
 			buildRules = (
 			);
 			dependencies = (
-				2A4B61BF1CA6060900C65FEE /* PBXTargetDependency */,
 			);
 			name = Tests;
 			productName = Tests;
 			productReference = 2A4B61B81CA6060900C65FEE /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		2AC11E8E1C935BFB00D4C2FE /* Alembic */ = {
+		2A9656831CB12EDC005677D9 /* Alembic-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2AC11E971C935BFB00D4C2FE /* Build configuration list for PBXNativeTarget "Alembic" */;
+			buildConfigurationList = 2A96568B1CB12EDC005677D9 /* Build configuration list for PBXNativeTarget "Alembic-iOS" */;
 			buildPhases = (
-				2AC11E8A1C935BFB00D4C2FE /* Sources */,
-				2AC11E8B1C935BFB00D4C2FE /* Frameworks */,
-				2AC11E8C1C935BFB00D4C2FE /* Headers */,
-				2AC11E8D1C935BFB00D4C2FE /* Resources */,
+				2A96567F1CB12EDC005677D9 /* Sources */,
+				2A9656801CB12EDC005677D9 /* Frameworks */,
+				2A9656811CB12EDC005677D9 /* Headers */,
+				2A9656821CB12EDC005677D9 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Alembic;
-			productName = Alembic;
-			productReference = 2AC11E8F1C935BFB00D4C2FE /* Alembic.framework */;
+			name = "Alembic-iOS";
+			productName = "Alembic-iOS";
+			productReference = 2A9656841CB12EDC005677D9 /* Alembic.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -238,8 +235,8 @@
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 35SS6N9UMP;
 					};
-					2AC11E8E1C935BFB00D4C2FE = {
-						CreatedOnToolsVersion = 7.2.1;
+					2A9656831CB12EDC005677D9 = {
+						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 35SS6N9UMP;
 					};
 				};
@@ -256,7 +253,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2AC11E8E1C935BFB00D4C2FE /* Alembic */,
+				2A9656831CB12EDC005677D9 /* Alembic-iOS */,
 				2A4B61B71CA6060900C65FEE /* Tests */,
 			);
 		};
@@ -274,7 +271,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2AC11E8D1C935BFB00D4C2FE /* Resources */ = {
+		2A9656821CB12EDC005677D9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -296,34 +293,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2AC11E8A1C935BFB00D4C2FE /* Sources */ = {
+		2A96567F1CB12EDC005677D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A28D45D1CA4A78400964742 /* JSONObject.swift in Sources */,
-				2A28D4601CA4A78400964742 /* Serializable.swift in Sources */,
-				2A28D45F1CA4A78400964742 /* JSONValueConvertible.swift in Sources */,
-				2A28D45A1CA4A78400964742 /* DistilBox.swift in Sources */,
-				2AC332E71CA9CFA2005E5B2D /* DistilSubscripted.swift in Sources */,
-				2A28D4561CA4A78400964742 /* Operators.swift in Sources */,
-				2A28D4591CA4A78400964742 /* Distillable.swift in Sources */,
-				2A28D45E1CA4A78400964742 /* JSONValue.swift in Sources */,
-				2A28D4571CA4A78400964742 /* OptionalType.swift in Sources */,
-				2A28D4581CA4A78400964742 /* DistilError.swift in Sources */,
-				2A28D45C1CA4A78400964742 /* JSONPath.swift in Sources */,
-				2A28D45B1CA4A78400964742 /* JSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		2A4B61BF1CA6060900C65FEE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2AC11E8E1C935BFB00D4C2FE /* Alembic */;
-			targetProxy = 2A4B61BE1CA6060900C65FEE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2A4B61C01CA6060900C65FEE /* Debug */ = {
@@ -347,6 +324,42 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		2A9656891CB12EDC005677D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Configuration/Alembic-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.Alembic-iOS";
+				PRODUCT_NAME = Alembic;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		2A96568A1CB12EDC005677D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Configuration/Alembic-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.Alembic-iOS";
+				PRODUCT_NAME = Alembic;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -439,40 +452,6 @@
 			};
 			name = Release;
 		};
-		2AC11E981C935BFB00D4C2FE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.Alembic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		2AC11E991C935BFB00D4C2FE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.Alembic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -485,20 +464,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		2A96568B1CB12EDC005677D9 /* Build configuration list for PBXNativeTarget "Alembic-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A9656891CB12EDC005677D9 /* Debug */,
+				2A96568A1CB12EDC005677D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2AC11E891C935BFB00D4C2FE /* Build configuration list for PBXProject "Alembic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2AC11E951C935BFB00D4C2FE /* Debug */,
 				2AC11E961C935BFB00D4C2FE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2AC11E971C935BFB00D4C2FE /* Build configuration list for PBXNativeTarget "Alembic" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2AC11E981C935BFB00D4C2FE /* Debug */,
-				2AC11E991C935BFB00D4C2FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
