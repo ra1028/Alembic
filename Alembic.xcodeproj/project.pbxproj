@@ -31,18 +31,48 @@
 		2A2D24511CB16AEB00D8AD99 /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4521CA4A78400964742 /* JSONObject.swift */; };
 		2A2D24521CB16AEB00D8AD99 /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4531CA4A78400964742 /* JSONValue.swift */; };
 		2A2D24531CB16AEB00D8AD99 /* JSONValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4541CA4A78400964742 /* JSONValueConvertible.swift */; };
-		2A316B141CA84D5A00765945 /* SerializeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A316B131CA84D5A00765945 /* SerializeTests.swift */; };
-		2A316B161CA84DD800765945 /* SerializeTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A316B151CA84DD800765945 /* SerializeTests.json */; };
-		2A4211761CA6192300776678 /* TestJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4211751CA6192300776678 /* TestJSON.swift */; };
-		2A430E3F1CA6177E00BBD85D /* DistilTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A430E3E1CA6177E00BBD85D /* DistilTests.json */; };
-		2A430E431CA617C000BBD85D /* TransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A430E421CA617C000BBD85D /* TransformTests.swift */; };
-		2A4B61BB1CA6060900C65FEE /* DistilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4B61BA1CA6060900C65FEE /* DistilTests.swift */; };
-		2AB98DCF1CA7A16400559A62 /* OptionalTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DCE1CA7A16400559A62 /* OptionalTests.json */; };
-		2AB98DD11CA7B37300559A62 /* TransformTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DD01CA7B37300559A62 /* TransformTests.json */; };
-		2ADE565D1CA61F1F0031B61C /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */; };
+		2A2D245E1CB16CF300D8AD99 /* Alembic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A9656841CB12EDC005677D9 /* Alembic.framework */; };
+		2A2D24661CB16D3800D8AD99 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A2D24651CB16D3800D8AD99 /* Info.plist */; };
+		2A2D24671CB16D5D00D8AD99 /* TestJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4211751CA6192300776678 /* TestJSON.swift */; };
+		2A2D24681CB16D5D00D8AD99 /* DistilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4B61BA1CA6060900C65FEE /* DistilTests.swift */; };
+		2A2D24691CB16D5D00D8AD99 /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */; };
+		2A2D246A1CB16D5D00D8AD99 /* TransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A430E421CA617C000BBD85D /* TransformTests.swift */; };
+		2A2D246B1CB16D5D00D8AD99 /* SerializeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A316B131CA84D5A00765945 /* SerializeTests.swift */; };
+		2A2D246C1CB16EEF00D8AD99 /* DistilTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A430E3E1CA6177E00BBD85D /* DistilTests.json */; };
+		2A2D246D1CB16EEF00D8AD99 /* OptionalTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DCE1CA7A16400559A62 /* OptionalTests.json */; };
+		2A2D246E1CB16EEF00D8AD99 /* TransformTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DD01CA7B37300559A62 /* TransformTests.json */; };
+		2A2D246F1CB16EEF00D8AD99 /* SerializeTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A316B151CA84DD800765945 /* SerializeTests.json */; };
+		2A2D249A1CB1706500D8AD99 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A2D24991CB1706500D8AD99 /* Info.plist */; };
+		2A2D249B1CB1708E00D8AD99 /* TestJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4211751CA6192300776678 /* TestJSON.swift */; };
+		2A2D249C1CB1708E00D8AD99 /* DistilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4B61BA1CA6060900C65FEE /* DistilTests.swift */; };
+		2A2D249D1CB1708E00D8AD99 /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */; };
+		2A2D249E1CB1708E00D8AD99 /* TransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A430E421CA617C000BBD85D /* TransformTests.swift */; };
+		2A2D249F1CB1708E00D8AD99 /* SerializeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A316B131CA84D5A00765945 /* SerializeTests.swift */; };
+		2A2D24A01CB1709600D8AD99 /* Alembic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE41A271CB165A50042A52F /* Alembic.framework */; };
+		2A2D24A11CB170A400D8AD99 /* DistilTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A430E3E1CA6177E00BBD85D /* DistilTests.json */; };
+		2A2D24A21CB170A400D8AD99 /* OptionalTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DCE1CA7A16400559A62 /* OptionalTests.json */; };
+		2A2D24A31CB170A400D8AD99 /* TransformTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DD01CA7B37300559A62 /* TransformTests.json */; };
+		2A2D24A41CB170A400D8AD99 /* SerializeTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A316B151CA84DD800765945 /* SerializeTests.json */; };
 		2AE41A1D1CB164450042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2AE41A331CB166AF0042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2A2D245F1CB16CF300D8AD99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2AC11E861C935BFB00D4C2FE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2A9656831CB12EDC005677D9;
+			remoteInfo = "Alembic-iOS";
+		};
+		2A2D24931CB1703800D8AD99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2AC11E861C935BFB00D4C2FE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2AE41A261CB165A50042A52F;
+			remoteInfo = "Alembic-OSX";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2A28D4491CA4A78400964742 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
@@ -56,12 +86,15 @@
 		2A28D4531CA4A78400964742 /* JSONValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
 		2A28D4541CA4A78400964742 /* JSONValueConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONValueConvertible.swift; sourceTree = "<group>"; };
 		2A28D4551CA4A78400964742 /* Serializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializable.swift; sourceTree = "<group>"; };
+		2A2D24591CB16CF300D8AD99 /* AlembicTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlembicTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A2D24651CB16D3800D8AD99 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A2D248D1CB1703800D8AD99 /* AlembicTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlembicTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A2D24991CB1706500D8AD99 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A316B131CA84D5A00765945 /* SerializeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializeTests.swift; sourceTree = "<group>"; };
 		2A316B151CA84DD800765945 /* SerializeTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SerializeTests.json; sourceTree = "<group>"; };
 		2A4211751CA6192300776678 /* TestJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestJSON.swift; sourceTree = "<group>"; };
 		2A430E3E1CA6177E00BBD85D /* DistilTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DistilTests.json; sourceTree = "<group>"; };
 		2A430E421CA617C000BBD85D /* TransformTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformTests.swift; sourceTree = "<group>"; };
-		2A4B61B81CA6060900C65FEE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A4B61BA1CA6060900C65FEE /* DistilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistilTests.swift; sourceTree = "<group>"; };
 		2A4B61BC1CA6060900C65FEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A9656841CB12EDC005677D9 /* Alembic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alembic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,10 +110,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2A4B61B51CA6060900C65FEE /* Frameworks */ = {
+		2A2D24561CB16CF300D8AD99 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A2D245E1CB16CF300D8AD99 /* Alembic.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A2D248A1CB1703800D8AD99 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A2D24A01CB1709600D8AD99 /* Alembic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +176,22 @@
 			path = Serialize;
 			sourceTree = "<group>";
 		};
+		2A2D24641CB16D1B00D8AD99 /* AlembicTests-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				2A2D24651CB16D3800D8AD99 /* Info.plist */,
+			);
+			path = "AlembicTests-iOS";
+			sourceTree = "<group>";
+		};
+		2A2D24981CB1706500D8AD99 /* AlembicTests-OSX */ = {
+			isa = PBXGroup;
+			children = (
+				2A2D24991CB1706500D8AD99 /* Info.plist */,
+			);
+			path = "AlembicTests-OSX";
+			sourceTree = "<group>";
+		};
 		2A4B61B91CA6060900C65FEE /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,9 +230,10 @@
 		2AC11E901C935BFB00D4C2FE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2A4B61B81CA6060900C65FEE /* Tests.xctest */,
 				2A9656841CB12EDC005677D9 /* Alembic.framework */,
 				2AE41A271CB165A50042A52F /* Alembic.framework */,
+				2A2D24591CB16CF300D8AD99 /* AlembicTests-iOS.xctest */,
+				2A2D248D1CB1703800D8AD99 /* AlembicTests-OSX.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,7 +254,9 @@
 			isa = PBXGroup;
 			children = (
 				2AE41A1F1CB164C10042A52F /* Alembic-iOS */,
+				2A2D24641CB16D1B00D8AD99 /* AlembicTests-iOS */,
 				2AE41A301CB1660A0042A52F /* Alembic-OSX */,
+				2A2D24981CB1706500D8AD99 /* AlembicTests-OSX */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -238,21 +299,40 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2A4B61B71CA6060900C65FEE /* Tests */ = {
+		2A2D24581CB16CF300D8AD99 /* AlembicTests-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2A4B61C21CA6060900C65FEE /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildConfigurationList = 2A2D24631CB16CF300D8AD99 /* Build configuration list for PBXNativeTarget "AlembicTests-iOS" */;
 			buildPhases = (
-				2A4B61B41CA6060900C65FEE /* Sources */,
-				2A4B61B51CA6060900C65FEE /* Frameworks */,
-				2A4B61B61CA6060900C65FEE /* Resources */,
+				2A2D24551CB16CF300D8AD99 /* Sources */,
+				2A2D24561CB16CF300D8AD99 /* Frameworks */,
+				2A2D24571CB16CF300D8AD99 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2A2D24601CB16CF300D8AD99 /* PBXTargetDependency */,
 			);
-			name = Tests;
-			productName = Tests;
-			productReference = 2A4B61B81CA6060900C65FEE /* Tests.xctest */;
+			name = "AlembicTests-iOS";
+			productName = "AlembicTests-iOS";
+			productReference = 2A2D24591CB16CF300D8AD99 /* AlembicTests-iOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2A2D248C1CB1703800D8AD99 /* AlembicTests-OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A2D24951CB1703800D8AD99 /* Build configuration list for PBXNativeTarget "AlembicTests-OSX" */;
+			buildPhases = (
+				2A2D24891CB1703800D8AD99 /* Sources */,
+				2A2D248A1CB1703800D8AD99 /* Frameworks */,
+				2A2D248B1CB1703800D8AD99 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2A2D24941CB1703800D8AD99 /* PBXTargetDependency */,
+			);
+			name = "AlembicTests-OSX";
+			productName = "AlembicTests-OSX";
+			productReference = 2A2D248D1CB1703800D8AD99 /* AlembicTests-OSX.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		2A9656831CB12EDC005677D9 /* Alembic-iOS */ = {
@@ -301,9 +381,12 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Ryo Aoyama";
 				TargetAttributes = {
-					2A4B61B71CA6060900C65FEE = {
+					2A2D24581CB16CF300D8AD99 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 35SS6N9UMP;
+					};
+					2A2D248C1CB1703800D8AD99 = {
+						CreatedOnToolsVersion = 7.3;
 					};
 					2A9656831CB12EDC005677D9 = {
 						CreatedOnToolsVersion = 7.3;
@@ -327,21 +410,33 @@
 			projectRoot = "";
 			targets = (
 				2A9656831CB12EDC005677D9 /* Alembic-iOS */,
-				2A4B61B71CA6060900C65FEE /* Tests */,
+				2A2D24581CB16CF300D8AD99 /* AlembicTests-iOS */,
 				2AE41A261CB165A50042A52F /* Alembic-OSX */,
+				2A2D248C1CB1703800D8AD99 /* AlembicTests-OSX */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2A4B61B61CA6060900C65FEE /* Resources */ = {
+		2A2D24571CB16CF300D8AD99 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A430E3F1CA6177E00BBD85D /* DistilTests.json in Resources */,
-				2AB98DCF1CA7A16400559A62 /* OptionalTests.json in Resources */,
-				2A316B161CA84DD800765945 /* SerializeTests.json in Resources */,
-				2AB98DD11CA7B37300559A62 /* TransformTests.json in Resources */,
+				2A2D246C1CB16EEF00D8AD99 /* DistilTests.json in Resources */,
+				2A2D246D1CB16EEF00D8AD99 /* OptionalTests.json in Resources */,
+				2A2D246E1CB16EEF00D8AD99 /* TransformTests.json in Resources */,
+				2A2D246F1CB16EEF00D8AD99 /* SerializeTests.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A2D248B1CB1703800D8AD99 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A2D24A11CB170A400D8AD99 /* DistilTests.json in Resources */,
+				2A2D24A21CB170A400D8AD99 /* OptionalTests.json in Resources */,
+				2A2D24A31CB170A400D8AD99 /* TransformTests.json in Resources */,
+				2A2D24A41CB170A400D8AD99 /* SerializeTests.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +444,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A2D24661CB16D3800D8AD99 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,21 +452,34 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A2D249A1CB1706500D8AD99 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2A4B61B41CA6060900C65FEE /* Sources */ = {
+		2A2D24551CB16CF300D8AD99 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A4B61BB1CA6060900C65FEE /* DistilTests.swift in Sources */,
-				2A316B141CA84D5A00765945 /* SerializeTests.swift in Sources */,
-				2A430E431CA617C000BBD85D /* TransformTests.swift in Sources */,
-				2A4211761CA6192300776678 /* TestJSON.swift in Sources */,
-				2ADE565D1CA61F1F0031B61C /* OptionalTests.swift in Sources */,
+				2A2D24671CB16D5D00D8AD99 /* TestJSON.swift in Sources */,
+				2A2D24681CB16D5D00D8AD99 /* DistilTests.swift in Sources */,
+				2A2D24691CB16D5D00D8AD99 /* OptionalTests.swift in Sources */,
+				2A2D246A1CB16D5D00D8AD99 /* TransformTests.swift in Sources */,
+				2A2D246B1CB16D5D00D8AD99 /* SerializeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A2D24891CB1703800D8AD99 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A2D249B1CB1708E00D8AD99 /* TestJSON.swift in Sources */,
+				2A2D249C1CB1708E00D8AD99 /* DistilTests.swift in Sources */,
+				2A2D249D1CB1708E00D8AD99 /* OptionalTests.swift in Sources */,
+				2A2D249E1CB1708E00D8AD99 /* TransformTests.swift in Sources */,
+				2A2D249F1CB1708E00D8AD99 /* SerializeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,28 +523,71 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2A2D24601CB16CF300D8AD99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2A9656831CB12EDC005677D9 /* Alembic-iOS */;
+			targetProxy = 2A2D245F1CB16CF300D8AD99 /* PBXContainerItemProxy */;
+		};
+		2A2D24941CB1703800D8AD99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2AE41A261CB165A50042A52F /* Alembic-OSX */;
+			targetProxy = 2A2D24931CB1703800D8AD99 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
-		2A4B61C01CA6060900C65FEE /* Debug */ = {
+		2A2D24611CB16CF300D8AD99 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = "Configuration/AlembicTests-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.AlembicTests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		2A4B61C11CA6060900C65FEE /* Release */ = {
+		2A2D24621CB16CF300D8AD99 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = "Configuration/AlembicTests-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.AlembicTests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		2A2D24961CB1703800D8AD99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Configuration/AlembicTests-OSX/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.AlembicTests-OSX";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2A2D24971CB1703800D8AD99 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Configuration/AlembicTests-OSX/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.AlembicTests-OSX";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -613,14 +765,21 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2A4B61C21CA6060900C65FEE /* Build configuration list for PBXNativeTarget "Tests" */ = {
+		2A2D24631CB16CF300D8AD99 /* Build configuration list for PBXNativeTarget "AlembicTests-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A4B61C01CA6060900C65FEE /* Debug */,
-				2A4B61C11CA6060900C65FEE /* Release */,
+				2A2D24611CB16CF300D8AD99 /* Debug */,
+				2A2D24621CB16CF300D8AD99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+		};
+		2A2D24951CB1703800D8AD99 /* Build configuration list for PBXNativeTarget "AlembicTests-OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A2D24961CB1703800D8AD99 /* Debug */,
+				2A2D24971CB1703800D8AD99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		2A96568B1CB12EDC005677D9 /* Build configuration list for PBXNativeTarget "Alembic-iOS" */ = {
 			isa = XCConfigurationList;

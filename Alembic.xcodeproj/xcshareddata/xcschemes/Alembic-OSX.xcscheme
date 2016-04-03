@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2A9656831CB12EDC005677D9"
+               BlueprintIdentifier = "2AE41A261CB165A50042A52F"
                BuildableName = "Alembic.framework"
-               BlueprintName = "Alembic-iOS"
+               BlueprintName = "Alembic-OSX"
                ReferencedContainer = "container:Alembic.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2A2D24581CB16CF300D8AD99"
-               BuildableName = "AlembicTests-iOS.xctest"
-               BlueprintName = "AlembicTests-iOS"
+               BlueprintIdentifier = "2A2D248C1CB1703800D8AD99"
+               BuildableName = "AlembicTests-OSX.xctest"
+               BlueprintName = "AlembicTests-OSX"
                ReferencedContainer = "container:Alembic.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2A9656831CB12EDC005677D9"
+            BlueprintIdentifier = "2AE41A261CB165A50042A52F"
             BuildableName = "Alembic.framework"
-            BlueprintName = "Alembic-iOS"
+            BlueprintName = "Alembic-OSX"
             ReferencedContainer = "container:Alembic.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2A9656831CB12EDC005677D9"
+            BlueprintIdentifier = "2AE41A261CB165A50042A52F"
             BuildableName = "Alembic.framework"
-            BlueprintName = "Alembic-iOS"
+            BlueprintName = "Alembic-OSX"
             ReferencedContainer = "container:Alembic.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -82,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2A9656831CB12EDC005677D9"
+            BlueprintIdentifier = "2AE41A261CB165A50042A52F"
             BuildableName = "Alembic.framework"
-            BlueprintName = "Alembic-iOS"
+            BlueprintName = "Alembic-OSX"
             ReferencedContainer = "container:Alembic.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
