@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import Foundation;
 
 //! Project version number for Alembic.
 FOUNDATION_EXPORT double AlembicVersionNumber;

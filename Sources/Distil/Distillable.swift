@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
-import UIKit
-
 public protocol Distillable {
     static func distil(j: JSON) throws -> Self
 }
