@@ -10,14 +10,15 @@ import XCTest
 import Alembic
 
 class SerializeTests: XCTestCase {
+    let object = TestJSON.Serialize.object
+    
     private lazy var user: User = {
         let object = TestJSON.Serialize.object
         return try! JSON(object) <| "user"
     }()
     
     private lazy var users: [User] = {
-        let object = TestJSON.Serialize.object
-        return (0..<10).map { _ in try? JSON(object) <| "user" }
+        return (0..<10).map { _ in try? JSON(self.object) <| "user" }
             .flatMap { $0 }
     }()
     

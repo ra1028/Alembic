@@ -10,8 +10,9 @@ import XCTest
 import Alembic
 
 class OptionalTests: XCTestCase {
+    let object = TestJSON.Optional.object
+    
     func testOptional() {
-        let object = TestJSON.Optional.object
         let j = JSON(object)
         
         do {
@@ -51,7 +52,6 @@ class OptionalTests: XCTestCase {
     }
     
     func testOptionalSubscript() {
-        let object = TestJSON.Optional.object
         let j = JSON(object)
         
         do {
@@ -83,10 +83,9 @@ class OptionalTests: XCTestCase {
     }
     
     func testOptionalError() {
+        let j = JSON(object)
+        
         do {
-            let object = TestJSON.Optional.object
-            let j = JSON(object)
-            
             _ = try (j <|? "int").to(String?)
             
             XCTFail("Expect the error to occur")
@@ -99,10 +98,9 @@ class OptionalTests: XCTestCase {
     }
     
     func testOptionalMapping() {
+        let j = JSON(object)
+        
         do {
-            let object = TestJSON.Optional.object
-            let j = JSON(object)
-            
             let user: User? = try j <|? "user1"
             
             XCTAssert(user == nil)
@@ -112,10 +110,9 @@ class OptionalTests: XCTestCase {
     }
     
     func testOptionalMappingError() {
+        let j = JSON(object)
+        
         do {
-            let object = TestJSON.Optional.object
-            let j = JSON(object)
-            
             _ = try (j <|? "user2").to(User?)
             
             XCTFail("Expected the error to occur")

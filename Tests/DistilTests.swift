@@ -10,11 +10,14 @@ import XCTest
 import Alembic
 
 class DistilTests: XCTestCase {
+    let object = TestJSON.Distil.object
+    let data = TestJSON.Distil.data
+    let string = TestJSON.Distil.string
+    
     func testDistil() {
+        let j = JSON(object)
+        
         do {
-            let object = TestJSON.Distil.object
-            let j = JSON(object)
-            
             let string: String = try j <| "string"
             let int: Int = try j <| "int"
             let double: Double = try j <| "double"
@@ -41,8 +44,7 @@ class DistilTests: XCTestCase {
     
     func testDistilSubscript() {
         do {
-            let object = TestJSON.Distil.object
-            let j = JSON(object)
+            let j = try JSON(data: data)
             
             let string: String = try j["string"].distil()
             let array: [String] = try j["array"].distil()
@@ -59,7 +61,6 @@ class DistilTests: XCTestCase {
     }
     
     func testDistilError() {
-        let object = TestJSON.Distil.object
         let j = JSON(object)
         
         do {
@@ -85,10 +86,9 @@ class DistilTests: XCTestCase {
     }
     
     func testClassMapping() {
+        let j = JSON(object)
+        
         do {
-            let data = TestJSON.Distil.data
-            let j = try JSON(data: data)
-            
             let user: User = try j <| "user"
             
             XCTAssertEqual(user.id, 100)
@@ -106,8 +106,7 @@ class DistilTests: XCTestCase {
     
     func testStructMapping() {
         do {
-            let string = TestJSON.Distil.string
-            let j = try JSON.init(string: string)
+            let j = try JSON(string: string)
             
             let numbers: Numbers = try j <| "numbers"
             

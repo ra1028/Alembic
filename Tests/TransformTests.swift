@@ -10,8 +10,9 @@ import XCTest
 import Alembic
 
 class TransformTests: XCTestCase {
+    let object = TestJSON.Transform.object
+    
     func testTransform() {
-        let object = TestJSON.Transform.object
         let j = JSON(object)
         
         do {
@@ -76,7 +77,6 @@ class TransformTests: XCTestCase {
     }
     
     func testSubscriptTransform() {
-        let object = TestJSON.Transform.object
         let j = JSON(object)
         
         let map = j["key"].distil()
