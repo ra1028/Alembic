@@ -10,6 +10,7 @@ script:
   - set -o pipefail
   - xcodebuild test -scheme Alembic-OSX | xcpretty -c
   - xcodebuild test -scheme Alembic-iOS -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6s' | xcpretty - c
+  - xcodebuild build -scheme Alembic-watchOS -sdk watchsimulator -destination 'platform=watchOS Simulator,name=Apple Watch - 38mm' | xcpretty -c
 
 notifications:
  email: false

@@ -9,6 +9,7 @@ Pod::Spec.new do |spec|
   spec.platform = :ios, '8.0'
   spec.source_files = 'Sources/**/*.swift'
   spec.requires_arc = true
-  spec.osx.deployment_target = "10.9"
+  spec.osx.deployment_target = '10.9'
   spec.ios.deployment_target = '8.0'
+  spec.watchos.deployment_target = '2.0'
 end

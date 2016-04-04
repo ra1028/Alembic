@@ -53,6 +53,19 @@
 		2A2D24A21CB170A400D8AD99 /* OptionalTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DCE1CA7A16400559A62 /* OptionalTests.json */; };
 		2A2D24A31CB170A400D8AD99 /* TransformTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DD01CA7B37300559A62 /* TransformTests.json */; };
 		2A2D24A41CB170A400D8AD99 /* SerializeTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A316B151CA84DD800765945 /* SerializeTests.json */; };
+		2AD07F6D1CB2449C00B9D10B /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2AD07F6E1CB244C100B9D10B /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4491CA4A78400964742 /* Operators.swift */; };
+		2AD07F6F1CB244C100B9D10B /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44A1CA4A78400964742 /* OptionalType.swift */; };
+		2AD07F701CB244C100B9D10B /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44F1CA4A78400964742 /* JSON.swift */; };
+		2AD07F711CB244C100B9D10B /* JSONPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4501CA4A78400964742 /* JSONPath.swift */; };
+		2AD07F721CB244C100B9D10B /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44D1CA4A78400964742 /* Distillable.swift */; };
+		2AD07F731CB244C100B9D10B /* DistilBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* DistilBox.swift */; };
+		2AD07F741CB244C100B9D10B /* DistilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44C1CA4A78400964742 /* DistilError.swift */; };
+		2AD07F751CB244C100B9D10B /* DistilSubscripted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */; };
+		2AD07F761CB244C100B9D10B /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4551CA4A78400964742 /* Serializable.swift */; };
+		2AD07F771CB244C100B9D10B /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4521CA4A78400964742 /* JSONObject.swift */; };
+		2AD07F781CB244C100B9D10B /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4531CA4A78400964742 /* JSONValue.swift */; };
+		2AD07F791CB244C100B9D10B /* JSONValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4541CA4A78400964742 /* JSONValueConvertible.swift */; };
 		2AE41A1D1CB164450042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2AE41A331CB166AF0042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -102,6 +115,8 @@
 		2AB98DD01CA7B37300559A62 /* TransformTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TransformTests.json; sourceTree = "<group>"; };
 		2AC11E9F1C935DA100D4C2FE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilSubscripted.swift; sourceTree = "<group>"; };
+		2AD07F621CB2443200B9D10B /* Alembic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alembic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AD07F6B1CB2445E00B9D10B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		2AE41A1C1CB164450042A52F /* Alembic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alembic.h; sourceTree = "<group>"; };
 		2AE41A201CB164C10042A52F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -127,6 +142,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2A9656801CB12EDC005677D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07F5E1CB2443200B9D10B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -234,6 +256,7 @@
 				2AE41A271CB165A50042A52F /* Alembic.framework */,
 				2A2D24591CB16CF300D8AD99 /* AlembicTests-iOS.xctest */,
 				2A2D248D1CB1703800D8AD99 /* AlembicTests-OSX.xctest */,
+				2AD07F621CB2443200B9D10B /* Alembic.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -250,6 +273,14 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		2AD07F6A1CB2445E00B9D10B /* Alembic-watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				2AD07F6B1CB2445E00B9D10B /* Info.plist */,
+			);
+			path = "Alembic-watchOS";
+			sourceTree = "<group>";
+		};
 		2AE41A1E1CB164C10042A52F /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +288,7 @@
 				2A2D24641CB16D1B00D8AD99 /* AlembicTests-iOS */,
 				2AE41A301CB1660A0042A52F /* Alembic-OSX */,
 				2A2D24981CB1706500D8AD99 /* AlembicTests-OSX */,
+				2AD07F6A1CB2445E00B9D10B /* Alembic-watchOS */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -285,6 +317,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AE41A1D1CB164450042A52F /* Alembic.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07F5F1CB2443200B9D10B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD07F6D1CB2449C00B9D10B /* Alembic.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +393,24 @@
 			productReference = 2A9656841CB12EDC005677D9 /* Alembic.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		2AD07F611CB2443200B9D10B /* Alembic-watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AD07F691CB2443200B9D10B /* Build configuration list for PBXNativeTarget "Alembic-watchOS" */;
+			buildPhases = (
+				2AD07F5D1CB2443200B9D10B /* Sources */,
+				2AD07F5E1CB2443200B9D10B /* Frameworks */,
+				2AD07F5F1CB2443200B9D10B /* Headers */,
+				2AD07F601CB2443200B9D10B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Alembic-watchOS";
+			productName = "Alembic-watchOS";
+			productReference = 2AD07F621CB2443200B9D10B /* Alembic.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		2AE41A261CB165A50042A52F /* Alembic-OSX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2AE41A2C1CB165A50042A52F /* Build configuration list for PBXNativeTarget "Alembic-OSX" */;
@@ -392,6 +450,10 @@
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 35SS6N9UMP;
 					};
+					2AD07F611CB2443200B9D10B = {
+						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 35SS6N9UMP;
+					};
 					2AE41A261CB165A50042A52F = {
 						CreatedOnToolsVersion = 7.3;
 					};
@@ -413,6 +475,7 @@
 				2A2D24581CB16CF300D8AD99 /* AlembicTests-iOS */,
 				2AE41A261CB165A50042A52F /* Alembic-OSX */,
 				2A2D248C1CB1703800D8AD99 /* AlembicTests-OSX */,
+				2AD07F611CB2443200B9D10B /* Alembic-watchOS */,
 			);
 		};
 /* End PBXProject section */
@@ -445,6 +508,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A2D24661CB16D3800D8AD99 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07F601CB2443200B9D10B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,6 +569,25 @@
 				2A2D24451CB16ACB00D8AD99 /* JSONObject.swift in Sources */,
 				2A2D24461CB16ACB00D8AD99 /* JSONValue.swift in Sources */,
 				2A2D24471CB16ACB00D8AD99 /* JSONValueConvertible.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07F5D1CB2443200B9D10B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD07F6E1CB244C100B9D10B /* Operators.swift in Sources */,
+				2AD07F6F1CB244C100B9D10B /* OptionalType.swift in Sources */,
+				2AD07F701CB244C100B9D10B /* JSON.swift in Sources */,
+				2AD07F711CB244C100B9D10B /* JSONPath.swift in Sources */,
+				2AD07F721CB244C100B9D10B /* Distillable.swift in Sources */,
+				2AD07F731CB244C100B9D10B /* DistilBox.swift in Sources */,
+				2AD07F741CB244C100B9D10B /* DistilError.swift in Sources */,
+				2AD07F751CB244C100B9D10B /* DistilSubscripted.swift in Sources */,
+				2AD07F761CB244C100B9D10B /* Serializable.swift in Sources */,
+				2AD07F771CB244C100B9D10B /* JSONObject.swift in Sources */,
+				2AD07F781CB244C100B9D10B /* JSONValue.swift in Sources */,
+				2AD07F791CB244C100B9D10B /* JSONValueConvertible.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,6 +807,48 @@
 			};
 			name = Release;
 		};
+		2AD07F671CB2443200B9D10B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Configuration/Alembic-watchOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.Alembic-watchOS";
+				PRODUCT_NAME = Alembic;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.2;
+			};
+			name = Debug;
+		};
+		2AD07F681CB2443200B9D10B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Configuration/Alembic-watchOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.Alembic-watchOS";
+				PRODUCT_NAME = Alembic;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.2;
+			};
+			name = Release;
+		};
 		2AE41A2D1CB165A50042A52F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -772,6 +903,7 @@
 				2A2D24621CB16CF300D8AD99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2A2D24951CB1703800D8AD99 /* Build configuration list for PBXNativeTarget "AlembicTests-OSX" */ = {
 			isa = XCConfigurationList;
@@ -780,6 +912,7 @@
 				2A2D24971CB1703800D8AD99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2A96568B1CB12EDC005677D9 /* Build configuration list for PBXNativeTarget "Alembic-iOS" */ = {
 			isa = XCConfigurationList;
@@ -798,6 +931,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		2AD07F691CB2443200B9D10B /* Build configuration list for PBXNativeTarget "Alembic-watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AD07F671CB2443200B9D10B /* Debug */,
+				2AD07F681CB2443200B9D10B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		2AE41A2C1CB165A50042A52F /* Build configuration list for PBXNativeTarget "Alembic-OSX" */ = {
 			isa = XCConfigurationList;
