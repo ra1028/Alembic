@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2AD07F611CB2443200B9D10B"
+               BlueprintIdentifier = "2AD07F7E1CB24BC200B9D10B"
                BuildableName = "Alembic.framework"
-               BlueprintName = "Alembic-watchOS"
+               BlueprintName = "Alembic-tvOS"
                ReferencedContainer = "container:Alembic.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2AD07FAC1CB24D1D00B9D10B"
+               BuildableName = "AlembicTests-tvOS.xctest"
+               BlueprintName = "AlembicTests-tvOS"
+               ReferencedContainer = "container:Alembic.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2AD07F7E1CB24BC200B9D10B"
+            BuildableName = "Alembic.framework"
+            BlueprintName = "Alembic-tvOS"
+            ReferencedContainer = "container:Alembic.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2AD07F611CB2443200B9D10B"
+            BlueprintIdentifier = "2AD07F7E1CB24BC200B9D10B"
             BuildableName = "Alembic.framework"
-            BlueprintName = "Alembic-watchOS"
+            BlueprintName = "Alembic-tvOS"
             ReferencedContainer = "container:Alembic.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2AD07F611CB2443200B9D10B"
+            BlueprintIdentifier = "2AD07F7E1CB24BC200B9D10B"
             BuildableName = "Alembic.framework"
-            BlueprintName = "Alembic-watchOS"
+            BlueprintName = "Alembic-tvOS"
             ReferencedContainer = "container:Alembic.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

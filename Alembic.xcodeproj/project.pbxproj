@@ -66,6 +66,30 @@
 		2AD07F771CB244C100B9D10B /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4521CA4A78400964742 /* JSONObject.swift */; };
 		2AD07F781CB244C100B9D10B /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4531CA4A78400964742 /* JSONValue.swift */; };
 		2AD07F791CB244C100B9D10B /* JSONValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4541CA4A78400964742 /* JSONValueConvertible.swift */; };
+		2AD07F871CB24BEA00B9D10B /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4491CA4A78400964742 /* Operators.swift */; };
+		2AD07F881CB24BEA00B9D10B /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44A1CA4A78400964742 /* OptionalType.swift */; };
+		2AD07F891CB24BEA00B9D10B /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44F1CA4A78400964742 /* JSON.swift */; };
+		2AD07F8A1CB24BEA00B9D10B /* JSONPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4501CA4A78400964742 /* JSONPath.swift */; };
+		2AD07F8B1CB24BEA00B9D10B /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44D1CA4A78400964742 /* Distillable.swift */; };
+		2AD07F8C1CB24BEA00B9D10B /* DistilBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* DistilBox.swift */; };
+		2AD07F8D1CB24BEA00B9D10B /* DistilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44C1CA4A78400964742 /* DistilError.swift */; };
+		2AD07F8E1CB24BEA00B9D10B /* DistilSubscripted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */; };
+		2AD07F8F1CB24BEA00B9D10B /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4551CA4A78400964742 /* Serializable.swift */; };
+		2AD07F901CB24BEA00B9D10B /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4521CA4A78400964742 /* JSONObject.swift */; };
+		2AD07F911CB24BEA00B9D10B /* JSONValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4531CA4A78400964742 /* JSONValue.swift */; };
+		2AD07F921CB24BEA00B9D10B /* JSONValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4541CA4A78400964742 /* JSONValueConvertible.swift */; };
+		2AD07F991CB24C2E00B9D10B /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2AD07FB21CB24D1D00B9D10B /* Alembic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD07F7F1CB24BC200B9D10B /* Alembic.framework */; };
+		2AD07FBA1CB24D5B00B9D10B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2AD07FB91CB24D5B00B9D10B /* Info.plist */; };
+		2AD07FBB1CB24DEF00B9D10B /* TestJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4211751CA6192300776678 /* TestJSON.swift */; };
+		2AD07FBC1CB24DEF00B9D10B /* DistilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4B61BA1CA6060900C65FEE /* DistilTests.swift */; };
+		2AD07FBD1CB24DEF00B9D10B /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */; };
+		2AD07FBE1CB24DEF00B9D10B /* TransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A430E421CA617C000BBD85D /* TransformTests.swift */; };
+		2AD07FBF1CB24DEF00B9D10B /* SerializeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A316B131CA84D5A00765945 /* SerializeTests.swift */; };
+		2AD07FC01CB24DF900B9D10B /* DistilTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A430E3E1CA6177E00BBD85D /* DistilTests.json */; };
+		2AD07FC11CB24DF900B9D10B /* OptionalTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DCE1CA7A16400559A62 /* OptionalTests.json */; };
+		2AD07FC21CB24DF900B9D10B /* TransformTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2AB98DD01CA7B37300559A62 /* TransformTests.json */; };
+		2AD07FC31CB24DF900B9D10B /* SerializeTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A316B151CA84DD800765945 /* SerializeTests.json */; };
 		2AE41A1D1CB164450042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2AE41A331CB166AF0042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -84,6 +108,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2AE41A261CB165A50042A52F;
 			remoteInfo = "Alembic-OSX";
+		};
+		2AD07FB31CB24D1D00B9D10B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2AC11E861C935BFB00D4C2FE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2AD07F7E1CB24BC200B9D10B;
+			remoteInfo = "Alembic-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -117,6 +148,10 @@
 		2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilSubscripted.swift; sourceTree = "<group>"; };
 		2AD07F621CB2443200B9D10B /* Alembic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alembic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AD07F6B1CB2445E00B9D10B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2AD07F7F1CB24BC200B9D10B /* Alembic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alembic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AD07F971CB24C2000B9D10B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2AD07FAD1CB24D1D00B9D10B /* AlembicTests-tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlembicTests-tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AD07FB91CB24D5B00B9D10B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
 		2AE41A1C1CB164450042A52F /* Alembic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alembic.h; sourceTree = "<group>"; };
 		2AE41A201CB164C10042A52F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -152,6 +187,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07F7B1CB24BC200B9D10B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07FAA1CB24D1D00B9D10B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD07FB21CB24D1D00B9D10B /* Alembic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +307,8 @@
 				2A2D24591CB16CF300D8AD99 /* AlembicTests-iOS.xctest */,
 				2A2D248D1CB1703800D8AD99 /* AlembicTests-OSX.xctest */,
 				2AD07F621CB2443200B9D10B /* Alembic.framework */,
+				2AD07F7F1CB24BC200B9D10B /* Alembic.framework */,
+				2AD07FAD1CB24D1D00B9D10B /* AlembicTests-tvOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -281,6 +333,22 @@
 			path = "Alembic-watchOS";
 			sourceTree = "<group>";
 		};
+		2AD07F961CB24C2000B9D10B /* Alembic-tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				2AD07F971CB24C2000B9D10B /* Info.plist */,
+			);
+			path = "Alembic-tvOS";
+			sourceTree = "<group>";
+		};
+		2AD07FB81CB24D5B00B9D10B /* AlembicTests-tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				2AD07FB91CB24D5B00B9D10B /* Info.plist */,
+			);
+			path = "AlembicTests-tvOS";
+			sourceTree = "<group>";
+		};
 		2AE41A1E1CB164C10042A52F /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +357,8 @@
 				2AE41A301CB1660A0042A52F /* Alembic-OSX */,
 				2A2D24981CB1706500D8AD99 /* AlembicTests-OSX */,
 				2AD07F6A1CB2445E00B9D10B /* Alembic-watchOS */,
+				2AD07F961CB24C2000B9D10B /* Alembic-tvOS */,
+				2AD07FB81CB24D5B00B9D10B /* AlembicTests-tvOS */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -325,6 +395,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AD07F6D1CB2449C00B9D10B /* Alembic.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07F7C1CB24BC200B9D10B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD07F991CB24C2E00B9D10B /* Alembic.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +489,42 @@
 			productReference = 2AD07F621CB2443200B9D10B /* Alembic.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		2AD07F7E1CB24BC200B9D10B /* Alembic-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AD07F841CB24BC200B9D10B /* Build configuration list for PBXNativeTarget "Alembic-tvOS" */;
+			buildPhases = (
+				2AD07F7A1CB24BC200B9D10B /* Sources */,
+				2AD07F7B1CB24BC200B9D10B /* Frameworks */,
+				2AD07F7C1CB24BC200B9D10B /* Headers */,
+				2AD07F7D1CB24BC200B9D10B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Alembic-tvOS";
+			productName = "Alembic-tvOS";
+			productReference = 2AD07F7F1CB24BC200B9D10B /* Alembic.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		2AD07FAC1CB24D1D00B9D10B /* AlembicTests-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AD07FB51CB24D1D00B9D10B /* Build configuration list for PBXNativeTarget "AlembicTests-tvOS" */;
+			buildPhases = (
+				2AD07FA91CB24D1D00B9D10B /* Sources */,
+				2AD07FAA1CB24D1D00B9D10B /* Frameworks */,
+				2AD07FAB1CB24D1D00B9D10B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2AD07FB41CB24D1D00B9D10B /* PBXTargetDependency */,
+			);
+			name = "AlembicTests-tvOS";
+			productName = "AlembicTests-tvOS";
+			productReference = 2AD07FAD1CB24D1D00B9D10B /* AlembicTests-tvOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		2AE41A261CB165A50042A52F /* Alembic-OSX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2AE41A2C1CB165A50042A52F /* Build configuration list for PBXNativeTarget "Alembic-OSX" */;
@@ -454,6 +568,14 @@
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 35SS6N9UMP;
 					};
+					2AD07F7E1CB24BC200B9D10B = {
+						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 35SS6N9UMP;
+					};
+					2AD07FAC1CB24D1D00B9D10B = {
+						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 35SS6N9UMP;
+					};
 					2AE41A261CB165A50042A52F = {
 						CreatedOnToolsVersion = 7.3;
 					};
@@ -476,6 +598,8 @@
 				2AE41A261CB165A50042A52F /* Alembic-OSX */,
 				2A2D248C1CB1703800D8AD99 /* AlembicTests-OSX */,
 				2AD07F611CB2443200B9D10B /* Alembic-watchOS */,
+				2AD07F7E1CB24BC200B9D10B /* Alembic-tvOS */,
+				2AD07FAC1CB24D1D00B9D10B /* AlembicTests-tvOS */,
 			);
 		};
 /* End PBXProject section */
@@ -515,6 +639,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07F7D1CB24BC200B9D10B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD07FBA1CB24D5B00B9D10B /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07FAB1CB24D1D00B9D10B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD07FC01CB24DF900B9D10B /* DistilTests.json in Resources */,
+				2AD07FC11CB24DF900B9D10B /* OptionalTests.json in Resources */,
+				2AD07FC21CB24DF900B9D10B /* TransformTests.json in Resources */,
+				2AD07FC31CB24DF900B9D10B /* SerializeTests.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +734,37 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2AD07F7A1CB24BC200B9D10B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD07F871CB24BEA00B9D10B /* Operators.swift in Sources */,
+				2AD07F881CB24BEA00B9D10B /* OptionalType.swift in Sources */,
+				2AD07F891CB24BEA00B9D10B /* JSON.swift in Sources */,
+				2AD07F8A1CB24BEA00B9D10B /* JSONPath.swift in Sources */,
+				2AD07F8B1CB24BEA00B9D10B /* Distillable.swift in Sources */,
+				2AD07F8C1CB24BEA00B9D10B /* DistilBox.swift in Sources */,
+				2AD07F8D1CB24BEA00B9D10B /* DistilError.swift in Sources */,
+				2AD07F8E1CB24BEA00B9D10B /* DistilSubscripted.swift in Sources */,
+				2AD07F8F1CB24BEA00B9D10B /* Serializable.swift in Sources */,
+				2AD07F901CB24BEA00B9D10B /* JSONObject.swift in Sources */,
+				2AD07F911CB24BEA00B9D10B /* JSONValue.swift in Sources */,
+				2AD07F921CB24BEA00B9D10B /* JSONValueConvertible.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AD07FA91CB24D1D00B9D10B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AD07FBB1CB24DEF00B9D10B /* TestJSON.swift in Sources */,
+				2AD07FBC1CB24DEF00B9D10B /* DistilTests.swift in Sources */,
+				2AD07FBD1CB24DEF00B9D10B /* OptionalTests.swift in Sources */,
+				2AD07FBE1CB24DEF00B9D10B /* TransformTests.swift in Sources */,
+				2AD07FBF1CB24DEF00B9D10B /* SerializeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2AE41A221CB165A50042A52F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -622,6 +796,11 @@
 			isa = PBXTargetDependency;
 			target = 2AE41A261CB165A50042A52F /* Alembic-OSX */;
 			targetProxy = 2A2D24931CB1703800D8AD99 /* PBXContainerItemProxy */;
+		};
+		2AD07FB41CB24D1D00B9D10B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2AD07F7E1CB24BC200B9D10B /* Alembic-tvOS */;
+			targetProxy = 2AD07FB31CB24D1D00B9D10B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -849,6 +1028,72 @@
 			};
 			name = Release;
 		};
+		2AD07F851CB24BC200B9D10B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Configuration/Alembic-tvOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.Alembic-tvOS";
+				PRODUCT_NAME = Alembic;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		2AD07F861CB24BC200B9D10B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Configuration/Alembic-tvOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.Alembic-tvOS";
+				PRODUCT_NAME = Alembic;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		2AD07FB61CB24D1D00B9D10B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = "Configuration/AlembicTests-tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.AlembicTests-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Debug;
+		};
+		2AD07FB71CB24D1D00B9D10B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = "Configuration/AlembicTests-tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.AlembicTests-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Release;
+		};
 		2AE41A2D1CB165A50042A52F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -937,6 +1182,22 @@
 			buildConfigurations = (
 				2AD07F671CB2443200B9D10B /* Debug */,
 				2AD07F681CB2443200B9D10B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2AD07F841CB24BC200B9D10B /* Build configuration list for PBXNativeTarget "Alembic-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AD07F851CB24BC200B9D10B /* Debug */,
+				2AD07F861CB24BC200B9D10B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2AD07FB51CB24D1D00B9D10B /* Build configuration list for PBXNativeTarget "AlembicTests-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AD07FB61CB24D1D00B9D10B /* Debug */,
+				2AD07FB71CB24D1D00B9D10B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

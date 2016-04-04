@@ -106,6 +106,7 @@ class User: Distillable, Serializable {
 - OS X 10.9 or later
 - iOS 8.0 or later
 - watchOS 2.0 or later
+- tvOS 9.0 or later
 
 ---
 
