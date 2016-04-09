@@ -1,6 +1,4 @@
-<p align="center">
-<H1 align="center">Alembic</H1>
-</p>  
+![Alembic](https://raw.githubusercontent.com/ra1028/Alembic/master/Assets/Alembic_Logo.png)  
 
 <p align="center">
 <a href="https://travis-ci.org/ra1028/Alembic"><img alt="Build Status" src="https://travis-ci.org/ra1028/Alembic.svg?branch=master"/></a>
