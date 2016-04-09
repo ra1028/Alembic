@@ -1,10 +1,19 @@
-# Alembic
-[![Build Status](https://travis-ci.org/ra1028/Alembic.svg?branch=master)](https://travis-ci.org/ra1028/Alembic)
-[![Swift2.2](https://img.shields.io/badge/swift2.2-compatible-blue.svg?style=flat)](https://developer.apple.com/swift)
-[![Platform](https://img.shields.io/cocoapods/p/Alembic.svg?style=flat)](http://cocoadocs.org/docsets/Alembic)
-[![CocoaPods Shield](https://img.shields.io/cocoapods/v/Alembic.svg)](https://cocoapods.org/pods/Alembic)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)  
-#### Functional JSON parsing, mapping to objects, and serialize to JSON
+<p align="center">
+<H1 align="center">Alembic</H1>
+</p>  
+
+<p align="center">
+<a href="https://travis-ci.org/ra1028/Alembic"><img alt="Build Status" src="https://travis-ci.org/ra1028/Alembic.svg?branch=master"/></a>
+<a href="https://developer.apple.com/swift"><img alt="Swift2.2" src="https://img.shields.io/badge/swift2.2-compatible-blue.svg?style=flat"/></a>
+<a href="http://cocoadocs.org/docsets/Alembic"><img alt="Platform" src="https://img.shields.io/cocoapods/p/Alembic.svg?style=flat"/></a>
+<a href="https://cocoapods.org/pods/Alembic"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Alembic.svg"/></a>
+<a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/></a>
+<a href="https://github.com/ra1028/Alembic/blob/master/LICENSE"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat"/></a>
+</p>  
+
+<p align="center">
+<H4 align="center">Functional JSON parsing, mapping to objects, and serialize to JSON</H4>
+</p>  
 
 ---
 
@@ -331,25 +340,25 @@ throw DistillError.FilteredValue.</td>
 </tr>
 
 <tr>
-<td>catchUp(replace: Value)</td>
+<td>catchUp(Value)</td>
 <td>If the error was thrown, replace it.  
 Error handling is not required.</td>
-<td>replace</td>
+<td>Value (might replace)</td>
 <td></td>
 </tr>
 
 <tr>
-<td>remapNil(replace: Value.Wrapped)</td>
+<td>remapNil(Value.Wrapped)</td>
 <td>If the value is nil, replace it.</td>
-<td>replace</td>
+<td>Value.Wrapped (might replace)</td>
 <td>throw</td>
 </tr>
 
 <tr>
-<td>ensure(replace: Value.Wrapped)</td>
+<td>ensure(Value.Wrapped)</td>
 <td>If the value is nil or the error was thrown, replace it.  
 Error handling is not required.</td>
-<td>replace</td>
+<td>Value.Wrapped (might replace)</td>
 <td></td>
 </tr>
 
@@ -362,10 +371,10 @@ throw DistillError.FilteredValue.</td>
 </tr>
 
 <tr>
-<td>remapEmpty(replace: Value)</td>
+<td>remapEmpty(Value)</td>
 <td>If the value is empty of CollectionType,  
 replace it.</td>
-<td>replace</td>
+<td>Value (might replace)</td>
 <td>throw</td>
 </tr>
 
