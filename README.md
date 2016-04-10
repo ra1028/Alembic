@@ -263,7 +263,7 @@ function
 ```Swift
 let int: Int? = try j.optional(["nested", "key"])  // nil
 ```
-custom Operator
+custom operator
 ```Swift
 let int: Int? = try j <|? ["nested", "key"]  // nil
 ```
@@ -331,7 +331,7 @@ Alembic supports functional value transformation during the parsing process like
 
 <tr>
 <td>filter(Value -> Bool)</td>
-<td>If the value is filtered by predicates,  
+<td>If the value is filtered by predicates,<br>
 throw DistillError.FilteredValue.</td>
 <td>Value</td>
 <td>throw</td>
@@ -339,7 +339,7 @@ throw DistillError.FilteredValue.</td>
 
 <tr>
 <td>catchUp(Value)</td>
-<td>If the error was thrown, replace it.  
+<td>If the error was thrown, replace it.<br>
 Error handling is not required.</td>
 <td>Value (might replace)</td>
 <td></td>
@@ -354,7 +354,7 @@ Error handling is not required.</td>
 
 <tr>
 <td>ensure(Value.Wrapped)</td>
-<td>If the value is nil or the error was thrown, replace it.  
+<td>If the value is nil or the error was thrown, replace it.<br>
 Error handling is not required.</td>
 <td>Value.Wrapped (might replace)</td>
 <td></td>
@@ -362,7 +362,7 @@ Error handling is not required.</td>
 
 <tr>
 <td>filterNil()</td>
-<td>If the value is nil,  
+<td>If the value is nil,<br>
 throw DistillError.FilteredValue.</td>
 <td>Value.Wrapped</td>
 <td>throw</td>
@@ -370,15 +370,14 @@ throw DistillError.FilteredValue.</td>
 
 <tr>
 <td>remapEmpty(Value)</td>
-<td>If the value is empty of CollectionType,  
-replace it.</td>
+<td>If the value is empty of CollectionType, replace it.</td>
 <td>Value (might replace)</td>
 <td>throw</td>
 </tr>
 
 <tr>
 <td>filterEmpty()</td>
-<td>If the value is empty of CollectionType,  
+<td>If the value is empty of CollectionType,<br>
 throw DistillError.FilteredValue.</td>
 <td>Value</td>
 <td>throw</td>
@@ -399,8 +398,6 @@ function
 let date: NSDate = j.distil("time_string")(String)  // "Apr 1, 2016, 12:00 AM"
     .map { s -> NSDate? in
         let formatter = NSDateFormatter()
-        formatter.locale = .systemLocale()
-        formatter.timeZone = .localTimeZone()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.dateFromString(s)
     }
@@ -411,8 +408,6 @@ custom operator
 let date: NSDate = (j <| "time_string")(String)  // "Apr 1, 2016, 12:00 AM"
     .map { s -> NSDate? in
         let formatter = NSDateFormatter()
-        formatter.locale = .systemLocale()
-        formatter.timeZone = .localTimeZone()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.dateFromString(s)
     }
@@ -423,8 +418,6 @@ subscript
 let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
     .map { s -> NSDate? in
         let formatter = NSDateFormatter()
-        formatter.locale = .systemLocale()
-        formatter.timeZone = .localTimeZone()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.dateFromString(s)
     }
@@ -454,9 +447,9 @@ __DistilError__
 
 <tr>
 <td>
-try j.distil(path)  
-try j <| path
-try j[path].distil()
+try j.distil(path)<br>
+try j <| path<br>
+try j[path].distil()<br>
 </td>
 <td>throw</td>
 <td>throw</td>
@@ -466,9 +459,9 @@ try j[path].distil()
 
 <tr>
 <td>
-try j.optional(path)  
-try j <|? path
-try j[path].optional()
+try j.optional(path)<br>
+try j <|? path<br>
+try j[path].optional()<br>
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -478,9 +471,9 @@ try j[path].optional()
 
 <tr>
 <td>
-try? j.distil(path)  
-try? j <| path
-try? j[path].distil()
+try? j.distil(path)<br>
+try? j <| path<br>
+try? j[path].distil()<br>
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -490,9 +483,9 @@ try? j[path].distil()
 
 <tr>
 <td>
-try? j.optional(path)  
-try? j <|? path
-try? j[path].optional()
+try? j.optional(path)<br>
+try? j <|? path<br>
+try? j[path].optional()<br>
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -583,7 +576,7 @@ struct User: Serializable {
 
 ### More Example
 See the Alembic `Tests` for more examples.  
-If you want to try Alembic, use Alembic Playground.
+If you want to try Alembic, use Alembic Playground :)
 
 ---
 
