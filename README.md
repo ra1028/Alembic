@@ -277,6 +277,12 @@ If implement `Distillable` protocol to existing classes like `NSURL`, it be able
 
 __Example__
 ```Swift
+let jsonObject = [
+    "key": "http://example.com"
+]
+let j = JSON(jsonObject)
+```
+```Swift
 extension NSURL: Distillable {
     public static func distil(j: JSON) throws -> Self {
         guard let url = try self.init(string: j.distil()) else {
@@ -285,6 +291,8 @@ extension NSURL: Distillable {
         return url
     }
 }
+
+let url: NSURL = try j <| "key"  // http://example.com
 ```
 
 ### Object mapping  
@@ -292,6 +300,15 @@ To mapping your models, need confirm to the `Distillable` protocol.
 Then, parse the objects from JSON to all your model properties.  
 
 __Example__
+```Swift
+let jsonObject = [
+    "key": [
+        "string_key": "string",
+        "int_key": 100
+    ]
+]
+let j = JSON(jsonObject)
+```
 ```Swift
 struct Sample: Distillable {
     let string: String
@@ -304,6 +321,8 @@ struct Sample: Distillable {
         )
     }
 }
+
+let sample: Sample = try j <| "key"  // Sample
 ```
 
 ### Value transformation
