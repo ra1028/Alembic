@@ -12,7 +12,7 @@
 		2A2D243E1CB16ACB00D8AD99 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44F1CA4A78400964742 /* JSON.swift */; };
 		2A2D243F1CB16ACB00D8AD99 /* JSONPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4501CA4A78400964742 /* JSONPath.swift */; };
 		2A2D24401CB16ACB00D8AD99 /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44D1CA4A78400964742 /* Distillable.swift */; };
-		2A2D24411CB16ACB00D8AD99 /* DistilBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* DistilBox.swift */; };
+		2A2D24411CB16ACB00D8AD99 /* Monad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* Monad.swift */; };
 		2A2D24421CB16ACB00D8AD99 /* DistilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44C1CA4A78400964742 /* DistilError.swift */; };
 		2A2D24431CB16ACB00D8AD99 /* DistilSubscripted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */; };
 		2A2D24441CB16ACB00D8AD99 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4551CA4A78400964742 /* Serializable.swift */; };
@@ -24,7 +24,7 @@
 		2A2D244A1CB16AEB00D8AD99 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44F1CA4A78400964742 /* JSON.swift */; };
 		2A2D244B1CB16AEB00D8AD99 /* JSONPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4501CA4A78400964742 /* JSONPath.swift */; };
 		2A2D244C1CB16AEB00D8AD99 /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44D1CA4A78400964742 /* Distillable.swift */; };
-		2A2D244D1CB16AEB00D8AD99 /* DistilBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* DistilBox.swift */; };
+		2A2D244D1CB16AEB00D8AD99 /* Monad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* Monad.swift */; };
 		2A2D244E1CB16AEB00D8AD99 /* DistilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44C1CA4A78400964742 /* DistilError.swift */; };
 		2A2D244F1CB16AEB00D8AD99 /* DistilSubscripted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */; };
 		2A2D24501CB16AEB00D8AD99 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4551CA4A78400964742 /* Serializable.swift */; };
@@ -59,7 +59,7 @@
 		2AD07F701CB244C100B9D10B /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44F1CA4A78400964742 /* JSON.swift */; };
 		2AD07F711CB244C100B9D10B /* JSONPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4501CA4A78400964742 /* JSONPath.swift */; };
 		2AD07F721CB244C100B9D10B /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44D1CA4A78400964742 /* Distillable.swift */; };
-		2AD07F731CB244C100B9D10B /* DistilBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* DistilBox.swift */; };
+		2AD07F731CB244C100B9D10B /* Monad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* Monad.swift */; };
 		2AD07F741CB244C100B9D10B /* DistilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44C1CA4A78400964742 /* DistilError.swift */; };
 		2AD07F751CB244C100B9D10B /* DistilSubscripted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */; };
 		2AD07F761CB244C100B9D10B /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4551CA4A78400964742 /* Serializable.swift */; };
@@ -71,7 +71,7 @@
 		2AD07F891CB24BEA00B9D10B /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44F1CA4A78400964742 /* JSON.swift */; };
 		2AD07F8A1CB24BEA00B9D10B /* JSONPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4501CA4A78400964742 /* JSONPath.swift */; };
 		2AD07F8B1CB24BEA00B9D10B /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44D1CA4A78400964742 /* Distillable.swift */; };
-		2AD07F8C1CB24BEA00B9D10B /* DistilBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* DistilBox.swift */; };
+		2AD07F8C1CB24BEA00B9D10B /* Monad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44E1CA4A78400964742 /* Monad.swift */; };
 		2AD07F8D1CB24BEA00B9D10B /* DistilError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D44C1CA4A78400964742 /* DistilError.swift */; };
 		2AD07F8E1CB24BEA00B9D10B /* DistilSubscripted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */; };
 		2AD07F8F1CB24BEA00B9D10B /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28D4551CA4A78400964742 /* Serializable.swift */; };
@@ -123,7 +123,7 @@
 		2A28D44A1CA4A78400964742 /* OptionalType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
 		2A28D44C1CA4A78400964742 /* DistilError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilError.swift; sourceTree = "<group>"; };
 		2A28D44D1CA4A78400964742 /* Distillable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distillable.swift; sourceTree = "<group>"; };
-		2A28D44E1CA4A78400964742 /* DistilBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilBox.swift; sourceTree = "<group>"; };
+		2A28D44E1CA4A78400964742 /* Monad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Monad.swift; sourceTree = "<group>"; };
 		2A28D44F1CA4A78400964742 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		2A28D4501CA4A78400964742 /* JSONPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONPath.swift; sourceTree = "<group>"; };
 		2A28D4521CA4A78400964742 /* JSONObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONObject.swift; sourceTree = "<group>"; };
@@ -230,7 +230,7 @@
 				2A28D44F1CA4A78400964742 /* JSON.swift */,
 				2A28D4501CA4A78400964742 /* JSONPath.swift */,
 				2A28D44D1CA4A78400964742 /* Distillable.swift */,
-				2A28D44E1CA4A78400964742 /* DistilBox.swift */,
+				2A28D44E1CA4A78400964742 /* Monad.swift */,
 				2A28D44C1CA4A78400964742 /* DistilError.swift */,
 				2AC332E61CA9CFA2005E5B2D /* DistilSubscripted.swift */,
 			);
@@ -705,7 +705,7 @@
 				2A2D243E1CB16ACB00D8AD99 /* JSON.swift in Sources */,
 				2A2D243F1CB16ACB00D8AD99 /* JSONPath.swift in Sources */,
 				2A2D24401CB16ACB00D8AD99 /* Distillable.swift in Sources */,
-				2A2D24411CB16ACB00D8AD99 /* DistilBox.swift in Sources */,
+				2A2D24411CB16ACB00D8AD99 /* Monad.swift in Sources */,
 				2A2D24421CB16ACB00D8AD99 /* DistilError.swift in Sources */,
 				2A2D24431CB16ACB00D8AD99 /* DistilSubscripted.swift in Sources */,
 				2A2D24441CB16ACB00D8AD99 /* Serializable.swift in Sources */,
@@ -724,7 +724,7 @@
 				2AD07F701CB244C100B9D10B /* JSON.swift in Sources */,
 				2AD07F711CB244C100B9D10B /* JSONPath.swift in Sources */,
 				2AD07F721CB244C100B9D10B /* Distillable.swift in Sources */,
-				2AD07F731CB244C100B9D10B /* DistilBox.swift in Sources */,
+				2AD07F731CB244C100B9D10B /* Monad.swift in Sources */,
 				2AD07F741CB244C100B9D10B /* DistilError.swift in Sources */,
 				2AD07F751CB244C100B9D10B /* DistilSubscripted.swift in Sources */,
 				2AD07F761CB244C100B9D10B /* Serializable.swift in Sources */,
@@ -743,7 +743,7 @@
 				2AD07F891CB24BEA00B9D10B /* JSON.swift in Sources */,
 				2AD07F8A1CB24BEA00B9D10B /* JSONPath.swift in Sources */,
 				2AD07F8B1CB24BEA00B9D10B /* Distillable.swift in Sources */,
-				2AD07F8C1CB24BEA00B9D10B /* DistilBox.swift in Sources */,
+				2AD07F8C1CB24BEA00B9D10B /* Monad.swift in Sources */,
 				2AD07F8D1CB24BEA00B9D10B /* DistilError.swift in Sources */,
 				2AD07F8E1CB24BEA00B9D10B /* DistilSubscripted.swift in Sources */,
 				2AD07F8F1CB24BEA00B9D10B /* Serializable.swift in Sources */,
@@ -774,7 +774,7 @@
 				2A2D244A1CB16AEB00D8AD99 /* JSON.swift in Sources */,
 				2A2D244B1CB16AEB00D8AD99 /* JSONPath.swift in Sources */,
 				2A2D244C1CB16AEB00D8AD99 /* Distillable.swift in Sources */,
-				2A2D244D1CB16AEB00D8AD99 /* DistilBox.swift in Sources */,
+				2A2D244D1CB16AEB00D8AD99 /* Monad.swift in Sources */,
 				2A2D244E1CB16AEB00D8AD99 /* DistilError.swift in Sources */,
 				2A2D244F1CB16AEB00D8AD99 /* DistilSubscripted.swift in Sources */,
 				2A2D24501CB16AEB00D8AD99 /* Serializable.swift in Sources */,
@@ -1184,6 +1184,7 @@
 				2AD07F681CB2443200B9D10B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2AD07F841CB24BC200B9D10B /* Build configuration list for PBXNativeTarget "Alembic-tvOS" */ = {
 			isa = XCConfigurationList;
@@ -1192,6 +1193,7 @@
 				2AD07F861CB24BC200B9D10B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2AD07FB51CB24D1D00B9D10B /* Build configuration list for PBXNativeTarget "AlembicTests-tvOS" */ = {
 			isa = XCConfigurationList;
@@ -1200,6 +1202,7 @@
 				2AD07FB71CB24D1D00B9D10B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2AE41A2C1CB165A50042A52F /* Build configuration list for PBXNativeTarget "Alembic-OSX" */ = {
 			isa = XCConfigurationList;

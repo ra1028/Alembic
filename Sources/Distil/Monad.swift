@@ -1,5 +1,5 @@
 //
-//  DistilBox.swift
+//  Monad.swift
 //  Alembic
 //
 //  Created by Ryo Aoyama on 3/13/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct DistilBox<Value>: DistilBoxType {
+public struct Monad<Value>: MonadType {
     private let process: () throws -> Value
     
     init(_ process: () throws -> Value) {
@@ -26,7 +26,7 @@ public struct DistilBox<Value>: DistilBoxType {
     }
 }
 
-public struct DistilSecureBox<Value>: DistilBoxType {
+public struct SecureMonad<Value>: MonadType {
     private let process: () -> Value
     
     init(_ process: () -> Value) {
@@ -44,30 +44,30 @@ public struct DistilSecureBox<Value>: DistilBoxType {
     }
 }
 
-public protocol DistilBoxType {
+public protocol MonadType {
     associatedtype Value
     
     func value() throws -> Value
 }
 
-public extension DistilBoxType {
+public extension MonadType {
     public func map<T>(@noescape f: Value throws -> T) throws -> T {
         return try f(value())
     }
     
     @warn_unused_result
-    func map<T>(f: Value throws -> T) -> DistilBox<T> {
-        return DistilBox { try self.map(f) }
+    func map<T>(f: Value throws -> T) -> Monad<T> {
+        return Monad { try self.map(f) }
     }
     
     @warn_unused_result
-    func flatMap<T: DistilBoxType>(f: Value throws -> T) throws -> T.Value {
+    func flatMap<T: MonadType>(f: Value throws -> T) throws -> T.Value {
         return try f(value()).value()
     }
     
     @warn_unused_result
-    func flatMap<T: DistilBoxType>(f: Value throws -> T) throws -> DistilBox<T.Value> {
-        return DistilBox { try self.flatMap(f) }
+    func flatMap<T: MonadType>(f: Value throws -> T) throws -> Monad<T.Value> {
+        return Monad { try self.flatMap(f) }
     }
     
     @warn_unused_result
@@ -79,8 +79,8 @@ public extension DistilBoxType {
     }
     
     @warn_unused_result
-    func filter(predicate: Value -> Bool) -> DistilBox<Value> {
-        return DistilBox { try self.filter(predicate) }
+    func filter(predicate: Value -> Bool) -> Monad<Value> {
+        return Monad { try self.filter(predicate) }
     }
     
     @warn_unused_result
@@ -90,8 +90,8 @@ public extension DistilBoxType {
     }
     
     @warn_unused_result
-    func catchUp(with: () -> Value) -> DistilSecureBox<Value> {
-        return DistilSecureBox { self.catchUp(with) }
+    func catchUp(with: () -> Value) -> SecureMonad<Value> {
+        return SecureMonad { self.catchUp(with) }
     }
     
     @warn_unused_result
@@ -100,20 +100,20 @@ public extension DistilBoxType {
     }
     
     @warn_unused_result
-    func catchUp(with: Value) -> DistilSecureBox<Value> {
+    func catchUp(with: Value) -> SecureMonad<Value> {
         return catchUp { with }
     }
 }
 
-public extension DistilBoxType where Value: OptionalType {
+public extension MonadType where Value: OptionalType {
     @warn_unused_result
     func remapNil(@noescape with: () -> Value.Wrapped) throws -> Value.Wrapped {
         return try map { $0.optionalValue ?? with() }
     }
     
     @warn_unused_result
-    func remapNil(with: () -> Value.Wrapped) -> DistilBox<Value.Wrapped> {
-        return DistilBox { try self.remapNil(with) }
+    func remapNil(with: () -> Value.Wrapped) -> Monad<Value.Wrapped> {
+        return Monad { try self.remapNil(with) }
     }
     
     @warn_unused_result
@@ -122,7 +122,7 @@ public extension DistilBoxType where Value: OptionalType {
     }
     
     @warn_unused_result
-    func remapNil(with: Value.Wrapped) -> DistilBox<Value.Wrapped> {
+    func remapNil(with: Value.Wrapped) -> Monad<Value.Wrapped> {
         return remapNil { with }
     }
     
@@ -133,8 +133,8 @@ public extension DistilBoxType where Value: OptionalType {
     }
     
     @warn_unused_result
-    func ensure(with: () -> Value.Wrapped) -> DistilSecureBox<Value.Wrapped> {
-        return DistilSecureBox { self.ensure(with) }
+    func ensure(with: () -> Value.Wrapped) -> SecureMonad<Value.Wrapped> {
+        return SecureMonad { self.ensure(with) }
     }
     
     @warn_unused_result
@@ -143,7 +143,7 @@ public extension DistilBoxType where Value: OptionalType {
     }
     
     @warn_unused_result
-    func ensure(with: Value.Wrapped) -> DistilSecureBox<Value.Wrapped> {
+    func ensure(with: Value.Wrapped) -> SecureMonad<Value.Wrapped> {
         return ensure { with }
     }
     
@@ -153,12 +153,12 @@ public extension DistilBoxType where Value: OptionalType {
     }
     
     @warn_unused_result
-    func filterNil() -> DistilBox<Value.Wrapped> {
-        return DistilBox { try self.filterNil() }
+    func filterNil() -> Monad<Value.Wrapped> {
+        return Monad { try self.filterNil() }
     }
 }
 
-public extension DistilBoxType where Value: CollectionType {
+public extension MonadType where Value: CollectionType {
     @warn_unused_result
     func remapEmpty(@noescape with: () -> Value) throws -> Value {
         return try map {
@@ -168,8 +168,8 @@ public extension DistilBoxType where Value: CollectionType {
     }
     
     @warn_unused_result
-    func remapEmpty(with: () -> Value) -> DistilBox<Value> {
-        return DistilBox { try self.remapEmpty(with) }
+    func remapEmpty(with: () -> Value) -> Monad<Value> {
+        return Monad { try self.remapEmpty(with) }
     }
     
     @warn_unused_result
@@ -178,7 +178,7 @@ public extension DistilBoxType where Value: CollectionType {
     }
     
     @warn_unused_result
-    func remapEmpty(with: Value) -> DistilBox<Value> {
+    func remapEmpty(with: Value) -> Monad<Value> {
         return remapEmpty { with }
     }
     
@@ -188,7 +188,7 @@ public extension DistilBoxType where Value: CollectionType {
     }
     
     @warn_unused_result
-    func filterEmpty() -> DistilBox<Value> {
-        return DistilBox { try self.filterEmpty() }
+    func filterEmpty() -> Monad<Value> {
+        return Monad { try self.filterEmpty() }
     }
 }

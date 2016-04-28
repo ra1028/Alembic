@@ -39,8 +39,8 @@ public extension DistilSubscripted {
         return try j.distil(path)
     }
     
-    func distil<T: Distillable>(_: T.Type = T.self) -> DistilBox<T> {
-        return DistilBox {
+    func distil<T: Distillable>(_: T.Type = T.self) -> Monad<T> {
+        return Monad {
             try self.distil()
         }
     }
@@ -53,8 +53,8 @@ public extension DistilSubscripted {
         return try j.optional(path)
     }
     
-    func optional<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) -> DistilBox<Optional<T>> {
-        return DistilBox {
+    func optional<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) -> Monad<Optional<T>> {
+        return Monad {
             try self.optional()
         }
     }
@@ -67,8 +67,8 @@ public extension DistilSubscripted {
         return try j.distil(path)
     }
     
-    func distil<T: Distillable>(_: [T].Type = [T].self) -> DistilBox<[T]> {
-        return DistilBox {
+    func distil<T: Distillable>(_: [T].Type = [T].self) -> Monad<[T]> {
+        return Monad {
             try self.distil()
         }
     }
@@ -81,8 +81,8 @@ public extension DistilSubscripted {
         return try j.optional(path)
     }
     
-    func optional<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) -> DistilBox<Optional<[T]>> {
-        return DistilBox {
+    func optional<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) -> Monad<Optional<[T]>> {
+        return Monad {
             try self.optional()
         }
     }
@@ -95,8 +95,8 @@ public extension DistilSubscripted {
         return try j.distil(path)
     }
     
-    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> DistilBox<[String: T]> {
-        return DistilBox {
+    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> Monad<[String: T]> {
+        return Monad {
             try self.distil()
         }
     }
@@ -109,8 +109,8 @@ public extension DistilSubscripted {
         return try j.optional(path)
     }
     
-    func optional<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) -> DistilBox<Optional<[String: T]>> {
-        return DistilBox {
+    func optional<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) -> Monad<Optional<[String: T]>> {
+        return Monad {
             try self.optional()
         }
     }

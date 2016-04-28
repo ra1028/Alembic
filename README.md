@@ -351,7 +351,7 @@ So, you can use 'map' 'flatMap' and other following useful functions.
 </tr>
 
 <tr>
-<td>flatMap(Value throws -> (U: DistilBoxType))</td>
+<td>flatMap(Value throws -> (U: MonadType))</td>
 <td>Returns the value containing in U.</td>
 <td>U.Value</td>
 <td>throw</td>
