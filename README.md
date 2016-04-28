@@ -449,7 +449,7 @@ Alembic has simple error handling designs as following.
 __DistilError__
 - case MissingPath(JSONPath)  
 - case TypeMismatch(expected: Any.Type, actual: AnyObject)  
-- case FilteredValue(Any)  
+- case FilteredValue(type: Any.Type, value: Any)  
 
 <table>
 <thead>

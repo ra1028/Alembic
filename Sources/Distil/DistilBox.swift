@@ -74,7 +74,7 @@ public extension DistilBoxType {
     func filter(@noescape predicate: Value -> Bool) throws -> Value {
         return try map {
             if predicate($0) { return $0 }
-            throw DistilError.FilteredValue($0)
+            throw DistilError.FilteredValue(type: Value.self, value: $0)
         }
     }
     

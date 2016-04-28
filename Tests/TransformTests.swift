@@ -48,7 +48,8 @@ class TransformTests: XCTestCase {
                 .to(String)
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(value) {
+        } catch let DistilError.FilteredValue(type, value) {
+            XCTAssertNotNil(type as? String.Type)
             XCTAssertEqual(value as? String, "value")
         } catch let e {
             XCTFail("\(e)")
@@ -60,7 +61,8 @@ class TransformTests: XCTestCase {
                 .to(String)
         
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(value) {
+        } catch let DistilError.FilteredValue(type, value) {
+            XCTAssertNotNil(type as? String?.Type)
             XCTAssertNotNil(value)
         } catch let e {
             XCTFail("\(e)")
@@ -72,7 +74,8 @@ class TransformTests: XCTestCase {
                 .to([String])
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(value) {
+        } catch let DistilError.FilteredValue(type, value) {
+            XCTAssertNotNil(type as? [String].Type)
             XCTAssert((value as? [String])?.isEmpty ?? false)
         } catch let e {
             XCTFail("\(e)")
@@ -95,7 +98,8 @@ class TransformTests: XCTestCase {
                 .to(String)
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(value) {
+        } catch let DistilError.FilteredValue(type, value) {
+            XCTAssertNotNil(type as? String?.Type)
             XCTAssertNotNil(value)
         } catch let e {
             XCTFail("\(e)")
