@@ -327,6 +327,8 @@ let sample: Sample = try j <| "key"  // Sample
 
 ### Value transformation
 Alembic supports functional value transformation during the parsing process like `String` -> `NSDate`.  
+Functions that extract value from JSON are possible to return Monads.  
+So, you can use 'map' 'flatMap' and other following useful functions.  
 
 <table>
 
@@ -349,8 +351,15 @@ Alembic supports functional value transformation during the parsing process like
 </tr>
 
 <tr>
+<td>flatMap(Value throws -> (U: DistilBoxType))</td>
+<td>Returns the value containing in U.</td>
+<td>U.Value</td>
+<td>throw</td>
+</tr>
+
+<tr>
 <td>filter(Value -> Bool)</td>
-<td>If the value is filtered by predicates,<br>
+<td>If the value is filtered by predicates.<br>
 throw DistillError.FilteredValue.</td>
 <td>Value</td>
 <td>throw</td>

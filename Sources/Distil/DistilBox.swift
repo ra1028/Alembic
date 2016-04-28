@@ -61,12 +61,12 @@ public extension DistilBoxType {
     }
     
     @warn_unused_result
-    func flatMap<T, S: DistilBoxType where S.Value == T>(f: Value throws -> S) throws -> T {
+    func flatMap<T: DistilBoxType>(f: Value throws -> T) throws -> T.Value {
         return try f(value()).value()
     }
     
     @warn_unused_result
-    func flatMap<T, S: DistilBoxType where S.Value == T>(f: Value throws -> S) throws -> DistilBox<T> {
+    func flatMap<T: DistilBoxType>(f: Value throws -> T) throws -> DistilBox<T.Value> {
         return DistilBox { try self.flatMap(f) }
     }
     
