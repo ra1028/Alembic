@@ -1,5 +1,6 @@
 {
     "key": "value",
     "null": null,
-    "array": []
+    "array": [],
+    "nested": { "nested_key": "nested_value" }
 }
