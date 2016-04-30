@@ -56,6 +56,7 @@ do {
 
     // Mapping to object
     let user: User = try j <| "user"
+    let friends: [User] = try j <| "friends"
 
     // Serialize object to NSData of JSON
     let userJSONData = JSON.serializeToData(user)
@@ -69,7 +70,7 @@ do {
 class User: Distillable, Serializable {
     let id: Int
     let name: String?
-    let url: NSURL
+    let url: NSURL    
 
     required init(json j: JSON) throws {
         try (
@@ -77,7 +78,7 @@ class User: Distillable, Serializable {
             name = j <|? "name",
             url = (j <| ["contact", "url"])
                 .map(NSURL.init(string:))
-                .filterNil()
+                .filterNil()            
         )
     }
 
@@ -137,6 +138,17 @@ github "ra1028/Alembic"
 Add the following to your Seedfile:
 ```ruby
 github "ra1028/Alembic", :files => "Sources/**/*.swift"
+```
+
+### [Swift Package Manager](https://github.com/apple/swift-package-manager)
+Add the following to your Package.swift:
+```Swift
+let package = Package(
+    name: "ProjectName",
+    dependencies: [
+        .Package(url: "https://github.com/ra1028/Alembic.git", majorVersion: 1)
+    ]
+)
 ```
 
 ---
