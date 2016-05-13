@@ -54,6 +54,12 @@ do {
         .filter { $0 > 0 }
         .catchUp(0)
 
+    // More complexly transformations. 
+    // There are many useful functions except for the following!
+    let title: String = try (j <| "count")(Int).flatMap { count in
+        return (j <| "kind").map { "\(count) " + $0 + "s" }
+    }
+
     // Mapping to object
     let user: User = try j <| "user"
     let friends: [User] = try j <| "friends"
