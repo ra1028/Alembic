@@ -18,8 +18,8 @@ class TransformTests: XCTestCase {
         do {
             let map: String = try (j <| "key")
                 .map { "map_" + $0 }
-            let flatMap: String = try (j <| "nested")
-                .flatMap { ($0 <| "nested_key").map { "flatmap_" + $0 } }
+            let flatMap: String = try (j <| ["nested", "nested_key"])(String)
+                .flatMap { v -> Monad<String> in return (j <| "key").map { "flatMap_" + $0 + "_with_" + v } }
             let catchUp: String = (j <| "error")
                 .catchUp("catch_up")
             let remapNil: String = try (j <|? "null")
@@ -32,7 +32,7 @@ class TransformTests: XCTestCase {
                 .remapEmpty(["remap_empty"])
             
             XCTAssertEqual(map, "map_value")
-            XCTAssertEqual(flatMap, "flatmap_nested_value")
+            XCTAssertEqual(flatMap, "flatMap_value_with_nested_value")
             XCTAssertEqual(catchUp, "catch_up")
             XCTAssertEqual(remapNil, "remap_nil")
             XCTAssertEqual(ensureError, "ensure_error")
