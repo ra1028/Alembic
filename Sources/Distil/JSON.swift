@@ -88,10 +88,10 @@ public extension JSON {
     }
 }
 
-// MARK: - distil optional value functions
+// MARK: - distil option value functions
 
 public extension JSON {
-    func optional<T: Distillable>(path: JSONPath) -> Optional<T>.Type throws -> Optional<T> {
+    func option<T: Distillable>(path: JSONPath) -> Optional<T>.Type throws -> Optional<T> {
         return { _ in
             do {
                 return try self.distil(path)(T)
@@ -103,16 +103,16 @@ public extension JSON {
         }
     }
     
-    func optional<T: Distillable>(path: JSONPath) throws -> Optional<T> {
-        return try optional(path)(Optional<T>)
+    func option<T: Distillable>(path: JSONPath) throws -> Optional<T> {
+        return try option(path)(Optional<T>)
     }
     
-    func optional<T: Distillable>(path: JSONPath) -> Optional<T>.Type -> Distillate<Optional<T>> {
-        return { _ in Distillate { try self.optional(path) } }
+    func option<T: Distillable>(path: JSONPath) -> Optional<T>.Type -> Distillate<Optional<T>> {
+        return { _ in Distillate { try self.option(path) } }
     }
     
-    func optional<T: Distillable>(path: JSONPath) -> Distillate<Optional<T>> {
-        return optional(path)(Optional<T>)
+    func option<T: Distillable>(path: JSONPath) -> Distillate<Optional<T>> {
+        return option(path)(Optional<T>)
     }
 }
 
@@ -148,10 +148,10 @@ public extension JSON {
     }
 }
 
-// MARK: - distil optional array functions
+// MARK: - distil option array functions
 
 public extension JSON {
-    func optional<T: Distillable>(path: JSONPath) -> Optional<[T]>.Type throws -> Optional<[T]> {
+    func option<T: Distillable>(path: JSONPath) -> Optional<[T]>.Type throws -> Optional<[T]> {
         return { _ in
             do {
                 return try self.distil(path)([T])
@@ -163,16 +163,16 @@ public extension JSON {
         }
     }
     
-    func optional<T: Distillable>(path: JSONPath) throws -> Optional<[T]> {
-        return try optional(path)(Optional<[T]>)
+    func option<T: Distillable>(path: JSONPath) throws -> Optional<[T]> {
+        return try option(path)(Optional<[T]>)
     }
     
-    func optional<T: Distillable>(path: JSONPath) -> Optional<[T]>.Type -> Distillate<Optional<[T]>> {
-        return { _ in Distillate { try self.optional(path) } }
+    func option<T: Distillable>(path: JSONPath) -> Optional<[T]>.Type -> Distillate<Optional<[T]>> {
+        return { _ in Distillate { try self.option(path) } }
     }
     
-    func optional<T: Distillable>(path: JSONPath) -> Distillate<Optional<[T]>> {
-        return optional(path)(Optional<[T]>)
+    func option<T: Distillable>(path: JSONPath) -> Distillate<Optional<[T]>> {
+        return option(path)(Optional<[T]>)
     }
 }
 
@@ -213,10 +213,10 @@ public extension JSON {
     }
 }
 
-// MARK: - distil optional dictionary functions
+// MARK: - distil option dictionary functions
 
 public extension JSON {
-    func optional<T: Distillable>(path: JSONPath) -> Optional<[String: T]>.Type throws -> Optional<[String: T]> {
+    func option<T: Distillable>(path: JSONPath) -> Optional<[String: T]>.Type throws -> Optional<[String: T]> {
         return { _ in
             do {
                 return try self.distil(path)([String: T])
@@ -228,16 +228,16 @@ public extension JSON {
         }
     }
     
-    func optional<T: Distillable>(path: JSONPath) throws -> Optional<[String: T]> {
-        return try optional(path)(Optional<[String: T]>)
+    func option<T: Distillable>(path: JSONPath) throws -> Optional<[String: T]> {
+        return try option(path)(Optional<[String: T]>)
     }
     
-    func optional<T: Distillable>(path: JSONPath) -> Optional<[String: T]>.Type -> Distillate<Optional<[String: T]>> {
-        return { _ in Distillate { try self.optional(path) } }
+    func option<T: Distillable>(path: JSONPath) -> Optional<[String: T]>.Type -> Distillate<Optional<[String: T]>> {
+        return { _ in Distillate { try self.option(path) } }
     }
     
-    func optional<T: Distillable>(path: JSONPath) -> Distillate<Optional<[String: T]>> {
-        return optional(path)(Optional<[String: T]>)
+    func option<T: Distillable>(path: JSONPath) -> Distillate<Optional<[String: T]>> {
+        return option(path)(Optional<[String: T]>)
     }
 }
 

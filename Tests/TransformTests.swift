@@ -93,7 +93,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(map, "map_value")
         
         do {
-            _ = try j["null"].optional()
+            _ = try j["null"].option()
                 .filterNil()
                 .to(String)
             

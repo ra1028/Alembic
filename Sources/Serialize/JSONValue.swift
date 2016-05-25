@@ -29,8 +29,8 @@ public extension JSONValue {
         value = string
     }
     
-    init<T: JSONValueConvertible>(_ optional: Optional<T>) {
-        value = optional.map { $0.jsonValue.value } ?? NSNull()
+    init<T: JSONValueConvertible>(_ optionalValue: Optional<T>) {
+        value = optionalValue.map { $0.jsonValue.value } ?? NSNull()
     }
     
     init<T: JSONValueConvertible>(_ array: [T]) {

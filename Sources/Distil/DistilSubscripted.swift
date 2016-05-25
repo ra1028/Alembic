@@ -44,15 +44,15 @@ public extension DistilSubscripted {
     }
 }
 
-// MARK: - distil optional value functions
+// MARK: - distil option value functions
 
 public extension DistilSubscripted {
-    func optional<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) throws -> Optional<T> {
-        return try j.optional(path)
+    func option<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) throws -> Optional<T> {
+        return try j.option(path)
     }
     
-    func optional<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) -> Distillate<Optional<T>> {
-        return Distillate { try self.optional() }
+    func option<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) -> Distillate<Optional<T>> {
+        return Distillate { try self.option() }
     }
 }
 
@@ -68,15 +68,15 @@ public extension DistilSubscripted {
     }
 }
 
-// MARK: - distil optional array functions
+// MARK: - distil option array functions
 
 public extension DistilSubscripted {
-    func optional<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) throws -> Optional<[T]> {
-        return try j.optional(path)
+    func option<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) throws -> Optional<[T]> {
+        return try j.option(path)
     }
     
-    func optional<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) -> Distillate<Optional<[T]>> {
-        return Distillate { try self.optional() }
+    func option<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) -> Distillate<Optional<[T]>> {
+        return Distillate { try self.option() }
     }
 }
 
@@ -92,14 +92,14 @@ public extension DistilSubscripted {
     }
 }
 
-// MARK: - distil optional dictionary functions
+// MARK: - distil option dictionary functions
 
 public extension DistilSubscripted {
-    func optional<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) throws -> Optional<[String: T]> {
-        return try j.optional(path)
+    func option<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) throws -> Optional<[String: T]> {
+        return try j.option(path)
     }
     
-    func optional<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) -> Distillate<Optional<[String: T]>> {
-        return Distillate { try self.optional() }
+    func option<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) -> Distillate<Optional<[String: T]>> {
+        return Distillate { try self.option() }
     }
 }

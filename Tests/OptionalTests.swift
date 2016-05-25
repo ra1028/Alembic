@@ -55,11 +55,11 @@ class OptionalTests: XCTestCase {
         let j = JSON(object)
         
         do {
-            let string: String? = try j["string"].optional()
-            let bool: Bool? = try j["bool"].optional()
-            let array: [String]? = try j["array"].optional()
-            let dictionary: [String: Int]? = try j["dictionary"].optional()
-            let nestedValue: Int? = try j["nested", "array", 2].optional()
+            let string: String? = try j["string"].option()
+            let bool: Bool? = try j["bool"].option()
+            let array: [String]? = try j["array"].option()
+            let dictionary: [String: Int]? = try j["dictionary"].option()
+            let nestedValue: Int? = try j["nested", "array", 2].option()
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertNil(bool)
@@ -71,7 +71,7 @@ class OptionalTests: XCTestCase {
         }
         
         do {
-            _ = try j["string"].optional().to(Int?)
+            _ = try j["string"].option().to(Int?)
             
             XCTFail("Expect the error to occur")
         } catch let DistilError.TypeMismatch(expected: expected, actual: actual) {
