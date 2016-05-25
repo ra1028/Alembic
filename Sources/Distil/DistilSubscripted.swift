@@ -40,9 +40,7 @@ public extension DistilSubscripted {
     }
     
     func distil<T: Distillable>(_: T.Type = T.self) -> Monad<T> {
-        return Monad {
-            try self.distil()
-        }
+        return Monad { try self.distil() }
     }
 }
 
@@ -54,9 +52,7 @@ public extension DistilSubscripted {
     }
     
     func optional<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) -> Monad<Optional<T>> {
-        return Monad {
-            try self.optional()
-        }
+        return Monad { try self.optional() }
     }
 }
 
@@ -68,9 +64,7 @@ public extension DistilSubscripted {
     }
     
     func distil<T: Distillable>(_: [T].Type = [T].self) -> Monad<[T]> {
-        return Monad {
-            try self.distil()
-        }
+        return Monad { try self.distil() }
     }
 }
 
@@ -82,9 +76,7 @@ public extension DistilSubscripted {
     }
     
     func optional<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) -> Monad<Optional<[T]>> {
-        return Monad {
-            try self.optional()
-        }
+        return Monad { try self.optional() }
     }
 }
 
@@ -96,9 +88,7 @@ public extension DistilSubscripted {
     }
     
     func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> Monad<[String: T]> {
-        return Monad {
-            try self.distil()
-        }
+        return Monad { try self.distil() }
     }
 }
 
@@ -110,8 +100,6 @@ public extension DistilSubscripted {
     }
     
     func optional<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) -> Monad<Optional<[String: T]>> {
-        return Monad {
-            try self.optional()
-        }
+        return Monad { try self.optional() }
     }
 }

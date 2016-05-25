@@ -84,24 +84,24 @@ public extension MonadType {
     }
     
     @warn_unused_result
-    func catchUp(@noescape with: () -> Value) -> Value {
+    func catchError(@noescape handler: ErrorType -> Value) -> Value {
         do { return try value() }
-        catch { return with() }
+        catch let e { return handler(e) }
     }
     
     @warn_unused_result
-    func catchUp(with: () -> Value) -> SecureMonad<Value> {
-        return SecureMonad { self.catchUp(with) }
+    func catchError(handler: ErrorType -> Value) -> SecureMonad<Value> {
+        return SecureMonad { self.catchError(handler) }
     }
     
     @warn_unused_result
-    func catchUp(@autoclosure with: () -> Value) -> Value {
-        return catchUp { with() }
+    func catchReturn(@autoclosure value: () -> Value) -> Value {
+        return catchError { _ in value() }
     }
     
     @warn_unused_result
-    func catchUp(with: Value) -> SecureMonad<Value> {
-        return catchUp { with }
+    func catchUp(value: Value) -> SecureMonad<Value> {
+        return catchError { _ in value }
     }
 }
 
