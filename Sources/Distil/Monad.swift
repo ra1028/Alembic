@@ -107,23 +107,23 @@ public extension MonadType {
 
 public extension MonadType where Value: OptionalType {
     @warn_unused_result
-    func remapNil(@noescape with: () -> Value.Wrapped) throws -> Value.Wrapped {
+    func replaceNil(@noescape with: () -> Value.Wrapped) throws -> Value.Wrapped {
         return try map { $0.optionalValue ?? with() }
     }
     
     @warn_unused_result
-    func remapNil(with: () -> Value.Wrapped) -> Monad<Value.Wrapped> {
-        return Monad { try self.remapNil(with) }
+    func replaceNil(with: () -> Value.Wrapped) -> Monad<Value.Wrapped> {
+        return Monad { try self.replaceNil(with) }
     }
     
     @warn_unused_result
-    func remapNil(@autoclosure with: () -> Value.Wrapped) throws -> Value.Wrapped {
-        return try remapNil { with() }
+    func replaceNil(@autoclosure with: () -> Value.Wrapped) throws -> Value.Wrapped {
+        return try replaceNil { with() }
     }
     
     @warn_unused_result
-    func remapNil(with: Value.Wrapped) -> Monad<Value.Wrapped> {
-        return remapNil { with }
+    func replaceNil(with: Value.Wrapped) -> Monad<Value.Wrapped> {
+        return replaceNil { with }
     }
     
     @warn_unused_result
@@ -139,26 +139,23 @@ public extension MonadType where Value: OptionalType {
 
 public extension MonadType where Value: CollectionType {
     @warn_unused_result
-    func remapEmpty(@noescape with: () -> Value) throws -> Value {
-        return try map {
-            if $0.isEmpty { return with() }
-            return $0
-        }
+    func replaceEmpty(@noescape with: () -> Value) throws -> Value {
+        return try map { $0.isEmpty ? with() : $0 }
     }
     
     @warn_unused_result
-    func remapEmpty(with: () -> Value) -> Monad<Value> {
-        return Monad { try self.remapEmpty(with) }
+    func replaceEmpty(with: () -> Value) -> Monad<Value> {
+        return Monad { try self.replaceEmpty(with) }
     }
     
     @warn_unused_result
-    func remapEmpty(@autoclosure with: () -> Value) throws -> Value {
-        return try remapEmpty { with() }
+    func replaceEmpty(@autoclosure with: () -> Value) throws -> Value {
+        return try replaceEmpty { with() }
     }
     
     @warn_unused_result
-    func remapEmpty(with: Value) -> Monad<Value> {
-        return remapEmpty { with }
+    func replaceEmpty(with: Value) -> Monad<Value> {
+        return replaceEmpty { with }
     }
     
     @warn_unused_result
