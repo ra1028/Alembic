@@ -127,27 +127,6 @@ public extension MonadType where Value: OptionalType {
     }
     
     @warn_unused_result
-    func ensure(@noescape with: () -> Value.Wrapped) -> Value.Wrapped {
-        do { return try remapNil { with() } }
-        catch { return with() }
-    }
-    
-    @warn_unused_result
-    func ensure(with: () -> Value.Wrapped) -> SecureMonad<Value.Wrapped> {
-        return SecureMonad { self.ensure(with) }
-    }
-    
-    @warn_unused_result
-    func ensure(@autoclosure with: () -> Value.Wrapped) -> Value.Wrapped {
-        return ensure { with() }
-    }
-    
-    @warn_unused_result
-    func ensure(with: Value.Wrapped) -> SecureMonad<Value.Wrapped> {
-        return ensure { with }
-    }
-    
-    @warn_unused_result
     func filterNil() throws -> Value.Wrapped {
         return try filter { $0.optionalValue != nil }.optionalValue!
     }
