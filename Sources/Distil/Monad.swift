@@ -1,5 +1,5 @@
 //
-//  Monad.swift
+//  Distillate.swift
 //  Alembic
 //
 //  Created by Ryo Aoyama on 3/13/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Monad<Value>: MonadType {
+public struct Distillate<Value>: DistillateType {
     private let process: () throws -> Value
     
     init(_ process: () throws -> Value) {
@@ -26,7 +26,7 @@ public struct Monad<Value>: MonadType {
     }
 }
 
-public struct SecureMonad<Value>: MonadType {
+public struct SecureDistillate<Value>: DistillateType {
     private let process: () -> Value
     
     init(_ process: () -> Value) {
@@ -44,30 +44,30 @@ public struct SecureMonad<Value>: MonadType {
     }
 }
 
-public protocol MonadType {
+public protocol DistillateType {
     associatedtype Value
     
     func value() throws -> Value
 }
 
-public extension MonadType {
+public extension DistillateType {
     public func map<T>(@noescape f: Value throws -> T) throws -> T {
         return try f(value())
     }
     
     @warn_unused_result
-    func map<T>(f: Value throws -> T) -> Monad<T> {
-        return Monad { try self.map(f) }
+    func map<T>(f: Value throws -> T) -> Distillate<T> {
+        return Distillate { try self.map(f) }
     }
     
     @warn_unused_result
-    func flatMap<T: MonadType>(f: Value throws -> T) throws -> T.Value {
+    func flatMap<T: DistillateType>(f: Value throws -> T) throws -> T.Value {
         return try f(value()).value()
     }
     
     @warn_unused_result
-    func flatMap<T: MonadType>(f: Value throws -> T) throws -> Monad<T.Value> {
-        return Monad { try self.flatMap(f) }
+    func flatMap<T: DistillateType>(f: Value throws -> T) throws -> Distillate<T.Value> {
+        return Distillate { try self.flatMap(f) }
     }
     
     @warn_unused_result
@@ -79,8 +79,8 @@ public extension MonadType {
     }
     
     @warn_unused_result
-    func filter(predicate: Value -> Bool) -> Monad<Value> {
-        return Monad { try self.filter(predicate) }
+    func filter(predicate: Value -> Bool) -> Distillate<Value> {
+        return Distillate { try self.filter(predicate) }
     }
     
     @warn_unused_result
@@ -90,8 +90,8 @@ public extension MonadType {
     }
     
     @warn_unused_result
-    func catchError(handler: ErrorType -> Value) -> SecureMonad<Value> {
-        return SecureMonad { self.catchError(handler) }
+    func catchError(handler: ErrorType -> Value) -> SecureDistillate<Value> {
+        return SecureDistillate { self.catchError(handler) }
     }
     
     @warn_unused_result
@@ -100,20 +100,20 @@ public extension MonadType {
     }
     
     @warn_unused_result
-    func catchReturn(value: Value) -> SecureMonad<Value> {
+    func catchReturn(value: Value) -> SecureDistillate<Value> {
         return catchError { _ in value }
     }
 }
 
-public extension MonadType where Value: OptionalType {
+public extension DistillateType where Value: OptionalType {
     @warn_unused_result
     func replaceNil(@noescape with: () -> Value.Wrapped) throws -> Value.Wrapped {
         return try map { $0.optionalValue ?? with() }
     }
     
     @warn_unused_result
-    func replaceNil(with: () -> Value.Wrapped) -> Monad<Value.Wrapped> {
-        return Monad { try self.replaceNil(with) }
+    func replaceNil(with: () -> Value.Wrapped) -> Distillate<Value.Wrapped> {
+        return Distillate { try self.replaceNil(with) }
     }
     
     @warn_unused_result
@@ -122,7 +122,7 @@ public extension MonadType where Value: OptionalType {
     }
     
     @warn_unused_result
-    func replaceNil(with: Value.Wrapped) -> Monad<Value.Wrapped> {
+    func replaceNil(with: Value.Wrapped) -> Distillate<Value.Wrapped> {
         return replaceNil { with }
     }
     
@@ -132,20 +132,20 @@ public extension MonadType where Value: OptionalType {
     }
     
     @warn_unused_result
-    func filterNil() -> Monad<Value.Wrapped> {
-        return Monad { try self.filterNil() }
+    func filterNil() -> Distillate<Value.Wrapped> {
+        return Distillate { try self.filterNil() }
     }
 }
 
-public extension MonadType where Value: CollectionType {
+public extension DistillateType where Value: CollectionType {
     @warn_unused_result
     func replaceEmpty(@noescape with: () -> Value) throws -> Value {
         return try map { $0.isEmpty ? with() : $0 }
     }
     
     @warn_unused_result
-    func replaceEmpty(with: () -> Value) -> Monad<Value> {
-        return Monad { try self.replaceEmpty(with) }
+    func replaceEmpty(with: () -> Value) -> Distillate<Value> {
+        return Distillate { try self.replaceEmpty(with) }
     }
     
     @warn_unused_result
@@ -154,7 +154,7 @@ public extension MonadType where Value: CollectionType {
     }
     
     @warn_unused_result
-    func replaceEmpty(with: Value) -> Monad<Value> {
+    func replaceEmpty(with: Value) -> Distillate<Value> {
         return replaceEmpty { with }
     }
     
@@ -164,7 +164,7 @@ public extension MonadType where Value: CollectionType {
     }
     
     @warn_unused_result
-    func filterEmpty() -> Monad<Value> {
-        return Monad { try self.filterEmpty() }
+    func filterEmpty() -> Distillate<Value> {
+        return Distillate { try self.filterEmpty() }
     }
 }
