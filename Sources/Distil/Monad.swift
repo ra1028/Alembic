@@ -100,7 +100,7 @@ public extension MonadType {
     }
     
     @warn_unused_result
-    func catchUp(value: Value) -> SecureMonad<Value> {
+    func catchReturn(value: Value) -> SecureMonad<Value> {
         return catchError { _ in value }
     }
 }
