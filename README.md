@@ -52,7 +52,7 @@ do {
     let twice: Int = (j <| "int")
         .map { $0 * 2 }
         .filter { $0 > 0 }
-        .catchUp(0)
+        .catchReturn(0)
 
     // More complexly transformations. 
     // There are many useful functions except for the following!
@@ -280,7 +280,7 @@ let j = JSON(jsonObject)
 ```
 function
 ```Swift
-let int: Int? = try j.optional(["nested", "key"])  // nil
+let int: Int? = try j.option(["nested", "key"])  // nil
 ```
 custom operator
 ```Swift
@@ -288,7 +288,7 @@ let int: Int? = try j <|? ["nested", "key"]  // nil
 ```
 subscript
 ```Swift
-let int: Int? = try j["nested", "key"].optional()  // nil
+let int: Int? = try j["nested", "key"].option()  // nil
 ```
 
 ### Custom objects parsing
@@ -346,7 +346,7 @@ let sample: Sample = try j <| "key"  // Sample
 
 ### Value transformation
 Alembic supports functional value transformation during the parsing process like `String` -> `NSDate`.  
-Functions that extract value from JSON are possible to return Monads.  
+Functions that extract value from JSON are possible to return Distillates.  
 So, you can use 'map' 'flatMap' and other following useful functions.  
 
 <table>
@@ -370,7 +370,7 @@ So, you can use 'map' 'flatMap' and other following useful functions.
 </tr>
 
 <tr>
-<td>flatMap(Value throws -> (U: MonadType))</td>
+<td>flatMap(Value throws -> (U: DistillateType))</td>
 <td>Returns the value containing in U.</td>
 <td>U.Value</td>
 <td>throw</td>
@@ -385,7 +385,7 @@ throw DistillError.FilteredValue.</td>
 </tr>
 
 <tr>
-<td>catchUp(Value)</td>
+<td>catchReturn(Value)</td>
 <td>If the error was thrown, replace it.<br>
 Error handling is not required.</td>
 <td>Value (might replace)</td>
@@ -393,18 +393,18 @@ Error handling is not required.</td>
 </tr>
 
 <tr>
-<td>remapNil(Value.Wrapped)</td>
-<td>If the value is nil, replace it.</td>
-<td>Value.Wrapped (might replace)</td>
-<td>throw</td>
+<td>catchError(ErrorType -> Value)</td>
+<td>If the error was thrown, replace it.<br>
+Error handling is not required.</td>
+<td>Value (might replace)</td>
+<td></td>
 </tr>
 
 <tr>
-<td>ensure(Value.Wrapped)</td>
-<td>If the value is nil or the error was thrown, replace it.<br>
-Error handling is not required.</td>
+<td>replaceNil(Value.Wrapped)</td>
+<td>If the value is nil, replace it.</td>
 <td>Value.Wrapped (might replace)</td>
-<td></td>
+<td>throw</td>
 </tr>
 
 <tr>
@@ -416,7 +416,7 @@ throw DistillError.FilteredValue.</td>
 </tr>
 
 <tr>
-<td>remapEmpty(Value)</td>
+<td>replaceEmpty(Value)</td>
 <td>If the value is empty of CollectionType, replace it.</td>
 <td>Value (might replace)</td>
 <td>throw</td>
@@ -448,7 +448,8 @@ let date: NSDate = j.distil("time_string")(String)  // "Apr 1, 2016, 12:00 AM"
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.dateFromString(s)
     }
-    .ensure(NSDate())
+    .filterNil()
+    .catchReturn(NSDate())
 ```
 custom operator
 ```Swift
@@ -458,7 +459,8 @@ let date: NSDate = (j <| "time_string")(String)  // "Apr 1, 2016, 12:00 AM"
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.dateFromString(s)
     }
-    .ensure(NSDate())
+    .filterNil()
+    .catchReturn(NSDate())
 ```
 subscript
 ```Swift
@@ -468,7 +470,8 @@ let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.dateFromString(s)
     }
-    .ensure(NSDate())
+    .filterNil()
+    .catchReturn(NSDate())
 ```
 
 ### Error handling
@@ -506,9 +509,9 @@ try j[path].distil()<br>
 
 <tr>
 <td>
-try j.optional(path)<br>
+try j.option(path)<br>
 try j <|? path<br>
-try j[path].optional()<br>
+try j[path].option()<br>
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -530,9 +533,9 @@ try? j[path].distil()<br>
 
 <tr>
 <td>
-try? j.optional(path)<br>
+try? j.option(path)<br>
 try? j <|? path<br>
-try? j[path].optional()<br>
+try? j[path].option()<br>
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -544,12 +547,12 @@ try? j[path].optional()<br>
 </table>
 
 __Don't wanna handling the error?__  
-If you don't care about error handling, use `try?` or `(j <| "key").catchUp(value)`.  
+If you don't care about error handling, use `try?` or `(j <| "key").catchReturn(value)`.  
 ```Swift
 let value: String? = try? j <| "key"
 ```
 ```Swift
-let value: String = (j <| "key").catchUp("sub-value")
+let value: String = (j <| "key").catchReturn("sub-value")
 ```
 
 ### Serialize objects to JSON
