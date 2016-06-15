@@ -304,10 +304,7 @@ let j = JSON(jsonObject)
 ```Swift
 extension NSURL: Distillable {
     public static func distil(j: JSON) throws -> Self {
-        guard let url = try self.init(string: j.distil()) else {
-            throw DistilError.TypeMismatch(expected: self, actual: j.raw)
-        }
-        return url
+        return try j.distil().map(self.init(string:)).filterNil()
     }
 }
 
