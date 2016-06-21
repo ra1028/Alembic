@@ -84,24 +84,24 @@ public extension DistillateType {
     }
     
     @warn_unused_result
-    func catchError(@noescape handler: ErrorType -> Value) -> Value {
+    func catchReturn(@noescape handler: ErrorType -> Value) -> Value {
         do { return try value() }
         catch let e { return handler(e) }
     }
     
     @warn_unused_result
-    func catchError(handler: ErrorType -> Value) -> SecureDistillate<Value> {
-        return SecureDistillate { self.catchError(handler) }
+    func catchReturn(handler: ErrorType -> Value) -> SecureDistillate<Value> {
+        return SecureDistillate { self.catchReturn(handler) }
     }
     
     @warn_unused_result
     func catchReturn(@autoclosure value: () -> Value) -> Value {
-        return catchError { _ in value() }
+        return catchReturn { _ in value() }
     }
     
     @warn_unused_result
     func catchReturn(value: Value) -> SecureDistillate<Value> {
-        return catchError { _ in value }
+        return catchReturn { _ in value }
     }
 }
 
