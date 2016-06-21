@@ -9,38 +9,38 @@
 import Foundation
 
 public struct Distillate<Value>: DistillateType {
-    private let process: () throws -> Value
+    private let thunk: () throws -> Value
     
-    init(_ process: () throws -> Value) {
-        self.process = process
+    init(_ thunk: () throws -> Value) {
+        self.thunk = thunk
     }
     
     @warn_unused_result
     public func to(_: Value.Type) throws -> Value {
-        return try process()
+        return try thunk()
     }
     
     @warn_unused_result
     public func value() throws -> Value {
-        return try process()
+        return try thunk()
     }
 }
 
 public struct SecureDistillate<Value>: DistillateType {
-    private let process: () -> Value
+    private let thunk: () -> Value
     
-    init(_ process: () -> Value) {
-        self.process = process
+    init(_ thunk: () -> Value) {
+        self.thunk = thunk
     }
     
     @warn_unused_result
     public func to(_: Value.Type) -> Value {
-        return process()
+        return thunk()
     }
     
     @warn_unused_result
     public func value() throws -> Value {
-        return process()
+        return thunk()
     }
 }
 
@@ -100,15 +100,15 @@ public extension DistillateType {
     }
     
     @warn_unused_result
-    func catchReturn(value: Value) -> SecureDistillate<Value> {
-        return catchReturn { _ in value }
+    func catchReturn(@autoclosure(escaping) value: () -> Value) -> SecureDistillate<Value> {
+        return catchReturn { _ in value() }
     }
 }
 
 public extension DistillateType where Value: OptionalType {
     @warn_unused_result
     func replaceNil(@noescape with: () -> Value.Wrapped) throws -> Value.Wrapped {
-        return try map { $0.optionalValue ?? with() }
+        return try value().optionalValue ?? with()
     }
     
     @warn_unused_result
@@ -122,8 +122,8 @@ public extension DistillateType where Value: OptionalType {
     }
     
     @warn_unused_result
-    func replaceNil(with: Value.Wrapped) -> Distillate<Value.Wrapped> {
-        return replaceNil { with }
+    func replaceNil(@autoclosure(escaping) with: () -> Value.Wrapped) -> Distillate<Value.Wrapped> {
+        return replaceNil { with() }
     }
     
     @warn_unused_result
@@ -154,8 +154,8 @@ public extension DistillateType where Value: CollectionType {
     }
     
     @warn_unused_result
-    func replaceEmpty(with: Value) -> Distillate<Value> {
-        return replaceEmpty { with }
+    func replaceEmpty(@autoclosure(escaping) with: () -> Value) -> Distillate<Value> {
+        return replaceEmpty { with() }
     }
     
     @warn_unused_result
