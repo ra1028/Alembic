@@ -390,7 +390,7 @@ Error handling is not required.</td>
 </tr>
 
 <tr>
-<td>catchError(ErrorType -> Value)</td>
+<td>catchReturn(ErrorType -> Value)</td>
 <td>If the error was thrown, replace it.<br>
 Error handling is not required.</td>
 <td>Value (might replace)</td>
