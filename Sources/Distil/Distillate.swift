@@ -71,6 +71,16 @@ public extension DistillateType {
     }
     
     @warn_unused_result
+    func flatMap<T>(f: Value throws -> Optional<T>) throws -> T {
+        return try map(f).filterNil()
+    }
+    
+    @warn_unused_result
+    func flatMap<T>(f: Value throws -> Optional<T>) -> Distillate<T> {
+        return Distillate { try self.flatMap(f) }
+    }
+    
+    @warn_unused_result
     func filter(@noescape predicate: Value throws -> Bool) throws -> Value {
         return try map {
             if try predicate($0) { return $0 }
