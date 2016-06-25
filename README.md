@@ -61,7 +61,7 @@ do {
 
     let str1: String = try j.distil("str1")
     let str2: String = try j <| "str2"
-    let str3: String = try j["str2"].distil()
+    let str3: String = try j["str3"].distil()
 
     let transform: Int = (j <| "transform")
         .filter { $0 > 0 }
