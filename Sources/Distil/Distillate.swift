@@ -51,6 +51,14 @@ public protocol DistillateType {
 }
 
 public extension DistillateType {
+    static func just(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
+        return SecureDistillate.init(element)
+    }
+    
+    static func filter() -> Distillate<Value> {
+        return Distillate { throw DistilError.FilteredValue(type: Value.self, value: ()) }
+    }
+    
     func map<T>(@noescape f: Value throws -> T) throws -> T {
         return try f(value())
     }
