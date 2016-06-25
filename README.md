@@ -379,6 +379,13 @@ Error handling is not required.</td>
 </tr>
 
 <tr>
+<td>replaceNil(() -> Value.Wrapped)</td>
+<td>If the value is nil, replace it.</td>
+<td>Value.Wrapped (might replace)</td>
+<td>throw</td>
+</tr>
+
+<tr>
 <td>filterNil()</td>
 <td>If the value is nil,<br>
 throw DistillError.FilteredValue.</td>
@@ -388,6 +395,13 @@ throw DistillError.FilteredValue.</td>
 
 <tr>
 <td>replaceEmpty(Value)</td>
+<td>If the value is empty of CollectionType, replace it.</td>
+<td>Value (might replace)</td>
+<td>throw</td>
+</tr>
+
+<tr>
+<td>replaceEmpty(() -> Value)</td>
 <td>If the value is empty of CollectionType, replace it.</td>
 <td>Value (might replace)</td>
 <td>throw</td>
