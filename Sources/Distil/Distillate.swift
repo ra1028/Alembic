@@ -51,7 +51,7 @@ public protocol DistillateType {
 }
 
 public extension DistillateType {
-    public func map<T>(@noescape f: Value throws -> T) throws -> T {
+    func map<T>(@noescape f: Value throws -> T) throws -> T {
         return try f(value())
     }
     
@@ -105,35 +105,35 @@ public extension DistillateType {
     }
     
     @warn_unused_result
-    func catchReturn(@autoclosure value: () -> Value) -> Value {
-        return catchReturn { _ in value() }
+    func catchReturn(@autoclosure element: () -> Value) -> Value {
+        return catchReturn { _ in element() }
     }
     
     @warn_unused_result
-    func catchReturn(@autoclosure(escaping) value: () -> Value) -> SecureDistillate<Value> {
-        return catchReturn { _ in value() }
+    func catchReturn(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
+        return catchReturn { _ in element() }
     }
 }
 
 public extension DistillateType where Value: OptionalType {
     @warn_unused_result
-    func replaceNil(@noescape with: () throws -> Value.Wrapped) throws -> Value.Wrapped {
-        return try value().optionalValue ?? with()
+    func replaceNil(@noescape handler: () throws -> Value.Wrapped) throws -> Value.Wrapped {
+        return try value().optionalValue ?? handler()
     }
     
     @warn_unused_result
-    func replaceNil(with: () throws -> Value.Wrapped) -> Distillate<Value.Wrapped> {
-        return Distillate { try self.replaceNil(with) }
+    func replaceNil(handler: () throws -> Value.Wrapped) -> Distillate<Value.Wrapped> {
+        return Distillate { try self.replaceNil(handler) }
     }
     
     @warn_unused_result
-    func replaceNil(@autoclosure with: () -> Value.Wrapped) throws -> Value.Wrapped {
-        return try replaceNil { with() }
+    func replaceNil(@autoclosure element: () -> Value.Wrapped) throws -> Value.Wrapped {
+        return try replaceNil(element)
     }
     
     @warn_unused_result
-    func replaceNil(@autoclosure(escaping) with: () -> Value.Wrapped) -> Distillate<Value.Wrapped> {
-        return replaceNil { with() }
+    func replaceNil(@autoclosure(escaping) element: () -> Value.Wrapped) -> Distillate<Value.Wrapped> {
+        return replaceNil(element)
     }
     
     @warn_unused_result
@@ -143,29 +143,29 @@ public extension DistillateType where Value: OptionalType {
     
     @warn_unused_result
     func filterNil() -> Distillate<Value.Wrapped> {
-        return Distillate { try self.filterNil() }
+        return Distillate.init(filterNil)
     }
 }
 
 public extension DistillateType where Value: CollectionType {
     @warn_unused_result
-    func replaceEmpty(@noescape with: () throws -> Value) throws -> Value {
-        return try map { $0.isEmpty ? try with() : $0 }
+    func replaceEmpty(@noescape handler: () throws -> Value) throws -> Value {
+        return try map { $0.isEmpty ? try handler() : $0 }
     }
     
     @warn_unused_result
-    func replaceEmpty(with: () throws -> Value) -> Distillate<Value> {
-        return Distillate { try self.replaceEmpty(with) }
+    func replaceEmpty(handler: () throws -> Value) -> Distillate<Value> {
+        return Distillate { try self.replaceEmpty(handler) }
     }
     
     @warn_unused_result
-    func replaceEmpty(@autoclosure with: () -> Value) throws -> Value {
-        return try replaceEmpty { with() }
+    func replaceEmpty(@autoclosure element: () -> Value) throws -> Value {
+        return try replaceEmpty(element)
     }
     
     @warn_unused_result
-    func replaceEmpty(@autoclosure(escaping) with: () -> Value) -> Distillate<Value> {
-        return replaceEmpty { with() }
+    func replaceEmpty(@autoclosure(escaping) element: () -> Value) -> Distillate<Value> {
+       return replaceEmpty(element)
     }
     
     @warn_unused_result
@@ -175,6 +175,6 @@ public extension DistillateType where Value: CollectionType {
     
     @warn_unused_result
     func filterEmpty() -> Distillate<Value> {
-        return Distillate { try self.filterEmpty() }
+        return Distillate.init(self.filterEmpty)
     }
 }
