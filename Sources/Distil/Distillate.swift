@@ -71,15 +71,15 @@ public extension DistillateType {
     }
     
     @warn_unused_result
-    func filter(@noescape predicate: Value -> Bool) throws -> Value {
+    func filter(@noescape predicate: Value throws -> Bool) throws -> Value {
         return try map {
-            if predicate($0) { return $0 }
+            if try predicate($0) { return $0 }
             throw DistilError.FilteredValue(type: Value.self, value: $0)
         }
     }
     
     @warn_unused_result
-    func filter(predicate: Value -> Bool) -> Distillate<Value> {
+    func filter(predicate: Value throws -> Bool) -> Distillate<Value> {
         return Distillate { try self.filter(predicate) }
     }
     
@@ -107,12 +107,12 @@ public extension DistillateType {
 
 public extension DistillateType where Value: OptionalType {
     @warn_unused_result
-    func replaceNil(@noescape with: () -> Value.Wrapped) throws -> Value.Wrapped {
+    func replaceNil(@noescape with: () throws -> Value.Wrapped) throws -> Value.Wrapped {
         return try value().optionalValue ?? with()
     }
     
     @warn_unused_result
-    func replaceNil(with: () -> Value.Wrapped) -> Distillate<Value.Wrapped> {
+    func replaceNil(with: () throws -> Value.Wrapped) -> Distillate<Value.Wrapped> {
         return Distillate { try self.replaceNil(with) }
     }
     
@@ -139,12 +139,12 @@ public extension DistillateType where Value: OptionalType {
 
 public extension DistillateType where Value: CollectionType {
     @warn_unused_result
-    func replaceEmpty(@noescape with: () -> Value) throws -> Value {
-        return try map { $0.isEmpty ? with() : $0 }
+    func replaceEmpty(@noescape with: () throws -> Value) throws -> Value {
+        return try map { $0.isEmpty ? try with() : $0 }
     }
     
     @warn_unused_result
-    func replaceEmpty(with: () -> Value) -> Distillate<Value> {
+    func replaceEmpty(with: () throws -> Value) -> Distillate<Value> {
         return Distillate { try self.replaceEmpty(with) }
     }
     
