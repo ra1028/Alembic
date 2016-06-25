@@ -66,7 +66,7 @@ public extension DistillateType {
     }
     
     @warn_unused_result
-    func flatMap<T: DistillateType>(f: Value throws -> T) throws -> Distillate<T.Value> {
+    func flatMap<T: DistillateType>(f: Value throws -> T) -> Distillate<T.Value> {
         return Distillate { try self.flatMap(f) }
     }
     
