@@ -40,65 +40,39 @@
 
 ## Overview  
 ```Swift
-do {
-    let j = try JSON(data: jsonData)
+struct User: Distillable, Serializable {
+    let name: String
+    let thumbnailUrl: NSURL
 
-    // Flexible syntax
-    let string1 = try j.distil("key").to(String)
-    let string2 = try (j <| "key").to(String)
-    let string3 = try j["key"].to(String)
-
-    // Value transformation
-    let twice: Int = (j <| "int")
-        .map { $0 * 2 }
-        .filter { $0 > 0 }
-        .catchReturn(0)
-
-    // More complexly transformations. 
-    // There are many useful functions except for the following!
-    let title: String = try (j <| "count")(Int).flatMap { count in
-        return (j <| "kind").map { "\(count) " + $0 + "s" }
-    }
-
-    // Mapping to object
-    let user: User = try j <| "user"
-    let friends: [User] = try j <| "friends"
-
-    // Serialize object to NSData of JSON
-    let userJSONData = JSON.serializeToData(user)
-
-    // Serialize object to String of JSON
-    let userJSONString = JSON.serializeToString(user)
-} catch {
-    // Do error handling...
-}
-
-class User: Distillable, Serializable {
-    let id: Int
-    let name: String?
-    let url: NSURL    
-
-    required init(json j: JSON) throws {
-        try (
-            id = j <| "id",
-            name = j <|? "name",
-            url = (j <| ["contact", "url"])
-                .map(NSURL.init(string:))
-                .filterNil()            
+    static func distil(j: JSON) throws -> User {
+        return try User(
+            name: j <| "name",
+            thumbnailUrl: (j <| "url").map(NSURL.init(string:)).filterNil()
         )
     }
 
-    static func distil(j: JSON) throws -> Self {
-        return try self.init(json: j)
-    }
-
     func serialize() -> JSONObject {
-        return [
-            "id": id,
-            "name": JSONValue(name),
-            "url": url.absoluteString
-        ]
+        return ["name": name, "url": thumbnailUrl.absoluteString]
     }
+}
+
+do {
+    let j = JSON(obj)
+
+    let str1: String = try j.distil("str1")
+    let str2: String = try j <| "str2"
+    let str3: String = try j["str2"].distil()
+
+    let transform: Int = (j <| "transform")
+        .filter { $0 > 0 }
+        .map { $0 * 2 }
+        .catchReturn(0)
+
+    let users: [User] = try j <| "users"
+
+    let userJsonData = JSON.serializeToData(users)
+} catch {
+    // Do error handling...
 }
 ```
 
