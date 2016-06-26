@@ -75,15 +75,15 @@ public extension JSON {
         return try distil(path)(T)
     }
     
-    func distil<T: Distillable>(_: T.Type = T.self) -> Distillate<T> {
-        return Distillate { try self.distil() }
+    func distil<T: Distillable>(_: T.Type = T.self) -> InsecureDistillate<T> {
+        return InsecureDistillate { try self.distil() }
     }
     
-    func distil<T: Distillable>(path: JSONPath) -> T.Type -> Distillate<T> {
-        return { _ in Distillate { try self.distil(path) } }
+    func distil<T: Distillable>(path: JSONPath) -> T.Type -> InsecureDistillate<T> {
+        return { _ in InsecureDistillate { try self.distil(path) } }
     }
     
-    func distil<T: Distillable>(path: JSONPath) -> Distillate<T> {
+    func distil<T: Distillable>(path: JSONPath) -> InsecureDistillate<T> {
         return distil(path)(T)
     }
 }
@@ -107,11 +107,11 @@ public extension JSON {
         return try option(path)(Optional<T>)
     }
     
-    func option<T: Distillable>(path: JSONPath) -> Optional<T>.Type -> Distillate<Optional<T>> {
-        return { _ in Distillate { try self.option(path) } }
+    func option<T: Distillable>(path: JSONPath) -> Optional<T>.Type -> InsecureDistillate<Optional<T>> {
+        return { _ in InsecureDistillate { try self.option(path) } }
     }
     
-    func option<T: Distillable>(path: JSONPath) -> Distillate<Optional<T>> {
+    func option<T: Distillable>(path: JSONPath) -> InsecureDistillate<Optional<T>> {
         return option(path)(Optional<T>)
     }
 }
@@ -135,15 +135,15 @@ public extension JSON {
         return try distil(path)([T])
     }
     
-    func distil<T: Distillable>(_: [T].Type = [T].self) -> Distillate<[T]> {
-        return Distillate { try self.distil() }
+    func distil<T: Distillable>(_: [T].Type = [T].self) -> InsecureDistillate<[T]> {
+        return InsecureDistillate { try self.distil() }
     }
     
-    func distil<T: Distillable>(path: JSONPath) -> [T].Type -> Distillate<[T]> {
-        return { _ in Distillate { try self.distil(path) } }
+    func distil<T: Distillable>(path: JSONPath) -> [T].Type -> InsecureDistillate<[T]> {
+        return { _ in InsecureDistillate { try self.distil(path) } }
     }
     
-    func distil<T: Distillable>(path: JSONPath) -> Distillate<[T]> {
+    func distil<T: Distillable>(path: JSONPath) -> InsecureDistillate<[T]> {
         return distil(path)([T])
     }
 }
@@ -167,11 +167,11 @@ public extension JSON {
         return try option(path)(Optional<[T]>)
     }
     
-    func option<T: Distillable>(path: JSONPath) -> Optional<[T]>.Type -> Distillate<Optional<[T]>> {
-        return { _ in Distillate { try self.option(path) } }
+    func option<T: Distillable>(path: JSONPath) -> Optional<[T]>.Type -> InsecureDistillate<Optional<[T]>> {
+        return { _ in InsecureDistillate { try self.option(path) } }
     }
     
-    func option<T: Distillable>(path: JSONPath) -> Distillate<Optional<[T]>> {
+    func option<T: Distillable>(path: JSONPath) -> InsecureDistillate<Optional<[T]>> {
         return option(path)(Optional<[T]>)
     }
 }
@@ -200,15 +200,15 @@ public extension JSON {
         return try distil(path)([String: T])
     }
     
-    func distil<T: Distillable>(path: JSONPath) -> [String: T].Type -> Distillate<[String: T]> {
-        return { _ in Distillate { try self.distil(path)([String: T]) } }
+    func distil<T: Distillable>(path: JSONPath) -> [String: T].Type -> InsecureDistillate<[String: T]> {
+        return { _ in InsecureDistillate { try self.distil(path)([String: T]) } }
     }
     
-    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> Distillate<[String: T]> {
-        return Distillate { try self.distil() }
+    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> InsecureDistillate<[String: T]> {
+        return InsecureDistillate { try self.distil() }
     }
     
-    func distil<T: Distillable>(path: JSONPath) -> Distillate<[String: T]> {
+    func distil<T: Distillable>(path: JSONPath) -> InsecureDistillate<[String: T]> {
         return distil(path)([String: T])
     }
 }
@@ -232,11 +232,11 @@ public extension JSON {
         return try option(path)(Optional<[String: T]>)
     }
     
-    func option<T: Distillable>(path: JSONPath) -> Optional<[String: T]>.Type -> Distillate<Optional<[String: T]>> {
-        return { _ in Distillate { try self.option(path) } }
+    func option<T: Distillable>(path: JSONPath) -> Optional<[String: T]>.Type -> InsecureDistillate<Optional<[String: T]>> {
+        return { _ in InsecureDistillate { try self.option(path) } }
     }
     
-    func option<T: Distillable>(path: JSONPath) -> Distillate<Optional<[String: T]>> {
+    func option<T: Distillable>(path: JSONPath) -> InsecureDistillate<Optional<[String: T]>> {
         return option(path)(Optional<[String: T]>)
     }
 }

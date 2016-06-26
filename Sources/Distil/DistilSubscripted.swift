@@ -39,8 +39,8 @@ public extension DistilSubscripted {
         return try j.distil(path)
     }
     
-    func distil<T: Distillable>(_: T.Type = T.self) -> Distillate<T> {
-        return Distillate { try self.distil() }
+    func distil<T: Distillable>(_: T.Type = T.self) -> InsecureDistillate<T> {
+        return InsecureDistillate { try self.distil() }
     }
 }
 
@@ -51,8 +51,8 @@ public extension DistilSubscripted {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) -> Distillate<Optional<T>> {
-        return Distillate { try self.option() }
+    func option<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) -> InsecureDistillate<Optional<T>> {
+        return InsecureDistillate { try self.option() }
     }
 }
 
@@ -63,8 +63,8 @@ public extension DistilSubscripted {
         return try j.distil(path)
     }
     
-    func distil<T: Distillable>(_: [T].Type = [T].self) -> Distillate<[T]> {
-        return Distillate { try self.distil() }
+    func distil<T: Distillable>(_: [T].Type = [T].self) -> InsecureDistillate<[T]> {
+        return InsecureDistillate { try self.distil() }
     }
 }
 
@@ -75,8 +75,8 @@ public extension DistilSubscripted {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) -> Distillate<Optional<[T]>> {
-        return Distillate { try self.option() }
+    func option<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) -> InsecureDistillate<Optional<[T]>> {
+        return InsecureDistillate { try self.option() }
     }
 }
 
@@ -87,8 +87,8 @@ public extension DistilSubscripted {
         return try j.distil(path)
     }
     
-    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> Distillate<[String: T]> {
-        return Distillate { try self.distil() }
+    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> InsecureDistillate<[String: T]> {
+        return InsecureDistillate { try self.distil() }
     }
 }
 
@@ -99,7 +99,7 @@ public extension DistilSubscripted {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) -> Distillate<Optional<[String: T]>> {
-        return Distillate { try self.option() }
+    func option<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) -> InsecureDistillate<Optional<[String: T]>> {
+        return InsecureDistillate { try self.option() }
     }
 }
