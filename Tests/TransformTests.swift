@@ -22,6 +22,8 @@ class TransformTests: XCTestCase {
                 .flatMap { v -> Distillate<String> in (j <| "key").map { "flatMap_" + $0 + "_with_" + v } }
             let flatMapOptional: String? = try (j <| ["nested", "nested_key"])(String)
                 .flatMap { Optional<String>.Some($0) }
+            let flatMapError: String = try (j <| "missing_key")(String)
+                .flatMapError { _ in Distillate<String>.just("flat_map_error") }
             let catchUp: String = (j <| "error")
                 .catchReturn("catch_return")
             let replaceNil: String = try (j <|? "null")
@@ -32,6 +34,7 @@ class TransformTests: XCTestCase {
             XCTAssertEqual(map, "map_value")
             XCTAssertEqual(flatMap, "flatMap_value_with_nested_value")
             XCTAssertEqual(flatMapOptional, "nested_value")
+            XCTAssertEqual(flatMapError, "flat_map_error")
             XCTAssertEqual(catchUp, "catch_return")
             XCTAssertEqual(replaceNil, "replace_nil")
             XCTAssertEqual(replaceEmpty, ["replace_empty"])

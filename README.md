@@ -349,6 +349,13 @@ So, you can use 'map' 'flatMap' and other following useful functions.
 <td>Returns the non-nil value.<br>
 If the transformed value is nil,<br>
 throw DistillError.FilteredValue</td>
+<td>U.Wrapped</td>
+<td>throw</td>
+</tr>
+
+<tr>
+<td>flatMap(ErrorType throws -> (U: DistillateType)</td>
+<td>If the error thrown, flatMap its error.</td>
 <td>U.Value</td>
 <td>throw</td>
 </tr>
