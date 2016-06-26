@@ -115,4 +115,45 @@ class TransformTests: XCTestCase {
             XCTFail("\(e)")
         }
     }
+    
+    func testJustAndFilter() {
+        let j = JSON(object)
+        
+        let just = Distillate<String>.just("just")
+        XCTAssertEqual(just.to(String), "just")
+        
+        do {
+            let filter = Distillate<String>.filter()
+            _ = try filter.to(String)
+            
+            XCTFail("Expect the error to occur")
+        } catch let DistilError.FilteredValue(type: type, value: value) {
+            XCTAssertNotNil(type as? String.Type)
+            XCTAssertNotNil(value as? Void)
+        } catch let e {
+            XCTFail("\(e)")
+        }
+        
+        do {
+            let flatMapJust: String = try (j <| "key")(String)
+                .flatMap { _ in Distillate<String>.just("just") }
+            
+            XCTAssertEqual(flatMapJust, "just")
+        } catch let e {
+            XCTFail("\(e)")
+        }
+        
+        do {
+            _ = try (j <| "key")(String)
+                .flatMap { _ in Distillate<String>.filter() }
+                .to(String)
+            
+            XCTFail("Expect the error to occur")
+        } catch let DistilError.FilteredValue(type: type, value: value) {
+            XCTAssertNotNil(type as? String.Type)
+            XCTAssertNotNil(value as? Void)
+        } catch let e {
+            XCTFail("\(e)")
+        }
+    }
 }
