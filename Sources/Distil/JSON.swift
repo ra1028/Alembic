@@ -281,10 +281,10 @@ public extension JSON {
     }
 }
 
-// MARK: - CustomStringConvertible
+// MARK: - CustomDebugStringConvertible
 
-extension JSON: CustomStringConvertible {
-    public var description: String {
+extension JSON: CustomDebugStringConvertible {
+    public var debugDescription: String {
         return "JSON(\(raw))"
     }
 }

@@ -12,8 +12,8 @@ public enum DistilError: ErrorType {
     case FilteredValue(type: Any.Type, value: Any)
 }
 
-extension DistilError: CustomStringConvertible {
-    public var description: String {
+extension DistilError: CustomDebugStringConvertible {    
+    public var debugDescription: String {
         switch self {
         case let .MissingPath(path):
             return "MissingPath(\(path))"
