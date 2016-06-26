@@ -20,18 +20,34 @@ class TransformTests: XCTestCase {
                 .map { "map_" + $0 }
             let flatMap: String = try (j <| ["nested", "nested_key"])(String)
                 .flatMap { v -> Distillate<String> in (j <| "key").map { "flatMap_" + $0 + "_with_" + v } }
+            let flatMapOptional: String? = try (j <| ["nested", "nested_key"])(String)
+                .flatMap { Optional<String>.Some($0) }
             let catchUp: String = (j <| "error")
-                .catchReturn("catch_up")
+                .catchReturn("catch_return")
             let replaceNil: String = try (j <|? "null")
-                .replaceNil("remap_nil")
+                .replaceNil("replace_nil")
             let replaceEmpty: [String] = try (j <| "array")
-                .replaceEmpty(["remap_empty"])
+                .replaceEmpty(["replace_empty"])
             
             XCTAssertEqual(map, "map_value")
             XCTAssertEqual(flatMap, "flatMap_value_with_nested_value")
-            XCTAssertEqual(catchUp, "catch_up")
-            XCTAssertEqual(replaceNil, "remap_nil")
-            XCTAssertEqual(replaceEmpty, ["remap_empty"])
+            XCTAssertEqual(flatMapOptional, "nested_value")
+            XCTAssertEqual(catchUp, "catch_return")
+            XCTAssertEqual(replaceNil, "replace_nil")
+            XCTAssertEqual(replaceEmpty, ["replace_empty"])
+        } catch let e {
+            XCTFail("\(e)")
+        }
+        
+        do {
+            _ = try (j <| "key")(String)
+                .flatMap { _ in nil }
+                .to(String)
+            
+            XCTFail("Expect the error to occur")
+        } catch let DistilError.FilteredValue(type, value) {
+            XCTAssertNotNil(type as? Optional<String>.Type)
+            XCTAssertNotNil(value)
         } catch let e {
             XCTFail("\(e)")
         }
