@@ -60,14 +60,14 @@ class DistilTests: XCTestCase {
         }
     }
     
-    func testDistilError() {
+    func testDistillError() {
         let j = JSON(object)
         
         do {
             _ = try (j <| "missing_key").to(String)
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.MissingPath(path) where path == "missing_key" {
+        } catch let DistillError.MissingPath(path) where path == "missing_key" {
             XCTAssert(true)
         } catch let e {
             XCTFail("\(e)")
@@ -77,7 +77,7 @@ class DistilTests: XCTestCase {
             _ = try (j <| "int_string").to(Int)
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.TypeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
+        } catch let DistillError.TypeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "1")
         } catch let e {
@@ -128,7 +128,7 @@ class DistilTests: XCTestCase {
 extension NSURL: Distillable {
     public static func distil(j: JSON) throws -> Self {
         guard let url = try self.init(string: j.distil()) else {
-            throw DistilError.TypeMismatch(expected: NSURL.self, actual: j.raw)
+            throw DistillError.TypeMismatch(expected: NSURL.self, actual: j.raw)
         }
         return url
     }

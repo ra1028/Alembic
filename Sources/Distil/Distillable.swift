@@ -103,7 +103,7 @@ extension UInt64: Distillable {
 public extension RawRepresentable where Self: Distillable, RawValue: Distillable {
     static func distil(j: JSON) throws -> Self {
         guard let value = try self.init(rawValue: RawValue.distil(j)) else {
-            throw DistilError.TypeMismatch(expected: Self.self, actual: j.raw)
+            throw DistillError.TypeMismatch(expected: Self.self, actual: j.raw)
         }
         return value
     }
@@ -111,7 +111,7 @@ public extension RawRepresentable where Self: Distillable, RawValue: Distillable
 
 private func cast<T>(j: JSON) throws -> T {
     guard let value = j.raw as? T else {
-        throw DistilError.TypeMismatch(expected: T.self, actual: j.raw)
+        throw DistillError.TypeMismatch(expected: T.self, actual: j.raw)
     }
     return value
 }

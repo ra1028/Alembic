@@ -1,5 +1,5 @@
 //
-//  Distillate.swift
+//  InsecureDistillate.swift
 //  Alembic
 //
 //  Created by Ryo Aoyama on 3/13/16.
@@ -8,25 +8,7 @@
 
 import Foundation
 
-public struct Distillate<Value>: DistillateType {
-    private let thunk: () throws -> Value
-    
-    init(_ thunk: () throws -> Value) {
-        self.thunk = thunk
-    }
-    
-    @warn_unused_result
-    public func to(_: Value.Type) throws -> Value {
-        return try thunk()
-    }
-    
-    @warn_unused_result
-    public func value() throws -> Value {
-        return try thunk()
-    }
-}
-
-public struct SecureDistillate<Value>: DistillateType {
+public final class SecureDistillate<Value>: Distillate<Value> {
     private let thunk: () -> Value
     
     init(_ thunk: () -> Value) {
@@ -34,13 +16,52 @@ public struct SecureDistillate<Value>: DistillateType {
     }
     
     @warn_unused_result
-    public func to(_: Value.Type) -> Value {
+    public override func value() throws -> Value {
         return thunk()
     }
     
     @warn_unused_result
-    public func value() throws -> Value {
+    public func to(_: Value.Type) -> Value {
         return thunk()
+    }
+}
+
+public final class InsecureDistillate<Value>: Distillate<Value> {
+    private let thunk: () throws -> Value
+    
+    init(_ thunk: () throws -> Value) {
+        self.thunk = thunk
+    }
+    
+    @warn_unused_result
+    public override func value() throws -> Value {
+        return try thunk()
+    }
+    
+    @warn_unused_result
+    public func to(_: Value.Type) throws -> Value {
+        return try thunk()
+    }
+}
+
+public class Distillate<Value>: DistillateType {
+    init() {}
+    
+    @warn_unused_result
+    public func value() throws -> Value {
+        fatalError("Abstract method")
+    }
+    
+    public static func just(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
+        return SecureDistillate.init(element)
+    }
+    
+    public static func error(e: ErrorType) -> InsecureDistillate<Value> {
+        return InsecureDistillate { throw e }
+    }
+    
+    public static func filter() -> InsecureDistillate<Value> {
+        return error(DistillError.FilteredValue(type: Value.self, value: ()))
     }
 }
 
@@ -51,13 +72,13 @@ public protocol DistillateType {
 }
 
 public extension DistillateType {
-    public func map<T>(@noescape f: Value throws -> T) throws -> T {
+    func map<T>(@noescape f: Value throws -> T) throws -> T {
         return try f(value())
     }
     
     @warn_unused_result
-    func map<T>(f: Value throws -> T) -> Distillate<T> {
-        return Distillate { try self.map(f) }
+    func map<T>(f: Value throws -> T) -> InsecureDistillate<T> {
+        return InsecureDistillate { try self.map(f) }
     }
     
     @warn_unused_result
@@ -66,21 +87,42 @@ public extension DistillateType {
     }
     
     @warn_unused_result
-    func flatMap<T: DistillateType>(f: Value throws -> T) throws -> Distillate<T.Value> {
-        return Distillate { try self.flatMap(f) }
+    func flatMap<T: DistillateType>(f: Value throws -> T) -> InsecureDistillate<T.Value> {
+        return InsecureDistillate { try self.flatMap(f) }
     }
     
     @warn_unused_result
-    func filter(@noescape predicate: Value -> Bool) throws -> Value {
+    func flatMap<T>(f: Value throws -> Optional<T>) throws -> T {
+        return try map(f).filterNil()
+    }
+    
+    @warn_unused_result
+    func flatMap<T>(f: Value throws -> Optional<T>) -> InsecureDistillate<T> {
+        return InsecureDistillate { try self.flatMap(f) }
+    }
+    
+    @warn_unused_result
+    func flatMapError<T: DistillateType where T.Value == Value>(f: ErrorType throws -> T) throws -> Value {
+        do { return try value() }
+        catch let e { return try f(e).value() }
+    }
+    
+    @warn_unused_result
+    func flatMapError<T: DistillateType where T.Value == Value>(f: ErrorType throws -> T) -> InsecureDistillate<Value> {
+        return InsecureDistillate { try self.flatMapError(f) }
+    }
+    
+    @warn_unused_result
+    func filter(@noescape predicate: Value throws -> Bool) throws -> Value {
         return try map {
-            if predicate($0) { return $0 }
-            throw DistilError.FilteredValue(type: Value.self, value: $0)
+            if try predicate($0) { return $0 }
+            throw DistillError.FilteredValue(type: Value.self, value: $0)
         }
     }
     
     @warn_unused_result
-    func filter(predicate: Value -> Bool) -> Distillate<Value> {
-        return Distillate { try self.filter(predicate) }
+    func filter(predicate: Value throws -> Bool) -> InsecureDistillate<Value> {
+        return InsecureDistillate { try self.filter(predicate) }
     }
     
     @warn_unused_result
@@ -95,35 +137,35 @@ public extension DistillateType {
     }
     
     @warn_unused_result
-    func catchReturn(@autoclosure value: () -> Value) -> Value {
-        return catchReturn { _ in value() }
+    func catchReturn(@autoclosure element: () -> Value) -> Value {
+        return catchReturn { _ in element() }
     }
     
     @warn_unused_result
-    func catchReturn(@autoclosure(escaping) value: () -> Value) -> SecureDistillate<Value> {
-        return catchReturn { _ in value() }
+    func catchReturn(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
+        return catchReturn { _ in element() }
     }
 }
 
 public extension DistillateType where Value: OptionalType {
     @warn_unused_result
-    func replaceNil(@noescape with: () -> Value.Wrapped) throws -> Value.Wrapped {
-        return try value().optionalValue ?? with()
+    func replaceNil(@noescape handler: () throws -> Value.Wrapped) throws -> Value.Wrapped {
+        return try value().optionalValue ?? handler()
     }
     
     @warn_unused_result
-    func replaceNil(with: () -> Value.Wrapped) -> Distillate<Value.Wrapped> {
-        return Distillate { try self.replaceNil(with) }
+    func replaceNil(handler: () throws -> Value.Wrapped) -> InsecureDistillate<Value.Wrapped> {
+        return InsecureDistillate { try self.replaceNil(handler) }
     }
     
     @warn_unused_result
-    func replaceNil(@autoclosure with: () -> Value.Wrapped) throws -> Value.Wrapped {
-        return try replaceNil { with() }
+    func replaceNil(@autoclosure element: () -> Value.Wrapped) throws -> Value.Wrapped {
+        return try replaceNil { element() }
     }
     
     @warn_unused_result
-    func replaceNil(@autoclosure(escaping) with: () -> Value.Wrapped) -> Distillate<Value.Wrapped> {
-        return replaceNil { with() }
+    func replaceNil(@autoclosure(escaping) element: () -> Value.Wrapped) -> InsecureDistillate<Value.Wrapped> {
+        return replaceNil { element() }
     }
     
     @warn_unused_result
@@ -132,30 +174,30 @@ public extension DistillateType where Value: OptionalType {
     }
     
     @warn_unused_result
-    func filterNil() -> Distillate<Value.Wrapped> {
-        return Distillate { try self.filterNil() }
+    func filterNil() -> InsecureDistillate<Value.Wrapped> {
+        return InsecureDistillate.init(filterNil)
     }
 }
 
 public extension DistillateType where Value: CollectionType {
     @warn_unused_result
-    func replaceEmpty(@noescape with: () -> Value) throws -> Value {
-        return try map { $0.isEmpty ? with() : $0 }
+    func replaceEmpty(@noescape handler: () throws -> Value) throws -> Value {
+        return try map { $0.isEmpty ? try handler() : $0 }
     }
     
     @warn_unused_result
-    func replaceEmpty(with: () -> Value) -> Distillate<Value> {
-        return Distillate { try self.replaceEmpty(with) }
+    func replaceEmpty(handler: () throws -> Value) -> InsecureDistillate<Value> {
+        return InsecureDistillate { try self.replaceEmpty(handler) }
     }
     
     @warn_unused_result
-    func replaceEmpty(@autoclosure with: () -> Value) throws -> Value {
-        return try replaceEmpty { with() }
+    func replaceEmpty(@autoclosure element: () -> Value) throws -> Value {
+        return try replaceEmpty { element() }
     }
     
     @warn_unused_result
-    func replaceEmpty(@autoclosure(escaping) with: () -> Value) -> Distillate<Value> {
-        return replaceEmpty { with() }
+    func replaceEmpty(@autoclosure(escaping) element: () -> Value) -> InsecureDistillate<Value> {
+        return replaceEmpty { element() }
     }
     
     @warn_unused_result
@@ -164,7 +206,7 @@ public extension DistillateType where Value: CollectionType {
     }
     
     @warn_unused_result
-    func filterEmpty() -> Distillate<Value> {
-        return Distillate { try self.filterEmpty() }
+    func filterEmpty() -> InsecureDistillate<Value> {
+        return InsecureDistillate.init(filterEmpty)
     }
 }

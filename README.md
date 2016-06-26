@@ -81,12 +81,12 @@ do {
 ## Features
 - [x] JSON parsing with ease
 - [x] Mapping JSON to objects
-- [x] Type-safe serialize object to JSON
-- [x] Powerful parsed value transformation
-- [x] Error handling
+- [x] Serialize objects to JSON
+- [x] Powerful value transformation
+- [x] Fail safety
 - [x] class, struct, enum support with non-optional `let` properties
-- [x] Functional, Protocol-oriented designs
-- [x] Flexible syntax
+- [x] Functional, Protocol-oriented programming
+- [x] Flexible syntaxes
 
 ---
 
@@ -193,27 +193,28 @@ __Default supported types__
 
 __Example__
 ```Swift
-let jsonObject = [
-    "string_key": "string",  
-    "array_key": [1, 2, 3, 4, 5],
-]
+let jsonObject = ["key": "string"]
 let j = JSON(jsonObject)
 ```
 function
 ```Swift
-let string: String = try j.distil("string_key")  // "string"
-let array = try j.distil("array_key").to([Int])  // [1, 2, 3, 4, 5]
+let string: String = try j.distil("key")  // "string"
 ```
 custom operator  
 ```Swift
-let string: String = try j <| "string_key"  // "string"
-let array = try (j <| "array_key").to([Int])  // [1, 2, 3, 4, 5]
+let string: String = try j <| "key"  // "string"
 ```
 subscript
 ```Swift
-let string: String = try j["string_key"].distil()  // "string"
-let array = try j["array_key"].to([Int])  // [1, 2, 3, 4, 5]
+let string: String = try j["key"].distil()  // "string"
 ```
+
+__Tips__
+You can set the generic type as following:
+```Swift
+let string = try j.distil("key").to(String)  // "string"
+```
+It's same if use operator or subscript
 
 ### Nested objects parsing
 Supports parsing nested objects with keys and indexes.  
@@ -222,9 +223,7 @@ Keys and indexes can be summarized in the same array.
 __Example__
 ```Swift
 let jsonObject = [
-    "nested": [        
-        "array": [1, 2, 3, 4, 5]
-    ]
+    "nested": ["array": [1, 2, 3, 4, 5]]
 ]
 let j = JSON(jsonObject)
 ```
@@ -270,15 +269,13 @@ If implement `Distillable` protocol to existing classes like `NSURL`, it be able
 
 __Example__
 ```Swift
-let jsonObject = [
-    "key": "http://example.com"
-]
+let jsonObject = ["key": "http://example.com"]
 let j = JSON(jsonObject)
 ```
 ```Swift
 extension NSURL: Distillable {
     public static func distil(j: JSON) throws -> Self {
-        return try j.distil().map(self.init(string:)).filterNil()
+        return try j.distil().flatMap(self.init(string:))
     }
 }
 
@@ -294,7 +291,7 @@ __Example__
 let jsonObject = [
     "key": [
         "string_key": "string",
-        "int_key": 100
+        "option_int_key": NSNull()
     ]
 ]
 let j = JSON(jsonObject)
@@ -307,7 +304,7 @@ struct Sample: Distillable {
     static func distil(j: JSON) throws -> Sample {
         return try Sample(
             string: j <| "string_key",
-            int: j <|? "int_key"
+            int: j <|? "option_int_key"
         )
     }
 }
@@ -317,7 +314,7 @@ let sample: Sample = try j <| "key"  // Sample
 
 ### Value transformation
 Alembic supports functional value transformation during the parsing process like `String` -> `NSDate`.  
-Functions that extract value from JSON are possible to return Distillates.  
+Functions that extract value from JSON are possible to return `Distillate` object.  
 So, you can use 'map' 'flatMap' and other following useful functions.  
 
 <table>
@@ -348,8 +345,24 @@ So, you can use 'map' 'flatMap' and other following useful functions.
 </tr>
 
 <tr>
-<td>filter(Value -> Bool)</td>
-<td>If the value is filtered by predicates.<br>
+<td>flatMap(Value throws -> U?</td>
+<td>Returns the non-nil value.<br>
+If the transformed value is nil,<br>
+throw DistillError.FilteredValue</td>
+<td>U.Wrapped</td>
+<td>throw</td>
+</tr>
+
+<tr>
+<td>flatMapError(ErrorType throws -> (U: DistillateType)</td>
+<td>If the error thrown, flatMap its error.</td>
+<td>U.Value</td>
+<td>throw</td>
+</tr>
+
+<tr>
+<td>filter(Value throws -> Bool)</td>
+<td>If the value is filtered by predicates,<br>
 throw DistillError.FilteredValue.</td>
 <td>Value</td>
 <td>throw</td>
@@ -379,7 +392,7 @@ Error handling is not required.</td>
 </tr>
 
 <tr>
-<td>replaceNil(() -> Value.Wrapped)</td>
+<td>replaceNil(() throws -> Value.Wrapped)</td>
 <td>If the value is nil, replace it.</td>
 <td>Value.Wrapped (might replace)</td>
 <td>throw</td>
@@ -401,7 +414,7 @@ throw DistillError.FilteredValue.</td>
 </tr>
 
 <tr>
-<td>replaceEmpty(() -> Value)</td>
+<td>replaceEmpty(() throws -> Value)</td>
 <td>If the value is empty of CollectionType, replace it.</td>
 <td>Value (might replace)</td>
 <td>throw</td>
@@ -420,49 +433,63 @@ throw DistillError.FilteredValue.</td>
 
 __Example__
 ```Swift
-let jsonObject = [
-    "time_string": "2016-04-01 00:00:00"
-]
+let jsonObject = ["time_string": "2016-04-01 00:00:00"]
 let j = JSON(jsonObject)
 ```
 function
 ```Swift
 let date: NSDate = j.distil("time_string")(String)  // "Apr 1, 2016, 12:00 AM"
-    .map { s -> NSDate? in
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.dateFromString(s)
-    }
-    .filterNil()
+    .filter { !$0.isEmpty }
+    .flatMap {
+        let fmt = NSDateFormatter()
+        fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return fmt.dateFromString($0)
+    }  
     .catchReturn(NSDate())
 ```
 custom operator
 ```Swift
 let date: NSDate = (j <| "time_string")(String)  // "Apr 1, 2016, 12:00 AM"
-    .map { s -> NSDate? in
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.dateFromString(s)
+    .filter { !$0.isEmpty }
+    .flatMap {
+        let fmt = NSDateFormatter()
+        fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return fmt.dateFromString($0)
     }
-    .filterNil()
     .catchReturn(NSDate())
 ```
 subscript
 ```Swift
 let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
-    .map { s -> NSDate? in
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter.dateFromString(s)
-    }
-    .filterNil()
+    .filter { !$0.isEmpty }
+    .flatMap {
+        let fmt = NSDateFormatter()
+        fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return fmt.dateFromString($0)
+    }    
     .catchReturn(NSDate())
+```
+
+__Tips__
+You can create `Distillate` by  `Distillate.just(value)`, `Distillate.filter()` and `Distillate.error(error)`.  
+It's provide more convenience to value-transformation.  
+Example:  
+
+```Swift
+struct FindAppleError: ErrorType {}
+
+let message: String = try j.distil("number_of_apples")(Int)
+    .flatMap { count -> Distillate<String> in
+        count > 0 ? .just("\(count) apples found!!") : .filter()
+    }
+    .flatMapError { _ in Distillate.error(FindAppleError()) }
+    .catchReturn { "Anything not found... | Error: \($0)" }
 ```
 
 ### Error handling
 Alembic has simple error handling designs as following.  
 
-__DistilError__
+__DistillError__
 - case MissingPath(JSONPath)  
 - case TypeMismatch(expected: Any.Type, actual: AnyObject)  
 - case FilteredValue(type: Any.Type, value: Any)  
@@ -616,10 +643,10 @@ If you want to try Alembic, use Alembic Playground :)
 ---
 
 ## Playground
-- Open `Alembic.xcworkspace`
-- Build Alembic
-- Then, open `Alembic` playground in `Alembic.xcworkspace` tree view.
-- Enjoy Alembic!
+1. Open Alembic.xcworkspace.
+2. Build the Alembic-iOS.
+3. Open Alembic playground in project navigator.
+4. Enjoy the Alembic!
 
 ---
 
@@ -637,7 +664,7 @@ If your pull request including new function, please write test cases for it.
 Alembic is inspired by great libs
 [Argo](https://github.com/thoughtbot/Argo),
 [Himotoki](https://github.com/ikesyo/Himotoki),
-[SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON).  
+[RxSwift](https://github.com/ReactiveX/RxSwift).  
 Greatly thanks for authors!! :beers:.  
 
 ---

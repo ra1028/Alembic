@@ -28,8 +28,8 @@ public func + (lhs: JSONPath, rhs: JSONPath) -> JSONPath {
     return JSONPath(lhs.paths + rhs.paths)
 }
 
-extension JSONPath: CustomStringConvertible {
-    public var description: String {
+extension JSONPath: CustomDebugStringConvertible {
+    public var debugDescription: String {
         return "JSONPath(\(paths))"
     }
 }
@@ -82,8 +82,8 @@ public func == (lhs: JSONPathElement, rhs: JSONPathElement) -> Bool {
     }
 }
 
-extension JSONPathElement: CustomStringConvertible {
-    public var description: String {
+extension JSONPathElement: CustomDebugStringConvertible {
+    public var debugDescription: String {
         return "\(value)"
     }
 }
