@@ -23,7 +23,7 @@ class TransformTests: XCTestCase {
             let flatMapOptional: String? = try (j <| ["nested", "nested_key"])(String)
                 .flatMap { Optional<String>.Some($0) }
             let flatMapError: String = try (j <| "missing_key")(String)
-                .flatMapError { _ in Distillate<String>.just("flat_map_error") }
+                .flatMapError { _ in Distillate.just("flat_map_error") }
             let catchUp: String = (j <| "error")
                 .catchReturn("catch_return")
             let replaceNil: String = try (j <|? "null")
@@ -48,7 +48,7 @@ class TransformTests: XCTestCase {
                 .to(String)
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(type, value) {
+        } catch let DistillError.FilteredValue(type, value) {
             XCTAssertNotNil(type as? Optional<String>.Type)
             XCTAssertNotNil(value)
         } catch let e {
@@ -61,7 +61,7 @@ class TransformTests: XCTestCase {
                 .to(String)
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(type, value) {
+        } catch let DistillError.FilteredValue(type, value) {
             XCTAssertNotNil(type as? String.Type)
             XCTAssertEqual(value as? String, "value")
         } catch let e {
@@ -74,7 +74,7 @@ class TransformTests: XCTestCase {
                 .to(String)
         
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(type, value) {
+        } catch let DistillError.FilteredValue(type, value) {
             XCTAssertNotNil(type as? String?.Type)
             XCTAssertNotNil(value)
         } catch let e {
@@ -87,7 +87,7 @@ class TransformTests: XCTestCase {
                 .to([String])
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(type, value) {
+        } catch let DistillError.FilteredValue(type, value) {
             XCTAssertNotNil(type as? [String].Type)
             XCTAssert((value as? [String])?.isEmpty ?? false)
         } catch let e {
@@ -111,7 +111,7 @@ class TransformTests: XCTestCase {
                 .to(String)
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(type, value) {
+        } catch let DistillError.FilteredValue(type, value) {
             XCTAssertNotNil(type as? String?.Type)
             XCTAssertNotNil(value)
         } catch let e {
@@ -119,18 +119,17 @@ class TransformTests: XCTestCase {
         }
     }
     
-    func testJustAndFilter() {
+    func testCreateDistillate() {
         let j = JSON(object)
         
         let just = Distillate<String>.just("just")
         XCTAssertEqual(just.to(String), "just")
         
         do {
-            let filter = Distillate<String>.filter()
-            _ = try filter.to(String)
+            _ = try Distillate<String>.filter().to(String)
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(type: type, value: value) {
+        } catch let DistillError.FilteredValue(type: type, value: value) {
             XCTAssertNotNil(type as? String.Type)
             XCTAssertNotNil(value as? Void)
         } catch let e {
@@ -138,25 +137,51 @@ class TransformTests: XCTestCase {
         }
         
         do {
-            let flatMapJust: String = try (j <| "key")(String)
-                .flatMap { _ in Distillate<String>.just("just") }
+            _ = try Distillate<String>.filter().to(String)
             
-            XCTAssertEqual(flatMapJust, "just")
+            XCTFail("Expect the error to occur")
+        } catch let DistillError.FilteredValue(type: type, value: value) {
+            XCTAssertNotNil(type as? String.Type)
+            XCTAssertNotNil(value as? Void)
         } catch let e {
             XCTFail("\(e)")
+        }
+        
+        struct TestError: ErrorType {}
+        
+        do {
+            _ = try Distillate<String>.error(TestError()).to(String)
+            
+            XCTFail("Expect the error to occur")
+        } catch let e {
+            if case is TestError = e {} else {
+                XCTFail("\(e)")
+            }
         }
         
         do {
             _ = try (j <| "key")(String)
-                .flatMap { _ in Distillate<String>.filter() }
+                .flatMap { _ in Distillate.filter() }
                 .to(String)
             
             XCTFail("Expect the error to occur")
-        } catch let DistilError.FilteredValue(type: type, value: value) {
+        } catch let DistillError.FilteredValue(type: type, value: value) {
             XCTAssertNotNil(type as? String.Type)
             XCTAssertNotNil(value as? Void)
         } catch let e {
             XCTFail("\(e)")
+        }
+        
+        do {
+            _ = try (j <| "missing_key")(String)
+                .flatMapError { _ in Distillate.error(TestError()) }
+                .to(String)
+            
+            XCTFail("Expect the error to occur")
+        } catch let e {
+            if case is TestError = e {} else {
+                XCTFail("\(e)")
+            }
         }
     }
 }

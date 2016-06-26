@@ -28,13 +28,13 @@ public struct JSON {
             let json = try NSJSONSerialization.JSONObjectWithData(data, options: options)
             self.init(json)
         } catch {
-            throw DistilError.TypeMismatch(expected: NSData.self, actual: data)
+            throw DistillError.TypeMismatch(expected: NSData.self, actual: data)
         }
     }
     
     public init (string: String, encoding: NSStringEncoding = NSUTF8StringEncoding, allowLossyConversion: Bool = false, options: NSJSONReadingOptions = .AllowFragments) throws {
         guard let json = string.dataUsingEncoding(encoding, allowLossyConversion: allowLossyConversion) else {
-            throw DistilError.TypeMismatch(expected: String.self, actual: string)
+            throw DistillError.TypeMismatch(expected: String.self, actual: string)
         }
         try self.init(data: json, options: options)
     }
@@ -65,8 +65,8 @@ public extension JSON {
         return { _ in
             do {
                 return try JSON(self.distilRecursive(path)).distil()
-            } catch let DistilError.MissingPath(missing) where path != missing {
-                throw DistilError.MissingPath(path + missing)
+            } catch let DistillError.MissingPath(missing) where path != missing {
+                throw DistillError.MissingPath(path + missing)
             }
         }
     }
@@ -95,9 +95,9 @@ public extension JSON {
         return { _ in
             do {
                 return try self.distil(path)(T)
-            } catch let DistilError.TypeMismatch(expected: _, actual: actual) {
-                throw DistilError.TypeMismatch(expected: Optional<T>.self, actual: actual)
-            } catch let DistilError.MissingPath(missing) where missing == path {
+            } catch let DistillError.TypeMismatch(expected: _, actual: actual) {
+                throw DistillError.TypeMismatch(expected: Optional<T>.self, actual: actual)
+            } catch let DistillError.MissingPath(missing) where missing == path {
                 return nil
             }
         }
@@ -155,9 +155,9 @@ public extension JSON {
         return { _ in
             do {
                 return try self.distil(path)([T])
-            } catch let DistilError.TypeMismatch(expected: _, actual: actual) {
-                throw DistilError.TypeMismatch(expected: Optional<[T]>.self, actual: actual)
-            } catch let DistilError.MissingPath(missing) where missing == path {
+            } catch let DistillError.TypeMismatch(expected: _, actual: actual) {
+                throw DistillError.TypeMismatch(expected: Optional<[T]>.self, actual: actual)
+            } catch let DistillError.MissingPath(missing) where missing == path {
                 return nil
             }
         }
@@ -220,9 +220,9 @@ public extension JSON {
         return { _ in
             do {
                 return try self.distil(path)([String: T])
-            } catch let DistilError.TypeMismatch(expected: _, actual: actual) {
-                throw DistilError.TypeMismatch(expected: Optional<[String: T]>.self, actual: actual)
-            } catch let DistilError.MissingPath(missing) where missing == path {
+            } catch let DistillError.TypeMismatch(expected: _, actual: actual) {
+                throw DistillError.TypeMismatch(expected: Optional<[String: T]>.self, actual: actual)
+            } catch let DistillError.MissingPath(missing) where missing == path {
                 return nil
             }
         }
@@ -302,7 +302,7 @@ private extension JSON {
                 let dictionary: [String: AnyObject] = try cast(object)
                 
                 guard let value = dictionary[key] where !(value is NSNull) else {
-                    throw DistilError.MissingPath(path)
+                    throw DistillError.MissingPath(path)
                 }
                 
                 if paths.count == 1 {
@@ -315,13 +315,13 @@ private extension JSON {
                 let array: [AnyObject] = try cast(object)
                 
                 guard array.count > index else {
-                    throw DistilError.MissingPath(path)
+                    throw DistillError.MissingPath(path)
                 }
                 
                 let value = array[index]
                 
                 if value is NSNull {
-                    throw DistilError.MissingPath(path)
+                    throw DistillError.MissingPath(path)
                 }
                 
                 if paths.count == 1 {
@@ -338,7 +338,7 @@ private extension JSON {
     
     func cast<T>(object: AnyObject) throws -> T {
         guard let value = object as? T else {
-            throw DistilError.TypeMismatch(expected: T.self, actual: object)
+            throw DistillError.TypeMismatch(expected: T.self, actual: object)
         }
         return value
     }

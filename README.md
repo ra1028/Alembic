@@ -354,7 +354,7 @@ throw DistillError.FilteredValue</td>
 </tr>
 
 <tr>
-<td>flatMap(ErrorType throws -> (U: DistillateType)</td>
+<td>flatMapError(ErrorType throws -> (U: DistillateType)</td>
 <td>If the error thrown, flatMap its error.</td>
 <td>U.Value</td>
 <td>throw</td>
@@ -471,22 +471,25 @@ let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
 ```
 
 __Tips__
-You can create `Distillate` by  `Distillate<Value>.just(v)` or `Distillate<Value>.filter()`.  
+You can create `Distillate` by  `Distillate.just(value)`, `Distillate.filter()` and `Distillate.error(error)`.  
 It's provide more convenience to value-transformation.  
 Example:  
 
 ```Swift
+struct FindAppleError: ErrorType {}
+
 let message: String = try j.distil("number_of_apples")(Int)
     .flatMap { count -> Distillate<String> in
-        count < 0 ? .just("\(count) apples found!!") : .filter()
+        count > 0 ? .just("\(count) apples found!!") : .filter()
     }
+    .flatMapError { _ in Distillate.error(FindAppleError()) }
     .catchReturn { "Anything not found... | Error: \($0)" }
 ```
 
 ### Error handling
 Alembic has simple error handling designs as following.  
 
-__DistilError__
+__DistillError__
 - case MissingPath(JSONPath)  
 - case TypeMismatch(expected: Any.Type, actual: AnyObject)  
 - case FilteredValue(type: Any.Type, value: Any)  

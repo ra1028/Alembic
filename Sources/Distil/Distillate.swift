@@ -56,8 +56,12 @@ public class Distillate<Value>: DistillateType {
         return SecureDistillate.init(element)
     }
     
+    public static func error(e: ErrorType) -> InsecureDistillate<Value> {
+        return InsecureDistillate { throw e }
+    }
+    
     public static func filter() -> InsecureDistillate<Value> {
-        return InsecureDistillate { throw DistilError.FilteredValue(type: Value.self, value: ()) }
+        return error(DistillError.FilteredValue(type: Value.self, value: ()))
     }
 }
 
@@ -112,7 +116,7 @@ public extension DistillateType {
     func filter(@noescape predicate: Value throws -> Bool) throws -> Value {
         return try map {
             if try predicate($0) { return $0 }
-            throw DistilError.FilteredValue(type: Value.self, value: $0)
+            throw DistillError.FilteredValue(type: Value.self, value: $0)
         }
     }
     

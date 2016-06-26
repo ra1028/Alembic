@@ -1,18 +1,18 @@
 //
-//  DistilError.swift
+//  DistillError.swift
 //  Alembic
 //
 //  Created by Ryo Aoyama on 3/13/16.
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
-public enum DistilError: ErrorType {
+public enum DistillError: ErrorType {
     case MissingPath(JSONPath)
     case TypeMismatch(expected: Any.Type, actual: AnyObject)
     case FilteredValue(type: Any.Type, value: Any)
 }
 
-extension DistilError: CustomDebugStringConvertible {    
+extension DistillError: CustomDebugStringConvertible {    
     public var debugDescription: String {
         switch self {
         case let .MissingPath(path):
