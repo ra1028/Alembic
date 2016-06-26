@@ -40,22 +40,6 @@
 
 ## Overview  
 ```Swift
-struct User: Distillable, Serializable {
-    let name: String
-    let thumbnailUrl: NSURL
-
-    static func distil(j: JSON) throws -> User {
-        return try User(
-            name: j <| "name",
-            thumbnailUrl: (j <| "url").map(NSURL.init(string:)).filterNil()
-        )
-    }
-
-    func serialize() -> JSONObject {
-        return ["name": name, "url": thumbnailUrl.absoluteString]
-    }
-}
-
 do {
     let j = JSON(obj)
 
@@ -73,6 +57,22 @@ do {
     let userJsonData = JSON.serializeToData(users)
 } catch {
     // Do error handling...
+}
+
+struct User: Distillable, Serializable {
+    let name: String
+    let thumbnailUrl: NSURL
+
+    static func distil(j: JSON) throws -> User {
+        return try User(
+            name: j <| "name",
+            thumbnailUrl: (j <| "url").flatMap(NSURL.init(string:))
+        )
+    }
+
+    func serialize() -> JSONObject {
+        return ["name": name, "url": thumbnailUrl.absoluteString]
+    }
 }
 ```
 
