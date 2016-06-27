@@ -209,8 +209,8 @@ subscript
 let string: String = try j["key"].distil()  // "string"
 ```
 
-__Tips__
-You can set the generic type as following:
+__Tips__  
+You can set the generic type as following:  
 ```Swift
 let string = try j.distil("key").to(String)  // "string"
 ```
@@ -238,7 +238,16 @@ let int: Int = try j <| ["nested", "array", 2]  // 3
 subscript
 ```Swift
 let int: Int = try j["nested", "array", 2].distil()  // 3  
+let int: Int = try j["nested"]["array"][2].distil()  // 3  
 ```
+
+__Tips__  
+Syntax like [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) is here:  
+```
+let json = try JSON(data: jsonData)
+let userName = try json[0]["user"]["name"].to(String)
+```
+
 
 ### Optional objects parsing
 Has functions to parsing optional objects.  
@@ -262,6 +271,7 @@ let int: Int? = try j <|? ["nested", "key"]  // nil
 subscript
 ```Swift
 let int: Int? = try j["nested", "key"].option()  // nil
+let int: Int? = try j["nested"]["key"].option()  // nil
 ```
 
 ### Custom objects parsing
@@ -470,7 +480,7 @@ let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
     .catchReturn(NSDate())
 ```
 
-__Tips__
+__Tips__  
 You can create `Distillate` by  `Distillate.just(value)`, `Distillate.filter()` and `Distillate.error(error)`.  
 It's provide more convenience to value-transformation.  
 Example:  
