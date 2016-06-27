@@ -48,13 +48,15 @@ class DistilTests: XCTestCase {
             
             let string: String = try j["string"].distil()
             let array: [String] = try j["array"].distil()
-            let dictionary  = try j["dictionary"].to([String: Int])
-            let nestedValue = try j["nested", "array", 2].to(Int)
+            let dictionary: [String: Int] = try j["dictionary"].distil()
+            let nestedValue: Int = try j["nested", "array", 2].distil()
+            let subscriptChain: Int = try j["nested"]["array"][2].distil()
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(array, ["A", "B", "C"])
             XCTAssertEqual(dictionary, ["A": 1, "B": 2, "C": 3])
             XCTAssertEqual(nestedValue, 3)
+            XCTAssertEqual(subscriptChain, 3)
         } catch let e {
             XCTFail("\(e)")
         }
