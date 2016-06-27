@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct DistillSubscripted {
+public final class DistillSubscripted {
     private let j: JSON
     private let path: JSONPath
     
