@@ -95,6 +95,15 @@
 		2AE81D2B1D22E49E00523F0D /* DistillateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2A1D22E49E00523F0D /* DistillateType.swift */; };
 		2AE81D2D1D22E4F700523F0D /* InsecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2C1D22E4F700523F0D /* InsecureDistillate.swift */; };
 		2AE81D2F1D22E51100523F0D /* SecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2E1D22E51100523F0D /* SecureDistillate.swift */; };
+		2AE81D301D2343E600523F0D /* InsecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2C1D22E4F700523F0D /* InsecureDistillate.swift */; };
+		2AE81D311D2343E700523F0D /* InsecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2C1D22E4F700523F0D /* InsecureDistillate.swift */; };
+		2AE81D321D2343E700523F0D /* InsecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2C1D22E4F700523F0D /* InsecureDistillate.swift */; };
+		2AE81D331D2343EB00523F0D /* SecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2E1D22E51100523F0D /* SecureDistillate.swift */; };
+		2AE81D341D2343EC00523F0D /* SecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2E1D22E51100523F0D /* SecureDistillate.swift */; };
+		2AE81D351D2343EC00523F0D /* SecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2E1D22E51100523F0D /* SecureDistillate.swift */; };
+		2AE81D361D2343F200523F0D /* DistillateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2A1D22E49E00523F0D /* DistillateType.swift */; };
+		2AE81D371D2343F200523F0D /* DistillateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2A1D22E49E00523F0D /* DistillateType.swift */; };
+		2AE81D381D2343F300523F0D /* DistillateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2A1D22E49E00523F0D /* DistillateType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -735,10 +744,13 @@
 				2AD07F6F1CB244C100B9D10B /* OptionalType.swift in Sources */,
 				2AD07F701CB244C100B9D10B /* JSON.swift in Sources */,
 				2AD07F711CB244C100B9D10B /* JSONPath.swift in Sources */,
+				2AE81D371D2343F200523F0D /* DistillateType.swift in Sources */,
 				2AD07F721CB244C100B9D10B /* Distillable.swift in Sources */,
 				2AD07F731CB244C100B9D10B /* Distillate.swift in Sources */,
 				2AD07F741CB244C100B9D10B /* DistillError.swift in Sources */,
+				2AE81D341D2343EC00523F0D /* SecureDistillate.swift in Sources */,
 				2AD07F751CB244C100B9D10B /* DistillSubscripted.swift in Sources */,
+				2AE81D311D2343E700523F0D /* InsecureDistillate.swift in Sources */,
 				2AD07F761CB244C100B9D10B /* Serializable.swift in Sources */,
 				2AD07F771CB244C100B9D10B /* JSONObject.swift in Sources */,
 				2AD07F781CB244C100B9D10B /* JSONValue.swift in Sources */,
@@ -754,10 +766,13 @@
 				2AD07F881CB24BEA00B9D10B /* OptionalType.swift in Sources */,
 				2AD07F891CB24BEA00B9D10B /* JSON.swift in Sources */,
 				2AD07F8A1CB24BEA00B9D10B /* JSONPath.swift in Sources */,
+				2AE81D381D2343F300523F0D /* DistillateType.swift in Sources */,
 				2AD07F8B1CB24BEA00B9D10B /* Distillable.swift in Sources */,
 				2AD07F8C1CB24BEA00B9D10B /* Distillate.swift in Sources */,
 				2AD07F8D1CB24BEA00B9D10B /* DistillError.swift in Sources */,
+				2AE81D351D2343EC00523F0D /* SecureDistillate.swift in Sources */,
 				2AD07F8E1CB24BEA00B9D10B /* DistillSubscripted.swift in Sources */,
+				2AE81D321D2343E700523F0D /* InsecureDistillate.swift in Sources */,
 				2AD07F8F1CB24BEA00B9D10B /* Serializable.swift in Sources */,
 				2AD07F901CB24BEA00B9D10B /* JSONObject.swift in Sources */,
 				2AD07F911CB24BEA00B9D10B /* JSONValue.swift in Sources */,
@@ -785,10 +800,13 @@
 				2A2D24491CB16AEB00D8AD99 /* OptionalType.swift in Sources */,
 				2A2D244A1CB16AEB00D8AD99 /* JSON.swift in Sources */,
 				2A2D244B1CB16AEB00D8AD99 /* JSONPath.swift in Sources */,
+				2AE81D361D2343F200523F0D /* DistillateType.swift in Sources */,
 				2A2D244C1CB16AEB00D8AD99 /* Distillable.swift in Sources */,
 				2A2D244D1CB16AEB00D8AD99 /* Distillate.swift in Sources */,
 				2A2D244E1CB16AEB00D8AD99 /* DistillError.swift in Sources */,
+				2AE81D331D2343EB00523F0D /* SecureDistillate.swift in Sources */,
 				2A2D244F1CB16AEB00D8AD99 /* DistillSubscripted.swift in Sources */,
+				2AE81D301D2343E600523F0D /* InsecureDistillate.swift in Sources */,
 				2A2D24501CB16AEB00D8AD99 /* Serializable.swift in Sources */,
 				2A2D24511CB16AEB00D8AD99 /* JSONObject.swift in Sources */,
 				2A2D24521CB16AEB00D8AD99 /* JSONValue.swift in Sources */,
