@@ -50,7 +50,7 @@ do {
     let transform: Int = (j <| "transform")
         .filter { $0 > 0 }
         .map { $0 * 2 }
-        .catchReturn(0)
+        .recover(0)
 
     let users: [User] = try j <| "users"
 
@@ -243,7 +243,7 @@ let int: Int = try j["nested"]["array"][2].distil()  // 3
 
 __Tips__  
 Syntax like [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) is here:  
-```
+```Swift
 let json = try JSON(data: jsonData)
 let userName = try json[0]["user"]["name"].to(String)
 ```
@@ -379,7 +379,7 @@ throw DistillError.FilteredValue.</td>
 </tr>
 
 <tr>
-<td>catchReturn(Value)</td>
+<td>recover(Value)</td>
 <td>If the error was thrown, replace it.<br>
 Error handling is not required.</td>
 <td>Value (might replace)</td>
@@ -387,7 +387,7 @@ Error handling is not required.</td>
 </tr>
 
 <tr>
-<td>catchReturn(ErrorType -> Value)</td>
+<td>recover(ErrorType -> Value)</td>
 <td>If the error was thrown, replace it.<br>
 Error handling is not required.</td>
 <td>Value (might replace)</td>
@@ -455,7 +455,7 @@ let date: NSDate = j.distil("time_string")(String)  // "Apr 1, 2016, 12:00 AM"
         fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return fmt.dateFromString($0)
     }  
-    .catchReturn(NSDate())
+    .recover(NSDate())
 ```
 custom operator
 ```Swift
@@ -466,7 +466,7 @@ let date: NSDate = (j <| "time_string")(String)  // "Apr 1, 2016, 12:00 AM"
         fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return fmt.dateFromString($0)
     }
-    .catchReturn(NSDate())
+    .recover(NSDate())
 ```
 subscript
 ```Swift
@@ -477,7 +477,7 @@ let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
         fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return fmt.dateFromString($0)
     }    
-    .catchReturn(NSDate())
+    .recover(NSDate())
 ```
 
 __Tips__  
@@ -493,7 +493,7 @@ let message: String = try j.distil("number_of_apples")(Int)
         count > 0 ? .just("\(count) apples found!!") : .filter()
     }
     .flatMapError { _ in Distillate.error(FindAppleError()) }
-    .catchReturn { "Anything not found... | Error: \($0)" }
+    .recover { "Anything not found... | Error: \($0)" }
 ```
 
 ### Error handling
@@ -569,12 +569,12 @@ try? j[path].option()<br>
 </table>
 
 __Don't wanna handling the error?__  
-If you don't care about error handling, use `try?` or `(j <| "key").catchReturn(value)`.  
+If you don't care about error handling, use `try?` or `(j <| "key").recover(value)`.  
 ```Swift
 let value: String? = try? j <| "key"
 ```
 ```Swift
-let value: String = (j <| "key").catchReturn("sub-value")
+let value: String = (j <| "key").recover("sub-value")
 ```
 
 ### Serialize objects to JSON
