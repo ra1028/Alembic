@@ -92,6 +92,9 @@
 		2AD07FC31CB24DF900B9D10B /* SerializeTests.json in Resources */ = {isa = PBXBuildFile; fileRef = 2A316B151CA84DD800765945 /* SerializeTests.json */; };
 		2AE41A1D1CB164450042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2AE41A331CB166AF0042A52F /* Alembic.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE41A1C1CB164450042A52F /* Alembic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2AE81D2B1D22E49E00523F0D /* DistillateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2A1D22E49E00523F0D /* DistillateType.swift */; };
+		2AE81D2D1D22E4F700523F0D /* InsecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2C1D22E4F700523F0D /* InsecureDistillate.swift */; };
+		2AE81D2F1D22E51100523F0D /* SecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE81D2E1D22E51100523F0D /* SecureDistillate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +160,9 @@
 		2AE41A201CB164C10042A52F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AE41A271CB165A50042A52F /* Alembic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alembic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AE41A311CB1660A0042A52F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2AE81D2A1D22E49E00523F0D /* DistillateType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistillateType.swift; sourceTree = "<group>"; };
+		2AE81D2C1D22E4F700523F0D /* InsecureDistillate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsecureDistillate.swift; sourceTree = "<group>"; };
+		2AE81D2E1D22E51100523F0D /* SecureDistillate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureDistillate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,7 +236,10 @@
 				2A28D44F1CA4A78400964742 /* JSON.swift */,
 				2A28D4501CA4A78400964742 /* JSONPath.swift */,
 				2A28D44D1CA4A78400964742 /* Distillable.swift */,
+				2AE81D2C1D22E4F700523F0D /* InsecureDistillate.swift */,
+				2AE81D2E1D22E51100523F0D /* SecureDistillate.swift */,
 				2A28D44E1CA4A78400964742 /* Distillate.swift */,
+				2AE81D2A1D22E49E00523F0D /* DistillateType.swift */,
 				2A28D44C1CA4A78400964742 /* DistillError.swift */,
 				2AC332E61CA9CFA2005E5B2D /* DistillSubscripted.swift */,
 			);
@@ -701,15 +710,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A2D243C1CB16ACB00D8AD99 /* Operators.swift in Sources */,
+				2AE81D2B1D22E49E00523F0D /* DistillateType.swift in Sources */,
 				2A2D243D1CB16ACB00D8AD99 /* OptionalType.swift in Sources */,
 				2A2D243E1CB16ACB00D8AD99 /* JSON.swift in Sources */,
 				2A2D243F1CB16ACB00D8AD99 /* JSONPath.swift in Sources */,
 				2A2D24401CB16ACB00D8AD99 /* Distillable.swift in Sources */,
+				2AE81D2D1D22E4F700523F0D /* InsecureDistillate.swift in Sources */,
 				2A2D24411CB16ACB00D8AD99 /* Distillate.swift in Sources */,
 				2A2D24421CB16ACB00D8AD99 /* DistillError.swift in Sources */,
 				2A2D24431CB16ACB00D8AD99 /* DistillSubscripted.swift in Sources */,
 				2A2D24441CB16ACB00D8AD99 /* Serializable.swift in Sources */,
 				2A2D24451CB16ACB00D8AD99 /* JSONObject.swift in Sources */,
+				2AE81D2F1D22E51100523F0D /* SecureDistillate.swift in Sources */,
 				2A2D24461CB16ACB00D8AD99 /* JSONValue.swift in Sources */,
 				2A2D24471CB16ACB00D8AD99 /* JSONValueConvertible.swift in Sources */,
 			);
