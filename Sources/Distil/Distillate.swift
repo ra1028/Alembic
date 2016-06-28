@@ -15,16 +15,18 @@ public class Distillate<Value>: DistillateType {
     public func value() throws -> Value {
         fatalError("Abstract method")
     }
-    
-    public static func just(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
+}
+
+public extension Distillate {
+    static func just(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
         return SecureDistillate.init(element)
     }
     
-    public static func error(e: ErrorType) -> InsecureDistillate<Value> {
+    static func error(e: ErrorType) -> InsecureDistillate<Value> {
         return InsecureDistillate { throw e }
     }
     
-    public static func filter() -> InsecureDistillate<Value> {
+    static func filter() -> InsecureDistillate<Value> {
         return error(DistillError.FilteredValue(type: Value.self, value: ()))
     }
 }
