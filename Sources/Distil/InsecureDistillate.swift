@@ -27,5 +27,24 @@ public final class InsecureDistillate<Value>: Distillate<Value> {
 }
 
 public extension InsecureDistillate {
+    @warn_unused_result
+    func catchReturn(@noescape handler: ErrorType -> Value) -> Value {
+        do { return try value() }
+        catch let e { return handler(e) }
+    }
     
+    @warn_unused_result
+    func catchReturn(handler: ErrorType -> Value) -> SecureDistillate<Value> {
+        return SecureDistillate { self.catchReturn(handler) }
+    }
+    
+    @warn_unused_result
+    func catchReturn(@autoclosure element: () -> Value) -> Value {
+        return catchReturn { _ in element() }
+    }
+    
+    @warn_unused_result
+    func catchReturn(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
+        return catchReturn { _ in element() }
+    }
 }

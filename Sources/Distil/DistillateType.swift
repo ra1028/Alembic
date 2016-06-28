@@ -67,27 +67,6 @@ public extension DistillateType {
     func filter(predicate: Value throws -> Bool) -> InsecureDistillate<Value> {
         return InsecureDistillate { try self.filter(predicate) }
     }
-    
-    @warn_unused_result
-    func catchReturn(@noescape handler: ErrorType -> Value) -> Value {
-        do { return try value() }
-        catch let e { return handler(e) }
-    }
-    
-    @warn_unused_result
-    func catchReturn(handler: ErrorType -> Value) -> SecureDistillate<Value> {
-        return SecureDistillate { self.catchReturn(handler) }
-    }
-    
-    @warn_unused_result
-    func catchReturn(@autoclosure element: () -> Value) -> Value {
-        return catchReturn { _ in element() }
-    }
-    
-    @warn_unused_result
-    func catchReturn(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
-        return catchReturn { _ in element() }
-    }
 }
 
 public extension DistillateType where Value: OptionalType {
