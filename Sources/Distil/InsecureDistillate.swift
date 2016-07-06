@@ -47,4 +47,26 @@ public extension InsecureDistillate {
     func recover(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
         return recover { _ in element() }
     }
+    
+    @warn_unused_result
+    func mapError(f: ErrorType throws -> ErrorType) throws -> Value {
+        do { return try value() }
+        catch let e { throw try f(e) }
+    }
+    
+    @warn_unused_result
+    func mapError(f: ErrorType throws -> ErrorType) -> InsecureDistillate<Value> {
+        return InsecureDistillate { try self.mapError(f) }
+    }
+    
+    @warn_unused_result
+    func flatMapError<T: DistillateType where T.Value == Value>(f: ErrorType throws -> T) throws -> Value {
+        do { return try value() }
+        catch let e { return try f(e).value() }
+    }
+    
+    @warn_unused_result
+    func flatMapError<T: DistillateType where T.Value == Value>(f: ErrorType throws -> T) -> InsecureDistillate<Value> {
+        return InsecureDistillate { try self.flatMapError(f) }
+    }
 }

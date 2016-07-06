@@ -45,22 +45,10 @@ public extension DistillateType {
     }
     
     @warn_unused_result
-    func flatMapError<T: DistillateType where T.Value == Value>(f: ErrorType throws -> T) throws -> Value {
-        do { return try value() }
-        catch let e { return try f(e).value() }
-    }
-    
-    @warn_unused_result
-    func flatMapError<T: DistillateType where T.Value == Value>(f: ErrorType throws -> T) -> InsecureDistillate<Value> {
-        return InsecureDistillate { try self.flatMapError(f) }
-    }
-    
-    @warn_unused_result
     func filter(@noescape predicate: Value throws -> Bool) throws -> Value {
-        return try map {
-            if try predicate($0) { return $0 }
-            throw DistillError.FilteredValue(type: Value.self, value: $0)
-        }
+        let v = try value()
+        if try predicate(v) { return v }
+        throw DistillError.FilteredValue(type: Value.self, value: v)
     }
     
     @warn_unused_result
