@@ -10,6 +10,8 @@ import XCTest
 import Alembic
 
 class TransformTests: XCTestCase {
+    private struct TestError: ErrorType {}
+    
     let object = TestJSON.Transform.object
     
     func testTransform() {
@@ -20,7 +22,7 @@ class TransformTests: XCTestCase {
                 .map { "map_" + $0 }
             let flatMap: String = try (j <| ["nested", "nested_key"])(String)
                 .flatMap { v -> Distillate<String> in (j <| "key").map { "flatMap_" + $0 + "_with_" + v } }
-            let flatMapOptional: String? = try (j <| ["nested", "nested_key"])(String)
+            let flatMapOptional: String = try (j <| ["nested", "nested_key"])(String)
                 .flatMap { Optional<String>.Some($0) }
             let flatMapError: String = try (j <| "missing_key")(String)
                 .flatMapError { _ in Distillate.just("flat_map_error") }
@@ -93,6 +95,16 @@ class TransformTests: XCTestCase {
         } catch let e {
             XCTFail("\(e)")
         }
+        
+        do {
+            _ = try (j <| "missing_key")
+                .mapError { _ in TestError() }
+                .to(String)
+            
+            XCTFail("Expect the error to occur")
+        } catch let e {
+            if case is TestError = e {} else { XCTFail("\(e)") }
+        }
     }
     
     func testSubscriptTransform() {
@@ -147,16 +159,12 @@ class TransformTests: XCTestCase {
             XCTFail("\(e)")
         }
         
-        struct TestError: ErrorType {}
-        
         do {
             _ = try Distillate<String>.error(TestError()).to(String)
             
             XCTFail("Expect the error to occur")
         } catch let e {
-            if case is TestError = e {} else {
-                XCTFail("\(e)")
-            }
+            if case is TestError = e {} else { XCTFail("\(e)") }
         }
         
         do {
