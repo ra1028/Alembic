@@ -19,8 +19,6 @@
 ## Contents
 - [Overview](#overview)
 - [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
 - [Usage](#usage)
   + [Initialization](#initialization)
   + [JSON parsing](#json-parsing)
@@ -31,50 +29,12 @@
   + [Value transformation](#value-transformation)
   + [Error handling](#error-handling)
   + [Serialize objects to JSON](#serialize-objects-to-json)
+- [Requirements](#requirements)
+- [Installation](#installation)
 - [Playground](#playground)
 - [Contribution](#contribution)
 - [About](#about)
 - [License](#license)
-
----
-
-## Overview  
-```Swift
-do {
-    let j = JSON(obj)
-
-    let str1: String = try j.distil("str1")
-    let str2: String = try j <| "str2"
-    let str3: String = try j["str3"].distil()
-
-    let transform: Int = (j <| "transform")
-        .filter { $0 > 0 }
-        .map { $0 * 2 }
-        .recover(0)
-
-    let users: [User] = try j <| "users"
-
-    let userJsonData = JSON.serializeToData(users)
-} catch {
-    // Do error handling...
-}
-
-struct User: Distillable, Serializable {
-    let name: String
-    let thumbnailUrl: NSURL
-
-    static func distil(j: JSON) throws -> User {
-        return try User(
-            name: j <| "name",
-            thumbnailUrl: (j <| "url").flatMap(NSURL.init(string:))
-        )
-    }
-
-    func serialize() -> JSONObject {
-        return ["name": name, "url": thumbnailUrl.absoluteString]
-    }
-}
-```
 
 ---
 
@@ -89,46 +49,47 @@ struct User: Distillable, Serializable {
 - [x] Flexible syntaxes
 
 ---
-
-## Requirements
-- Swift 2.2 / Xcode 7.3
-- OS X 10.9 or later
-- iOS 8.0 or later
-- watchOS 2.0 or later
-- tvOS 9.0 or later
-
----
-
-## Installation
-
-### [CocoaPods](https://cocoapods.org/)  
-Add the following to your Podfile:
-```ruby
-use_frameworks!
-pod 'Alembic'
-```
-
-### [Carthage](https://github.com/Carthage/Carthage)  
-Add the following to your Cartfile:
-```ruby
-github "ra1028/Alembic"
-```
-
-### [CocoaSeeds](https://github.com/devxoul/CocoaSeeds)  
-Add the following to your Seedfile:
-```ruby
-github "ra1028/Alembic", :files => "Sources/**/*.swift"
-```
-
-### [Swift Package Manager](https://github.com/apple/swift-package-manager)
-Add the following to your Package.swift:
+A trait of __Alembic__ is to enable easy JSON parsing and transform its value by data streams.  
+It's the same also in the value-parsing or object-mapping.  
+Followings is simple example of json parsing.    
+## Overview  
 ```Swift
-let package = Package(
-    name: "ProjectName",
-    dependencies: [
-        .Package(url: "https://github.com/ra1028/Alembic.git", majorVersion: 1)
-    ]
-)
+let j = JSON(obj)
+```
+Value parsing
+```Swift
+let str1: String = try j.distil("str1")
+let str2: String = try j <| "str2"
+let str3: String = try j["str3"].distil()
+```
+Object mapping
+```Swift
+struct User {
+    let name: String
+    let avatarUrl: NSURL
+}
+
+let user: User = try j.distil("user")(JSON).map {
+    try User(
+        name: $0 <| "name",
+        avatarUrl: ($0 <| "avatar_url").flatMap(NSURL.init(string:))
+    )
+}
+```
+```Swift
+struct User: Distillable {
+    let name: String
+    let avatarUrl: NSURL
+
+    static func distil(j: JSON) throws -> User {
+        return try User(
+            name: j <| "name",
+            avatarUrl: (j <| "avatar_url").flatMap(NSURL.init(string:))
+        )
+    }
+}
+
+let user: User = try j <| "user"
 ```
 
 ---
@@ -364,6 +325,13 @@ throw DistillError.FilteredValue</td>
 </tr>
 
 <tr>
+<td>mapError(ErrorType throws -> ErrorType</td>
+<td>If the error thrown, replace its error.</td>
+<td>Value</td>
+<td>throw</td>
+</tr>
+
+<tr>
 <td>flatMapError(ErrorType throws -> (U: DistillateType)</td>
 <td>If the error thrown, flatMap its error.</td>
 <td>U.Value</td>
@@ -454,33 +422,19 @@ let date: NSDate = j.distil("time_string")(String)  // "Apr 1, 2016, 12:00 AM"
         let fmt = NSDateFormatter()
         fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return fmt.dateFromString($0)
-    }  
-    .recover(NSDate())
-```
-custom operator
-```Swift
-let date: NSDate = (j <| "time_string")(String)  // "Apr 1, 2016, 12:00 AM"
-    .filter { !$0.isEmpty }
-    .flatMap {
-        let fmt = NSDateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return fmt.dateFromString($0)
     }
-    .recover(NSDate())
-```
-subscript
-```Swift
-let date: NSDate = j["time_string"].distil(String)  // "Apr 1, 2016, 12:00 AM"
-    .filter { !$0.isEmpty }
-    .flatMap {
-        let fmt = NSDateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return fmt.dateFromString($0)
-    }    
     .recover(NSDate())
 ```
 
 __Tips__  
+When the transforming streams is complicated, often generic type is missing.  
+At that time, set the type explicitly as following:  
+```Swift
+let value: String = try j.distil("number")(Int).map { "Number \($0)" }
+let value: String = try (j <| "number")(Int).map { "Number \($0)" }
+let value: String = try j["number"].distil(Int).map { "Number \($0)" }
+```
+
 You can create `Distillate` by  `Distillate.just(value)`, `Distillate.filter()` and `Distillate.error(error)`.  
 It's provide more convenience to value-transformation.  
 Example:  
@@ -569,12 +523,12 @@ try? j[path].option()<br>
 </table>
 
 __Don't wanna handling the error?__  
-If you don't care about error handling, use `try?` or `(j <| "key").recover(value)`.  
+If you don't care about error handling, use `try?` or `j.distil("key").recover(value)`.  
 ```Swift
-let value: String? = try? j <| "key"
+let value: String? = try? j.distil("key")
 ```
 ```Swift
-let value: String = (j <| "key").recover("sub-value")
+let value: String = j.distil("key").recover("sub-value")
 ```
 
 ### Serialize objects to JSON
@@ -649,6 +603,49 @@ struct User: Serializable {
 ### More Example
 See the Alembic `Tests` for more examples.  
 If you want to try Alembic, use Alembic Playground :)
+
+---
+
+## Requirements
+- Swift 2.2 / Xcode 7.3
+- OS X 10.9 or later
+- iOS 8.0 or later
+- watchOS 2.0 or later
+- tvOS 9.0 or later
+
+---
+
+## Installation
+
+### [CocoaPods](https://cocoapods.org/)  
+Add the following to your Podfile:
+```ruby
+use_frameworks!
+pod 'Alembic'
+```
+
+### [Carthage](https://github.com/Carthage/Carthage)  
+Add the following to your Cartfile:
+```ruby
+github "ra1028/Alembic"
+```
+
+### [CocoaSeeds](https://github.com/devxoul/CocoaSeeds)  
+Add the following to your Seedfile:
+```ruby
+github "ra1028/Alembic", :files => "Sources/**/*.swift"
+```
+
+### [Swift Package Manager](https://github.com/apple/swift-package-manager)
+Add the following to your Package.swift:
+```Swift
+let package = Package(
+    name: "ProjectName",
+    dependencies: [
+        .Package(url: "https://github.com/ra1028/Alembic.git", majorVersion: 1)
+    ]
+)
+```
 
 ---
 
