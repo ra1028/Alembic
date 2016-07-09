@@ -19,14 +19,34 @@ public final class InsecureDistillate<Value>: Distillate<Value> {
     public override func value() throws -> Value {
         return try thunk()
     }
+}
+
+public extension InsecureDistillate {
+    func success(@noescape handler: Value -> Void) -> InsecureDistillate<Value> {
+        do {
+            let v = try value()
+            handler(v)
+            return InsecureDistillate { v }
+        } catch let e {
+            return InsecureDistillate { throw e }
+        }
+    }
+    
+    func failure(@noescape handler: ErrorType -> Void) -> InsecureDistillate<Value> {
+        do {
+            let v = try value()
+            return InsecureDistillate { v }
+        } catch let e {
+            handler(e)
+            return InsecureDistillate { throw e }
+        }
+    }
     
     @warn_unused_result
     public func to(_: Value.Type) throws -> Value {
         return try thunk()
     }
-}
-
-public extension InsecureDistillate {
+    
     @warn_unused_result
     func recover(@noescape handler: ErrorType -> Value) -> Value {
         do { return try value() }

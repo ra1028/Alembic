@@ -192,4 +192,37 @@ class TransformTests: XCTestCase {
             }
         }
     }
+    
+    func testValueCallbacks() {
+        let j = JSON(object)
+        
+        j.distil("key")(String)
+            .success {
+                XCTAssertEqual($0, "value")
+            }
+            .failure {
+                XCTFail("\($0)")
+        }
+        
+        j.option("null")(String?)
+            .success { XCTAssertEqual($0, nil) }
+            .failure { XCTFail("\($0)") }
+        
+        j.distil("key")(String)
+            .map { s -> String in "map_" + s }
+            .success { XCTAssertEqual($0, "map_value") }
+            .map { s -> String in "twice_" + s }
+            .success { XCTAssertEqual($0, "twice_map_value") }
+            .failure { XCTFail("\($0)") }
+            .filter { _ in false }
+            .success { _ in XCTFail("Expect the error to occur") }
+            .failure {
+                if case let DistillError.FilteredValue(type, value) = $0 {
+                    XCTAssertNotNil(type as? String.Type)
+                    XCTAssertNotNil(value as? String)
+                    return
+                }
+                XCTFail("\($0)")
+        }
+    }
 }

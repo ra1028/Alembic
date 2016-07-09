@@ -28,6 +28,7 @@
   + [Object mapping](#object-mapping)  
   + [Value transformation](#value-transformation)
   + [Error handling](#error-handling)
+  + [Receive a value by the data streams](receive-a-value-by-the-data-streams)
   + [Serialize objects to JSON](#serialize-objects-to-json)
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -42,16 +43,17 @@
 - [x] JSON parsing with ease
 - [x] Mapping JSON to objects
 - [x] Serialize objects to JSON
+- [x] class, struct, enum support with non-optional `let` properties
 - [x] Powerful value transformation
 - [x] Fail safety
-- [x] class, struct, enum support with non-optional `let` properties
-- [x] Functional, Protocol-oriented programming
+- [x] Functional, Protocol-oriented concepts
 - [x] Flexible syntaxes
 
 ---
 A trait of __Alembic__ is to enable easy JSON parsing and transform its value by data streams.  
 It's the same also in the value-parsing or object-mapping.  
-Followings is simple example of json parsing.    
+Followings is simple example of json parsing.  
+
 ## Overview  
 ```Swift
 let j = JSON(obj)
@@ -61,6 +63,11 @@ Value parsing
 let str1: String = try j.distil("str1")
 let str2: String = try j <| "str2"
 let str3: String = try j["str3"].distil()
+
+// ↓ Same as `j["str4"].success {}` or `(j <| "str4").success {}`
+j.distil("str4")(String).success {
+    let str4 = $0
+}
 ```
 Object mapping
 ```Swift
@@ -69,10 +76,10 @@ struct User {
     let avatarUrl: NSURL
 }
 
-let user: User = try j.distil("user")(JSON).map {
+let user: User = try j.distil("user")(JSON).map { userJson in
     try User(
-        name: $0 <| "name",
-        avatarUrl: ($0 <| "avatar_url").flatMap(NSURL.init(string:))
+        name: userJson <| "name",
+        avatarUrl: (userJson <| "avatar_url").flatMap(NSURL.init(string:))
     )
 }
 ```
@@ -208,7 +215,6 @@ Syntax like [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) is here:
 let json = try JSON(data: jsonData)
 let userName = try json[0]["user"]["name"].to(String)
 ```
-
 
 ### Optional objects parsing
 Has functions to parsing optional objects.  
@@ -418,10 +424,10 @@ function
 ```Swift
 let date: NSDate = j.distil("time_string")(String)  // "Apr 1, 2016, 12:00 AM"
     .filter { !$0.isEmpty }
-    .flatMap {
+    .flatMap { dateString in
         let fmt = NSDateFormatter()
         fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return fmt.dateFromString($0)
+        return fmt.dateFromString(dateString)
     }
     .recover(NSDate())
 ```
@@ -447,7 +453,7 @@ let message: String = try j.distil("number_of_apples")(Int)
         count > 0 ? .just("\(count) apples found!!") : .filter()
     }
     .flatMapError { _ in Distillate.error(FindAppleError()) }
-    .recover { "Anything not found... | Error: \($0)" }
+    .recover { error in "Anything not found... | Error: \(error)" }
 ```
 
 ### Error handling
@@ -529,6 +535,23 @@ let value: String? = try? j.distil("key")
 ```
 ```Swift
 let value: String = j.distil("key").recover("sub-value")
+```
+
+### Receive a value by the data streams
+Alembic allows you to receive a value parsed from JSON by the data streams.  
+```Swift
+let jsonObject = ["user": ["name": "john doe"]]
+let j = JSON(jsonObject)
+```
+```Swift
+j.distil(["user", "name"])(String)
+    .map { name in "User name is \(name)" }
+    .success { message in
+        print(message)
+    }
+    .failure { error in
+        // Do error handlling
+    }
 ```
 
 ### Serialize objects to JSON
