@@ -12,8 +12,10 @@ public enum DistillError: ErrorType {
     case FilteredValue(type: Any.Type, value: Any)
 }
 
-extension DistillError: CustomDebugStringConvertible {    
-    public var debugDescription: String {
+// MARK: - CustomStringConvertible
+
+extension DistillError: CustomStringConvertible {
+    public var description: String {
         switch self {
         case let .MissingPath(path):
             return "MissingPath(\(path))"
@@ -22,5 +24,13 @@ extension DistillError: CustomDebugStringConvertible {
         case let .FilteredValue(type, value):
             return "FilteredValue(type: \(type), value: \(value))"
         }
+    }
+}
+
+// MARK: - CustomDebugStringConvertible
+
+extension DistillError: CustomDebugStringConvertible {    
+    public var debugDescription: String {
+        return description
     }
 }

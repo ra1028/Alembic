@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - JSONPath
+
 public struct JSONPath: Equatable {
     let paths: [JSONPathElement]
     
@@ -20,6 +22,8 @@ public struct JSONPath: Equatable {
     }
 }
 
+// MARK: - Operators
+
 public func == (lhs: JSONPath, rhs: JSONPath) -> Bool {
     return lhs.paths == rhs.paths
 }
@@ -28,11 +32,23 @@ public func + (lhs: JSONPath, rhs: JSONPath) -> JSONPath {
     return JSONPath(lhs.paths + rhs.paths)
 }
 
-extension JSONPath: CustomDebugStringConvertible {
-    public var debugDescription: String {
+// MARK: - CustomStringConvertible
+
+extension JSONPath: CustomStringConvertible {
+    public var description: String {
         return "JSONPath(\(paths))"
     }
 }
+
+// MARK: - CustomDebugStringConvertible
+
+extension JSONPath: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        return description
+    }
+}
+
+// MARK: - LiteralConvertible
 
 extension JSONPath: StringLiteralConvertible {
     public init(unicodeScalarLiteral value: String) {
@@ -60,6 +76,8 @@ extension JSONPath: ArrayLiteralConvertible {
     }
 }
 
+// MARK: - JSONPathElement
+
 public struct JSONPathElement: Equatable {
     let value: AnyObject
     
@@ -72,6 +90,8 @@ public struct JSONPathElement: Equatable {
     }
 }
 
+// MARK: - Operators
+
 public func == (lhs: JSONPathElement, rhs: JSONPathElement) -> Bool {
     switch (lhs.value, rhs.value) {
     case let (lKey as String, rKey as String): return lKey == rKey
@@ -82,11 +102,23 @@ public func == (lhs: JSONPathElement, rhs: JSONPathElement) -> Bool {
     }
 }
 
-extension JSONPathElement: CustomDebugStringConvertible {
-    public var debugDescription: String {
+// MARK: - CustomStringConvertible
+
+extension JSONPathElement: CustomStringConvertible {
+    public var description: String {
         return "\(value)"
     }
 }
+
+// MARK: - CustomDebugStringConvertible
+
+extension JSONPathElement: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        return description
+    }
+}
+
+// MARK: - LiteralConvertible
 
 extension JSONPathElement: StringLiteralConvertible {
     public init(unicodeScalarLiteral value: String) {
