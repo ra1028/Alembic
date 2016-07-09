@@ -302,24 +302,17 @@ extension JSON: CustomDebugStringConvertible {
 private extension JSON {
     func distilRecursive<T>(path: JSONPath) throws -> T {
         func distilRecursive(object: AnyObject, _ paths: ArraySlice<JSONPathElement>) throws -> AnyObject {
-            guard let firstPath = paths.first else {
-                return object
-            }
-            
-            if let key = firstPath.value as? String {
+            switch paths.first {
+            case let .Key(key)?:
                 let dictionary: [String: AnyObject] = try cast(object)
                 
                 guard let value = dictionary[key] where !(value is NSNull) else {
                     throw DistillError.MissingPath(path)
                 }
                 
-                if paths.count == 1 {
-                    return value
-                }
                 return try distilRecursive(value, paths.dropFirst())
-            }
-            
-            if let index = firstPath.value as? Int {
+                
+            case let .Index(index)?:
                 let array: [AnyObject] = try cast(object)
                 
                 guard array.count > index else {
@@ -332,13 +325,11 @@ private extension JSON {
                     throw DistillError.MissingPath(path)
                 }
                 
-                if paths.count == 1 {
-                    return value
-                }                
                 return try distilRecursive(value, paths.dropFirst())
+                
+            case .None:
+                return object
             }
-            
-            fatalError("JSONPathElement value allow String or Int type only")
         }
         
         return try cast(distilRecursive(raw, ArraySlice(path.paths)))

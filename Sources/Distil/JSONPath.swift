@@ -52,21 +52,21 @@ extension JSONPath: CustomDebugStringConvertible {
 
 extension JSONPath: StringLiteralConvertible {
     public init(unicodeScalarLiteral value: String) {
-        self.init(JSONPathElement(value))
+        self.init(.Key(value))
     }
     
     public init(extendedGraphemeClusterLiteral value: String) {
-        self.init(JSONPathElement(value))
+        self.init(.Key(value))
     }
     
     public init(stringLiteral value: String) {
-        self.init(JSONPathElement(value))
+        self.init(.Key(value))
     }
 }
 
 extension JSONPath: IntegerLiteralConvertible {
     public init(integerLiteral value: Int) {
-        self.init(JSONPathElement(value))
+        self.init(.Index(value))
     }
 }
 
@@ -78,27 +78,18 @@ extension JSONPath: ArrayLiteralConvertible {
 
 // MARK: - JSONPathElement
 
-public struct JSONPathElement: Equatable {
-    let value: AnyObject
-    
-    public init(_ value: String) {
-        self.value = value
-    }
-    
-    public init(_ value: Int) {
-        self.value = value
-    }
+public enum JSONPathElement: Equatable {
+    case Key(String)
+    case Index(Int)
 }
 
 // MARK: - Operators
 
 public func == (lhs: JSONPathElement, rhs: JSONPathElement) -> Bool {
-    switch (lhs.value, rhs.value) {
-    case let (lKey as String, rKey as String): return lKey == rKey
-    case let (lIndex as Int, rIndex as Int): return lIndex == rIndex
-    case (is String, is Int): return false
-    case (is Int, is String): return false
-    default: fatalError("JSONPathElement value allow String or Int type only")
+    switch (lhs, rhs) {
+    case let (.Key(lKey), .Key(rKey)): return lKey == rKey
+    case let (.Index(lIndex), .Index(rIndex)): return lIndex == rIndex
+    default: return false
     }
 }
 
@@ -106,7 +97,10 @@ public func == (lhs: JSONPathElement, rhs: JSONPathElement) -> Bool {
 
 extension JSONPathElement: CustomStringConvertible {
     public var description: String {
-        return "\(value)"
+        switch self {
+        case let .Key(key): return "\(key)"
+        case let .Index(index): return "\(index)"
+        }
     }
 }
 
@@ -122,20 +116,20 @@ extension JSONPathElement: CustomDebugStringConvertible {
 
 extension JSONPathElement: StringLiteralConvertible {
     public init(unicodeScalarLiteral value: String) {
-        self.init(value)
+        self = .Key(value)
     }
     
     public init(extendedGraphemeClusterLiteral value: String) {
-        self.init(value)
+        self = .Key(value)
     }
     
     public init(stringLiteral value: String) {
-        self.init(value)
+        self = .Key(value)
     }
 }
 
 extension JSONPathElement: IntegerLiteralConvertible {
     public init(integerLiteral value: Int) {
-        self.init(value)
+        self = .Index(value)
     }
 }
