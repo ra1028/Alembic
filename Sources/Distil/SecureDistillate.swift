@@ -25,3 +25,11 @@ public final class SecureDistillate<Value>: Distillate<Value> {
         return thunk()
     }
 }
+
+public extension SecureDistillate {
+    func success(@noescape handler: Value -> Void) -> SecureDistillate<Value> {
+        let v = self.thunk()
+        handler(v)
+        return SecureDistillate { v }
+    }
+}
