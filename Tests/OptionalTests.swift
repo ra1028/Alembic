@@ -40,7 +40,7 @@ class OptionalTests: XCTestCase {
         }
         
         do {
-            _ = try (j <|? "string").to(Int?)
+            _ = try (j <|? "string").to(Optional<Int>.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
@@ -71,7 +71,7 @@ class OptionalTests: XCTestCase {
         }
         
         do {
-            _ = try j["string"].option().to(Int?)
+            _ = try j["string"].option().to(Optional<Int>.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
@@ -86,7 +86,7 @@ class OptionalTests: XCTestCase {
         let j = JSON(object)
         
         do {
-            _ = try (j <|? "int").to(String?)
+            _ = try (j <|? "int").to(Optional<String>.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
@@ -113,7 +113,7 @@ class OptionalTests: XCTestCase {
         let j = JSON(object)
         
         do {
-            _ = try (j <|? "user2").to(User?)
+            _ = try (j <|? "user2").to(Optional<User>.self)
             
             XCTFail("Expected the error to occur")
         } catch let e {
@@ -133,7 +133,7 @@ private class User: Distillable {
     let email: String
     
     required init(json j: JSON) throws {
-        try (
+        _ = try (
             id = j <| "id",
             name = j <| "name",
             email = j <| ["contact", "email"]

@@ -8,8 +8,13 @@
 
 import Foundation
 
-infix operator <| { associativity left precedence 150 }
-infix operator <|? { associativity left precedence 150 }
+precedencegroup DistillingPrecendence {
+    associativity: left
+    higherThan: MultiplicationPrecedence
+}
+
+infix operator <| : DistillingPrecendence
+infix operator <|? : DistillingPrecendence
 
 // MARK: - distil value functions
 

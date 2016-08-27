@@ -66,7 +66,7 @@ class DistilTests: XCTestCase {
         let j = JSON(object)
         
         do {
-            _ = try (j <| "missing_key").to(String)
+            _ = try (j <| "missing_key").to(String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.missingPath(path) where path == "missing_key" {
@@ -76,7 +76,7 @@ class DistilTests: XCTestCase {
         }
         
         do {
-            _ = try (j <| "int_string").to(Int)
+            _ = try (j <| "int_string").to(Int.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
@@ -152,7 +152,7 @@ private class User: Distillable {
     let friends: [User]
     
     required init(json j: JSON) throws {
-        try (
+        _ = try (
             id = j <| "id",
             name = j <| "name",
             weight = j <| "weight",

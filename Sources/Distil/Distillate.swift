@@ -11,7 +11,6 @@ import Foundation
 open class Distillate<Value>: DistillateType {
     init() {}
     
-    @warn_unused_result
     open func value() throws -> Value {
         fatalError("Abstract method")
     }

@@ -73,7 +73,7 @@ public extension JSON {
     }
     
     func distil<T: Distillable>(_ path: JSONPath) throws -> T {
-        return try distil(path)(T)
+        return try distil(path)(T.self)
     }
     
     func distil<T: Distillable>(_: T.Type = T.self) -> InsecureDistillate<T> {
@@ -85,7 +85,7 @@ public extension JSON {
     }
     
     func distil<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<T> {
-        return distil(path)(T)
+        return distil(path)(T.self)
     }
 }
 
@@ -95,7 +95,7 @@ public extension JSON {
     func option<T: Distillable>(_ path: JSONPath) -> (Optional<T>.Type) throws -> Optional<T> {
         return { _ in
             do {
-                return try self.distil(path)(T)
+                return try self.distil(path)(T.self)
             } catch let DistillError.typeMismatch(expected: _, actual: actual) {
                 throw DistillError.typeMismatch(expected: Optional<T>.self, actual: actual)
             } catch let DistillError.missingPath(missing) where missing == path {
@@ -105,7 +105,7 @@ public extension JSON {
     }
     
     func option<T: Distillable>(_ path: JSONPath) throws -> Optional<T> {
-        return try option(path)(Optional<T>)
+        return try option(path)(Optional<T>.self)
     }
     
     func option<T: Distillable>(_ path: JSONPath) -> (Optional<T>.Type) -> InsecureDistillate<Optional<T>> {
@@ -113,7 +113,7 @@ public extension JSON {
     }
     
     func option<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<Optional<T>> {
-        return option(path)(Optional<T>)
+        return option(path)(Optional<T>.self)
     }
 }
 
@@ -133,7 +133,7 @@ public extension JSON {
     }
     
     func distil<T: Distillable>(_ path: JSONPath) throws -> [T] {
-        return try distil(path)([T])
+        return try distil(path)([T].self)
     }
     
     func distil<T: Distillable>(_: [T].Type = [T].self) -> InsecureDistillate<[T]> {
@@ -145,7 +145,7 @@ public extension JSON {
     }
     
     func distil<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<[T]> {
-        return distil(path)([T])
+        return distil(path)([T].self)
     }
 }
 
@@ -155,7 +155,7 @@ public extension JSON {
     func option<T: Distillable>(_ path: JSONPath) -> (Optional<[T]>.Type) throws -> Optional<[T]> {
         return { _ in
             do {
-                return try self.distil(path)([T])
+                return try self.distil(path)([T].self)
             } catch let DistillError.typeMismatch(expected: _, actual: actual) {
                 throw DistillError.typeMismatch(expected: Optional<[T]>.self, actual: actual)
             } catch let DistillError.missingPath(missing) where missing == path {
@@ -165,7 +165,7 @@ public extension JSON {
     }
     
     func option<T: Distillable>(_ path: JSONPath) throws -> Optional<[T]> {
-        return try option(path)(Optional<[T]>)
+        return try option(path)(Optional<[T]>.self)
     }
     
     func option<T: Distillable>(_ path: JSONPath) -> (Optional<[T]>.Type) -> InsecureDistillate<Optional<[T]>> {
@@ -173,7 +173,7 @@ public extension JSON {
     }
     
     func option<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<Optional<[T]>> {
-        return option(path)(Optional<[T]>)
+        return option(path)(Optional<[T]>.self)
     }
 }
 
@@ -198,11 +198,11 @@ public extension JSON {
     }
     
     func distil<T: Distillable>(_ path: JSONPath) throws -> [String: T] {
-        return try distil(path)([String: T])
+        return try distil(path)([String: T].self)
     }
     
     func distil<T: Distillable>(_ path: JSONPath) -> ([String: T].Type) -> InsecureDistillate<[String: T]> {
-        return { _ in InsecureDistillate { try self.distil(path)([String: T]) } }
+        return { _ in InsecureDistillate { try self.distil(path)([String: T].self) } }
     }
     
     func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> InsecureDistillate<[String: T]> {
@@ -210,7 +210,7 @@ public extension JSON {
     }
     
     func distil<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<[String: T]> {
-        return distil(path)([String: T])
+        return distil(path)([String: T].self)
     }
 }
 
@@ -220,7 +220,7 @@ public extension JSON {
     func option<T: Distillable>(_ path: JSONPath) -> (Optional<[String: T]>.Type) throws -> Optional<[String: T]> {
         return { _ in
             do {
-                return try self.distil(path)([String: T])
+                return try self.distil(path)([String: T].self)
             } catch let DistillError.typeMismatch(expected: _, actual: actual) {
                 throw DistillError.typeMismatch(expected: Optional<[String: T]>.self, actual: actual)
             } catch let DistillError.missingPath(missing) where missing == path {
@@ -230,7 +230,7 @@ public extension JSON {
     }
     
     func option<T: Distillable>(_ path: JSONPath) throws -> Optional<[String: T]> {
-        return try option(path)(Optional<[String: T]>)
+        return try option(path)(Optional<[String: T]>.self)
     }
     
     func option<T: Distillable>(_ path: JSONPath) -> (Optional<[String: T]>.Type) -> InsecureDistillate<Optional<[String: T]>> {
@@ -238,7 +238,7 @@ public extension JSON {
     }
     
     func option<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<Optional<[String: T]>> {
-        return option(path)(Optional<[String: T]>)
+        return option(path)(Optional<[String: T]>.self)
     }
 }
 
