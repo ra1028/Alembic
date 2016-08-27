@@ -578,6 +578,7 @@
 					};
 					2A2D248C1CB1703800D8AD99 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 					};
 					2A9656831CB12EDC005677D9 = {
 						CreatedOnToolsVersion = 7.3;
@@ -598,6 +599,7 @@
 					};
 					2AE41A261CB165A50042A52F = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -882,6 +884,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -898,6 +901,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ryo.AlembicTests-OSX";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -1195,6 +1199,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1218,6 +1223,7 @@
 				PRODUCT_NAME = Alembic;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
