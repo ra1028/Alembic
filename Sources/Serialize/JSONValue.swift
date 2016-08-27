@@ -9,9 +9,9 @@
 import Foundation
 
 public struct JSONValue {
-    let value: AnyObject
+    let value: Any
     
-    private init(value: AnyObject) {
+    fileprivate init(value: Any) {
         self.value = value
     }
 }
@@ -38,13 +38,13 @@ public extension JSONValue {
     }
     
     init<T: JSONValueConvertible>(_ dictionary: [String: T]) {
-        var new = [String: AnyObject](minimumCapacity: dictionary.count)
+        var new = [String: Any](minimumCapacity: dictionary.count)
         dictionary.forEach { new[$0] = $1.jsonValue.value }
         value = new
     }
 }
 
-extension JSONValue: StringLiteralConvertible {
+extension JSONValue: ExpressibleByStringLiteral {
     public init(unicodeScalarLiteral value: String) {
         self.init(value)
     }
@@ -58,40 +58,40 @@ extension JSONValue: StringLiteralConvertible {
     }
 }
 
-extension JSONValue: IntegerLiteralConvertible {
+extension JSONValue: ExpressibleByIntegerLiteral {
     public init(integerLiteral value: Int) {
-        self.init(NSNumber(integer: value))
+        self.init(NSNumber(value: value))
     }
 }
 
-extension JSONValue: FloatLiteralConvertible {
+extension JSONValue: ExpressibleByFloatLiteral {
     public init(floatLiteral value: Float) {
-        self.init(NSNumber(float: value))
+        self.init(NSNumber(value: value))
     }
 }
 
-extension JSONValue: BooleanLiteralConvertible {
+extension JSONValue: ExpressibleByBooleanLiteral {
     public init(booleanLiteral value: Bool) {
-        self.init(NSNumber(bool: value))
+        self.init(NSNumber(value: value))
     }
 }
 
-extension JSONValue: NilLiteralConvertible {
+extension JSONValue: ExpressibleByNilLiteral {
     public init(nilLiteral: ()) {
         self = JSONValue.null
     }
 }
 
-extension JSONValue: ArrayLiteralConvertible {
+extension JSONValue: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: JSONValueConvertible...) {
         let array = elements.map { $0.jsonValue.value }
         self.init(value: array)
     }
 }
 
-extension JSONValue: DictionaryLiteralConvertible {
+extension JSONValue: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, JSONValueConvertible)...) {
-        var dictionary = [String: AnyObject](minimumCapacity: elements.count)
+        var dictionary = [String: Any](minimumCapacity: elements.count)
         elements.forEach { dictionary[$0] = $1.jsonValue.value }
         self.init(value: dictionary)
     }

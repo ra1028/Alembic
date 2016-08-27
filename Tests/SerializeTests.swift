@@ -10,14 +10,14 @@ import XCTest
 import Alembic
 
 class SerializeTests: XCTestCase {
-    let object = TestJSON.Serialize.object
+    let object = TestJSON.serialize.object
     
     private lazy var user: User = {
-        let object = TestJSON.Serialize.object
+        let object = TestJSON.serialize.object
         return try! JSON(object) <| "user"
     }()
     
-    private lazy var users: [User] = {
+    fileprivate lazy var users: [User] = {
         return (0..<10).map { _ in try? JSON(self.object) <| "user" }
             .flatMap { $0 }
     }()
@@ -25,7 +25,7 @@ class SerializeTests: XCTestCase {
     func testSerializeToData() {
         let data = JSON.serializeToData(user)
         
-        guard case let object?? = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as? [String: AnyObject] else {
+        guard case let object?? = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
             XCTFail()
             return
         }
@@ -39,8 +39,8 @@ class SerializeTests: XCTestCase {
     func testSerializeToString() {
         let string = JSON.serializeToString(user)
         
-        guard let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false),
-            case let object?? = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as? [String: AnyObject]
+        guard let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false),
+            case let object?? = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject]
             else {
                 XCTFail()
                 return
@@ -55,7 +55,7 @@ class SerializeTests: XCTestCase {
     func testArraySerializeToData() {
         let data = JSON.serializeToData(users)
         
-        guard case let object?? = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as? [[String: AnyObject]] else {
+        guard case let object?? = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String: AnyObject]] else {
             XCTFail()
             return
         }
@@ -64,10 +64,11 @@ class SerializeTests: XCTestCase {
     }
     
     func testArraySerializeToString() {
+        
         let string = JSON.serializeToString(users)
         
-        guard let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false),
-            case let object?? = try? NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as? [[String: AnyObject]]
+        guard let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false),
+            case let object?? = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String: AnyObject]]
             else {
                 XCTFail()
                 return
@@ -81,7 +82,7 @@ private enum Gender: String, Distillable, JSONValueConvertible {
     case Male = "male"
     case Female = "female"
     
-    private var jsonValue: JSONValue {
+    fileprivate var jsonValue: JSONValue {
         return JSONValue(rawValue)
     }
 }
@@ -92,7 +93,7 @@ private struct User: Distillable, Serializable {
     let weight: Double
     let gender: Gender
     
-    private static func distil(j: JSON) throws -> User {
+    fileprivate static func distil(_ j: JSON) throws -> User {
         return try User(
             id: j <| "id",
             name: j <| "name",
@@ -101,7 +102,7 @@ private struct User: Distillable, Serializable {
         )
     }
     
-    private func serialize() -> JSONObject {
+    fileprivate func serialize() -> JSONObject {
         return [
             "id": id,
             "name": name,

@@ -10,9 +10,9 @@ import XCTest
 import Alembic
 
 class DistilTests: XCTestCase {
-    let object = TestJSON.Distil.object
-    let data = TestJSON.Distil.data
-    let string = TestJSON.Distil.string
+    let object = TestJSON.distil.object
+    let data = TestJSON.distil.data
+    let string = TestJSON.distil.string
     
     func testDistil() {
         let j = JSON(object)
@@ -69,7 +69,7 @@ class DistilTests: XCTestCase {
             _ = try (j <| "missing_key").to(String)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.MissingPath(path) where path == "missing_key" {
+        } catch let DistillError.missingPath(path) where path == "missing_key" {
             XCTAssert(true)
         } catch let e {
             XCTFail("\(e)")
@@ -79,7 +79,7 @@ class DistilTests: XCTestCase {
             _ = try (j <| "int_string").to(Int)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.TypeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "1")
         } catch let e {
@@ -127,10 +127,10 @@ class DistilTests: XCTestCase {
     }
 }
 
-extension NSURL: Distillable {
-    public static func distil(j: JSON) throws -> Self {
+extension URL: Distillable {
+    public static func distil(_ j: JSON) throws -> URL {
         guard let url = try self.init(string: j.distil()) else {
-            throw DistillError.TypeMismatch(expected: NSURL.self, actual: j.raw)
+            throw DistillError.typeMismatch(expected: URL.self, actual: j.raw)
         }
         return url
     }
@@ -148,7 +148,7 @@ private class User: Distillable {
     let gender: Gender
     let smoker: Bool
     let email: String
-    let url: NSURL
+    let url: URL
     let friends: [User]
     
     required init(json j: JSON) throws {
@@ -164,7 +164,7 @@ private class User: Distillable {
         )
     }
     
-    private static func distil(j: JSON) throws -> Self {
+    fileprivate static func distil(_ j: JSON) throws -> Self {
         return try self.init(json: j)
     }
 }
@@ -180,7 +180,7 @@ private struct Numbers: Distillable {
     let int64: Int64
     let uint64: UInt64
     
-    private static func distil(j: JSON) throws -> Numbers {
+    fileprivate static func distil(_ j: JSON) throws -> Numbers {
         return try Numbers(
             number: j <| "number",
             int8: j <| "int8",

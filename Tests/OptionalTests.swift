@@ -10,7 +10,7 @@ import XCTest
 import Alembic
 
 class OptionalTests: XCTestCase {
-    let object = TestJSON.Optional.object
+    let object = TestJSON.optional.object
     
     func testOptional() {
         let j = JSON(object)
@@ -43,7 +43,7 @@ class OptionalTests: XCTestCase {
             _ = try (j <|? "string").to(Int?)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.TypeMismatch(expected: expected, actual: actual) {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
             XCTAssert(expected == Int?.self)
             XCTAssertEqual(actual as? String, "Alembic")
         } catch let e {
@@ -74,7 +74,7 @@ class OptionalTests: XCTestCase {
             _ = try j["string"].option().to(Int?)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.TypeMismatch(expected: expected, actual: actual) {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
             XCTAssert(expected == Int?.self)
             XCTAssertEqual(actual as? String, "Alembic")
         } catch let e {
@@ -89,7 +89,7 @@ class OptionalTests: XCTestCase {
             _ = try (j <|? "int").to(String?)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.TypeMismatch(expected: expected, actual: actual) {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
             XCTAssert(expected == String?.self)
             XCTAssertEqual(actual as? Int, 777)
         } catch let e {
@@ -118,7 +118,7 @@ class OptionalTests: XCTestCase {
             XCTFail("Expected the error to occur")
         } catch let e {
             switch e {
-            case let DistillError.MissingPath(path):
+            case let DistillError.missingPath(path):
                 XCTAssert(path == ["user2", "contact", "email"])
             default:
                 XCTFail("\(e)")
@@ -140,7 +140,7 @@ private class User: Distillable {
         )
     }
     
-    private static func distil(j: JSON) throws -> Self {
+    fileprivate static func distil(_ j: JSON) throws -> Self {
         return try self.init(json: j)
     }
 }

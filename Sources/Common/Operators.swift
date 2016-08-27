@@ -17,7 +17,7 @@ public func <| <T: Distillable>(j: JSON, path: JSONPath) throws -> T {
     return try j.distil(path)
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> T.Type throws -> T {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> (T.Type) throws -> T {
     return { _ in try j <| path }
 }
 
@@ -25,7 +25,7 @@ public func <| <T: Distillable>(j: JSON, path: JSONPath) -> InsecureDistillate<T
     return InsecureDistillate { try j <| path }
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> T.Type -> InsecureDistillate<T> {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> (T.Type) -> InsecureDistillate<T> {
     return  { _ in InsecureDistillate { try j <| path } }
 }
 
@@ -35,7 +35,7 @@ public func <|? <T: Distillable>(j: JSON, path: JSONPath) throws -> Optional<T> 
     return try j.option(path)
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<T>.Type throws -> Optional<T> {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> (Optional<T>.Type) throws -> Optional<T> {
     return { _ in try j <|? path }
 }
 
@@ -43,7 +43,7 @@ public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> InsecureDistillate<
     return InsecureDistillate { try j <|? path }
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<T>.Type -> InsecureDistillate<Optional<T>> {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> (Optional<T>.Type) -> InsecureDistillate<Optional<T>> {
     return  { _ in InsecureDistillate { try j <|? path } }
 }
 
@@ -53,7 +53,7 @@ public func <| <T: Distillable>(j: JSON, path: JSONPath) throws -> [T] {
     return try j.distil(path)
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [T].Type throws -> [T] {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> ([T].Type) throws -> [T] {
     return { _ in try j <| path }
 }
 
@@ -61,7 +61,7 @@ public func <| <T: Distillable>(j: JSON, path: JSONPath) -> InsecureDistillate<[
     return InsecureDistillate { try j <| path }
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [T].Type -> InsecureDistillate<[T]> {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> ([T].Type) -> InsecureDistillate<[T]> {
     return  { _ in InsecureDistillate { try j <| path } }
 }
 
@@ -71,7 +71,7 @@ public func <|? <T: Distillable>(j: JSON, path: JSONPath) throws -> Optional<[T]
     return try j.option(path)
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[T]>.Type throws -> Optional<[T]> {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> (Optional<[T]>.Type) throws -> Optional<[T]> {
     return { _ in try j <|? path }
 }
 
@@ -79,7 +79,7 @@ public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> InsecureDistillate<
     return InsecureDistillate { try j <|? path }
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[T]>.Type -> InsecureDistillate<Optional<[T]>> {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> (Optional<[T]>.Type) -> InsecureDistillate<Optional<[T]>> {
     return  { _ in InsecureDistillate { try j <|? path } }
 }
 
@@ -89,7 +89,7 @@ public func <| <T: Distillable>(j: JSON, path: JSONPath) throws -> [String: T] {
     return try j.distil(path)
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [String: T].Type throws -> [String: T] {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> ([String: T].Type) throws -> [String: T] {
     return { _ in try j <| path }
 }
 
@@ -97,7 +97,7 @@ public func <| <T: Distillable>(j: JSON, path: JSONPath) -> InsecureDistillate<[
     return InsecureDistillate { try j <| path }
 }
 
-public func <| <T: Distillable>(j: JSON, path: JSONPath) -> [String: T].Type -> InsecureDistillate<[String: T]> {
+public func <| <T: Distillable>(j: JSON, path: JSONPath) -> ([String: T].Type) -> InsecureDistillate<[String: T]> {
     return  { _ in InsecureDistillate { try j <| path } }
 }
 
@@ -107,7 +107,7 @@ public func <|? <T: Distillable>(j: JSON, path: JSONPath) throws -> Optional<[St
     return try j.option(path)
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[String: T]>.Type throws -> Optional<[String: T]> {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> (Optional<[String: T]>.Type) throws -> Optional<[String: T]> {
     return { _ in try j <|? path }
 }
 
@@ -115,6 +115,6 @@ public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> InsecureDistillate<
     return InsecureDistillate { try j <|? path }
 }
 
-public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> Optional<[String: T]>.Type -> InsecureDistillate<Optional<[String: T]>> {
+public func <|? <T: Distillable>(j: JSON, path: JSONPath) -> (Optional<[String: T]>.Type) -> InsecureDistillate<Optional<[String: T]>> {
     return  { _ in InsecureDistillate { try j <|? path } }
 }

@@ -50,27 +50,27 @@ extension JSONPath: CustomDebugStringConvertible {
 
 // MARK: - LiteralConvertible
 
-extension JSONPath: StringLiteralConvertible {
+extension JSONPath: ExpressibleByStringLiteral {
     public init(unicodeScalarLiteral value: String) {
-        self.init(.Key(value))
+        self.init(.key(value))
     }
     
     public init(extendedGraphemeClusterLiteral value: String) {
-        self.init(.Key(value))
+        self.init(.key(value))
     }
     
     public init(stringLiteral value: String) {
-        self.init(.Key(value))
+        self.init(.key(value))
     }
 }
 
-extension JSONPath: IntegerLiteralConvertible {
+extension JSONPath: ExpressibleByIntegerLiteral {
     public init(integerLiteral value: Int) {
-        self.init(.Index(value))
+        self.init(.index(value))
     }
 }
 
-extension JSONPath: ArrayLiteralConvertible {
+extension JSONPath: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: JSONPathElement...) {
         self.init(elements)
     }
@@ -79,16 +79,16 @@ extension JSONPath: ArrayLiteralConvertible {
 // MARK: - JSONPathElement
 
 public enum JSONPathElement: Equatable {
-    case Key(String)
-    case Index(Int)
+    case key(String)
+    case index(Int)
 }
 
 // MARK: - Operators
 
 public func == (lhs: JSONPathElement, rhs: JSONPathElement) -> Bool {
     switch (lhs, rhs) {
-    case let (.Key(lKey), .Key(rKey)): return lKey == rKey
-    case let (.Index(lIndex), .Index(rIndex)): return lIndex == rIndex
+    case let (.key(lKey), .key(rKey)): return lKey == rKey
+    case let (.index(lIndex), .index(rIndex)): return lIndex == rIndex
     default: return false
     }
 }
@@ -98,8 +98,8 @@ public func == (lhs: JSONPathElement, rhs: JSONPathElement) -> Bool {
 extension JSONPathElement: CustomStringConvertible {
     public var description: String {
         switch self {
-        case let .Key(key): return "\(key)"
-        case let .Index(index): return "\(index)"
+        case let .key(key): return "\(key)"
+        case let .index(index): return "\(index)"
         }
     }
 }
@@ -114,22 +114,22 @@ extension JSONPathElement: CustomDebugStringConvertible {
 
 // MARK: - LiteralConvertible
 
-extension JSONPathElement: StringLiteralConvertible {
+extension JSONPathElement: ExpressibleByStringLiteral {
     public init(unicodeScalarLiteral value: String) {
-        self = .Key(value)
+        self = .key(value)
     }
     
     public init(extendedGraphemeClusterLiteral value: String) {
-        self = .Key(value)
+        self = .key(value)
     }
     
     public init(stringLiteral value: String) {
-        self = .Key(value)
+        self = .key(value)
     }
 }
 
-extension JSONPathElement: IntegerLiteralConvertible {
+extension JSONPathElement: ExpressibleByIntegerLiteral {
     public init(integerLiteral value: Int) {
-        self = .Index(value)
+        self = .index(value)
     }
 }

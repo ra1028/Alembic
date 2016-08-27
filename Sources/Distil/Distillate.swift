@@ -8,25 +8,25 @@
 
 import Foundation
 
-public class Distillate<Value>: DistillateType {
+open class Distillate<Value>: DistillateType {
     init() {}
     
     @warn_unused_result
-    public func value() throws -> Value {
+    open func value() throws -> Value {
         fatalError("Abstract method")
     }
 }
 
 public extension Distillate {
-    static func just(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
+    static func just( _ element: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
         return SecureDistillate.init(element)
     }
     
-    static func error(e: ErrorType) -> InsecureDistillate<Value> {
+    static func error(_ e: Error) -> InsecureDistillate<Value> {
         return InsecureDistillate { throw e }
     }
     
     static func filter() -> InsecureDistillate<Value> {
-        return error(DistillError.FilteredValue(type: Value.self, value: ()))
+        return error(DistillError.filteredValue(type: Value.self, value: ()))
     }
 }

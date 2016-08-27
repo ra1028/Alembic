@@ -26,25 +26,25 @@ extension String: JSONValueConvertible {
 
 extension Int: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(integer: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension Double: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(double: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension Float: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(float: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension Bool: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(bool: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
@@ -56,49 +56,49 @@ extension NSNumber: JSONValueConvertible {
 
 extension Int8: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(char: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension UInt8: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(unsignedChar: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension Int16: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(short: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension UInt16: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(unsignedShort: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension Int32: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(int: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension UInt32: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(unsignedInt: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension Int64: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(longLong: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 
 extension UInt64: JSONValueConvertible {
     public var jsonValue: JSONValue {
-        return JSONValue(NSNumber(unsignedLongLong: self))
+        return JSONValue(NSNumber(value: self))
     }
 }
 

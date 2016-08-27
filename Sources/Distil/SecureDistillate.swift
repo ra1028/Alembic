@@ -9,25 +9,23 @@
 import Foundation
 
 public final class SecureDistillate<Value>: Distillate<Value> {
-    private let thunk: () -> Value
+    fileprivate let thunk: () -> Value
     
-    init(_ thunk: () -> Value) {
+    init(_ thunk: @escaping () -> Value) {
         self.thunk = thunk
     }
     
-    @warn_unused_result
     public override func value() throws -> Value {
         return thunk()
     }
-    
-    @warn_unused_result
+        
     public func to(_: Value.Type) -> Value {
         return thunk()
     }
 }
 
 public extension SecureDistillate {
-    func success(@noescape handler: Value -> Void) -> SecureDistillate<Value> {
+    func success(_ handler: (Value) -> Void) -> SecureDistillate<Value> {
         let v = self.thunk()
         handler(v)
         return SecureDistillate { v }

@@ -6,10 +6,10 @@
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
-public enum DistillError: ErrorType {
-    case MissingPath(JSONPath)
-    case TypeMismatch(expected: Any.Type, actual: AnyObject)
-    case FilteredValue(type: Any.Type, value: Any)
+public enum DistillError: Error {
+    case missingPath(JSONPath)
+    case typeMismatch(expected: Any.Type, actual: Any)
+    case filteredValue(type: Any.Type, value: Any)
 }
 
 // MARK: - CustomStringConvertible
@@ -17,11 +17,11 @@ public enum DistillError: ErrorType {
 extension DistillError: CustomStringConvertible {
     public var description: String {
         switch self {
-        case let .MissingPath(path):
+        case let .missingPath(path):
             return "MissingPath(\(path))"
-        case let .TypeMismatch(expected, actual):
-            return "TypeMismatch(expected: \(expected), actual: \(actual.dynamicType)(\(actual)))"
-        case let .FilteredValue(type, value):
+        case let .typeMismatch(expected, actual):
+            return "TypeMismatch(expected: \(expected), actual: \(type(of: actual))(\(actual)))"
+        case let .filteredValue(type, value):
             return "FilteredValue(type: \(type), value: \(value))"
         }
     }

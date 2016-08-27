@@ -127,7 +127,7 @@ let package = Package(
 ```Swift
 import Alembic
 ```
-JSON from AnyObject
+JSON from Any
 ```Swift
 let j = JSON(jsonObject)
 ```
@@ -471,7 +471,7 @@ Alembic has simple error handling designs as following.
 
 __DistillError__
 - case MissingPath(JSONPath)  
-- case TypeMismatch(expected: Any.Type, actual: AnyObject)  
+- case TypeMismatch(expected: Any.Type, actual: Any)  
 - case FilteredValue(type: Any.Type, value: Any)  
 
 <table>

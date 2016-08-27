@@ -9,20 +9,20 @@
 import Foundation
 
 public final class InsecureDistillate<Value>: Distillate<Value> {
-    private let thunk: () throws -> Value
+    fileprivate let thunk: () throws -> Value
     
-    init(_ thunk: () throws -> Value) {
+    init(_ thunk: @escaping () throws -> Value) {
         self.thunk = thunk
     }
     
-    @warn_unused_result
     public override func value() throws -> Value {
         return try thunk()
     }
 }
 
 public extension InsecureDistillate {
-    func success(@noescape handler: Value -> Void) -> InsecureDistillate<Value> {
+    @discardableResult
+    func success(_ handler: (Value) -> Void) -> InsecureDistillate<Value> {
         do {
             let v = try value()
             handler(v)
@@ -32,7 +32,8 @@ public extension InsecureDistillate {
         }
     }
     
-    func failure(@noescape handler: ErrorType -> Void) -> InsecureDistillate<Value> {
+    @discardableResult
+    func failure(_ handler: (Error) -> Void) -> InsecureDistillate<Value> {
         do {
             let v = try value()
             return InsecureDistillate { v }
@@ -42,51 +43,42 @@ public extension InsecureDistillate {
         }
     }
     
-    @warn_unused_result
     public func to(_: Value.Type) throws -> Value {
         return try thunk()
     }
     
-    @warn_unused_result
-    func recover(@noescape handler: ErrorType -> Value) -> Value {
+    func recover(_ handler: (Error) -> Value) -> Value {
         do { return try value() }
         catch let e { return handler(e) }
     }
     
-    @warn_unused_result
-    func recover(handler: ErrorType -> Value) -> SecureDistillate<Value> {
+    func recover(_ handler: @escaping (Error) -> Value) -> SecureDistillate<Value> {
         return SecureDistillate { self.recover(handler) }
     }
     
-    @warn_unused_result
-    func recover(@autoclosure element: () -> Value) -> Value {
+    func recover(_ element: @autoclosure () -> Value) -> Value {
         return recover { _ in element() }
     }
     
-    @warn_unused_result
-    func recover(@autoclosure(escaping) element: () -> Value) -> SecureDistillate<Value> {
+    func recover( _ element: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
         return recover { _ in element() }
     }
     
-    @warn_unused_result
-    func mapError(f: ErrorType throws -> ErrorType) throws -> Value {
+    func mapError(_ f: (Error) throws -> Error) throws -> Value {
         do { return try value() }
         catch let e { throw try f(e) }
     }
     
-    @warn_unused_result
-    func mapError(f: ErrorType throws -> ErrorType) -> InsecureDistillate<Value> {
+    func mapError(_ f: @escaping (Error) throws -> Error) -> InsecureDistillate<Value> {
         return InsecureDistillate { try self.mapError(f) }
     }
     
-    @warn_unused_result
-    func flatMapError<T: DistillateType where T.Value == Value>(f: ErrorType throws -> T) throws -> Value {
+    func flatMapError<T: DistillateType>(_ f: (Error) throws -> T) throws -> Value where T.Value == Value {
         do { return try value() }
         catch let e { return try f(e).value() }
     }
     
-    @warn_unused_result
-    func flatMapError<T: DistillateType where T.Value == Value>(f: ErrorType throws -> T) -> InsecureDistillate<Value> {
+    func flatMapError<T: DistillateType>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> where T.Value == Value {
         return InsecureDistillate { try self.flatMapError(f) }
     }
 }

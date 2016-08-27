@@ -9,8 +9,8 @@
 import Foundation
 
 public final class DistillSubscripted {
-    private let j: JSON
-    private let path: JSONPath
+    fileprivate let j: JSON
+    fileprivate let path: JSONPath
     
     public subscript(path: JSONPathElement) -> DistillSubscripted {
         return .init(j, self.path + JSONPath(path))
