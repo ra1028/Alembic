@@ -22,4 +22,4 @@ script:
   - xcodebuild test -scheme Alembic-tvOS -configuration Release -sdk appletvsimulator -destination "platform=tvOS Simulator,name=Apple TV 1080p" | xcpretty -c
 
 notifications:
- email: false
+  email: false
