@@ -12,7 +12,7 @@ import Alembic
 class SerializeTests: XCTestCase {
     let object = TestJSON.serialize.object
     
-    private lazy var user: User = {
+    fileprivate lazy var user: User = {
         let object = TestJSON.serialize.object
         return try! JSON(object) <| "user"
     }()

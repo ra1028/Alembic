@@ -96,8 +96,6 @@ public extension JSON {
         return { _ in
             do {
                 return try self.distil(path)(T.self)
-            } catch let DistillError.typeMismatch(expected: _, actual: actual) {
-                throw DistillError.typeMismatch(expected: Optional<T>.self, actual: actual)
             } catch let DistillError.missingPath(missing) where missing == path {
                 return nil
             }
@@ -156,8 +154,6 @@ public extension JSON {
         return { _ in
             do {
                 return try self.distil(path)([T].self)
-            } catch let DistillError.typeMismatch(expected: _, actual: actual) {
-                throw DistillError.typeMismatch(expected: Optional<[T]>.self, actual: actual)
             } catch let DistillError.missingPath(missing) where missing == path {
                 return nil
             }
@@ -221,8 +217,6 @@ public extension JSON {
         return { _ in
             do {
                 return try self.distil(path)([String: T].self)
-            } catch let DistillError.typeMismatch(expected: _, actual: actual) {
-                throw DistillError.typeMismatch(expected: Optional<[String: T]>.self, actual: actual)
             } catch let DistillError.missingPath(missing) where missing == path {
                 return nil
             }
