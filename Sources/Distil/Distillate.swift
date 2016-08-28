@@ -8,10 +8,10 @@
 
 import Foundation
 
-open class Distillate<Value>: DistillateType {
+public class Distillate<Value>: DistillateType {
     init() {}
     
-    open func value() throws -> Value {
+    public func value() throws -> Value {
         fatalError("Abstract method")
     }
 }

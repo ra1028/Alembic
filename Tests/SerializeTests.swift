@@ -78,8 +78,8 @@ class SerializeTests: XCTestCase {
 }
 
 private enum Gender: String, Distillable, JSONValueConvertible {
-    case Male = "male"
-    case Female = "female"
+    case fale = "male"
+    case memale = "female"
     
     fileprivate var jsonValue: JSONValue {
         return JSONValue(rawValue)

@@ -96,7 +96,7 @@ class DistilTests: XCTestCase {
             XCTAssertEqual(user.id, 100)
             XCTAssertEqual(user.name, "ra1028")
             XCTAssertEqual(user.weight, 132.28)
-            XCTAssertEqual(user.gender, Gender.Male)
+            XCTAssertEqual(user.gender, Gender.male)
             XCTAssertEqual(user.smoker, true)
             XCTAssertEqual(user.email, "r.fe51028.r@gmail.com")
             XCTAssertEqual(user.url.absoluteString, "https://github.com/ra1028")
@@ -137,8 +137,8 @@ extension URL: Distillable {
 }
 
 private enum Gender: String, Distillable {
-    case Male = "male"
-    case Female = "female"
+    case male = "male"
+    case female = "female"
 }
 
 private class User: Distillable {
