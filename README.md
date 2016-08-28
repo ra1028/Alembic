@@ -2,13 +2,13 @@
 
 <p align="center">
 <a href="https://travis-ci.org/ra1028/Alembic"><img alt="Build Status" src="https://travis-ci.org/ra1028/Alembic.svg?branch=master"/></a>
-<a href="https://developer.apple.com/swift"><img alt="Swift2.2" src="https://img.shields.io/badge/swift2.2-compatible-blue.svg?style=flat"/></a>
-<a href="https://github.com/ra1028/Alembic/blob/master/LICENSE"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat"/></a>
+<a href="https://developer.apple.com/swift"><img alt="Swift2.3" src="https://img.shields.io/badge/swift2.3-compatible-blue.svg?style=flat"/></a>
 <a href="http://cocoadocs.org/docsets/Alembic"><img alt="Platform" src="https://img.shields.io/cocoapods/p/Alembic.svg?style=flat"/></a><br>
 <a href="https://cocoapods.org/pods/Alembic"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Alembic.svg"/></a>
-<a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"/></a>
-<a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg"/></a>
-</p>  
+<a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-yellow.svg?style=flat"/></a>
+<a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-green.svg"/></a>
+<a href="https://github.com/ra1028/Alembic/blob/master/LICENSE"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-000000.svg?style=flat"/></a>  
+</p>
 
 <p align="center">
 <H4 align="center">Functional JSON parsing, mapping to objects, and serialize to JSON</H4>
@@ -18,7 +18,8 @@
 
 ## Contents
 - [Overview](#overview)
-- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
 - [Usage](#usage)
   + [Initialization](#initialization)
   + [JSON parsing](#json-parsing)
@@ -28,30 +29,15 @@
   + [Object mapping](#object-mapping)  
   + [Value transformation](#value-transformation)
   + [Error handling](#error-handling)
-  + [Receive a value by the data streams](receive-a-value-by-the-data-streams)
+  + [Receive a value by stream](receive-a-value-by-stream)
   + [Serialize objects to JSON](#serialize-objects-to-json)
-- [Requirements](#requirements)
-- [Installation](#installation)
 - [Playground](#playground)
 - [Contribution](#contribution)
-- [About](#about)
 - [License](#license)
 
 ---
 
-## Features
-- [x] JSON parsing with ease
-- [x] Mapping JSON to objects
-- [x] Serialize objects to JSON
-- [x] class, struct, enum support with non-optional `let` properties
-- [x] Powerful value transformation
-- [x] Fail safety
-- [x] Functional, Protocol-oriented concepts
-- [x] Flexible syntaxes
-
----
-A trait of __Alembic__ is to enable easy JSON parsing and transform its value by data streams.  
-It's the same also in the value-parsing or object-mapping.  
+A trait of __Alembic__ is to enable easy JSON parsing and transform it's value by stream.  
 Followings is simple example of json parsing.  
 
 ## Overview  
@@ -64,26 +50,16 @@ let str1: String = try j.distil("str1")
 let str2: String = try j <| "str2"
 let str3: String = try j["str3"].distil()
 
-// ↓ Same as `j["str4"].success {}` or `(j <| "str4").success {}`
+// ↓ Same as `j["str4"].distil().success {...}` or `(j <| "str4").success {...}`
 j.distil("str4")(String).success {
     let str4 = $0
 }
 ```
 Object mapping
-```Swift
-struct User {
-    let name: String
-    let avatarUrl: NSURL
-}
 
-let user: User = try j.distil("user")(JSON).map { userJson in
-    try User(
-        name: userJson <| "name",
-        avatarUrl: (userJson <| "avatar_url").flatMap(NSURL.init(string:))
-    )
-}
-```
 ```Swift
+let user: User = try j <| "user"
+
 struct User: Distillable {
     let name: String
     let avatarUrl: NSURL
@@ -95,8 +71,52 @@ struct User: Distillable {
         )
     }
 }
+```
 
-let user: User = try j <| "user"
+---
+
+## Requirements
+- Swift 2.3 / Xcode 8
+- OS X 10.9 or later
+- iOS 8.0 or later
+- watchOS 2.0 or later
+- tvOS 9.0 or later
+
+---
+
+## Installation
+
+### [CocoaPods](https://cocoapods.org/)  
+Add the following to your Podfile:
+```ruby
+use_frameworks!
+
+target 'YOUR_TARGET_NAME' do
+  pod 'Alembic'
+end
+```
+
+### [Carthage](https://github.com/Carthage/Carthage)  
+Add the following to your Cartfile:
+```ruby
+github "ra1028/Alembic"
+```
+
+### [CocoaSeeds](https://github.com/devxoul/CocoaSeeds)  
+Add the following to your Seedfile:
+```ruby
+github "ra1028/Alembic", :files => "Sources/**/*.swift"
+```
+
+### [Swift Package Manager](https://github.com/apple/swift-package-manager)
+Add the following to your Package.swift:
+```Swift
+let package = Package(
+    name: "ProjectName",
+    dependencies: [
+        .Package(url: "https://github.com/ra1028/Alembic.git", majorVersion: 1)
+    ]
+)
 ```
 
 ---
@@ -164,15 +184,12 @@ __Example__
 let jsonObject = ["key": "string"]
 let j = JSON(jsonObject)
 ```
-function
 ```Swift
 let string: String = try j.distil("key")  // "string"
 ```
-custom operator  
 ```Swift
 let string: String = try j <| "key"  // "string"
 ```
-subscript
 ```Swift
 let string: String = try j["key"].distil()  // "string"
 ```
@@ -182,7 +199,7 @@ You can set the generic type as following:
 ```Swift
 let string = try j.distil("key").to(String)  // "string"
 ```
-It's same if use operator or subscript
+It's same if use operator or subscript.  
 
 ### Nested objects parsing
 Supports parsing nested objects with keys and indexes.  
@@ -195,15 +212,12 @@ let jsonObject = [
 ]
 let j = JSON(jsonObject)
 ```
-function
 ```Swift
 let int: Int = try j.distil(["nested", "array", 2])  // 3        
 ```
-custom operator
 ```Swift
 let int: Int = try j <| ["nested", "array", 2]  // 3  
 ```
-subscript
 ```Swift
 let int: Int = try j["nested", "array", 2].distil()  // 3  
 let int: Int = try j["nested"]["array"][2].distil()  // 3  
@@ -227,15 +241,12 @@ let jsonObject = [
 ]
 let j = JSON(jsonObject)
 ```
-function
 ```Swift
 let int: Int? = try j.option(["nested", "key"])  // nil
 ```
-custom operator
 ```Swift
 let int: Int? = try j <|? ["nested", "key"]  // nil
 ```
-subscript
 ```Swift
 let int: Int? = try j["nested", "key"].option()  // nil
 let int: Int? = try j["nested"]["key"].option()  // nil
@@ -250,13 +261,13 @@ let jsonObject = ["key": "http://example.com"]
 let j = JSON(jsonObject)
 ```
 ```Swift
+let url: NSURL = try j <| "key"  // http://example.com
+
 extension NSURL: Distillable {
     public static func distil(j: JSON) throws -> Self {
         return try j.distil().flatMap(self.init(string:))
     }
 }
-
-let url: NSURL = try j <| "key"  // http://example.com
 ```
 
 ### Object mapping  
@@ -274,6 +285,8 @@ let jsonObject = [
 let j = JSON(jsonObject)
 ```
 ```Swift
+let sample: Sample = try j <| "key"  // Sample
+
 struct Sample: Distillable {
     let string: String
     let int: Int?
@@ -285,8 +298,6 @@ struct Sample: Distillable {
         )
     }
 }
-
-let sample: Sample = try j <| "key"  // Sample
 ```
 
 ### Value transformation
@@ -437,9 +448,8 @@ When the transforming streams is complicated, often generic type is missing.
 At that time, set the type explicitly as following:  
 ```Swift
 let value: String = try j.distil("number")(Int).map { "Number \($0)" }
-let value: String = try (j <| "number")(Int).map { "Number \($0)" }
-let value: String = try j["number"].distil(Int).map { "Number \($0)" }
 ```
+It's same if use operator or subscript.  
 
 You can create `Distillate` by  `Distillate.just(value)`, `Distillate.filter()` and `Distillate.error(error)`.  
 It's provide more convenience to value-transformation.  
@@ -537,8 +547,8 @@ let value: String? = try? j.distil("key")
 let value: String = j.distil("key").recover("sub-value")
 ```
 
-### Receive a value by the data streams
-Alembic allows you to receive a value parsed from JSON by the data streams.  
+### Receive a value by stream
+Alembic allows you to receive a value parsed from JSON by stream.  
 ```Swift
 let jsonObject = ["user": ["name": "john doe"]]
 let j = JSON(jsonObject)
@@ -550,7 +560,7 @@ j.distil(["user", "name"])(String)
         print(message)
     }
     .failure { error in
-        // Do error handlling
+        // Do error handling
     }
 ```
 
@@ -629,52 +639,9 @@ If you want to try Alembic, use Alembic Playground :)
 
 ---
 
-## Requirements
-- Swift 2.2 / Xcode 7.3
-- OS X 10.9 or later
-- iOS 8.0 or later
-- watchOS 2.0 or later
-- tvOS 9.0 or later
-
----
-
-## Installation
-
-### [CocoaPods](https://cocoapods.org/)  
-Add the following to your Podfile:
-```ruby
-use_frameworks!
-pod 'Alembic'
-```
-
-### [Carthage](https://github.com/Carthage/Carthage)  
-Add the following to your Cartfile:
-```ruby
-github "ra1028/Alembic"
-```
-
-### [CocoaSeeds](https://github.com/devxoul/CocoaSeeds)  
-Add the following to your Seedfile:
-```ruby
-github "ra1028/Alembic", :files => "Sources/**/*.swift"
-```
-
-### [Swift Package Manager](https://github.com/apple/swift-package-manager)
-Add the following to your Package.swift:
-```Swift
-let package = Package(
-    name: "ProjectName",
-    dependencies: [
-        .Package(url: "https://github.com/ra1028/Alembic.git", majorVersion: 1)
-    ]
-)
-```
-
----
-
 ## Playground
 1. Open Alembic.xcworkspace.
-2. Build the Alembic-iOS.
+2. Build the Alembic-OSX.
 3. Open Alembic playground in project navigator.
 4. Enjoy the Alembic!
 
@@ -685,17 +652,6 @@ Welcome to fork and submit pull requests!!
 
 Before submitting pull request, please ensure you have passed the included tests.  
 If your pull request including new function, please write test cases for it.  
-
-(Also, welcome the offer of Alembic logo image :pray:)
-
----
-
-## About  
-Alembic is inspired by great libs
-[Argo](https://github.com/thoughtbot/Argo),
-[Himotoki](https://github.com/ikesyo/Himotoki),
-[RxSwift](https://github.com/ReactiveX/RxSwift).  
-Greatly thanks for authors!! :beers:.  
 
 ---
 

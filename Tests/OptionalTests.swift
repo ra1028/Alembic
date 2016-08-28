@@ -44,7 +44,7 @@ class OptionalTests: XCTestCase {
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.TypeMismatch(expected: expected, actual: actual) {
-            XCTAssert(expected == Int?.self)
+            XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "Alembic")
         } catch let e {
             XCTFail("\(e)")
@@ -75,7 +75,7 @@ class OptionalTests: XCTestCase {
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.TypeMismatch(expected: expected, actual: actual) {
-            XCTAssert(expected == Int?.self)
+            XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "Alembic")
         } catch let e {
             XCTFail("\(e)")
@@ -90,7 +90,7 @@ class OptionalTests: XCTestCase {
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.TypeMismatch(expected: expected, actual: actual) {
-            XCTAssert(expected == String?.self)
+            XCTAssert(expected == String.self)
             XCTAssertEqual(actual as? Int, 777)
         } catch let e {
             XCTFail("\(e)")
