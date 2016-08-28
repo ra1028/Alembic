@@ -76,7 +76,7 @@ struct User: Distillable {
 ---
 
 ## Requirements
-- Swift 2.2 / Xcode 7.3
+- Swift 2.3 / Xcode 8
 - OS X 10.9 or later
 - iOS 8.0 or later
 - watchOS 2.0 or later
