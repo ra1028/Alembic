@@ -55,11 +55,11 @@ public extension DistillSubscripted {
 // MARK: - distil option value functions
 
 public extension DistillSubscripted {
-    func option<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) throws -> Optional<T> {
+    func option<T: Distillable>(_: T?.Type = Optional<T>.self) throws -> T? {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: Optional<T>.Type = Optional<T>.self) -> InsecureDistillate<Optional<T>> {
+    func option<T: Distillable>(_: T?.Type = Optional<T>.self) -> InsecureDistillate<T?> {
         return InsecureDistillate { try self.option() }
     }
 }
@@ -79,11 +79,11 @@ public extension DistillSubscripted {
 // MARK: - distil option array functions
 
 public extension DistillSubscripted {
-    func option<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) throws -> Optional<[T]> {
+    func option<T: Distillable>(_: [T]?.Type = Optional<[T]>.self) throws -> [T]? {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: Optional<[T]>.Type = Optional<[T]>.self) -> InsecureDistillate<Optional<[T]>> {
+    func option<T: Distillable>(_: [T]?.Type = Optional<[T]>.self) -> InsecureDistillate<[T]?> {
         return InsecureDistillate { try self.option() }
     }
 }
@@ -103,11 +103,11 @@ public extension DistillSubscripted {
 // MARK: - distil option dictionary functions
 
 public extension DistillSubscripted {
-    func option<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) throws -> Optional<[String: T]> {
+    func option<T: Distillable>(_: [String: T]?.Type = Optional<[String: T]>.self) throws -> [String: T]? {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: Optional<[String: T]>.Type = Optional<[String: T]>.self) -> InsecureDistillate<Optional<[String: T]>> {
+    func option<T: Distillable>(_: [String: T]?.Type = Optional<[String: T]>.self) -> InsecureDistillate<[String: T]?> {
         return InsecureDistillate { try self.option() }
     }
 }

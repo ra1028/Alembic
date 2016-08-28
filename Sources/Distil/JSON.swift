@@ -92,7 +92,7 @@ public extension JSON {
 // MARK: - distil option value functions
 
 public extension JSON {
-    func option<T: Distillable>(_ path: JSONPath) -> (Optional<T>.Type) throws -> Optional<T> {
+    func option<T: Distillable>(_ path: JSONPath) -> (T?.Type) throws -> T? {
         return { _ in
             do {
                 return try self.distil(path)(T.self)
@@ -104,15 +104,15 @@ public extension JSON {
         }
     }
     
-    func option<T: Distillable>(_ path: JSONPath) throws -> Optional<T> {
+    func option<T: Distillable>(_ path: JSONPath) throws -> T? {
         return try option(path)(Optional<T>.self)
     }
     
-    func option<T: Distillable>(_ path: JSONPath) -> (Optional<T>.Type) -> InsecureDistillate<Optional<T>> {
+    func option<T: Distillable>(_ path: JSONPath) -> (T?.Type) -> InsecureDistillate<T?> {
         return { _ in InsecureDistillate { try self.option(path) } }
     }
     
-    func option<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<Optional<T>> {
+    func option<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<T?> {
         return option(path)(Optional<T>.self)
     }
 }
@@ -152,7 +152,7 @@ public extension JSON {
 // MARK: - distil option array functions
 
 public extension JSON {
-    func option<T: Distillable>(_ path: JSONPath) -> (Optional<[T]>.Type) throws -> Optional<[T]> {
+    func option<T: Distillable>(_ path: JSONPath) -> ([T]?.Type) throws -> [T]? {
         return { _ in
             do {
                 return try self.distil(path)([T].self)
@@ -164,15 +164,15 @@ public extension JSON {
         }
     }
     
-    func option<T: Distillable>(_ path: JSONPath) throws -> Optional<[T]> {
+    func option<T: Distillable>(_ path: JSONPath) throws -> [T]? {
         return try option(path)(Optional<[T]>.self)
     }
     
-    func option<T: Distillable>(_ path: JSONPath) -> (Optional<[T]>.Type) -> InsecureDistillate<Optional<[T]>> {
+    func option<T: Distillable>(_ path: JSONPath) -> ([T]?.Type) -> InsecureDistillate<[T]?> {
         return { _ in InsecureDistillate { try self.option(path) } }
     }
     
-    func option<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<Optional<[T]>> {
+    func option<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<[T]?> {
         return option(path)(Optional<[T]>.self)
     }
 }
@@ -217,7 +217,7 @@ public extension JSON {
 // MARK: - distil option dictionary functions
 
 public extension JSON {
-    func option<T: Distillable>(_ path: JSONPath) -> (Optional<[String: T]>.Type) throws -> Optional<[String: T]> {
+    func option<T: Distillable>(_ path: JSONPath) -> ([String: T]?.Type) throws -> [String: T]? {
         return { _ in
             do {
                 return try self.distil(path)([String: T].self)
@@ -229,15 +229,15 @@ public extension JSON {
         }
     }
     
-    func option<T: Distillable>(_ path: JSONPath) throws -> Optional<[String: T]> {
+    func option<T: Distillable>(_ path: JSONPath) throws -> [String: T]? {
         return try option(path)(Optional<[String: T]>.self)
     }
     
-    func option<T: Distillable>(_ path: JSONPath) -> (Optional<[String: T]>.Type) -> InsecureDistillate<Optional<[String: T]>> {
+    func option<T: Distillable>(_ path: JSONPath) -> ([String: T]?.Type) -> InsecureDistillate<[String: T]?> {
         return { _ in InsecureDistillate { try self.option(path) } }
     }
     
-    func option<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<Optional<[String: T]>> {
+    func option<T: Distillable>(_ path: JSONPath) -> InsecureDistillate<[String: T]?> {
         return option(path)(Optional<[String: T]>.self)
     }
 }
@@ -256,11 +256,11 @@ public extension JSON {
     }
     
     static func serializeToString(_ serializable: Serializable, options: JSONSerialization.WritingOptions = []) -> String {
-        return String(data: serializeToData(serializable, options: options), encoding: String.Encoding.utf8)!
+        return String(data: serializeToData(serializable, options: options), encoding: .utf8)!
     }
     
     static func serializeToString(_ serializable: Serializable, rootKey: String, options: JSONSerialization.WritingOptions = []) -> String {
-        return String(data: serializeToData(serializable, rootKey: rootKey, options: options), encoding: String.Encoding.utf8)!
+        return String(data: serializeToData(serializable, rootKey: rootKey, options: options), encoding: .utf8)!
     }
 }
 
@@ -278,11 +278,11 @@ public extension JSON {
     }
     
     static func serializeToString<T: Serializable>(_ serializables: [T], options: JSONSerialization.WritingOptions = []) -> String {
-        return String(data: serializeToData(serializables, options: options), encoding: String.Encoding.utf8)!
+        return String(data: serializeToData(serializables, options: options), encoding: .utf8)!
     }
     
     static func serializeToString<T: Serializable>(_ serializables: [T], rootKey: String, options: JSONSerialization.WritingOptions = []) -> String {
-        return String(data: serializeToData(serializables, rootKey: rootKey, options: options), encoding: String.Encoding.utf8)!
+        return String(data: serializeToData(serializables, rootKey: rootKey, options: options), encoding: .utf8)!
     }
 }
 

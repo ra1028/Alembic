@@ -31,13 +31,13 @@ public extension DistillateType {
         return InsecureDistillate { try self.flatMap(f) }
     }
     
-    func flatMap<T>(_ f: (Value) throws -> Optional<T>) throws -> T {
+    func flatMap<T>(_ f: (Value) throws -> T?) throws -> T {
         let optional = try map(f)
         guard let v = optional else { throw DistillError.filteredValue(type: T.self, value: optional) }
         return v
     }
     
-    func flatMap<T>(_ f: @escaping (Value) throws -> Optional<T>) -> InsecureDistillate<T> {
+    func flatMap<T>(_ f: @escaping (Value) throws -> T?) -> InsecureDistillate<T> {
         return InsecureDistillate { try self.flatMap(f) }
     }
     

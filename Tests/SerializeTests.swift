@@ -18,8 +18,7 @@ class SerializeTests: XCTestCase {
     }()
     
     fileprivate lazy var users: [User] = {
-        return (0..<10).map { _ in try? JSON(self.object) <| "user" }
-            .flatMap { $0 }
+        return (0..<10).map { _ in try? JSON(self.object) <| "user" }.flatMap { $0 }
     }()
     
     func testSerializeToData() {

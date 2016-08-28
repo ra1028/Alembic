@@ -9,11 +9,11 @@
 public protocol OptionalType {
     associatedtype Wrapped
     
-    var optionalValue: Optional<Wrapped> { get }
+    var optionalValue: Wrapped? { get }
 }
 
 extension Optional: OptionalType {
-    public var optionalValue: Optional<Wrapped> {
+    public var optionalValue: Wrapped? {
         return self
     }
 }
