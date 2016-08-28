@@ -29,7 +29,7 @@
   + [Object mapping](#object-mapping)  
   + [Value transformation](#value-transformation)
   + [Error handling](#error-handling)
-  + [Receive a value by the data streams](receive-a-value-by-the-data-streams)
+  + [Receive a value by stream](receive-a-value-by-stream)
   + [Serialize objects to JSON](#serialize-objects-to-json)
 - [Playground](#playground)
 - [Contribution](#contribution)
@@ -547,8 +547,8 @@ let value: String? = try? j.distil("key")
 let value: String = j.distil("key").recover("sub-value")
 ```
 
-### Receive a value by the data streams
-Alembic allows you to receive a value parsed from JSON by the data streams.  
+### Receive a value by stream
+Alembic allows you to receive a value parsed from JSON by stream.  
 ```Swift
 let jsonObject = ["user": ["name": "john doe"]]
 let j = JSON(jsonObject)
