@@ -27,7 +27,7 @@ class TransformTests: XCTestCase {
             let flatMapError: String = try (j <| "missing_key")(String.self.self)
                 .flatMapError { _ in Distillate.just("flat_map_error") }
             let catchUp: String = (j <| "error")
-                .recover("catch_return")
+                .catch("catch_return")
             let replaceNil: String = try (j <|? "null")
                 .replaceNil("replace_nil")
             let replaceEmpty: [String] = try (j <| "array")
@@ -112,7 +112,7 @@ class TransformTests: XCTestCase {
         
         let map = j["key"].distil()
             .map { "map_" + $0 }
-            .recover("")
+            .catch("")
             .to(String.self)
         
         XCTAssertEqual(map, "map_value")

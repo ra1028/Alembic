@@ -362,7 +362,7 @@ throw DistillError.filteredValue.</td>
 </tr>
 
 <tr>
-<td>recover(Value)</td>
+<td>catch(Value)</td>
 <td>If the error was thrown, replace it.<br>
 Error handling is not required.</td>
 <td>Value</td>
@@ -370,7 +370,7 @@ Error handling is not required.</td>
 </tr>
 
 <tr>
-<td>recover(ErrorType -> Value)</td>
+<td>catch(ErrorType -> Value)</td>
 <td>If the error was thrown, replace it.<br>
 Error handling is not required.</td>
 <td>Value</td>
@@ -438,7 +438,7 @@ let date: Date = j.distil("time_string")(String.self)  // "Apr 1, 2016, 12:00 AM
         fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return fmt.date(from: dateString)
     }
-    .recover(Date())
+    .catch(Date())
 ```
 
 __Tips__  
@@ -461,7 +461,7 @@ let message: String = try j.distil("number_of_apples")(Int.self)
         count > 0 ? .just("\(count) apples found!!") : .filter()
     }
     .flatMapError { _ in Distillate.error(FindAppleError()) }
-    .recover { error in "Anything not found... | Error: \(error)" }
+    .catch { error in "Anything not found... | Error: \(error)" }
 ```
 
 ### Error handling
@@ -537,12 +537,12 @@ try? j[path].option()<br>
 </table>
 
 __Don't wanna handling the error?__  
-If you don't care about error handling, use `try?` or `j.distil("key").recover(value)`.  
+If you don't care about error handling, use `try?` or `j.distil("key").catch(value)`.  
 ```Swift
 let value: String? = try? j.distil("key")
 ```
 ```Swift
-let value: String = j.distil("key").recover("sub-value")
+let value: String = j.distil("key").catch("sub-value")
 ```
 
 ### Receive a value by stream

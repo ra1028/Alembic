@@ -51,21 +51,21 @@ public extension InsecureDistillate {
         }
     }
     
-    func recover(_ handler: (Error) -> Value) -> Value {
+    func `catch`(_ handler: (Error) -> Value) -> Value {
         do { return try value() }
         catch let e { return handler(e) }
     }
     
-    func recover(_ handler: @escaping (Error) -> Value) -> SecureDistillate<Value> {
-        return .init { self.recover(handler) }
+    func `catch`(_ handler: @escaping (Error) -> Value) -> SecureDistillate<Value> {
+        return .init { self.catch(handler) }
     }
     
-    func recover(_ element: @autoclosure () -> Value) -> Value {
-        return recover { _ in element() }
+    func `catch`(_ element: @autoclosure () -> Value) -> Value {
+        return self.catch { _ in element() }
     }
     
-    func recover( _ element: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
-        return recover { _ in element() }
+    func `catch`( _ element: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
+        return self.catch { _ in element() }
     }
     
     func mapError(_ f: (Error) throws -> Error) throws -> Value {
