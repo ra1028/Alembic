@@ -134,7 +134,7 @@ JSON from NSData
 let j = try JSON(data: jsonData)
 ```
 ```Swift
-let j = try JSON(data: jsonData, options: .AllowFragments)
+let j = try JSON(data: jsonData, options: .allowFragments)
 ```
 JSON from String  
 ```Swift

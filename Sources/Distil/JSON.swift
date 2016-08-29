@@ -11,11 +11,11 @@ import Foundation
 public struct JSON {
     public let raw: Any
     
-    public subscript(path: JSONPathElement) -> DistillSubscripted {
+    public subscript(path: JSONPathElement) -> Subscripted {
         return .init(self, JSONPath(path))
     }
     
-    public subscript(path: JSONPathElement...) -> DistillSubscripted {
+    public subscript(path: JSONPathElement...) -> Subscripted {
         return .init(self, JSONPath(path))
     }
     

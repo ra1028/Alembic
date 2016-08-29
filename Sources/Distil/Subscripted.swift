@@ -1,5 +1,5 @@
 //
-//  DistillSubscripted.swift
+//  Subscripted.swift
 //  Alembic
 //
 //  Created by Ryo Aoyama on 3/29/16.
@@ -8,15 +8,15 @@
 
 import Foundation
 
-public final class DistillSubscripted {
+public final class Subscripted {
     fileprivate let j: JSON
     fileprivate let path: JSONPath
     
-    public subscript(path: JSONPathElement) -> DistillSubscripted {
+    public subscript(path: JSONPathElement) -> Subscripted {
         return .init(j, self.path + JSONPath(path))
     }
     
-    public subscript(path: JSONPathElement...) -> DistillSubscripted {
+    public subscript(path: JSONPathElement...) -> Subscripted {
         return .init(j, self.path + JSONPath(path))
     }
     
@@ -26,7 +26,7 @@ public final class DistillSubscripted {
     }    
 }
 
-public extension DistillSubscripted {
+public extension Subscripted {
     func to<T: Distillable>(_: T.Type) throws -> T {
         return try distil()
     }
@@ -42,7 +42,7 @@ public extension DistillSubscripted {
 
 // MARK: - distil value functions
 
-public extension DistillSubscripted {
+public extension Subscripted {
     func distil<T: Distillable>(_: T.Type = T.self) throws -> T {
         return try j.distil(path)
     }
@@ -54,7 +54,7 @@ public extension DistillSubscripted {
 
 // MARK: - distil option value functions
 
-public extension DistillSubscripted {
+public extension Subscripted {
     func option<T: Distillable>(_: T?.Type = (T?).self) throws -> T? {
         return try j.option(path)
     }
@@ -66,7 +66,7 @@ public extension DistillSubscripted {
 
 // MARK: - distil array functions
 
-public extension DistillSubscripted {
+public extension Subscripted {
     func distil<T: Distillable>(_: [T].Type = [T].self) throws -> [T] {
         return try j.distil(path)
     }
@@ -78,7 +78,7 @@ public extension DistillSubscripted {
 
 // MARK: - distil option array functions
 
-public extension DistillSubscripted {
+public extension Subscripted {
     func option<T: Distillable>(_: [T]?.Type = ([T]?).self) throws -> [T]? {
         return try j.option(path)
     }
@@ -90,7 +90,7 @@ public extension DistillSubscripted {
 
 // MARK: - distil dictionary functions
 
-public extension DistillSubscripted {
+public extension Subscripted {
     func distil<T: Distillable>(_: [String: T].Type = [String: T].self) throws -> [String: T] {
         return try j.distil(path)
     }
@@ -102,7 +102,7 @@ public extension DistillSubscripted {
 
 // MARK: - distil option dictionary functions
 
-public extension DistillSubscripted {
+public extension Subscripted {
     func option<T: Distillable>(_: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
         return try j.option(path)
     }
