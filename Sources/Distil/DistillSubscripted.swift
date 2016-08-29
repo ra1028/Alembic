@@ -48,19 +48,19 @@ public extension DistillSubscripted {
     }
     
     func distil<T: Distillable>(_: T.Type = T.self) -> InsecureDistillate<T> {
-        return InsecureDistillate { try self.distil() }
+        return .init { try self.distil() }
     }
 }
 
 // MARK: - distil option value functions
 
 public extension DistillSubscripted {
-    func option<T: Distillable>(_: T?.Type = Optional<T>.self) throws -> T? {
+    func option<T: Distillable>(_: T?.Type = (T?).self) throws -> T? {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: T?.Type = Optional<T>.self) -> InsecureDistillate<T?> {
-        return InsecureDistillate { try self.option() }
+    func option<T: Distillable>(_: T?.Type = (T?).self) -> InsecureDistillate<T?> {
+        return .init { try self.option() }
     }
 }
 
@@ -72,19 +72,19 @@ public extension DistillSubscripted {
     }
     
     func distil<T: Distillable>(_: [T].Type = [T].self) -> InsecureDistillate<[T]> {
-        return InsecureDistillate { try self.distil() }
+        return .init { try self.distil() }
     }
 }
 
 // MARK: - distil option array functions
 
 public extension DistillSubscripted {
-    func option<T: Distillable>(_: [T]?.Type = Optional<[T]>.self) throws -> [T]? {
+    func option<T: Distillable>(_: [T]?.Type = ([T]?).self) throws -> [T]? {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: [T]?.Type = Optional<[T]>.self) -> InsecureDistillate<[T]?> {
-        return InsecureDistillate { try self.option() }
+    func option<T: Distillable>(_: [T]?.Type = ([T]?).self) -> InsecureDistillate<[T]?> {
+        return .init { try self.option() }
     }
 }
 
@@ -96,18 +96,18 @@ public extension DistillSubscripted {
     }
     
     func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> InsecureDistillate<[String: T]> {
-        return InsecureDistillate { try self.distil() }
+        return .init { try self.distil() }
     }
 }
 
 // MARK: - distil option dictionary functions
 
 public extension DistillSubscripted {
-    func option<T: Distillable>(_: [String: T]?.Type = Optional<[String: T]>.self) throws -> [String: T]? {
+    func option<T: Distillable>(_: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: [String: T]?.Type = Optional<[String: T]>.self) -> InsecureDistillate<[String: T]?> {
-        return InsecureDistillate { try self.option() }
+    func option<T: Distillable>(_: [String: T]?.Type = ([String: T]?).self) -> InsecureDistillate<[String: T]?> {
+        return .init { try self.option() }
     }
 }

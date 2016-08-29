@@ -20,7 +20,7 @@ public extension DistillateType {
     }
     
     func map<T>(_ f: @escaping (Value) throws -> T) -> InsecureDistillate<T> {
-        return InsecureDistillate { try self.map(f) }
+        return .init { try self.map(f) }
     }
     
     func flatMap<T: DistillateType>(_ f: (Value) throws -> T) throws -> T.Value {
@@ -28,7 +28,7 @@ public extension DistillateType {
     }
     
     func flatMap<T: DistillateType>(_ f: @escaping (Value) throws -> T) -> InsecureDistillate<T.Value> {
-        return InsecureDistillate { try self.flatMap(f) }
+        return .init { try self.flatMap(f) }
     }
     
     func flatMap<T>(_ f: (Value) throws -> T?) throws -> T {
@@ -38,7 +38,7 @@ public extension DistillateType {
     }
     
     func flatMap<T>(_ f: @escaping (Value) throws -> T?) -> InsecureDistillate<T> {
-        return InsecureDistillate { try self.flatMap(f) }
+        return .init { try self.flatMap(f) }
     }
     
     func filter(_ predicate: (Value) throws -> Bool) throws -> Value {
@@ -48,7 +48,7 @@ public extension DistillateType {
     }
     
     func filter(_ predicate: @escaping (Value) throws -> Bool) -> InsecureDistillate<Value> {
-        return InsecureDistillate { try self.filter(predicate) }
+        return .init { try self.filter(predicate) }
     }
 }
 
@@ -58,7 +58,7 @@ public extension DistillateType where Value: OptionalType {
     }
     
     func replaceNil(_ handler: @escaping () throws -> Value.Wrapped) -> InsecureDistillate<Value.Wrapped> {
-        return InsecureDistillate { try self.replaceNil(handler) }
+        return .init { try self.replaceNil(handler) }
     }
     
     func replaceNil(_ element: @autoclosure () -> Value.Wrapped) throws -> Value.Wrapped {
@@ -74,7 +74,7 @@ public extension DistillateType where Value: OptionalType {
     }
     
     func filterNil() -> InsecureDistillate<Value.Wrapped> {
-        return InsecureDistillate.init(filterNil)
+        return .init(filterNil)
     }
 }
 
@@ -84,7 +84,7 @@ public extension DistillateType where Value: Collection {
     }
     
     func replaceEmpty(_ handler: @escaping () throws -> Value) -> InsecureDistillate<Value> {
-        return InsecureDistillate { try self.replaceEmpty(handler) }
+        return .init { try self.replaceEmpty(handler) }
     }
     
     func replaceEmpty(_ element: @autoclosure () -> Value) throws -> Value {
@@ -100,6 +100,6 @@ public extension DistillateType where Value: Collection {
     }
     
     func filterEmpty() -> InsecureDistillate<Value> {
-        return InsecureDistillate.init(filterEmpty)
+        return .init(filterEmpty)
     }
 }

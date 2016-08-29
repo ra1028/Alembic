@@ -26,9 +26,9 @@ public extension InsecureDistillate {
         do {
             let v = try value()
             handler(v)
-            return InsecureDistillate { v }
+            return .init { v }
         } catch let e {
-            return InsecureDistillate { throw e }
+            return .init { throw e }
         }
     }
     
@@ -36,10 +36,10 @@ public extension InsecureDistillate {
     func failure(_ handler: (Error) -> Void) -> InsecureDistillate<Value> {
         do {
             let v = try value()
-            return InsecureDistillate { v }
+            return .init { v }
         } catch let e {
             handler(e)
-            return InsecureDistillate { throw e }
+            return .init { throw e }
         }
     }
     
@@ -53,7 +53,7 @@ public extension InsecureDistillate {
     }
     
     func recover(_ handler: @escaping (Error) -> Value) -> SecureDistillate<Value> {
-        return SecureDistillate { self.recover(handler) }
+        return .init { self.recover(handler) }
     }
     
     func recover(_ element: @autoclosure () -> Value) -> Value {
@@ -70,7 +70,7 @@ public extension InsecureDistillate {
     }
     
     func mapError(_ f: @escaping (Error) throws -> Error) -> InsecureDistillate<Value> {
-        return InsecureDistillate { try self.mapError(f) }
+        return .init { try self.mapError(f) }
     }
     
     func flatMapError<T: DistillateType>(_ f: (Error) throws -> T) throws -> Value where T.Value == Value {
@@ -79,6 +79,6 @@ public extension InsecureDistillate {
     }
     
     func flatMapError<T: DistillateType>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> where T.Value == Value {
-        return InsecureDistillate { try self.flatMapError(f) }
+        return .init { try self.flatMapError(f) }
     }
 }

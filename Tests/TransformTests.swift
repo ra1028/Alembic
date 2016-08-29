@@ -204,7 +204,7 @@ class TransformTests: XCTestCase {
                 XCTFail("\($0)")
         }
         
-        j.option("null")(Optional<String>.self)
+        j.option("null")((String?).self)
             .success { XCTAssertEqual($0, nil) }
             .failure { XCTFail("\($0)") }
         

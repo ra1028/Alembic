@@ -51,9 +51,7 @@ let str2: String = try j <| "str2"
 let str3: String = try j["str3"].distil()
 
 // ↓ Same as `j["str4"].distil().success {...}` or `(j <| "str4").success {...}`
-j.distil("str4")(String.self).success {
-    let str4 = $0
-}
+j.distil("str4").success { (str4: String) in ... }
 ```
 Object mapping
 
@@ -145,9 +143,9 @@ let j = try JSON(string: jsonString)
 ```Swift
 let j = try JSON(
     string: jsonString,
-    encoding: NSUTF8StringEncoding,
+    encoding: .utf8,
     allowLossyConversion: false,
-    options: .AllowFragments
+    options: .allowFragments
 )
 ```
 

@@ -18,11 +18,11 @@ public class Distillate<Value>: DistillateType {
 
 public extension Distillate {
     static func just( _ element: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
-        return SecureDistillate.init(element)
+        return .init(element)
     }
     
     static func error(_ e: Error) -> InsecureDistillate<Value> {
-        return InsecureDistillate { throw e }
+        return .init { throw e }
     }
     
     static func filter() -> InsecureDistillate<Value> {
