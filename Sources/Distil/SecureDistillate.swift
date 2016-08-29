@@ -15,16 +15,20 @@ public final class SecureDistillate<Value>: Distillate<Value> {
         self.thunk = thunk
     }
     
-    public override func value() throws -> Value {
-        return thunk()
-    }
-        
-    public func to(_: Value.Type) -> Value {
-        return thunk()
+    override func _value() throws -> Value {
+        return value()
     }
 }
 
 public extension SecureDistillate {
+    func value() -> Value {
+        return thunk()
+    }
+    
+     func to(_: Value.Type) -> Value {
+        return value()
+    }
+    
     @discardableResult
     func success(_ handler: (Value) -> Void) -> SecureDistillate<Value> {
         let v = thunk()

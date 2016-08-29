@@ -15,12 +15,20 @@ public final class InsecureDistillate<Value>: Distillate<Value> {
         self.thunk = thunk
     }
     
-    public override func value() throws -> Value {
-        return try thunk()
+    override func _value() throws -> Value {
+        return try value()
     }
 }
 
 public extension InsecureDistillate {
+    func value() throws -> Value {
+        return try thunk()
+    }
+    
+    func to(_: Value.Type) throws -> Value {
+        return try value()
+    }
+    
     @discardableResult
     func success(_ handler: (Value) -> Void) -> InsecureDistillate<Value> {
         do {
@@ -41,10 +49,6 @@ public extension InsecureDistillate {
             handler(e)
             return .init { throw e }
         }
-    }
-    
-    public func to(_: Value.Type) throws -> Value {
-        return try thunk()
     }
     
     func recover(_ handler: (Error) -> Value) -> Value {
@@ -73,12 +77,12 @@ public extension InsecureDistillate {
         return .init { try self.mapError(f) }
     }
     
-    func flatMapError<T: DistillateType>(_ f: (Error) throws -> T) throws -> Value where T.Value == Value {
+    func flatMapError<T: Distillate<Value>>(_ f: (Error) throws -> T) throws -> Value {
         do { return try value() }
-        catch let e { return try f(e).value() }
+        catch let e { return try f(e)._value() }
     }
     
-    func flatMapError<T: DistillateType>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> where T.Value == Value {
+    func flatMapError<T: Distillate<Value>>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> {
         return .init { try self.flatMapError(f) }
     }
 }
