@@ -1,4 +1,4 @@
-<div align="center"><img src="Assets/Alembic_Logo.png" alt="Alembic" width="50%"></div></br>
+<div align="center"><img src="Assets/Alembic_Logo.png" alt="Alembic" width="70%"></div></br>
 
 <p align="center">
 <a href="https://travis-ci.org/ra1028/Alembic"><img alt="Build Status" src="https://travis-ci.org/ra1028/Alembic.svg?branch=master"/></a>
