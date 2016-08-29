@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct JSON {
+public final class JSON {
     public let raw: Any
     
     public subscript(path: JSONPathElement) -> Subscripted {
@@ -23,7 +23,7 @@ public struct JSON {
         self.raw = raw
     }
     
-    public init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) throws {
+    public convenience init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) throws {
         do {
             let json = try JSONSerialization.jsonObject(with: data, options: options)
             self.init(json)
@@ -32,7 +32,7 @@ public struct JSON {
         }
     }
     
-    public init(
+    public convenience init(
         string: String,
         encoding: String.Encoding = .utf8,
         allowLossyConversion: Bool = false,
