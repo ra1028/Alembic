@@ -17,16 +17,16 @@ public class Distillate<Value> {
 }
 
 public extension Distillate {
-    static func just(_ element: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
-        return .init(element)
+    static var filter: InsecureDistillate<Value> {
+        return error(DistillError.filteredValue(type: Value.self, value: ()))
     }
     
     static func error(_ e: Error) -> InsecureDistillate<Value> {
         return .init { throw e }
     }
     
-    static func filter() -> InsecureDistillate<Value> {
-        return error(DistillError.filteredValue(type: Value.self, value: ()))
+    static func just(_ element: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
+        return .init(element)
     }
 }
 
@@ -40,7 +40,7 @@ public extension Distillate {
     }
     
     func flatMap<T, U: Distillate<T>>(_ f: (Value) throws -> U) throws -> T {
-        return try f(_value())._value()
+        return try map(f)._value()
     }
     
     func flatMap<T, U: Distillate<T>>(_ f: @escaping (Value) throws -> U) -> InsecureDistillate<T> {

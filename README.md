@@ -449,7 +449,7 @@ let value: String = try j.distil("number")(Int.self).map { "Number \($0)" }
 ```
 It's same if use operator or subscript.  
 
-You can create `Distillate` by  `Distillate.just(value)`, `Distillate.filter()` and `Distillate.error(error)`.  
+You can create `Distillate` by `Distillate.filter`, `Distillate.error(error)` and `Distillate.just(value)`.  
 It's provide more convenience to value-transformation.  
 Example:  
 
@@ -460,7 +460,7 @@ let message: String = try j.distil("number_of_apples")(Int.self)
     .flatMap { count -> Distillate<String> in
         count > 0 ? .just("\(count) apples found!!") : .filter()
     }
-    .flatMapError { _ in Distillate.error(FindAppleError()) }
+    .flatMapError { _ in .error(FindAppleError()) }
     .catch { error in "Anything not found... | Error: \(error)" }
 ```
 

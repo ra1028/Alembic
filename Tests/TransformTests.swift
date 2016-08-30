@@ -25,7 +25,7 @@ class TransformTests: XCTestCase {
             let flatMapOptional: String = try (j <| ["nested", "nested_key"])(String.self)
                 .flatMap { Optional<String>.some($0) }
             let flatMapError: String = try (j <| "missing_key")(String.self.self)
-                .flatMapError { _ in Distillate.just("flat_map_error") }
+                .flatMapError { _ in .just("flat_map_error") }
             let catchUp: String = (j <| "error")
                 .catch("catch_return")
             let replaceNil: String = try (j <|? "null")
@@ -138,7 +138,7 @@ class TransformTests: XCTestCase {
         XCTAssertEqual(just.to(String.self), "just")
         
         do {
-            _ = try Distillate<String>.filter().to(String.self)
+            _ = try Distillate<String>.filter.to(String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type: type, value: value) {
@@ -149,7 +149,7 @@ class TransformTests: XCTestCase {
         }
         
         do {
-            _ = try Distillate<String>.filter().to(String.self)
+            _ = try Distillate<String>.filter.to(String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type: type, value: value) {
@@ -169,7 +169,7 @@ class TransformTests: XCTestCase {
         
         do {
             _ = try (j <| "key")(String.self)
-                .flatMap { _ in Distillate.filter() }
+                .flatMap { _ in .filter }
                 .to(String.self)
             
             XCTFail("Expect the error to occur")
@@ -182,7 +182,7 @@ class TransformTests: XCTestCase {
         
         do {
             _ = try (j <| "missing_key")(String.self)
-                .flatMapError { _ in Distillate.error(TestError()) }
+                .flatMapError { _ in .error(TestError()) }
                 .to(String.self)
             
             XCTFail("Expect the error to occur")
