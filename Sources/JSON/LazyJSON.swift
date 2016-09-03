@@ -1,5 +1,5 @@
 //
-//  Subscripted.swift
+//  LazyJSON.swift
 //  Alembic
 //
 //  Created by Ryo Aoyama on 3/29/16.
@@ -8,15 +8,15 @@
 
 import Foundation
 
-public final class Subscripted {
+public final class LazyJSON {
     fileprivate let j: JSON
     fileprivate let path: Path
     
-    public subscript(path: PathElement) -> Subscripted {
+    public subscript(path: PathElement) -> LazyJSON {
         return .init(j, self.path + Path(path))
     }
     
-    public subscript(path: PathElement...) -> Subscripted {
+    public subscript(path: PathElement...) -> LazyJSON {
         return .init(j, self.path + Path(path))
     }
     
@@ -28,9 +28,9 @@ public final class Subscripted {
 
 // MARK: - JSONType
 
-extension Subscripted: JSONType {}
+extension LazyJSON: JSONType {}
 
-public extension Subscripted {
+public extension LazyJSON {
     func distil<T: Distillable>(to: T.Type = T.self) throws -> T {
         return try j.distil(path)
     }
@@ -44,7 +44,7 @@ public extension Subscripted {
     }
 }
 
-public extension Subscripted {
+public extension LazyJSON {
     func option<T: Distillable>(to: T?.Type = (T?).self) throws -> T? {
         return try j.option(path)
     }

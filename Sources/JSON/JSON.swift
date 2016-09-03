@@ -11,11 +11,11 @@ import Foundation
 public final class JSON {
     public let raw: Any
     
-    public subscript(path: PathElement) -> Subscripted {
+    public subscript(path: PathElement) -> LazyJSON {
         return .init(self, Path(path))
     }
     
-    public subscript(path: PathElement...) -> Subscripted {
+    public subscript(path: PathElement...) -> LazyJSON {
         return .init(self, Path(path))
     }
     
