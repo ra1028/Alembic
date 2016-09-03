@@ -18,11 +18,11 @@ extension DistillError: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .missingPath(path):
-            return "MissingPath(\(path))"
+            return "missingPath(\(path))"
         case let .typeMismatch(expected, actual):
-            return "TypeMismatch(expected: \(expected), actual: \(type(of: actual))(\(actual)))"
+            return "typeMismatch(expected: \(expected), actual: \(type(of: actual))(\(actual)))"
         case let .filteredValue(type, value):
-            return "FilteredValue(type: \(type), value: \(value))"
+            return "filteredValue(type: \(type), value: \(value))"
         }
     }
 }
