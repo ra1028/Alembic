@@ -446,8 +446,9 @@ When the transforming is complicated, often generic type is missing.
 At that time, set the type explicitly as following:  
 ```Swift
 let value: String = try j.distil("number", to: Int.self).map { "Number \($0)" }
+let value: String = try (j <| "number")(Int.self).map { "Number \($0)" }
+let value: String = try j["number"].distil(to: Int.self).map { "Number \($0)" }
 ```
-It's same if use operator or subscript.  
 
 You can create `Distillate` by `Distillate.filter`, `Distillate.error(error)` and `Distillate.just(value)`.  
 It's provide more convenience to value-transformation.  
@@ -462,6 +463,22 @@ let message: String = try j.distil("number_of_apples", to: Int.self)
     }
     .flatMapError { _ in .error(FindAppleError()) }
     .catch { error in "Anything not found... | Error: \(error)" }
+    ```
+
+Alembic allows you to receive a value functinally as following.  
+```Swift
+let jsonObject = ["user": ["name": "john doe"]]
+let j = JSON(jsonObject)
+```
+```Swift
+j.distil(["user", "name"], to: String.self)
+    .map { name in "User name is \(name)" }
+    .value { message in
+        print(message)
+    }
+    .error { error in
+        // Do error handling
+    }
 ```
 
 ### Error handling
@@ -543,23 +560,6 @@ let value: String? = try? j.distil("key")
 ```
 ```Swift
 let value: String = j.distil("key").catch("sub-value")
-```
-
-### Receive a value by stream
-Alembic allows you to receive a value parsed from JSON by stream.  
-```Swift
-let jsonObject = ["user": ["name": "john doe"]]
-let j = JSON(jsonObject)
-```
-```Swift
-j.distil(["user", "name"], to: String.self)
-    .map { name in "User name is \(name)" }
-    .value { message in
-        print(message)
-    }
-    .error { error in
-        // Do error handling
-    }
 ```
 
 ---
