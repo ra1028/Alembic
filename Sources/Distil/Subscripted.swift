@@ -26,88 +26,34 @@ public final class Subscripted {
     }    
 }
 
-public extension Subscripted {
-    func to<T: Distillable>(_: T.Type) throws -> T {
-        return try distil()
-    }
-    
-    func to<T: Distillable>(_: [T].Type) throws -> [T] {
-        return try distil()
-    }
-    
-    func to<T: Distillable>(_: [String: T].Type) throws -> [String: T] {
-        return try distil()
-    }
-}
+// MARK: - JSONType
 
-// MARK: - distil value functions
+extension Subscripted: JSONType {}
 
 public extension Subscripted {
-    func distil<T: Distillable>(_: T.Type = T.self) throws -> T {
+    func distil<T: Distillable>(to: T.Type = T.self) throws -> T {
         return try j.distil(path)
     }
     
-    func distil<T: Distillable>(_: T.Type = T.self) -> InsecureDistillate<T> {
-        return .init { try self.distil() }
-    }
-}
-
-// MARK: - distil option value functions
-
-public extension Subscripted {
-    func option<T: Distillable>(_: T?.Type = (T?).self) throws -> T? {
-        return try j.option(path)
-    }
-    
-    func option<T: Distillable>(_: T?.Type = (T?).self) -> InsecureDistillate<T?> {
-        return .init { try self.option() }
-    }
-}
-
-// MARK: - distil array functions
-
-public extension Subscripted {
-    func distil<T: Distillable>(_: [T].Type = [T].self) throws -> [T] {
+    func distil<T: Distillable>(to: [T].Type = [T].self) throws -> [T] {
         return try j.distil(path)
     }
     
-    func distil<T: Distillable>(_: [T].Type = [T].self) -> InsecureDistillate<[T]> {
-        return .init { try self.distil() }
-    }
-}
-
-// MARK: - distil option array functions
-
-public extension Subscripted {
-    func option<T: Distillable>(_: [T]?.Type = ([T]?).self) throws -> [T]? {
-        return try j.option(path)
-    }
-    
-    func option<T: Distillable>(_: [T]?.Type = ([T]?).self) -> InsecureDistillate<[T]?> {
-        return .init { try self.option() }
-    }
-}
-
-// MARK: - distil dictionary functions
-
-public extension Subscripted {
-    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) throws -> [String: T] {
+    func distil<T: Distillable>(to: [String: T].Type = [String: T].self) throws -> [String: T] {
         return try j.distil(path)
     }
-    
-    func distil<T: Distillable>(_: [String: T].Type = [String: T].self) -> InsecureDistillate<[String: T]> {
-        return .init { try self.distil() }
-    }
 }
 
-// MARK: - distil option dictionary functions
-
 public extension Subscripted {
-    func option<T: Distillable>(_: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
+    func option<T: Distillable>(to: T?.Type = (T?).self) throws -> T? {
         return try j.option(path)
     }
     
-    func option<T: Distillable>(_: [String: T]?.Type = ([String: T]?).self) -> InsecureDistillate<[String: T]?> {
-        return .init { try self.option() }
+    func option<T: Distillable>(to: [T]?.Type = ([T]?).self) throws -> [T]? {
+        return try j.option(path)
+    }
+    
+    func option<T: Distillable>(to: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
+        return try j.option(path)
     }
 }
