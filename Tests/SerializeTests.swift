@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import Alembic
+@testable import Alembic
 
 class SerializeTests: XCTestCase {
     let object = TestJSON.serialize.object

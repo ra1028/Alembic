@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import Alembic
+@testable import Alembic
 
 class OptionalTests: XCTestCase {
     let object = TestJSON.optional.object

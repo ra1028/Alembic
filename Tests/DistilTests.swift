@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import Alembic
+@testable import Alembic
 
 class DistilTests: XCTestCase {
     let object = TestJSON.distil.object

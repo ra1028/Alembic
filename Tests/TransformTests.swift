@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import Alembic
+@testable import Alembic
 
 class TransformTests: XCTestCase {
     fileprivate struct TestError: Error {}
