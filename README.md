@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-<H4 align="center">Functional JSON parsing, mapping to objects, and serialize to JSON</H4>
+<H4 align="center">Functional JSON parsing</H4>
 </p>  
 
 ---
@@ -30,7 +30,7 @@
   + [Value transformation](#value-transformation)
   + [Error handling](#error-handling)
   + [Receive a value by stream](receive-a-value-by-stream)
-  + [Serialize objects to JSON](#serialize-objects-to-json)
+  + [Serialize objects to JSON](#serialize-objects-to-json) - __Will be obsolete on Swift3__
 - [Playground](#playground)
 - [Contribution](#contribution)
 - [License](#license)
@@ -565,6 +565,7 @@ j.distil(["user", "name"])(String)
 ```
 
 ### Serialize objects to JSON
+--Will be obsolete on Swift3 support version--  
 To Serialize objects to `NSData` or `String` of JSON, your models should implements the `Serializable` protocol.  
 ```Swift
 public protocol Serializable {

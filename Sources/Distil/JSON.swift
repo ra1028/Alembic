@@ -237,6 +237,7 @@ public extension JSON {
 
 // MARK: - serialize value functions
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 public extension JSON {
     static func serializeToData(serializable: Serializable, options: NSJSONWritingOptions = []) -> NSData {
         return serializeToData(serializable.serialize().object, options: options)
@@ -257,6 +258,7 @@ public extension JSON {
 
 // MARK: - serialize array functions
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 public extension JSON {
     static func serializeToData<T: Serializable>(serializables: [T], options: NSJSONWritingOptions = []) -> NSData {
         return serializeToData(serializables.map { $0.serialize().object }, options: options)
@@ -336,6 +338,7 @@ private extension JSON {
         return value
     }
     
+    @available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
     static func serializeToData(object: AnyObject, options: NSJSONWritingOptions = []) -> NSData {
         return try! NSJSONSerialization.dataWithJSONObject(object, options: options)
     }

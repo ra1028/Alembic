@@ -8,6 +8,7 @@
 
 import Foundation
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 public struct JSONValue {
     let value: AnyObject
     
@@ -16,6 +17,7 @@ public struct JSONValue {
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 public extension JSONValue {
     static var null: JSONValue {
         return JSONValue(value: NSNull())
@@ -44,6 +46,7 @@ public extension JSONValue {
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 extension JSONValue: StringLiteralConvertible {
     public init(unicodeScalarLiteral value: String) {
         self.init(value)
@@ -58,30 +61,35 @@ extension JSONValue: StringLiteralConvertible {
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 extension JSONValue: IntegerLiteralConvertible {
     public init(integerLiteral value: Int) {
         self.init(NSNumber(integer: value))
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 extension JSONValue: FloatLiteralConvertible {
     public init(floatLiteral value: Float) {
         self.init(NSNumber(float: value))
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 extension JSONValue: BooleanLiteralConvertible {
     public init(booleanLiteral value: Bool) {
         self.init(NSNumber(bool: value))
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 extension JSONValue: NilLiteralConvertible {
     public init(nilLiteral: ()) {
         self = JSONValue.null
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 extension JSONValue: ArrayLiteralConvertible {
     public init(arrayLiteral elements: JSONValueConvertible...) {
         let array = elements.map { $0.jsonValue.value }
@@ -89,6 +97,7 @@ extension JSONValue: ArrayLiteralConvertible {
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 extension JSONValue: DictionaryLiteralConvertible {
     public init(dictionaryLiteral elements: (String, JSONValueConvertible)...) {
         var dictionary = [String: AnyObject](minimumCapacity: elements.count)
