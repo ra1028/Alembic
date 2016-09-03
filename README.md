@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-<H4 align="center">Functional JSON parsing, mapping to objects, and serialize to JSON</H4>
+<H4 align="center">Functional JSON parsing</H4>
 </p>  
 
 ---
@@ -25,19 +25,17 @@
   + [JSON parsing](#json-parsing)
   + [Nested objects parsing](#nested-objects-parsing)
   + [Optional objects parsing](#optional-objects-parsing)
-  + [Custom objects parsing](#custom-objects-parsing)
-  + [Object mapping](#object-mapping)  
+  + [Custom value parsing](#custom-objects-parsing)
+  + [Object mapping](#object-mapping)
   + [Value transformation](#value-transformation)
   + [Error handling](#error-handling)
-  + [Receive a value by stream](receive-a-value-by-stream)
-  + [Serialize objects to JSON](#serialize-objects-to-json)
 - [Playground](#playground)
 - [Contribution](#contribution)
 - [License](#license)
 
 ---
 
-A trait of __Alembic__ is to enable easy JSON parsing and transform it's value by stream.  
+A trait of __Alembic__ is to enable easy JSON parsing and transform it's value.  
 Followings is simple example of json parsing.  
 
 ## Overview  
@@ -49,9 +47,11 @@ Value parsing
 let str1: String = try j.distil("str1")
 let str2: String = try j <| "str2"
 let str3: String = try j["str3"].distil()
-
-// ↓ Same as `j["str4"].distil().value {...}` or `(j <| "str4").value {...}`
-j.distil("str4").value { (str4: String) in ... }
+```
+```Swift
+j.distil("str1").value { (str1: String) in ... }
+(j < | "str2").value { (str2: String) in ... }
+j["str3"].distil().value { (str3: String) in ... }
 ```
 Object mapping
 
@@ -112,7 +112,7 @@ Add the following to your Package.swift:
 let package = Package(
     name: "ProjectName",
     dependencies: [
-        .Package(url: "https://github.com/ra1028/Alembic.git", majorVersion: 1)
+        .Package(url: "https://github.com/ra1028/Alembic.git", majorVersion: 2)
     ]
 )
 ```
@@ -129,7 +129,7 @@ JSON from Any
 ```Swift
 let j = JSON(jsonObject)
 ```
-JSON from NSData
+JSON from Data
 ```Swift
 let j = try JSON(data: jsonData)
 ```
@@ -195,7 +195,7 @@ let string: String = try j["key"].distil()  // "string"
 __Tips__  
 You can set the generic type as following:  
 ```Swift
-let string = try j.distil("key").to(String)  // "string"
+let string = try j.distil("key").to(String.self)  // "string"
 ```
 It's same if use operator or subscript.  
 
@@ -250,7 +250,7 @@ let int: Int? = try j["nested", "key"].option()  // nil
 let int: Int? = try j["nested"]["key"].option()  // nil
 ```
 
-### Custom objects parsing
+### Custom value parsing
 If implement `Distillable` protocol to existing classes like `URL`, it be able to parse from JSON.  
 
 __Example__
@@ -431,7 +431,7 @@ let j = JSON(jsonObject)
 ```
 function
 ```Swift
-let date: Date = j.distil("time_string")(String.self)  // "Apr 1, 2016, 12:00 AM"
+let date: Date = j.distil("time_string", to: String.self)  // "Apr 1, 2016, 12:00 AM"
     .filter { !$0.isEmpty }
     .flatMap { dateString in
         let fmt = DateFormatter()
@@ -442,10 +442,10 @@ let date: Date = j.distil("time_string")(String.self)  // "Apr 1, 2016, 12:00 AM
 ```
 
 __Tips__  
-When the transforming streams is complicated, often generic type is missing.  
+When the transforming is complicated, often generic type is missing.  
 At that time, set the type explicitly as following:  
 ```Swift
-let value: String = try j.distil("number")(Int.self).map { "Number \($0)" }
+let value: String = try j.distil("number", to: Int.self).map { "Number \($0)" }
 ```
 It's same if use operator or subscript.  
 
@@ -456,9 +456,9 @@ Example:
 ```Swift
 struct FindAppleError: Error {}
 
-let message: String = try j.distil("number_of_apples")(Int.self)
+let message: String = try j.distil("number_of_apples", to: Int.self)
     .flatMap { count -> Distillate<String> in
-        count > 0 ? .just("\(count) apples found!!") : .filter()
+        count > 0 ? .just("\(count) apples found!!") : .filter
     }
     .flatMapError { _ in .error(FindAppleError()) }
     .catch { error in "Anything not found... | Error: \(error)" }
@@ -552,7 +552,7 @@ let jsonObject = ["user": ["name": "john doe"]]
 let j = JSON(jsonObject)
 ```
 ```Swift
-j.distil(["user", "name"])(String.self)
+j.distil(["user", "name"], to: String.self)
     .map { name in "User name is \(name)" }
     .value { message in
         print(message)
@@ -560,73 +560,6 @@ j.distil(["user", "name"])(String.self)
     .error { error in
         // Do error handling
     }
-```
-
-### Serialize objects to JSON
-To Serialize objects to `NSData` or `String` of JSON, your models should implements the `Serializable` protocol.  
-```Swift
-public protocol Serializable {
-    func serialize() -> JSONObject
-}
-```
-`serialize()` function returns the `JSONObject`.  
-
-- JSONObject  
-  `init` with `Array<T: JSONValueConvertible>` or `Dictionary<String, T: JSONValueConvertible>` only.  
-  Implemented the `ArrayLiteralConvertible` and `DictionaryLiteralConvertible`.
-- JSONValueConvertible  
-  The protocol that to be convert to `JSONValue` with ease.
-- JSONValue  
-  For constraint to the types that allowed as value of JSON.   
-
-__Defaults JSONValueConvertible implemented types__  
-- `String`  
-- `Int`  
-- `Double`  
-- `Float`  
-- `Bool`  
-- `NSNumber`  
-- `Int8`  
-- `UInt8`  
-- `Int16`  
-- `UInt16`  
-- `Int32`  
-- `UInt32`  
-- `Int64`  
-- `UInt64`  
-- `RawRepresentable`  
-- `JSONValue`  
-
-__Example__
-```Swift
-let user: User = ...
-let data = JSON.serializeToData(user)
-let string = JSON.serializeToString(user)
-
-enum Gender: String, JSONValueConvertible {
-    case male = "male"
-    case female = "female"
-
-    private var jsonValue: JSONValue {
-        return JSONValue(rawValue)
-    }
-}
-
-struct User: Serializable {
-    let id: Int
-    let name: String    
-    let gender: Gender
-    let friendIds: [Int]
-
-    func serialize() -> JSONObject {
-        return [
-            "id": id,
-            "name": name,            
-            "gender": gender,
-            "friend_ids": JSONValue(friendIds)
-        ]
-    }
-}
 ```
 
 ---
