@@ -197,26 +197,26 @@ class TransformTests: XCTestCase {
         let j = JSON(object)
         
         j.distil("key")(String.self)
-            .success {
+            .value {
                 XCTAssertEqual($0, "value")
             }
-            .failure {
+            .error {
                 XCTFail("\($0)")
         }
         
         j.option("null")((String?).self)
-            .success { XCTAssertEqual($0, nil) }
-            .failure { XCTFail("\($0)") }
+            .value { XCTAssertEqual($0, nil) }
+            .error { XCTFail("\($0)") }
         
         j.distil("key")(String.self)
             .map { s -> String in "map_" + s }
-            .success { XCTAssertEqual($0, "map_value") }
+            .value { XCTAssertEqual($0, "map_value") }
             .map { s -> String in "twice_" + s }
-            .success { XCTAssertEqual($0, "twice_map_value") }
-            .failure { XCTFail("\($0)") }
+            .value { XCTAssertEqual($0, "twice_map_value") }
+            .error { XCTFail("\($0)") }
             .filter { _ in false }
-            .success { _ in XCTFail("Expect the error to occur") }
-            .failure {
+            .value { _ in XCTFail("Expect the error to occur") }
+            .error {
                 if case let DistillError.filteredValue(type, value) = $0 {
                     XCTAssertNotNil(type as? String.Type)
                     XCTAssertNotNil(value as? String)

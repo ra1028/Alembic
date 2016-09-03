@@ -95,6 +95,15 @@
 		6B032CCC1D7AFC7E005569F0 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCA1D7AFC7E005569F0 /* JSON.swift */; };
 		6B032CCD1D7AFC7E005569F0 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCB1D7AFC7E005569F0 /* Path.swift */; };
 		6B032CCF1D7AFCB3005569F0 /* PathElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCE1D7AFCB3005569F0 /* PathElement.swift */; };
+		6B032CD01D7B01B2005569F0 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCA1D7AFC7E005569F0 /* JSON.swift */; };
+		6B032CD11D7B01B3005569F0 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCA1D7AFC7E005569F0 /* JSON.swift */; };
+		6B032CD21D7B01B4005569F0 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCA1D7AFC7E005569F0 /* JSON.swift */; };
+		6B032CD31D7B01B8005569F0 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCB1D7AFC7E005569F0 /* Path.swift */; };
+		6B032CD41D7B01B8005569F0 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCB1D7AFC7E005569F0 /* Path.swift */; };
+		6B032CD51D7B01B9005569F0 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCB1D7AFC7E005569F0 /* Path.swift */; };
+		6B032CD61D7B01BC005569F0 /* PathElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCE1D7AFCB3005569F0 /* PathElement.swift */; };
+		6B032CD71D7B01BC005569F0 /* PathElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCE1D7AFCB3005569F0 /* PathElement.swift */; };
+		6B032CD81D7B01BD005569F0 /* PathElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCE1D7AFCB3005569F0 /* PathElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -747,12 +756,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AD07F6E1CB244C100B9D10B /* Operators.swift in Sources */,
+				6B032CD11D7B01B3005569F0 /* JSON.swift in Sources */,
 				2AD07F6F1CB244C100B9D10B /* OptionalConvertible.swift in Sources */,
 				2AD07F721CB244C100B9D10B /* Distillable.swift in Sources */,
 				2AD07F731CB244C100B9D10B /* Distillate.swift in Sources */,
 				2AD07F741CB244C100B9D10B /* DistillError.swift in Sources */,
 				2AE81D341D2343EC00523F0D /* SecureDistillate.swift in Sources */,
 				2AD07F751CB244C100B9D10B /* Subscripted.swift in Sources */,
+				6B032CD71D7B01BC005569F0 /* PathElement.swift in Sources */,
+				6B032CD41D7B01B8005569F0 /* Path.swift in Sources */,
 				2AE81D311D2343E700523F0D /* InsecureDistillate.swift in Sources */,
 				2AD07F761CB244C100B9D10B /* Serializable.swift in Sources */,
 				2AD07F771CB244C100B9D10B /* JSONObject.swift in Sources */,
@@ -766,12 +778,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AD07F871CB24BEA00B9D10B /* Operators.swift in Sources */,
+				6B032CD21D7B01B4005569F0 /* JSON.swift in Sources */,
 				2AD07F881CB24BEA00B9D10B /* OptionalConvertible.swift in Sources */,
 				2AD07F8B1CB24BEA00B9D10B /* Distillable.swift in Sources */,
 				2AD07F8C1CB24BEA00B9D10B /* Distillate.swift in Sources */,
 				2AD07F8D1CB24BEA00B9D10B /* DistillError.swift in Sources */,
 				2AE81D351D2343EC00523F0D /* SecureDistillate.swift in Sources */,
 				2AD07F8E1CB24BEA00B9D10B /* Subscripted.swift in Sources */,
+				6B032CD81D7B01BD005569F0 /* PathElement.swift in Sources */,
+				6B032CD51D7B01B9005569F0 /* Path.swift in Sources */,
 				2AE81D321D2343E700523F0D /* InsecureDistillate.swift in Sources */,
 				2AD07F8F1CB24BEA00B9D10B /* Serializable.swift in Sources */,
 				2AD07F901CB24BEA00B9D10B /* JSONObject.swift in Sources */,
@@ -797,12 +812,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A2D24481CB16AEB00D8AD99 /* Operators.swift in Sources */,
+				6B032CD01D7B01B2005569F0 /* JSON.swift in Sources */,
 				2A2D24491CB16AEB00D8AD99 /* OptionalConvertible.swift in Sources */,
 				2A2D244C1CB16AEB00D8AD99 /* Distillable.swift in Sources */,
 				2A2D244D1CB16AEB00D8AD99 /* Distillate.swift in Sources */,
 				2A2D244E1CB16AEB00D8AD99 /* DistillError.swift in Sources */,
 				2AE81D331D2343EB00523F0D /* SecureDistillate.swift in Sources */,
 				2A2D244F1CB16AEB00D8AD99 /* Subscripted.swift in Sources */,
+				6B032CD61D7B01BC005569F0 /* PathElement.swift in Sources */,
+				6B032CD31D7B01B8005569F0 /* Path.swift in Sources */,
 				2AE81D301D2343E600523F0D /* InsecureDistillate.swift in Sources */,
 				2A2D24501CB16AEB00D8AD99 /* Serializable.swift in Sources */,
 				2A2D24511CB16AEB00D8AD99 /* JSONObject.swift in Sources */,

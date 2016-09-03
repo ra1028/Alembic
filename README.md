@@ -50,8 +50,8 @@ let str1: String = try j.distil("str1")
 let str2: String = try j <| "str2"
 let str3: String = try j["str3"].distil()
 
-// ↓ Same as `j["str4"].distil().success {...}` or `(j <| "str4").success {...}`
-j.distil("str4").success { (str4: String) in ... }
+// ↓ Same as `j["str4"].distil().value {...}` or `(j <| "str4").value {...}`
+j.distil("str4").value { (str4: String) in ... }
 ```
 Object mapping
 
@@ -554,10 +554,10 @@ let j = JSON(jsonObject)
 ```Swift
 j.distil(["user", "name"])(String.self)
     .map { name in "User name is \(name)" }
-    .success { message in
+    .value { message in
         print(message)
     }
-    .failure { error in
+    .error { error in
         // Do error handling
     }
 ```
