@@ -196,7 +196,7 @@ class TransformTests: XCTestCase {
     func testValueCallbacks() {
         let j = JSON(object)
         
-        j.distil("key")(String.self)
+        j.distil("key", to: String.self)
             .value {
                 XCTAssertEqual($0, "value")
             }
@@ -204,11 +204,11 @@ class TransformTests: XCTestCase {
                 XCTFail("\($0)")
         }
         
-        j.option("null")((String?).self)
+        j.option("null", to: (String?).self)
             .value { XCTAssertEqual($0, nil) }
             .error { XCTFail("\($0)") }
         
-        j.distil("key")(String.self)
+        j.distil("key", to: String.self)
             .map { s -> String in "map_" + s }
             .value { XCTAssertEqual($0, "map_value") }
             .map { s -> String in "twice_" + s }
