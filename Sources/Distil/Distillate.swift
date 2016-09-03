@@ -68,7 +68,7 @@ public extension Distillate {
     }
 }
 
-public extension Distillate where Value: OptionalType {
+public extension Distillate where Value: OptionalConvertible {
     func replaceNil(_ handler: () throws -> Value.Wrapped) throws -> Value.Wrapped {
         return try _value().optionalValue ?? handler()
     }
