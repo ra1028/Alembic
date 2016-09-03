@@ -8,6 +8,7 @@
 
 import Foundation
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 public struct JSONObject {
     let object: AnyObject
     
@@ -16,6 +17,7 @@ public struct JSONObject {
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 public extension JSONObject {
     init<T: JSONValueConvertible>(_ array: [T]) {
         object = array.map { $0.jsonValue.value }
@@ -44,6 +46,7 @@ public extension JSONObject {
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 extension JSONObject: ArrayLiteralConvertible {
     public init(arrayLiteral elements: JSONValueConvertible...) {
         let array = elements.map { $0.jsonValue.value }
@@ -51,6 +54,7 @@ extension JSONObject: ArrayLiteralConvertible {
     }
 }
 
+@available(*, deprecated, message="Serializing objects to JSON data or string will be obsolete on Swift3 support version")
 extension JSONObject: DictionaryLiteralConvertible {
     public init(dictionaryLiteral elements: (String, JSONValueConvertible)...) {
         var dictionary = [String: AnyObject](minimumCapacity: elements.count)
