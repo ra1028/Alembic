@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
   spec.version  = '1.8.0'
   spec.author = { 'ra1028' => 'r.fe51028.r@gmail.com' }
   spec.homepage = 'https://github.com/ra1028'
-  spec.summary = 'Functional JSON parsing, mapping to objects, and serialize to JSON'
+  spec.summary = 'Functional JSON parsing'
   spec.source = { :git => 'https://github.com/ra1028/Alembic.git', :tag => spec.version.to_s }
   spec.license = { :type => 'MIT', :file => 'LICENSE' }
   spec.platform = :ios, '8.0'
