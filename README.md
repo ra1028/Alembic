@@ -468,7 +468,7 @@ let message: String = try j.distil("number_of_apples")(Int.self)
 Alembic has simple error handling designs as following.  
 
 __DistillError__
-- missingPath(JSONPath)  
+- missingPath(Path)  
 - typeMismatch(expected: Any.Type, actual: Any)  
 - filteredValue(type: Any.Type, value: Any)  
 

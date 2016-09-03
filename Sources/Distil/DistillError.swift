@@ -7,7 +7,7 @@
 //
 
 public enum DistillError: Error {
-    case missingPath(JSONPath)
+    case missingPath(Path)
     case typeMismatch(expected: Any.Type, actual: Any)
     case filteredValue(type: Any.Type, value: Any)
 }

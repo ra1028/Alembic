@@ -10,17 +10,17 @@ import Foundation
 
 public final class Subscripted {
     fileprivate let j: JSON
-    fileprivate let path: JSONPath
+    fileprivate let path: Path
     
-    public subscript(path: JSONPathElement) -> Subscripted {
-        return .init(j, self.path + JSONPath(path))
+    public subscript(path: PathElement) -> Subscripted {
+        return .init(j, self.path + Path(path))
     }
     
-    public subscript(path: JSONPathElement...) -> Subscripted {
-        return .init(j, self.path + JSONPath(path))
+    public subscript(path: PathElement...) -> Subscripted {
+        return .init(j, self.path + Path(path))
     }
     
-    init(_ j: JSON, _ path: JSONPath) {
+    init(_ j: JSON, _ path: Path) {
         self.j = j
         self.path = path
     }    
