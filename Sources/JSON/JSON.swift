@@ -117,50 +117,6 @@ public extension JSON {
     }
 }
 
-// MARK: - serialize value functions
-
-public extension JSON {
-    static func serializeToData(_ serializable: Serializable, options: JSONSerialization.WritingOptions = []) -> Data {
-        let serializedObject = serializable.serialize().object
-        return serializeToData(object: serializedObject, options: options)
-    }
-    
-    static func serializeToData(_ serializable: Serializable, rootKey: String, options: JSONSerialization.WritingOptions = []) -> Data {
-        let serializedObject = serializable.serialize().object
-        return serializeToData(object: serializedObject, options: options)
-    }
-    
-    static func serializeToString(_ serializable: Serializable, options: JSONSerialization.WritingOptions = []) -> String {
-        return String(data: serializeToData(serializable, options: options), encoding: .utf8)!
-    }
-    
-    static func serializeToString(_ serializable: Serializable, rootKey: String, options: JSONSerialization.WritingOptions = []) -> String {
-        return String(data: serializeToData(serializable, rootKey: rootKey, options: options), encoding: .utf8)!
-    }
-}
-
-// MARK: - serialize array functions
-
-public extension JSON {
-    static func serializeToData<T: Serializable>(_ serializables: [T], options: JSONSerialization.WritingOptions = []) -> Data {
-        let serializedObjects = serializables.map { $0.serialize().object }
-        return serializeToData(object: serializedObjects, options: options)
-    }
-    
-    static func serializeToData<T: Serializable>(_ serializables: [T], rootKey: String, options: JSONSerialization.WritingOptions = []) -> Data {
-        let serializedObjects = serializables.map { $0.serialize().object }
-        return serializeToData(object: [rootKey: serializedObjects], options: options)
-    }
-    
-    static func serializeToString<T: Serializable>(_ serializables: [T], options: JSONSerialization.WritingOptions = []) -> String {
-        return String(data: serializeToData(serializables, options: options), encoding: .utf8)!
-    }
-    
-    static func serializeToString<T: Serializable>(_ serializables: [T], rootKey: String, options: JSONSerialization.WritingOptions = []) -> String {
-        return String(data: serializeToData(serializables, rootKey: rootKey, options: options), encoding: .utf8)!
-    }
-}
-
 // MARK: - JSONType
 
 extension JSON: JSONType {}
@@ -260,9 +216,5 @@ private extension JSON {
         } catch let DistillError.missingPath(missing) where missing == path {
             return nil
         }
-    }
-
-    static func serializeToData(object: Any, options: JSONSerialization.WritingOptions = []) -> Data {
-        return try! JSONSerialization.data(withJSONObject: object, options: options)
     }
 }
