@@ -262,7 +262,7 @@ let j = JSON(jsonObject)
 let url: URL = try j <| "key"  // http://example.com
 
 extension URL: Distillable {
-    public static func distil(_ j: JSON) throws -> Self {
+    public static func distil(_ j: JSON) throws -> URL {
         return try j.distil().flatMap(self.init(string:))
     }
 }
@@ -463,7 +463,7 @@ let message: String = try j.distil("number_of_apples", to: Int.self)
     }
     .flatMapError { _ in .error(FindAppleError()) }
     .catch { error in "Anything not found... | Error: \(error)" }
-    ```
+```
 
 Alembic allows you to receive a value functinally as following.  
 ```Swift
