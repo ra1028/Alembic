@@ -8,18 +8,20 @@
 
 import Foundation
 
-public enum PathElement: Equatable {
+public enum PathElement {
     case key(String)
     case index(Int)
 }
 
 // MARK: - Equatable
 
-public func == (lhs: PathElement, rhs: PathElement) -> Bool {
-    switch (lhs, rhs) {
-    case let (.key(lKey), .key(rKey)): return lKey == rKey
-    case let (.index(lIndex), .index(rIndex)): return lIndex == rIndex
-    default: return false
+extension PathElement: Equatable {
+    public static func == (lhs: PathElement, rhs: PathElement) -> Bool {
+        switch (lhs, rhs) {
+        case let (.key(lKey), .key(rKey)): return lKey == rKey
+        case let (.index(lIndex), .index(rIndex)): return lIndex == rIndex
+        default: return false
+        }
     }
 }
 

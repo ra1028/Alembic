@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Path: Equatable {
+public struct Path {
     let paths: [PathElement]
     
     public init(_ path: PathElement) {
@@ -22,12 +22,14 @@ public struct Path: Equatable {
 
 // MARK: - Equatable
 
-public func == (lhs: Path, rhs: Path) -> Bool {
-    return lhs.paths == rhs.paths
-}
-
-public func + (lhs: Path, rhs: Path) -> Path {
-    return Path(lhs.paths + rhs.paths)
+extension Path: Equatable {
+    public static func == (lhs: Path, rhs: Path) -> Bool {
+        return lhs.paths == rhs.paths
+    }
+    
+    public static func + (lhs: Path, rhs: Path) -> Path {
+        return Path(lhs.paths + rhs.paths)
+    }
 }
 
 // MARK: - CustomStringConvertible
