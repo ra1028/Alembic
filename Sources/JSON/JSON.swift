@@ -44,13 +44,13 @@ public final class JSON {
     }
 }
 
-// MARK: - JSONType
+// MARK: - distil functions
 
-extension JSON: JSONType {
+public extension JSON {
     public func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T {
         do {
             let object: Any = try distilRecursive(path)
-            return try .distil(JSON(object))
+            return try .distil(json: JSON(object))
         } catch let DistillError.missingPath(missing) where path != missing {
             throw DistillError.missingPath(path + missing)
         }
@@ -58,12 +58,24 @@ extension JSON: JSONType {
     
     public func distil<T: Distillable>(_ path: Path, to: [T].Type) throws -> [T] {
         let object: Any = try distilRecursive(path)
-        return try .distil(JSON(object))
+        return try .distil(json: JSON(object))
     }
     
     public func distil<T: Distillable>(_ path: Path, to: [String: T].Type) throws -> [String: T] {
         let object: Any = try distilRecursive(path)
-        return try .distil(JSON(object))
+        return try .distil(json: JSON(object))
+    }
+}
+
+// MARK: - JSONType
+
+extension JSON: JSONType {
+    public func asJSON() -> JSON {
+        return self
+    }
+    
+    public func fullPath(_ with: Path) -> Path {
+        return with
     }
 }
 

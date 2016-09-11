@@ -62,7 +62,7 @@ struct User: Distillable {
     let name: String
     let avatarUrl: URL
 
-    static func distil(_ j: JSON) throws -> User {
+    static func distil(json j: JSON) throws -> User {
         return try User(
             name: j <| "name",
             avatarUrl: (j <| "avatar_url").flatMap(URL.init(string:))
@@ -153,7 +153,7 @@ let j = try JSON(
 To enable parsing, a class, struct, or enum just needs to implement the `Distillable` protocol.  
 ```Swift
 public protocol Distillable {
-    static func distil(_ j: JSON) throws -> Self
+    static func distil(json j: JSON) throws -> Self
 }
 ```
 
@@ -251,26 +251,37 @@ let int: Int? = try j["nested"]["key"].option()  // nil
 ```
 
 ### Custom value parsing
-If implement `Distillable` protocol to existing classes like `URL`, it be able to parse from JSON.  
+If implement `Distillable` or `InitDistillable` protocol to existing classes like `URL`, it be able to parse from JSON.  
 
 __Example__
 ```Swift
 let jsonObject = ["key": "http://example.com"]
 let j = JSON(jsonObject)
 ```
+Distillable
 ```Swift
-let url: URL = try j <| "key"  // http://example.com
-
 extension URL: Distillable {
-    public static func distil(_ j: JSON) throws -> URL {
+    public static func distil(json j: JSON) throws -> URL {
         return try j.distil().flatMap(self.init(string:))
     }
 }
 ```
+InitDistillable
+```Swift
+extension URL: InitDistillable {
+    public init(j: JSON) throws {
+        self = try j.distil().flatMap(URL.init(string:))
+    }
+}
+```
+```Swift
+let url: URL = try j <| "key"  // http://example.com
+```
 
 ### Object mapping  
-To mapping your models, need confirm to the `Distillable` protocol.  
+To mapping your models, need confirm to the `Distillable` or `InitDistillable` protocol.  
 Then, parse the objects from JSON to all your model properties.  
+`InitDistillable` protocol can't implement to non `final` class.  
 
 __Example__
 ```Swift
@@ -282,20 +293,34 @@ let jsonObject = [
 ]
 let j = JSON(jsonObject)
 ```
+Distillable
 ```Swift
-let sample: Sample = try j <| "key"  // Sample
-
 struct Sample: Distillable {
     let string: String
     let int: Int?
 
-    static func distil(_ j: JSON) throws -> Sample {
+    static func distil(json j: JSON) throws -> Sample {
         return try Sample(
             string: j <| "string_key",
             int: j <|? "option_int_key"
         )
     }
 }
+```
+InitDistillable
+```Swift
+struct Sample: InitDistillable {
+    let string: String
+    let int: Int?
+
+    init(j: JSON) throws {
+        _ = try (string = j <| "string_key",
+                 int = j <|? "option_int_key")
+    }
+}
+```
+```Swift
+let sample: Sample = try j <| "key"  // Sample
 ```
 
 ### Value transformation

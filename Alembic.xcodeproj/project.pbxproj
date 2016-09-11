@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		2A4E8AC51D8526D5003E6A33 /* OptionalConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E8AC41D8526D5003E6A33 /* OptionalConvertible.swift */; };
 		2A4E8AC71D852799003E6A33 /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E8AC61D852799003E6A33 /* StringConvertible.swift */; };
+		2A4E8ACD1D8546DA003E6A33 /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E8ACB1D8546DA003E6A33 /* Distillable.swift */; };
+		2A4E8ACE1D8546DA003E6A33 /* InitDistillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4E8ACC1D8546DA003E6A33 /* InitDistillable.swift */; };
 		6BC490211D7B4BDA00677FA8 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC48FD51D7B3CCD00677FA8 /* Operators.swift */; };
-		6BC490221D7B4BDA00677FA8 /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC48FDF1D7B3D0700677FA8 /* Distillable.swift */; };
 		6BC490231D7B4BDA00677FA8 /* DistillError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC48FFF1D7B3D9A00677FA8 /* DistillError.swift */; };
 		6BC490241D7B4BDA00677FA8 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B032CCA1D7AFC7E005569F0 /* JSON.swift */; };
 		6BC490251D7B4BDA00677FA8 /* LazyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC48FCD1D7B369300677FA8 /* LazyJSON.swift */; };
@@ -50,6 +51,8 @@
 		2A4B61BA1CA6060900C65FEE /* DistilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistilTests.swift; sourceTree = "<group>"; };
 		2A4E8AC41D8526D5003E6A33 /* OptionalConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalConvertible.swift; sourceTree = "<group>"; };
 		2A4E8AC61D852799003E6A33 /* StringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringConvertible.swift; sourceTree = "<group>"; };
+		2A4E8ACB1D8546DA003E6A33 /* Distillable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distillable.swift; sourceTree = "<group>"; };
+		2A4E8ACC1D8546DA003E6A33 /* InitDistillable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitDistillable.swift; sourceTree = "<group>"; };
 		2AB98DCE1CA7A16400559A62 /* OptionalTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OptionalTests.json; sourceTree = "<group>"; };
 		2AB98DD01CA7B37300559A62 /* TransformTests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TransformTests.json; sourceTree = "<group>"; };
 		2ADE565C1CA61F1F0031B61C /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
@@ -57,7 +60,6 @@
 		6BC48FC81D7B317700677FA8 /* JSONType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONType.swift; sourceTree = "<group>"; };
 		6BC48FCD1D7B369300677FA8 /* LazyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyJSON.swift; sourceTree = "<group>"; };
 		6BC48FD51D7B3CCD00677FA8 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
-		6BC48FDF1D7B3D0700677FA8 /* Distillable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distillable.swift; sourceTree = "<group>"; };
 		6BC48FE51D7B3D1C00677FA8 /* Distillate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distillate.swift; sourceTree = "<group>"; };
 		6BC48FE61D7B3D1C00677FA8 /* InsecureDistillate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsecureDistillate.swift; sourceTree = "<group>"; };
 		6BC48FE71D7B3D1C00677FA8 /* SecureDistillate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureDistillate.swift; sourceTree = "<group>"; };
@@ -124,6 +126,15 @@
 			path = Convertible;
 			sourceTree = "<group>";
 		};
+		2A4E8ACA1D8546DA003E6A33 /* Distillable */ = {
+			isa = PBXGroup;
+			children = (
+				2A4E8ACB1D8546DA003E6A33 /* Distillable.swift */,
+				2A4E8ACC1D8546DA003E6A33 /* InitDistillable.swift */,
+			);
+			path = Distillable;
+			sourceTree = "<group>";
+		};
 		2AC11E851C935BFB00D4C2FE = {
 			isa = PBXGroup;
 			children = (
@@ -147,8 +158,8 @@
 			children = (
 				6BC4902F1D7B535000677FA8 /* Info.plist */,
 				6BC48FD51D7B3CCD00677FA8 /* Operators.swift */,
-				6BC48FDF1D7B3D0700677FA8 /* Distillable.swift */,
 				6BC48FFF1D7B3D9A00677FA8 /* DistillError.swift */,
+				2A4E8ACA1D8546DA003E6A33 /* Distillable */,
 				6B032CC91D7AFC67005569F0 /* JSON */,
 				6BC48FF41D7B3D6B00677FA8 /* Path */,
 				6BC48FE41D7B3D1C00677FA8 /* Distillate */,
@@ -303,10 +314,10 @@
 			files = (
 				6BC490211D7B4BDA00677FA8 /* Operators.swift in Sources */,
 				2A4E8AC51D8526D5003E6A33 /* OptionalConvertible.swift in Sources */,
-				6BC490221D7B4BDA00677FA8 /* Distillable.swift in Sources */,
 				6BC490231D7B4BDA00677FA8 /* DistillError.swift in Sources */,
 				6BC490241D7B4BDA00677FA8 /* JSON.swift in Sources */,
 				6BC490251D7B4BDA00677FA8 /* LazyJSON.swift in Sources */,
+				2A4E8ACE1D8546DA003E6A33 /* InitDistillable.swift in Sources */,
 				2A4E8AC71D852799003E6A33 /* StringConvertible.swift in Sources */,
 				6BC490261D7B4BDA00677FA8 /* JSONType.swift in Sources */,
 				6BC490271D7B4BDA00677FA8 /* Path.swift in Sources */,
@@ -315,6 +326,7 @@
 				6BC4902A1D7B4BDA00677FA8 /* InsecureDistillate.swift in Sources */,
 				6BC4902B1D7B4BDA00677FA8 /* Distillate.swift in Sources */,
 				6BC4902C1D7B4BDA00677FA8 /* Distillate+Optional.swift in Sources */,
+				2A4E8ACD1D8546DA003E6A33 /* Distillable.swift in Sources */,
 				6BC4902D1D7B4BDA00677FA8 /* Distillate+Collection.swift in Sources */,
 				6BC4902E1D7B4BDA00677FA8 /* Distillate+Creation.swift in Sources */,
 			);

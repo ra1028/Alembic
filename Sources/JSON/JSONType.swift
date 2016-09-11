@@ -9,9 +9,8 @@
 import Foundation
 
 public protocol JSONType {
-    func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T
-    func distil<T: Distillable>(_ path: Path, to: [T].Type) throws -> [T]
-    func distil<T: Distillable>(_ path: Path, to: [String: T].Type) throws -> [String: T]
+    func asJSON() -> JSON
+    func fullPath(_ with: Path) -> Path
 }
 
 // MARK: - distil functions with type constraints
@@ -34,15 +33,15 @@ public extension JSONType {
 
 public extension JSONType {
     public func distil<T: Distillable>(_ path: Path = [], to: T.Type = T.self) throws -> T {
-        return try distil(path, to: to)
+        return try asJSON().distil(fullPath(path), to: to)
     }
     
     public func distil<T: Distillable>(_ path: Path = [], to: [T].Type = [T].self) throws -> [T] {
-        return try distil(path, to: to)
+        return try asJSON().distil(fullPath(path), to: to)
     }
     
     public func distil<T: Distillable>(_ path: Path = [], to: [String: T].Type = [String: T].self) throws -> [String: T] {
-        return try distil(path, to: to)
+        return try asJSON().distil(fullPath(path), to: to)
     }
 }
 
@@ -100,7 +99,7 @@ private extension JSONType {
     func option<T>(_ path: Path, distil: (Path) throws -> T) throws -> T? {
         do {
             return try distil(path)
-        } catch let DistillError.missingPath(missing) where missing == path {
+        } catch let DistillError.missingPath(missing) where missing == fullPath(path) {
             return nil
         }
     }

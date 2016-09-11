@@ -127,20 +127,14 @@ class OptionalTests: XCTestCase {
     }
 }
 
-private class User: Distillable {
+private final class User: InitDistillable {
     let id: Int
     let name: String
     let email: String
     
     required init(json j: JSON) throws {
-        _ = try (
-            id = j <| "id",
-            name = j <| "name",
-            email = j <| ["contact", "email"]
-        )
-    }
-    
-    fileprivate static func distil(_ j: JSON) throws -> Self {
-        return try self.init(json: j)
+        _ = try (id = j <| "id",
+                 name = j <| "name",
+                 email = j <| ["contact", "email"])
     }
 }

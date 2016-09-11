@@ -128,7 +128,7 @@ class DistilTests: XCTestCase {
 }
 
 extension URL: Distillable {
-    public static func distil(_ j: JSON) throws -> URL {
+    public static func distil(json j: JSON) throws -> URL {
         guard let url = try self.init(string: j.distil()) else {
             throw DistillError.typeMismatch(expected: URL.self, actual: j.raw)
         }
@@ -141,7 +141,7 @@ private enum Gender: String, Distillable {
     case female = "female"
 }
 
-private class User: Distillable {
+private final class User: InitDistillable {
     let id: Int
     let name: String    
     let weight: Double
@@ -152,20 +152,14 @@ private class User: Distillable {
     let friends: [User]
     
     required init(json j: JSON) throws {
-        _ = try (
-            id = j <| "id",
-            name = j <| "name",
-            weight = j <| "weight",
-            gender = j <| "gender",
-            smoker = j <| "smoker",
-            email = j <| ["contact", "email"],
-            url = j <| ["contact", "url"],
-            friends = j <| "friends"
-        )
-    }
-    
-    fileprivate static func distil(_ j: JSON) throws -> Self {
-        return try self.init(json: j)
+        _ = try (id = j <| "id",
+                 name = j <| "name",
+                 weight = j <| "weight",
+                 gender = j <| "gender",
+                 smoker = j <| "smoker",
+                 email = j <| ["contact", "email"],
+                 url = j <| ["contact", "url"],
+                 friends = j <| "friends")
     }
 }
 
@@ -180,7 +174,7 @@ private struct Numbers: Distillable {
     let int64: Int64
     let uint64: UInt64
     
-    fileprivate static func distil(_ j: JSON) throws -> Numbers {
+    fileprivate static func distil(json j: JSON) throws -> Numbers {
         return try Numbers(
             number: j <| "number",
             int8: j <| "int8",
