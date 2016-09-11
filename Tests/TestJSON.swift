@@ -9,42 +9,42 @@
 import Foundation
 
 enum TestJSON {
-    case Distil
-    case Optional
-    case Transform
-    case Serialize
+    case distil
+    case optional
+    case transform
+    case serialize
     
     var fileName: String {
         switch self {
-        case .Distil: return "DistilTests"
-        case .Optional: return "OptionalTests"
-        case .Transform: return "TransformTests"
-        case .Serialize: return "SerializeTests"
+        case .distil: return "DistilTests"
+        case .optional: return "OptionalTests"
+        case .transform: return "TransformTests"
+        case .serialize: return "SerializeTests"
         }
     }
     
-    var data: NSData {
-        return NSBundle(forClass: DistilTests.self).pathForResource(fileName, ofType: "json")
-            .flatMap(NSData.init(contentsOfFile:))!
+    var data: Data {
+        return Bundle(for: DistilTests.self).url(forResource: fileName, withExtension: "json")
+            .flatMap { try! Data.init(contentsOf: $0) }!
     }
     
     var string: String {
-        return String(data: data, encoding: NSUTF8StringEncoding)!
+        return String(data: data, encoding: .utf8)!
     }
     
-    var object: AnyObject {
-        return try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+    var object: Any {
+        return try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
     }
     
-    func data(rootKey: String) -> NSData {
-        return try! NSJSONSerialization.dataWithJSONObject(object(rootKey), options: [])
-    }
+//    func data(_ rootKey: String) -> Data {
+//        return try! JSONSerialization.data(withJSONObject: object(rootKey), options: [])
+//    }
     
-    func string(rootKey: String) -> String {
-        return String(data: data(rootKey), encoding: NSUTF8StringEncoding)!
-    }
+//    func string(_ rootKey: String) -> String {
+//        return String(data: data(rootKey), encoding: String.Encoding.utf8)!
+//    }
     
-    func object(rootKey: String) -> AnyObject {
-        return (object as! [String: AnyObject])[rootKey]!
-    }
+//    func object(_ rootKey: String) -> Any {
+//        return (object as! [String: Any])[rootKey]!
+//    }
 }

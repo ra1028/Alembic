@@ -7,12 +7,12 @@
 //
 
 import XCTest
-import Alembic
+@testable import Alembic
 
 class DistilTests: XCTestCase {
-    let object = TestJSON.Distil.object
-    let data = TestJSON.Distil.data
-    let string = TestJSON.Distil.string
+    let object = TestJSON.distil.object
+    let data = TestJSON.distil.data
+    let string = TestJSON.distil.string
     
     func testDistil() {
         let j = JSON(object)
@@ -66,20 +66,20 @@ class DistilTests: XCTestCase {
         let j = JSON(object)
         
         do {
-            _ = try (j <| "missing_key").to(String)
+            _ = try (j <| "missing_key").to(String.self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.MissingPath(path) where path == "missing_key" {
+        } catch let DistillError.missingPath(path) where path == "missing_key" {
             XCTAssert(true)
         } catch let e {
             XCTFail("\(e)")
         }
         
         do {
-            _ = try (j <| "int_string").to(Int)
+            _ = try (j <| "int_string").to(Int.self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.TypeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "1")
         } catch let e {
@@ -96,7 +96,7 @@ class DistilTests: XCTestCase {
             XCTAssertEqual(user.id, 100)
             XCTAssertEqual(user.name, "ra1028")
             XCTAssertEqual(user.weight, 132.28)
-            XCTAssertEqual(user.gender, Gender.Male)
+            XCTAssertEqual(user.gender, Gender.male)
             XCTAssertEqual(user.smoker, true)
             XCTAssertEqual(user.email, "r.fe51028.r@gmail.com")
             XCTAssertEqual(user.url.absoluteString, "https://github.com/ra1028")
@@ -127,45 +127,39 @@ class DistilTests: XCTestCase {
     }
 }
 
-extension NSURL: Distillable {
-    public static func distil(j: JSON) throws -> Self {
+extension URL: Distillable {
+    public static func distil(json j: JSON) throws -> URL {
         guard let url = try self.init(string: j.distil()) else {
-            throw DistillError.TypeMismatch(expected: NSURL.self, actual: j.raw)
+            throw DistillError.typeMismatch(expected: URL.self, actual: j.raw)
         }
         return url
     }
 }
 
 private enum Gender: String, Distillable {
-    case Male = "male"
-    case Female = "female"
+    case male = "male"
+    case female = "female"
 }
 
-private class User: Distillable {
+private final class User: InitDistillable {
     let id: Int
     let name: String    
     let weight: Double
     let gender: Gender
     let smoker: Bool
     let email: String
-    let url: NSURL
+    let url: URL
     let friends: [User]
     
     required init(json j: JSON) throws {
-        try (
-            id = j <| "id",
-            name = j <| "name",
-            weight = j <| "weight",
-            gender = j <| "gender",
-            smoker = j <| "smoker",
-            email = j <| ["contact", "email"],
-            url = j <| ["contact", "url"],
-            friends = j <| "friends"
-        )
-    }
-    
-    private static func distil(j: JSON) throws -> Self {
-        return try self.init(json: j)
+        _ = try (id = j <| "id",
+                 name = j <| "name",
+                 weight = j <| "weight",
+                 gender = j <| "gender",
+                 smoker = j <| "smoker",
+                 email = j <| ["contact", "email"],
+                 url = j <| ["contact", "url"],
+                 friends = j <| "friends")
     }
 }
 
@@ -180,7 +174,7 @@ private struct Numbers: Distillable {
     let int64: Int64
     let uint64: UInt64
     
-    private static func distil(j: JSON) throws -> Numbers {
+    fileprivate static func distil(json j: JSON) throws -> Numbers {
         return try Numbers(
             number: j <| "number",
             int8: j <| "int8",

@@ -7,10 +7,10 @@
 //
 
 import XCTest
-import Alembic
+@testable import Alembic
 
 class OptionalTests: XCTestCase {
-    let object = TestJSON.Optional.object
+    let object = TestJSON.optional.object
     
     func testOptional() {
         let j = JSON(object)
@@ -40,10 +40,10 @@ class OptionalTests: XCTestCase {
         }
         
         do {
-            _ = try (j <|? "string").to(Int?)
+            _ = try (j <|? "string").to((Int?).self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.TypeMismatch(expected: expected, actual: actual) {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "Alembic")
         } catch let e {
@@ -71,10 +71,10 @@ class OptionalTests: XCTestCase {
         }
         
         do {
-            _ = try j["string"].option().to(Int?)
+            _ = try j["string"].option().to((Int?).self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.TypeMismatch(expected: expected, actual: actual) {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "Alembic")
         } catch let e {
@@ -86,10 +86,10 @@ class OptionalTests: XCTestCase {
         let j = JSON(object)
         
         do {
-            _ = try (j <|? "int").to(String?)
+            _ = try (j <|? "int").to((String?).self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.TypeMismatch(expected: expected, actual: actual) {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
             XCTAssert(expected == String.self)
             XCTAssertEqual(actual as? Int, 777)
         } catch let e {
@@ -113,12 +113,12 @@ class OptionalTests: XCTestCase {
         let j = JSON(object)
         
         do {
-            _ = try (j <|? "user2").to(User?)
+            _ = try (j <|? "user2").to((User?).self)
             
             XCTFail("Expected the error to occur")
         } catch let e {
             switch e {
-            case let DistillError.MissingPath(path):
+            case let DistillError.missingPath(path):
                 XCTAssert(path == ["user2", "contact", "email"])
             default:
                 XCTFail("\(e)")
@@ -127,20 +127,14 @@ class OptionalTests: XCTestCase {
     }
 }
 
-private class User: Distillable {
+private final class User: InitDistillable {
     let id: Int
     let name: String
     let email: String
     
     required init(json j: JSON) throws {
-        try (
-            id = j <| "id",
-            name = j <| "name",
-            email = j <| ["contact", "email"]
-        )
-    }
-    
-    private static func distil(j: JSON) throws -> Self {
-        return try self.init(json: j)
+        _ = try (id = j <| "id",
+                 name = j <| "name",
+                 email = j <| ["contact", "email"])
     }
 }
