@@ -2,7 +2,7 @@
 //  PathElement.swift
 //  Alembic
 //
-//  Created by 青山 遼 on 2016/09/03.
+//  Created by Ryo Aoyama on 2016/09/03.
 //  Copyright © 2016年 Ryo Aoyama. All rights reserved.
 //
 

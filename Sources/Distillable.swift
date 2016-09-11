@@ -111,6 +111,22 @@ public extension RawRepresentable where Self: Distillable, RawValue: Distillable
     }
 }
 
+extension Array where Element: Distillable {
+    public static func distil(_ j: JSON) throws -> [Element] {
+        let arr: [Any] = try cast(j)
+        return try arr.map { try JSON($0).distil() }
+    }
+}
+
+extension Dictionary where Key: StringConvertible, Value: Distillable {
+    public static func distil(_ j: JSON) throws -> [String: Value] {
+        let dic: [String: Any] = try cast(j)
+        var new = [String: Value](minimumCapacity: dic.count)
+        try dic.forEach { try new.updateValue(JSON($1).distil(), forKey: $0) }
+        return new
+    }
+}
+
 private func cast<T>(_ j: JSON) throws -> T {
     guard let value = j.raw as? T else {
         throw DistillError.typeMismatch(expected: T.self, actual: j.raw)

@@ -57,15 +57,13 @@ public extension JSON {
     }
     
     func distil<T: Distillable>(_ path: Path, to: [T].Type = [T].self) throws -> [T] {
-        let arr: [Any] = try distilRecursive(path)
-        return try arr.map { try JSON($0).distil() }
+        let object: Any = try distilRecursive(path)
+        return try .distil(JSON(object))
     }
     
     func distil<T: Distillable>(_ path: Path, to: [String: T].Type = [String: T].self) throws -> [String: T] {
-        let dic: [String: Any] = try distilRecursive(path)
-        var new = [String: T](minimumCapacity: dic.count)
-        try dic.forEach { try new.updateValue(JSON($1).distil(), forKey: $0) }
-        return new
+        let object: Any = try distilRecursive(path)
+        return try .distil(JSON(object))
     }
 }
 
