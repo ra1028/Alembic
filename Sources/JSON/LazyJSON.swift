@@ -28,32 +28,16 @@ public final class LazyJSON {
 
 // MARK: - JSONType
 
-extension LazyJSON: JSONType {}
-
-public extension LazyJSON {
-    func distil<T: Distillable>(to: T.Type = T.self) throws -> T {
-        return try j.distil(path)
+extension LazyJSON: JSONType {
+    public func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T {
+        return try j.distil(self.path + path)
     }
     
-    func distil<T: Distillable>(to: [T].Type = [T].self) throws -> [T] {
-        return try j.distil(path)
+    public func distil<T: Distillable>(_ path: Path, to: [T].Type) throws -> [T] {
+        return try j.distil(self.path + path)
     }
     
-    func distil<T: Distillable>(to: [String: T].Type = [String: T].self) throws -> [String: T] {
-        return try j.distil(path)
-    }
-}
-
-public extension LazyJSON {
-    func option<T: Distillable>(to: T?.Type = (T?).self) throws -> T? {
-        return try j.option(path)
-    }
-    
-    func option<T: Distillable>(to: [T]?.Type = ([T]?).self) throws -> [T]? {
-        return try j.option(path)
-    }
-    
-    func option<T: Distillable>(to: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
-        return try j.option(path)
+    public func distil<T: Distillable>(_ path: Path, to: [String: T].Type) throws -> [String: T] {
+        return try j.distil(self.path + path)
     }
 }

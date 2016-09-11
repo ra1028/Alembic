@@ -44,10 +44,10 @@ public final class JSON {
     }
 }
 
-// MARK: - distil functions
+// MARK: - JSONType
 
-public extension JSON {
-    func distil<T: Distillable>(_ path: Path, to: T.Type = T.self) throws -> T {
+extension JSON: JSONType {
+    public func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T {
         do {
             let object: Any = try distilRecursive(path)
             return try .distil(JSON(object))
@@ -56,94 +56,14 @@ public extension JSON {
         }
     }
     
-    func distil<T: Distillable>(_ path: Path, to: [T].Type = [T].self) throws -> [T] {
+    public func distil<T: Distillable>(_ path: Path, to: [T].Type) throws -> [T] {
         let object: Any = try distilRecursive(path)
         return try .distil(JSON(object))
     }
     
-    func distil<T: Distillable>(_ path: Path, to: [String: T].Type = [String: T].self) throws -> [String: T] {
+    public func distil<T: Distillable>(_ path: Path, to: [String: T].Type) throws -> [String: T] {
         let object: Any = try distilRecursive(path)
         return try .distil(JSON(object))
-    }
-}
-
-// MARK: - lazy distil functions
-
-public extension JSON {
-    func distil<T: Distillable>(_ path: Path, to: T.Type = T.self) -> InsecureDistillate<T> {
-        return .init { try self.distil(path) }
-    }
-    
-    func distil<T: Distillable>(_ path: Path, to: [T].Type = [T].self) -> InsecureDistillate<[T]> {
-        return .init { try self.distil(path) }
-    }
-    
-    func distil<T: Distillable>(_ path: Path, to: [String: T].Type = [String: T].self) -> InsecureDistillate<[String: T]> {
-        return .init { try self.distil(path) }
-    }
-}
-
-// MARK: - distil option functions
-
-public extension JSON {
-    func option<T: Distillable>(_ path: Path, to: T?.Type = (T?).self) throws -> T? {
-        return try option(path) { try distil($0, to: T.self) }
-    }
-    
-    func option<T: Distillable>(_ path: Path, to: [T]?.Type = ([T]?).self) throws -> [T]? {
-        return try option(path) { try distil($0, to: [T].self) }
-    }
-    
-    func option<T: Distillable>(_ path: Path, to: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
-        return try option(path) { try distil($0, to: [String: T].self) }
-    }
-}
-
-// MARK: - distil option functions
-
-public extension JSON {
-    func option<T: Distillable>(_ path: Path, to: T?.Type = (T?).self) -> InsecureDistillate<T?> {
-        return .init { try self.option(path) }
-    }
-    
-    func option<T: Distillable>(_ path: Path, to: [T]?.Type = ([T]?).self) -> InsecureDistillate<[T]?> {
-        return .init { try self.option(path) }
-    }
-    
-    func option<T: Distillable>(_ path: Path, to: [String: T]?.Type = ([String: T]?).self) -> InsecureDistillate<[String: T]?> {
-        return .init { try self.option(path) }
-    }
-}
-
-// MARK: - JSONType
-
-extension JSON: JSONType {}
-
-public extension JSON {
-    func distil<T: Distillable>(to: T.Type = T.self) throws -> T {
-        return try distil([])
-    }
-    
-    func distil<T: Distillable>(to: [T].Type = [T].self) throws -> [T] {
-        return try distil([])
-    }
-    
-    func distil<T: Distillable>(to: [String: T].Type = [String: T].self) throws -> [String: T] {
-        return try distil([])
-    }
-}
-
-public extension JSON {
-    func option<T: Distillable>(to: T?.Type = (T?).self) throws -> T? {
-        return try option([])
-    }
-    
-    func option<T: Distillable>(to: [T]?.Type = ([T]?).self) throws -> [T]? {
-        return try option([])
-    }
-    
-    func option<T: Distillable>(to: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
-        return try option([])
     }
 }
 
@@ -206,13 +126,5 @@ private extension JSON {
             throw DistillError.typeMismatch(expected: T.self, actual: object)
         }
         return value
-    }
-    
-    func option<T>(_ path: Path, distil: (Path) throws -> T) throws -> T? {
-        do {
-            return try distil(path)
-        } catch let DistillError.missingPath(missing) where missing == path {
-            return nil
-        }
     }
 }
