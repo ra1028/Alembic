@@ -25,7 +25,7 @@
   + [JSON parsing](#json-parsing)
   + [Nested objects parsing](#nested-objects-parsing)
   + [Optional objects parsing](#optional-objects-parsing)
-  + [Custom value parsing](#custom-objects-parsing)
+  + [Custom value parsing](#custom-value-parsing)
   + [Object mapping](#object-mapping)
   + [Value transformation](#value-transformation)
   + [Error handling](#error-handling)
@@ -281,7 +281,7 @@ let url: URL = try j <| "key"  // http://example.com
 ### Object mapping  
 To mapping your models, need confirm to the `Distillable` or `InitDistillable` protocol.  
 Then, parse the objects from JSON to all your model properties.  
-`InitDistillable` protocol can't implement to non `final` class.  
+`InitDistillable` protocol can't implement to __non__ `final` class.  
 
 __Example__
 ```Swift
@@ -314,8 +314,8 @@ struct Sample: InitDistillable {
     let int: Int?
 
     init(j: JSON) throws {
-        _ = try (string = j <| "string_key",
-                 int = j <|? "option_int_key")
+        try string = j <| "string_key",
+        try int = j <|? "option_int_key")
     }
 }
 ```
