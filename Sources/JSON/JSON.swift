@@ -10,6 +10,7 @@ import Foundation
 
 public final class JSON {
     public let raw: Any
+    public let currentPath = Path([])
     
     public subscript(path: PathElement) -> LazyJSON {
         return .init(self, Path(path))
@@ -72,10 +73,6 @@ public extension JSON {
 extension JSON: JSONType {
     public func asJSON() -> JSON {
         return self
-    }
-    
-    public func fullPath(_ with: Path) -> Path {
-        return with
     }
 }
 
