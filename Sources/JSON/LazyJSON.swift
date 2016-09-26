@@ -9,20 +9,20 @@
 import Foundation
 
 public final class LazyJSON {
-    fileprivate let j: JSON
-    fileprivate let path: Path
+    fileprivate let json: JSON
+    public let currentPath: Path
     
     public subscript(path: PathElement) -> LazyJSON {
-        return .init(j, self.path + Path(path))
+        return .init(json, currentPath + Path(path))
     }
     
     public subscript(path: PathElement...) -> LazyJSON {
-        return .init(j, self.path + Path(path))
+        return .init(json, currentPath + Path(path))
     }
     
-    init(_ j: JSON, _ path: Path) {
-        self.j = j
-        self.path = path
+    init(_ json: JSON, _ path: Path) {
+        self.json = json
+        currentPath = path
     }    
 }
 
@@ -30,10 +30,6 @@ public final class LazyJSON {
 
 extension LazyJSON: JSONType {
     public func asJSON() -> JSON {
-        return j
-    }
-    
-    public func fullPath(_ with: Path) -> Path {
-        return path + with
+        return json
     }
 }

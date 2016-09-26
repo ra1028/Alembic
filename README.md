@@ -1,13 +1,18 @@
 <div align="center"><img src="Assets/Alembic_Logo.png" alt="Alembic" width="70%"></div></br>
 
 <p align="center">
+
+<a href="https://developer.apple.com/swift"><img alt="Swift3" src="https://img.shields.io/badge/swift3-compatible-orange.svg?style=flat"/></a>
 <a href="https://travis-ci.org/ra1028/Alembic"><img alt="Build Status" src="https://travis-ci.org/ra1028/Alembic.svg?branch=master"/></a>
-<a href="https://developer.apple.com/swift"><img alt="Swift3" src="https://img.shields.io/badge/swift3-compatible-blue.svg?style=flat"/></a>
-<a href="http://cocoadocs.org/docsets/Alembic"><img alt="Platform" src="https://img.shields.io/cocoapods/p/Alembic.svg?style=flat"/></a><br>
+<a href="https://codebeat.co/projects/github-com-ra1028-alembic"><img alt="CodeBeat" src="https://codebeat.co/badges/09cc20c0-4cba-4c78-8e20-39f41d86c587"/></a></br>
+
 <a href="https://cocoapods.org/pods/Alembic"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Alembic.svg"/></a>
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-yellow.svg?style=flat"/></a>
-<a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-green.svg"/></a>
-<a href="https://github.com/ra1028/Alembic/blob/master/LICENSE"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-000000.svg?style=flat"/></a>  
+<a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SwiftPM-compatible-green.svg"/></a></br>
+
+<a href="http://cocoadocs.org/docsets/Alembic"><img alt="Platform" src="https://img.shields.io/cocoapods/p/Alembic.svg?style=flat"/></a>
+<a href="https://github.com/ra1028/Alembic/blob/master/LICENSE"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-000000.svg?style=flat"/></a></br>
+
 </p>
 
 <p align="center">
@@ -17,6 +22,7 @@
 ---
 
 ## Contents
+- [Introduction](#introduction)
 - [Overview](#overview)
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -35,8 +41,14 @@
 
 ---
 
-A trait of __Alembic__ is to enable easy JSON parsing and transform it's value.  
-Followings is simple example of json parsing.  
+## Introduction
+_Alembic_ is a functional JSON parser designed as the monad.  
+Monad is provide a benefit that you can express the lazy evaluated transformation such as map or filter.  
+Besides, it's very scalable, because parseable value or class types are generic via protocol-oriented.  
+Type-safe and fail-safe designs would be also helps your quick development.  
+So, it's able to use more practically instead of [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON), [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper) and any other JSON parsing libs.  
+
+---
 
 ## Overview  
 ```Swift
@@ -74,7 +86,7 @@ struct User: Distillable {
 ---
 
 ## Requirements
-- Swift 3.0 / Xcode 8
+- Swift 3 / Xcode 8
 - OS X 10.9 or later
 - iOS 8.0 or later
 - watchOS 2.0 or later
@@ -98,12 +110,6 @@ end
 Add the following to your Cartfile:
 ```ruby
 github "ra1028/Alembic"
-```
-
-### [CocoaSeeds](https://github.com/devxoul/CocoaSeeds)  
-Add the following to your Seedfile:
-```ruby
-github "ra1028/Alembic", :files => "Sources/**/*.swift"
 ```
 
 ### [Swift Package Manager](https://github.com/apple/swift-package-manager)
