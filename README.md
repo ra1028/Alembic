@@ -18,6 +18,7 @@
 ---
 
 ## Contents
+- [Introduction](#introduction)
 - [Overview](#overview)
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -36,8 +37,14 @@
 
 ---
 
-A trait of __Alembic__ is to enable easy JSON parsing and transform it's value.  
-Followings is simple example of json parsing.  
+## Introduction
+_Alembic_ is a functional JSON parser designed as the monad.  
+Monad is provide a benefit that you can express the lazy evaluated transformation such as map or filter.  
+Besides, it's very scalable, because parseable value or class types are generic via protocol-oriented.  
+type-safe and fail-safe designs would be also helps your quick development.  
+So, it's able to use more practically instead of [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON), [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper) and any other JSON parsing libs.  
+
+---
 
 ## Overview  
 ```Swift
@@ -75,7 +82,7 @@ struct User: Distillable {
 ---
 
 ## Requirements
-- Swift 3.0 / Xcode 8
+- Swift 3 / Xcode 8
 - OS X 10.9 or later
 - iOS 8.0 or later
 - watchOS 2.0 or later
@@ -99,12 +106,6 @@ end
 Add the following to your Cartfile:
 ```ruby
 github "ra1028/Alembic"
-```
-
-### [CocoaSeeds](https://github.com/devxoul/CocoaSeeds)  
-Add the following to your Seedfile:
-```ruby
-github "ra1028/Alembic", :files => "Sources/**/*.swift"
 ```
 
 ### [Swift Package Manager](https://github.com/apple/swift-package-manager)
