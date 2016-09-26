@@ -125,6 +125,23 @@ class DistilTests: XCTestCase {
             XCTFail("\(e)")
         }
     }
+    
+    func testJSONType() {
+        let j0 = JSON(object)
+        XCTAssertEqual(j0.currentPath, Path([]))
+        let j1 = j0[1]
+        XCTAssertEqual(j1.currentPath, Path([1]))
+        let j2 = j1[2]
+        XCTAssertEqual(j2.currentPath, Path([1, 2]))
+        let j3 = j2[3]
+        XCTAssertEqual(j3.currentPath, Path([1, 2, 3]))
+        let j4 = j3["A"]
+        XCTAssertEqual(j4.currentPath, Path([1, 2, 3, "A"]))
+        let j5 = j4["B"]
+        XCTAssertEqual(j5.currentPath, Path([1, 2, 3, "A", "B"]))
+        let j6 = j5["C"]
+        XCTAssertEqual(j6.currentPath, Path([1, 2, 3, "A", "B", "C"]))
+    }
 }
 
 extension URL: Distillable {
