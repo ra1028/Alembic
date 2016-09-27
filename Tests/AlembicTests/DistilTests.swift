@@ -144,6 +144,23 @@ class DistilTests: XCTestCase {
     }
 }
 
+#if os(Linux)
+
+extension DistilTests {
+    static var allTests : [(String, (DistilTests) -> () throws -> Void)] {
+        return [
+            ("testDistil", testDistil),
+            ("testDistilSubscript", testDistilSubscript),
+            ("testDistillError", testDistillError),
+            ("testClassMapping", testClassMapping),
+            ("testStructMapping", testStructMapping),
+            ("testJSONType", testJSONType)
+        ]
+    }
+}
+    
+#endif
+
 extension URL: Distillable {
     public static func distil(json j: JSON) throws -> URL {
         guard let url = try self.init(string: j.distil()) else {

@@ -226,3 +226,18 @@ class TransformTests: XCTestCase {
         }
     }
 }
+
+#if os(Linux)
+    
+extension TransformTests {
+    static var allTests : [(String, (TransformTests) -> () throws -> Void)] {
+        return [
+            ("testTransform", testTransform),
+            ("testSubscriptTransform", testSubscriptTransform),
+            ("testCreateDistillate", testCreateDistillate),
+            ("testValueCallbacks", testValueCallbacks)
+        ]
+    }
+}
+    
+#endif

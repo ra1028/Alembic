@@ -127,6 +127,22 @@ class OptionalTests: XCTestCase {
     }
 }
 
+#if os(Linux)
+    
+extension OptionalTests {
+    static var allTests : [(String, (OptionalTests) -> () throws -> Void)] {
+        return [
+            ("testOptional", testOptional),
+            ("testOptionalSubscript", testOptionalSubscript),
+            ("testOptionalError", testOptionalError),
+            ("testOptionalMapping", testOptionalMapping),
+            ("testOptionalMappingError", testOptionalMappingError)
+        ]
+    }
+}
+    
+#endif
+
 private final class User: InitDistillable {
     let id: Int
     let name: String
