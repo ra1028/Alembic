@@ -6,8 +6,6 @@
 //  Copyright © 2016年 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
-
 public protocol JSONType {
     var currentPath: Path { get }
     

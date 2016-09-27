@@ -6,8 +6,6 @@
 //  Copyright © 2016年 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
-
 public extension Distillate {
     static var filter: InsecureDistillate<Value> {
         return error(DistillError.filteredValue(type: Value.self, value: ()))

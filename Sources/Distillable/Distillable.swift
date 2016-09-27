@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
+import class Foundation.NSNumber
 
 public protocol Distillable {
     static func distil(json j: JSON) throws -> Self

@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
-
 public class Distillate<Value> {
     init() {}
     

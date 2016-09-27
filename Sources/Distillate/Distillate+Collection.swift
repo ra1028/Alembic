@@ -6,8 +6,6 @@
 //  Copyright © 2016年 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
-
 public extension Distillate where Value: Collection {
     func replaceEmpty(_ handler: () throws -> Value) throws -> Value {
         return try map { $0.isEmpty ? try handler() : $0 }

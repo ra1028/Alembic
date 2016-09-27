@@ -35,16 +35,4 @@ enum TestJSON {
     var object: Any {
         return try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
     }
-    
-//    func data(_ rootKey: String) -> Data {
-//        return try! JSONSerialization.data(withJSONObject: object(rootKey), options: [])
-//    }
-    
-//    func string(_ rootKey: String) -> String {
-//        return String(data: data(rootKey), encoding: String.Encoding.utf8)!
-//    }
-    
-//    func object(_ rootKey: String) -> Any {
-//        return (object as! [String: Any])[rootKey]!
-//    }
 }

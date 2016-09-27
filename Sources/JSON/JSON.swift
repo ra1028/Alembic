@@ -6,7 +6,9 @@
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
+import class Foundation.JSONSerialization
+import class Foundation.NSNull
+import struct Foundation.Data
 
 public final class JSON {
     public let raw: Any
