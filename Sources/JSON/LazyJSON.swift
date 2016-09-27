@@ -10,15 +10,15 @@ public final class LazyJSON {
     fileprivate let json: JSON
     public let currentPath: Path
     
-    public subscript(path: PathElement) -> LazyJSON {
-        return .init(json, currentPath + Path(path))
+    public subscript(element: PathElement) -> LazyJSON {
+        return .init(json: json, path: currentPath + .init(element: element))
     }
     
-    public subscript(path: PathElement...) -> LazyJSON {
-        return .init(json, currentPath + Path(path))
+    public subscript(element: PathElement...) -> LazyJSON {
+        return .init(json: json, path: currentPath + .init(elements: element))
     }
     
-    init(_ json: JSON, _ path: Path) {
+    init(json: JSON, path: Path) {
         self.json = json
         currentPath = path
     }    

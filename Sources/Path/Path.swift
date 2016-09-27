@@ -7,14 +7,18 @@
 //
 
 public struct Path {
-    let paths: [PathElement]
+    let elements: [PathElement]
     
-    public init(_ path: PathElement) {
-        paths = [path]
+    public static var empty: Path {
+        return .init(elements: [])
     }
     
-    public init(_ paths: [PathElement]) {
-        self.paths = paths
+    public init(element: PathElement) {
+        elements = [element]
+    }
+    
+    public init(elements: [PathElement]) {
+        self.elements = elements
     }
 }
 
@@ -22,11 +26,11 @@ public struct Path {
 
 extension Path: Equatable {
     public static func == (lhs: Path, rhs: Path) -> Bool {
-        return lhs.paths == rhs.paths
+        return lhs.elements == rhs.elements
     }
     
     public static func + (lhs: Path, rhs: Path) -> Path {
-        return Path(lhs.paths + rhs.paths)
+        return .init(elements: lhs.elements + rhs.elements)
     }
 }
 
@@ -34,7 +38,7 @@ extension Path: Equatable {
 
 extension Path: CustomStringConvertible {
     public var description: String {
-        return "Path(\(paths))"
+        return "Path(\(elements))"
     }
 }
 
@@ -50,15 +54,15 @@ extension Path: CustomDebugStringConvertible {
 
 extension Path: ExpressibleByStringLiteral {
     public init(unicodeScalarLiteral value: String) {
-        self.init(.key(value))
+        self.init(element: .key(value))
     }
     
     public init(extendedGraphemeClusterLiteral value: String) {
-        self.init(.key(value))
+        self.init(element: .key(value))
     }
     
     public init(stringLiteral value: String) {
-        self.init(.key(value))
+        self.init(element: .key(value))
     }
 }
 
@@ -66,7 +70,7 @@ extension Path: ExpressibleByStringLiteral {
 
 extension Path: ExpressibleByIntegerLiteral {
     public init(integerLiteral value: Int) {
-        self.init(.index(value))
+        self.init(element: .index(value))
     }
 }
 
@@ -74,6 +78,6 @@ extension Path: ExpressibleByIntegerLiteral {
 
 extension Path: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: PathElement...) {
-        self.init(elements)
+        self.init(elements: elements)
     }
 }
