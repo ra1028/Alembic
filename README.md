@@ -91,6 +91,7 @@ struct User: Distillable {
 - iOS 8.0 or later
 - watchOS 2.0 or later
 - tvOS 9.0 or later
+- Linux
 
 ---
 

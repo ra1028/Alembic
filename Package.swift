@@ -8,4 +8,7 @@
 
 import PackageDescription
 
-let package = Package(name: "Alembic")
+let package = Package(
+    name: "Alembic",
+    exclude: ["Sample"]
+)
