@@ -27,3 +27,6 @@ Tests/Podfile.lock
 
 #Carthage
 Carthage/Build
+
+#Swift Package Manager
+.build/
