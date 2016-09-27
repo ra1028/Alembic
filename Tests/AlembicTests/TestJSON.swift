@@ -8,29 +8,7 @@
 
 import Foundation
 
-enum TestJSON {
-    case distil
-    case optional
-    case transform
-    
-    var data: Data {
-        return try! JSONSerialization.data(withJSONObject: object, options: [])
-    }
-    
-    var string: String {
-        return String(data: data, encoding: .utf8)!
-    }
-    
-    var object: Any {
-        switch self {
-        case .distil: return distilTestJSONObject
-        case .optional: return optionalTestJSONObject
-        case .transform: return transformTestJSONObject
-        }
-    }
-}
-
-private let distilTestJSONObject: [String: Any] = [
+let distilTestJSONObject: [String: Any] = [
     "string": "Alembic",
     "int": 777,
     "double": 77.7,
@@ -86,7 +64,7 @@ private let distilTestJSONObject: [String: Any] = [
     ]
 ]
 
-private let optionalTestJSONObject: [String: Any] = [
+let optionalTestJSONObject: [String: Any] = [
     "string": "Alembic",
     "int": 777,
     "float": 77.7 as Float,
@@ -105,7 +83,7 @@ private let optionalTestJSONObject: [String: Any] = [
     ]
 ]
 
-private let transformTestJSONObject: [String: Any] = [
+let transformTestJSONObject: [String: Any] = [
     "key": "value",
     "null": NSNull(),
     "array": [String](),

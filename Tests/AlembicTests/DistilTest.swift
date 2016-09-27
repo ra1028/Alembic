@@ -11,9 +11,7 @@ import XCTest
 @testable import Alembic
 
 class DistilTest: XCTestCase {
-    let object = TestJSON.distil.object
-    let data = TestJSON.distil.data
-    let string = TestJSON.distil.string
+    let object = distilTestJSONObject
     
     func testDistil() {
         let j = JSON(object)
@@ -45,7 +43,7 @@ class DistilTest: XCTestCase {
     
     func testDistilSubscript() {
         do {
-            let j = try JSON(data: data)
+            let j = JSON(object)
             
             let string: String = try j["string"].distil()
             let array: [String] = try j["array"].distil()
@@ -109,7 +107,7 @@ class DistilTest: XCTestCase {
     
     func testStructMapping() {
         do {
-            let j = try JSON(string: string)
+            let j = JSON(object)
             
             let numbers: Numbers = try j <| "numbers"
             
@@ -146,7 +144,6 @@ class DistilTest: XCTestCase {
 }
 
 #if os(Linux)
-
 extension DistilTest {
     static var allTests: [(String, (DistilTest) -> () throws -> Void)] {
         return [
@@ -155,11 +152,10 @@ extension DistilTest {
             ("testDistillError", testDistillError),
             ("testClassMapping", testClassMapping),
             ("testStructMapping", testStructMapping),
-            ("testJSONType", testJSONType)
+            ("testJSONType", testJSONType),
         ]
     }
 }
-    
 #endif
 
 extension URL: Distillable {
@@ -178,7 +174,7 @@ private enum Gender: String, Distillable {
 
 private final class User: InitDistillable {
     let id: Int
-    let name: String    
+    let name: String
     let weight: Double
     let gender: Gender
     let smoker: Bool

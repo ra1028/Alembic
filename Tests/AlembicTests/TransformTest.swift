@@ -12,7 +12,7 @@ import XCTest
 class TransformTest: XCTestCase {
     fileprivate struct TestError: Error {}
     
-    let object = TestJSON.transform.object
+    let object = transformTestJSONObject
     
     func testTransform() {
         let j = JSON(object)
@@ -228,16 +228,14 @@ class TransformTest: XCTestCase {
 }
 
 #if os(Linux)
-    
 extension TransformTest {
     static var allTests: [(String, (TransformTest) -> () throws -> Void)] {
         return [
             ("testTransform", testTransform),
             ("testSubscriptTransform", testSubscriptTransform),
             ("testCreateDistillate", testCreateDistillate),
-            ("testValueCallbacks", testValueCallbacks)
+            ("testValueCallbacks", testValueCallbacks),
         ]
     }
 }
-    
 #endif

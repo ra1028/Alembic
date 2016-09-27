@@ -10,7 +10,7 @@ import XCTest
 @testable import Alembic
 
 class OptionalTest: XCTestCase {
-    let object = TestJSON.optional.object
+    let object = optionalTestJSONObject
     
     func testOptional() {
         let j = JSON(object)
@@ -128,7 +128,6 @@ class OptionalTest: XCTestCase {
 }
 
 #if os(Linux)
-    
 extension OptionalTest {
     static var allTests: [(String, (OptionalTest) -> () throws -> Void)] {
         return [
@@ -136,11 +135,10 @@ extension OptionalTest {
             ("testOptionalSubscript", testOptionalSubscript),
             ("testOptionalError", testOptionalError),
             ("testOptionalMapping", testOptionalMapping),
-            ("testOptionalMappingError", testOptionalMappingError)
+            ("testOptionalMappingError", testOptionalMappingError),
         ]
     }
 }
-    
 #endif
 
 private final class User: InitDistillable {
