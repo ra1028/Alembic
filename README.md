@@ -275,7 +275,7 @@ extension URL: Distillable {
 InitDistillable
 ```Swift
 extension URL: InitDistillable {
-    public init(j: JSON) throws {
+    public init(json j: JSON) throws {
         self = try j.distil().flatMap(URL.init(string:))
     }
 }
@@ -319,9 +319,9 @@ struct Sample: InitDistillable {
     let string: String
     let int: Int?
 
-    init(j: JSON) throws {
-        try string = j <| "string_key",
-        try int = j <|? "option_int_key")
+    init(json j: JSON) throws {
+        try string = j <| "string_key"
+        try int = j <|? "option_int_key"
     }
 }
 ```
