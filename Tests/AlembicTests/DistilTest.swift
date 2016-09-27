@@ -1,5 +1,5 @@
 //
-//  DistilTests.swift
+//  DistilTest.swift
 //  Tests
 //
 //  Created by Ryo Aoyama on 3/26/16.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import Alembic
 
-class DistilTests: XCTestCase {
+class DistilTest: XCTestCase {
     let object = TestJSON.distil.object
     let data = TestJSON.distil.data
     let string = TestJSON.distil.string
@@ -146,8 +146,8 @@ class DistilTests: XCTestCase {
 
 #if os(Linux)
 
-extension DistilTests {
-    static var allTests : [(String, (DistilTests) -> () throws -> Void)] {
+extension DistilTest {
+    static var allTests : [(String, (DistilTest) -> () throws -> Void)] {
         return [
             ("testDistil", testDistil),
             ("testDistilSubscript", testDistilSubscript),

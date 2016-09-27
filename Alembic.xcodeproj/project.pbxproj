@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A1EDA761D9AE6F100CE4C9E /* DistilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA6D1D9AE6F100CE4C9E /* DistilTests.swift */; };
-		2A1EDA7B1D9AE6F100CE4C9E /* OptionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA731D9AE6F100CE4C9E /* OptionalTests.swift */; };
+		2A1EDA761D9AE6F100CE4C9E /* DistilTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA6D1D9AE6F100CE4C9E /* DistilTest.swift */; };
+		2A1EDA7B1D9AE6F100CE4C9E /* OptionalTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA731D9AE6F100CE4C9E /* OptionalTest.swift */; };
 		2A1EDA7C1D9AE6F100CE4C9E /* TestJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA741D9AE6F100CE4C9E /* TestJSON.swift */; };
-		2A1EDA7D1D9AE6F100CE4C9E /* TransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA751D9AE6F100CE4C9E /* TransformTests.swift */; };
+		2A1EDA7D1D9AE6F100CE4C9E /* TransformTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA751D9AE6F100CE4C9E /* TransformTest.swift */; };
 		2A1EDA981D9AF2C300CE4C9E /* Distillable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA861D9AF2C300CE4C9E /* Distillable.swift */; };
 		2A1EDA991D9AF2C300CE4C9E /* Distillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA871D9AF2C300CE4C9E /* Distillate.swift */; };
 		2A1EDA9A1D9AF2C300CE4C9E /* Distillate+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA881D9AF2C300CE4C9E /* Distillate+Collection.swift */; };
@@ -42,11 +42,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2A1EDA6D1D9AE6F100CE4C9E /* DistilTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilTests.swift; sourceTree = "<group>"; };
+		2A1EDA6D1D9AE6F100CE4C9E /* DistilTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistilTest.swift; sourceTree = "<group>"; };
 		2A1EDA6E1D9AE6F100CE4C9E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2A1EDA731D9AE6F100CE4C9E /* OptionalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTests.swift; sourceTree = "<group>"; };
+		2A1EDA731D9AE6F100CE4C9E /* OptionalTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalTest.swift; sourceTree = "<group>"; };
 		2A1EDA741D9AE6F100CE4C9E /* TestJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestJSON.swift; sourceTree = "<group>"; };
-		2A1EDA751D9AE6F100CE4C9E /* TransformTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformTests.swift; sourceTree = "<group>"; };
+		2A1EDA751D9AE6F100CE4C9E /* TransformTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformTest.swift; sourceTree = "<group>"; };
 		2A1EDA861D9AF2C300CE4C9E /* Distillable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distillable.swift; sourceTree = "<group>"; };
 		2A1EDA871D9AF2C300CE4C9E /* Distillate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Distillate.swift; sourceTree = "<group>"; };
 		2A1EDA881D9AF2C300CE4C9E /* Distillate+Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Distillate+Collection.swift"; sourceTree = "<group>"; };
@@ -92,9 +92,9 @@
 			isa = PBXGroup;
 			children = (
 				2A1EDA741D9AE6F100CE4C9E /* TestJSON.swift */,
-				2A1EDA6D1D9AE6F100CE4C9E /* DistilTests.swift */,
-				2A1EDA731D9AE6F100CE4C9E /* OptionalTests.swift */,
-				2A1EDA751D9AE6F100CE4C9E /* TransformTests.swift */,
+				2A1EDA6D1D9AE6F100CE4C9E /* DistilTest.swift */,
+				2A1EDA731D9AE6F100CE4C9E /* OptionalTest.swift */,
+				2A1EDA751D9AE6F100CE4C9E /* TransformTest.swift */,
 				2A1EDA6E1D9AE6F100CE4C9E /* Info.plist */,
 			);
 			name = AlembicTests;
@@ -278,9 +278,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A1EDA761D9AE6F100CE4C9E /* DistilTests.swift in Sources */,
-				2A1EDA7B1D9AE6F100CE4C9E /* OptionalTests.swift in Sources */,
-				2A1EDA7D1D9AE6F100CE4C9E /* TransformTests.swift in Sources */,
+				2A1EDA761D9AE6F100CE4C9E /* DistilTest.swift in Sources */,
+				2A1EDA7B1D9AE6F100CE4C9E /* OptionalTest.swift in Sources */,
+				2A1EDA7D1D9AE6F100CE4C9E /* TransformTest.swift in Sources */,
 				2A1EDA7C1D9AE6F100CE4C9E /* TestJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
