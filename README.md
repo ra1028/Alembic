@@ -10,7 +10,7 @@
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-yellow.svg?style=flat"/></a>
 <a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SwiftPM-compatible-green.svg"/></a></br>
 
-<a href="http://cocoadocs.org/docsets/Alembic"><img alt="Platform" src="https://img.shields.io/cocoapods/p/Alembic.svg?style=flat"/></a>
+<a href="https://developer.apple.com/swift/"><img alt="Platform" src="https://img.shields.io/badge/platforms-iOS%20%7C%20OSX%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Linux-lightgray.svg"/></a>
 <a href="https://github.com/ra1028/Alembic/blob/master/LICENSE"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-000000.svg?style=flat"/></a></br>
 
 </p>
@@ -20,6 +20,9 @@
 </p>  
 
 ---
+
+_Alembic_ is now __Linux Ready!__  
+[Learn how to use _Alembic_ on IBM Swift Sandbox](https://swiftlang.ng.bluemix.net/#/repl?gitPackage=https:%2F%2Fgithub.com%2Fra1028%2FAlembic%2FSample)  
 
 ## Contents
 - [Introduction](#introduction)
@@ -46,7 +49,7 @@ _Alembic_ is a functional JSON parser designed as the monad.
 Monad is provide a benefit that you can express the lazy evaluated transformation such as map or filter.  
 Besides, it's very scalable, because parseable value or class types are generic via protocol-oriented.  
 Type-safe and fail-safe designs would be also helps your quick development.  
-So, it's able to use more practically instead of [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON), [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper) and any other JSON parsing libs.  
+So, it's able to use more practically instead of [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON), [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper) and any other JSON parsing libs.    
 
 ---
 
@@ -598,14 +601,14 @@ let value: String = j.distil("key").catch("sub-value")
 
 ### More Example
 See the Alembic `Tests` for more examples.  
-If you want to try Alembic, use Alembic Playground :)
+You can use playground that included in workspace :)
 
 ---
 
 ## Playground
 1. Open Alembic.xcworkspace.
 2. Build the Alembic for Mac.
-3. Open Alembic playground in project navigator.
+3. Open playground in project navigator.
 4. Enjoy the Alembic!
 
 ---
