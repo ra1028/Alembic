@@ -148,7 +148,7 @@ class DistilTest: XCTestCase {
 #if os(Linux)
 
 extension DistilTest {
-    static var allTests : [(String, (DistilTest) -> () throws -> Void)] {
+    static var allTests: [(String, (DistilTest) -> () throws -> Void)] {
         return [
             ("testDistil", testDistil),
             ("testDistilSubscript", testDistilSubscript),

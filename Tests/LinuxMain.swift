@@ -10,5 +10,7 @@ import XCTest
 @testable import AlembicTests
 
 XCTMain([
-    testCase(DistilTests.allTests),
+    testCase(DistilTest.allTests),
+    testCase(OptionalTest.allTests),
+    testCase(TransformTest.allTests)
     ])

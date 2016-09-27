@@ -130,7 +130,7 @@ class OptionalTest: XCTestCase {
 #if os(Linux)
     
 extension OptionalTest {
-    static var allTests : [(String, (OptionalTest) -> () throws -> Void)] {
+    static var allTests: [(String, (OptionalTest) -> () throws -> Void)] {
         return [
             ("testOptional", testOptional),
             ("testOptionalSubscript", testOptionalSubscript),

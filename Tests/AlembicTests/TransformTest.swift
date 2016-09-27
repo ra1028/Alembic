@@ -230,7 +230,7 @@ class TransformTest: XCTestCase {
 #if os(Linux)
     
 extension TransformTest {
-    static var allTests : [(String, (TransformTest) -> () throws -> Void)] {
+    static var allTests: [(String, (TransformTest) -> () throws -> Void)] {
         return [
             ("testTransform", testTransform),
             ("testSubscriptTransform", testSubscriptTransform),
