@@ -6,15 +6,15 @@ final class User: InitDistillable {
     let birthday: Date
     let job: String?
 
-    init(j: JSON) throws {
-        try name = j.distil("name")
-        try birthday = j.distil("birthday")
-            .flatMap {
+    init(json j: JSON) throws {
+        name = try j.distil("name")
+        birthday = try j.distil("birthday", to: String.self)
+            .flatMap { date -> Date? in
                 let fmt = DateFormatter()
                 fmt.dateFormat = "M/d/yyyy"
-                return fmt.date(from: $0)
+                return fmt.date(from: date)
             }
-        try job = j.option("job")
+        job = try j.option("job")
     }
 }
 
@@ -30,7 +30,9 @@ let j = JSON(object)
 
 let name: String = try! j <| ["user", "name"]
 print(name)
+
 let job: String? = try! j <|? ["user", "job"]
 print(job)
+
 let user: User = try! j <| "user"
-print(user)
+print("Name: \(user.name), Birthday: \(user.birthday), Job: \(user.job ?? "Unknown")")
