@@ -52,15 +52,15 @@ let distilTestJSONObject: [String: Any] = [
         ]
     ],
     "numbers": [
-        "number": 1,
-        "int8": 2,
-        "uint8": 3,
-        "int16": 4,
-        "uint16": 5,
-        "int32": 6,
-        "uint32": 7,
-        "int64": 8,
-        "uint64": 9
+        "number": 1 as NSNumber,
+        "int8": 2 as NSNumber,
+        "uint8": 3 as NSNumber,
+        "int16": 4 as NSNumber,
+        "uint16": 5 as NSNumber,
+        "int32": 6 as NSNumber,
+        "uint32": 7 as NSNumber,
+        "int64": 8 as NSNumber,
+        "uint64": 9 as NSNumber
     ]
 ]
 
