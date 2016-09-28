@@ -6,8 +6,6 @@
 //  Copyright © 2016年 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
-
 public enum PathElement {
     case key(String)
     case index(Int)

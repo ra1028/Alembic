@@ -6,18 +6,20 @@
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
+import class Foundation.JSONSerialization
+import class Foundation.NSNull
+import struct Foundation.Data
 
 public final class JSON {
     public let raw: Any
-    public let currentPath = Path([])
+    public let currentPath = Path.empty
     
-    public subscript(path: PathElement) -> LazyJSON {
-        return .init(self, Path(path))
+    public subscript(element: PathElement) -> LazyJSON {
+        return .init(json: self, path: .init(element: element))
     }
     
-    public subscript(path: PathElement...) -> LazyJSON {
-        return .init(self, Path(path))
+    public subscript(element: PathElement...) -> LazyJSON {
+        return .init(json: self, path: .init(elements: element))
     }
     
     public init(_ raw: Any) {
@@ -50,7 +52,7 @@ public final class JSON {
 public extension JSON {
     public func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T {
         do {
-            let object: Any = try distilRecursive(path)
+            let object: Any = try distilRecursive(raw, path)
             return try .distil(json: JSON(object))
         } catch let DistillError.missingPath(missing) where path != missing {
             throw DistillError.missingPath(path + missing)
@@ -58,12 +60,12 @@ public extension JSON {
     }
     
     public func distil<T: Distillable>(_ path: Path, to: [T].Type) throws -> [T] {
-        let object: Any = try distilRecursive(path)
+        let object: Any = try distilRecursive(raw, path)
         return try .distil(json: JSON(object))
     }
     
     public func distil<T: Distillable>(_ path: Path, to: [String: T].Type) throws -> [String: T] {
-        let object: Any = try distilRecursive(path)
+        let object: Any = try distilRecursive(raw, path)
         return try .distil(json: JSON(object))
     }
 }
@@ -94,46 +96,44 @@ extension JSON: CustomDebugStringConvertible {
 
 // MARK: - private functions
 
-private extension JSON {
-    func distilRecursive<T>(_ path: Path) throws -> T {
-        func distilRecursive(_ object: Any, _ paths: ArraySlice<PathElement>) throws -> Any {
-            switch paths.first {
-            case let .key(key)?:
-                let dictionary: [String: Any] = try cast(object)
-                
-                guard let value = dictionary[key], !(value is NSNull) else {
-                    throw DistillError.missingPath(path)
-                }
-                
-                return try distilRecursive(value, paths.dropFirst())
-                
-            case let .index(index)?:
-                let array: [Any] = try cast(object)
-                
-                guard array.count > index else {
-                    throw DistillError.missingPath(path)
-                }
-                
-                let value = array[index]
-                
-                if value is NSNull {
-                    throw DistillError.missingPath(path)
-                }
-                
-                return try distilRecursive(value, paths.dropFirst())
-                
-            case .none:
-                return object
+private func distilRecursive<T>(_ raw: Any, _ path: Path) throws -> T {
+    func distilRecursive(_ object: Any, _ elements: ArraySlice<PathElement>) throws -> Any {
+        switch elements.first {
+        case let .key(key)?:
+            let dictionary: [String: Any] = try cast(object)
+            
+            guard let value = dictionary[key], !(value is NSNull) else {
+                throw DistillError.missingPath(path)
             }
+            
+            return try distilRecursive(value, elements.dropFirst())
+            
+        case let .index(index)?:
+            let array: [Any] = try cast(object)
+            
+            guard array.count > index else {
+                throw DistillError.missingPath(path)
+            }
+            
+            let value = array[index]
+            
+            if value is NSNull {
+                throw DistillError.missingPath(path)
+            }
+            
+            return try distilRecursive(value, elements.dropFirst())
+            
+        case .none:
+            return object
         }
-        
-        return try cast(distilRecursive(raw, ArraySlice(path.paths)))
     }
     
-    func cast<T>(_ object: Any) throws -> T {
-        guard let value = object as? T else {
-            throw DistillError.typeMismatch(expected: T.self, actual: object)
-        }
-        return value
+    return try cast(distilRecursive(raw, ArraySlice(path.elements)))
+}
+
+private func cast<T>(_ object: Any) throws -> T {
+    guard let value = object as? T else {
+        throw DistillError.typeMismatch(expected: T.self, actual: object)
     }
+    return value
 }

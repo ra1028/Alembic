@@ -1,5 +1,5 @@
 //
-//  TransformTests.swift
+//  TransformTest.swift
 //  Tests
 //
 //  Created by Ryo Aoyama on 3/26/16.
@@ -9,10 +9,10 @@
 import XCTest
 @testable import Alembic
 
-class TransformTests: XCTestCase {
+class TransformTest: XCTestCase {
     fileprivate struct TestError: Error {}
     
-    let object = TestJSON.transform.object
+    let object = transformTestJSONObject
     
     func testTransform() {
         let j = JSON(object)
@@ -226,3 +226,16 @@ class TransformTests: XCTestCase {
         }
     }
 }
+
+#if os(Linux)
+extension TransformTest {
+    static var allTests: [(String, (TransformTest) -> () throws -> Void)] {
+        return [
+            ("testTransform", testTransform),
+            ("testSubscriptTransform", testSubscriptTransform),
+            ("testCreateDistillate", testCreateDistillate),
+            ("testValueCallbacks", testValueCallbacks),
+        ]
+    }
+}
+#endif

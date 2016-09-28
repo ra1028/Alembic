@@ -6,8 +6,6 @@
 //  Copyright © 2016年 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
-
 public extension Distillate where Value: OptionalConvertible {
     func replaceNil(_ handler: () throws -> Value.Wrapped) throws -> Value.Wrapped {
         return try _value().optionalValue ?? handler()

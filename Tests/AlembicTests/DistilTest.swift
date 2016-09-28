@@ -1,18 +1,17 @@
 //
-//  DistilTests.swift
+//  DistilTest.swift
 //  Tests
 //
 //  Created by Ryo Aoyama on 3/26/16.
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
+import Foundation
 import XCTest
 @testable import Alembic
 
-class DistilTests: XCTestCase {
-    let object = TestJSON.distil.object
-    let data = TestJSON.distil.data
-    let string = TestJSON.distil.string
+class DistilTest: XCTestCase {
+    let object = distilTestJSONObject
     
     func testDistil() {
         let j = JSON(object)
@@ -44,7 +43,7 @@ class DistilTests: XCTestCase {
     
     func testDistilSubscript() {
         do {
-            let j = try JSON(data: data)
+            let j = JSON(object)
             
             let string: String = try j["string"].distil()
             let array: [String] = try j["array"].distil()
@@ -108,7 +107,7 @@ class DistilTests: XCTestCase {
     
     func testStructMapping() {
         do {
-            let j = try JSON(string: string)
+            let j = JSON(object)
             
             let numbers: Numbers = try j <| "numbers"
             
@@ -128,21 +127,36 @@ class DistilTests: XCTestCase {
     
     func testJSONType() {
         let j0 = JSON(object)
-        XCTAssertEqual(j0.currentPath, Path([]))
+        XCTAssertEqual(j0.currentPath, Path.empty)
         let j1 = j0[1]
-        XCTAssertEqual(j1.currentPath, Path([1]))
+        XCTAssertEqual(j1.currentPath, Path(elements: [1]))
         let j2 = j1[2]
-        XCTAssertEqual(j2.currentPath, Path([1, 2]))
+        XCTAssertEqual(j2.currentPath, Path(elements: [1, 2]))
         let j3 = j2[3]
-        XCTAssertEqual(j3.currentPath, Path([1, 2, 3]))
+        XCTAssertEqual(j3.currentPath, Path(elements: [1, 2, 3]))
         let j4 = j3["A"]
-        XCTAssertEqual(j4.currentPath, Path([1, 2, 3, "A"]))
+        XCTAssertEqual(j4.currentPath, Path(elements: [1, 2, 3, "A"]))
         let j5 = j4["B"]
-        XCTAssertEqual(j5.currentPath, Path([1, 2, 3, "A", "B"]))
+        XCTAssertEqual(j5.currentPath, Path(elements: [1, 2, 3, "A", "B"]))
         let j6 = j5["C"]
-        XCTAssertEqual(j6.currentPath, Path([1, 2, 3, "A", "B", "C"]))
+        XCTAssertEqual(j6.currentPath, Path(elements: [1, 2, 3, "A", "B", "C"]))
     }
 }
+
+#if os(Linux)
+extension DistilTest {
+    static var allTests: [(String, (DistilTest) -> () throws -> Void)] {
+        return [
+            ("testDistil", testDistil),
+            ("testDistilSubscript", testDistilSubscript),
+            ("testDistillError", testDistillError),
+            ("testClassMapping", testClassMapping),
+            ("testStructMapping", testStructMapping),
+            ("testJSONType", testJSONType),
+        ]
+    }
+}
+#endif
 
 extension URL: Distillable {
     public static func distil(json j: JSON) throws -> URL {
@@ -160,7 +174,7 @@ private enum Gender: String, Distillable {
 
 private final class User: InitDistillable {
     let id: Int
-    let name: String    
+    let name: String
     let weight: Double
     let gender: Gender
     let smoker: Bool

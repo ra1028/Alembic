@@ -1,5 +1,5 @@
 //
-//  OptionalTests.swift
+//  OptionalTest.swift
 //  Tests
 //
 //  Created by Ryo Aoyama on 3/26/16.
@@ -9,8 +9,8 @@
 import XCTest
 @testable import Alembic
 
-class OptionalTests: XCTestCase {
-    let object = TestJSON.optional.object
+class OptionalTest: XCTestCase {
+    let object = optionalTestJSONObject
     
     func testOptional() {
         let j = JSON(object)
@@ -126,6 +126,20 @@ class OptionalTests: XCTestCase {
         }
     }
 }
+
+#if os(Linux)
+extension OptionalTest {
+    static var allTests: [(String, (OptionalTest) -> () throws -> Void)] {
+        return [
+            ("testOptional", testOptional),
+            ("testOptionalSubscript", testOptionalSubscript),
+            ("testOptionalError", testOptionalError),
+            ("testOptionalMapping", testOptionalMapping),
+            ("testOptionalMappingError", testOptionalMappingError),
+        ]
+    }
+}
+#endif
 
 private final class User: InitDistillable {
     let id: Int

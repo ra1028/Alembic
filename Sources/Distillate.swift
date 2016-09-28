@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
-import Foundation
-
 public class Distillate<Value> {
     init() {}
     
@@ -17,30 +15,30 @@ public class Distillate<Value> {
 }
 
 public extension Distillate {
-    func map<T>(_ f: (Value) throws -> T) throws -> T {
-        return try f(_value())
+    func map<T>(_ selector: (Value) throws -> T) throws -> T {
+        return try selector(_value())
     }
     
-    func map<T>(_ f: @escaping (Value) throws -> T) -> InsecureDistillate<T> {
-        return .init { try self.map(f) }
+    func map<T>(_ selector: @escaping (Value) throws -> T) -> InsecureDistillate<T> {
+        return .init { try self.map(selector) }
     }
     
-    func flatMap<T, U: Distillate<T>>(_ f: (Value) throws -> U) throws -> T {
-        return try map(f)._value()
+    func flatMap<T, U: Distillate<T>>(_ selector: (Value) throws -> U) throws -> T {
+        return try map(selector)._value()
     }
     
-    func flatMap<T, U: Distillate<T>>(_ f: @escaping (Value) throws -> U) -> InsecureDistillate<T> {
-        return .init { try self.flatMap(f) }
+    func flatMap<T, U: Distillate<T>>(_ selector: @escaping (Value) throws -> U) -> InsecureDistillate<T> {
+        return .init { try self.flatMap(selector) }
     }
     
-    func flatMap<T>(_ f: (Value) throws -> T?) throws -> T {
-        let optional = try map(f)
+    func flatMap<T>(_ selector: (Value) throws -> T?) throws -> T {
+        let optional = try map(selector)
         guard let v = optional else { throw DistillError.filteredValue(type: T.self, value: optional) }
         return v
     }
     
-    func flatMap<T>(_ f: @escaping (Value) throws -> T?) -> InsecureDistillate<T> {
-        return .init { try self.flatMap(f) }
+    func flatMap<T>(_ selector: @escaping (Value) throws -> T?) -> InsecureDistillate<T> {
+        return .init { try self.flatMap(selector) }
     }
     
     func filter(_ predicate: (Value) throws -> Bool) throws -> Value {
