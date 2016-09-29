@@ -1,4 +1,4 @@
-<div align="center"><img src="Assets/Alembic_Logo.png" alt="Alembic" width="70%"></div></br>
+<div align="center"><img src="https://github.com/ra1028/Alembic/blob/master/Assets/Alembic_Logo.png" alt="Alembic" width="70%"></div></br>
 
 <p align="center">
 
