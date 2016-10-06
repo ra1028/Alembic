@@ -231,7 +231,7 @@ let int: Int = try j["nested"]["array"][2].distil()  // 3
 __Tips__  
 Syntax like [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) is here:  
 ```Swift
-let json = try JSON(data: data)
+let json = JSON(data: data)
 let userName = try json[0]["user"]["name"].to(String.self)
 ```
 
