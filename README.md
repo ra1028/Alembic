@@ -4,15 +4,15 @@
 
 <p align="center">
 
-<a href="https://developer.apple.com/swift"><img alt="Swift3" src="https://img.shields.io/badge/swift3-compatible-orange.svg?style=flat"/></a>
+<a href="https://developer.apple.com/swift"><img alt="Swift3" src="https://img.shields.io/badge/language-swift3-orange.svg?style=flat"/></a>
 <a href="https://travis-ci.org/ra1028/Alembic"><img alt="Build Status" src="https://travis-ci.org/ra1028/Alembic.svg?branch=master"/></a>
 <a href="https://codebeat.co/projects/github-com-ra1028-alembic"><img alt="CodeBeat" src="https://codebeat.co/badges/09cc20c0-4cba-4c78-8e20-39f41d86c587"/></a></br>
 
 <a href="https://cocoapods.org/pods/Alembic"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Alembic.svg"/></a>
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-yellow.svg?style=flat"/></a>
-<a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SwiftPM-compatible-red.svg"/></a></br>
+<a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SwiftPM-compatible-blue.svg"/></a></br>
 
-<a href="https://developer.apple.com/swift/"><img alt="Platform" src="https://img.shields.io/badge/platforms-iOS%20%7C%20OSX%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Linux-green.svg"/></a>
+<a href="https://developer.apple.com/swift/"><img alt="Platform" src="https://img.shields.io/badge/platforms-iOS%20%7C%20OSX%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Linux-lightgray.svg"/></a>
 <a href="https://github.com/ra1028/Alembic/blob/master/LICENSE"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-000000.svg?style=flat"/></a></br>
 
 </p>
@@ -145,17 +145,17 @@ let j = JSON(jsonObject)
 ```
 JSON from Data
 ```Swift
-let j = try JSON(data: jsonData)
+let j = JSON(data: jsonData)
 ```
 ```Swift
-let j = try JSON(data: jsonData, options: .allowFragments)
+let j = JSON(data: jsonData, options: .allowFragments)
 ```
 JSON from String  
 ```Swift
-let j = try JSON(string: jsonString)
+let j = JSON(string: jsonString)
 ```
 ```Swift
-let j = try JSON(
+let j = JSON(
     string: jsonString,
     encoding: .utf8,
     allowLossyConversion: false,
@@ -215,7 +215,7 @@ It's same if use operator or subscript.
 
 ### Nested objects parsing
 Supports parsing nested objects with keys and indexes.  
-Keys and indexes can be summarized in the same array.  
+Keys and indexes can be containing in the same array.  
 
 __Example__
 ```Swift
@@ -243,8 +243,8 @@ let userName = try json[0]["user"]["name"].to(String.self)
 ```
 
 ### Optional objects parsing
-Has functions to parsing optional objects.  
-If the key is missing, returns nil.  
+Also supports to parse optional objects.  
+If the key is missing or value is null, returns nil.  
 
 __Example__
 ```Swift
@@ -265,7 +265,7 @@ let int: Int? = try j["nested"]["key"].option()  // nil
 ```
 
 ### Custom value parsing
-If implement `Distillable` or `InitDistillable` protocol to existing classes like `URL`, it be able to parse from JSON.  
+If implement `Distillable` or `InitDistillable` protocol to existing classes like `URL`, it can be parse from JSON.  
 
 __Example__
 ```Swift
@@ -339,7 +339,7 @@ let sample: Sample = try j <| "key"  // Sample
 
 ### Value transformation
 Alembic supports functional value transformation during the parsing process like `String` -> `Date`.  
-Functions that extract value from JSON are possible to return `Distillate` object.  
+Parsing functions are also can return `Distillate` object.  
 So, you can use 'map' 'flatMap' and other following useful functions.  
 
 <table>
@@ -504,7 +504,7 @@ let message: String = try j.distil("number_of_apples", as: Int.self)
     .catch { error in "Anything not found... | Error: \(error)" }
 ```
 
-Alembic allows you to receive a value functinally as following.  
+In case of need, you can use way to get value as followings.  
 ```Swift
 let jsonObject = ["user": ["name": "john doe"]]
 let j = JSON(jsonObject)
@@ -521,12 +521,14 @@ j.distil(["user", "name"], as: String.self)
 ```
 
 ### Error handling
-Alembic has simple error handling designs as following.  
+Alembic has powerfull error handling designs as following.  
+It will be help your fail-safe coding.  
 
 __DistillError__
 - missingPath(Path)  
 - typeMismatch(expected: Any.Type, actual: Any)  
 - filteredValue(type: Any.Type, value: Any)  
+- failedToSerialize(with: Any)  
 
 <table>
 <thead>
