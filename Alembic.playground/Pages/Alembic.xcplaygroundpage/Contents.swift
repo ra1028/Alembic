@@ -12,7 +12,7 @@ struct Nested: Distillable {
     let id: Int
     
     static func distil(json j: JSON) throws -> Nested {
-        return Nested(id: try j <| "id")
+        return Nested(id: try j <| "invalid_key")
     }
 }
 
@@ -29,7 +29,8 @@ final class Sample: InitDistillable {
 let object: [String: Any] = [
     "key": "WOO",
     "nested": ["key": 100],
-    "sample": ["id": 100, "nested": ["id": "5"]]
+    "sample": ["id": 100, "nested": ["id": 5]],
+    "value": 5000
 ]
 
 do {
@@ -40,12 +41,26 @@ do {
     let missing: String? = try j["missing"].option()
     let nested: Int = try j["nested"]["key"].distil()
     let nestedOpt: Int? = try j["nested"]["key"].option()
-    let bbb: Int = try j["nested"]["bbb"].distil()
-//    let sample: Sample = try j["sample"].distil()
+    let value = try j["value"].distil(to: Int.self).map { $0 * 2 }.value {
+        print($0); return
+    }
     
+//    let sample: Sample = try j["sample"].distil()
 //    let errorCase1: Int = try j["nested"]["missing"].distil()
-//    let errorCase2: String? = try j["nested"]["key"].option()
 
+} catch let error {
+    
+    print(error)
+    
+}
+
+let jsonString = "{\"key\': 100}"
+let j2 = JSON(string: jsonString)
+
+do {
+    
+    let v: Int = try j2.distil("key")
+    
 } catch let error {
     
     print(error)

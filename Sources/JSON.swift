@@ -12,14 +12,10 @@ import struct Foundation.Data
 
 public final class JSON {
     public let raw: Any
-    fileprivate let heapPath: Path
     fileprivate let createObject: () throws -> Any
     
-    public subscript(element: PathElement...) -> JSON {
-        let path = Path(elements: element)
-        return .init(raw: raw, heapPath: heapPath + path) {
-            try self.distil(path, to: JSON.self).raw
-        }
+    public subscript(element: PathElement...) -> LazyJSON {
+        return .init(rootJSON: self, currentPath: .init(elements: element))
     }
     
     public convenience init(_ raw: Any) {
@@ -43,108 +39,30 @@ public final class JSON {
         }
     }
     
-    fileprivate convenience init(raw: Any, heapPath: Path) {
-        self.init(raw: raw, heapPath: heapPath) { raw }
-    }
-    
-    private init(raw: Any, heapPath: Path = [], createObject: @escaping () throws -> Any) {
+    private init(raw: Any, createObject: @escaping () throws -> Any) {
         self.raw = raw
-        self.heapPath = heapPath
         self.createObject = createObject
     }
 }
 
-// MARK: - distil functions with type constraints
+// MARK: - JSONType
 
-public extension JSON {
-    func to<T: Distillable>(_: T.Type) throws -> T {
-        return try distil()
-    }
-    
-    func to<T: Distillable>(_: [T].Type) throws -> [T] {
-        return try distil()
-    }
-    
-    func to<T: Distillable>(_: [String: T].Type) throws -> [String: T] {
-        return try distil()
-    }
-}
-
-// MARK: - distil functions
-
-public extension JSON {
-    func distil<T: Distillable>(_ path: Path = [], to: T.Type = T.self) throws -> T {
-        let fullPath = heapPath + path
+extension JSON: JSONType {
+    public func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T {
         let object: Any = try distilRecursive(path: path)
         do {
-            return try .distil(json: .init(raw: object, heapPath: fullPath))
+            return try .distil(json: .init(object))
         } catch let DistillError.missingPath(missing) {
-            throw DistillError.missingPath(fullPath + missing)
+            throw DistillError.missingPath(path + missing)
         }
     }
     
-    func distil<T: Distillable>(_ path: Path = [], to: [T].Type = [T].self) throws -> [T] {
-        let fullPath = heapPath + path
-        let object: Any = try distilRecursive(path: path)
-        return try .distil(json: .init(raw: object, heapPath: fullPath))
-    }
-    
-    func distil<T: Distillable>(_ path: Path = [], to: [String: T].Type = [String: T].self) throws -> [String: T] {
-        let fullPath = heapPath + path
-        let object: Any = try distilRecursive(path: path)
-        return try .distil(json: .init(raw: object, heapPath: fullPath))
-    }
-}
-
-// MARK: - lazy distil functions
-
-public extension JSON {
-    func distil<T: Distillable>(_ path: Path = [], to: T.Type = T.self) -> InsecureDistillate<T> {
-        return .init { try self.distil(path) }
-    }
-    
-    func distil<T: Distillable>(_ path: Path = [], to: [T].Type = [T].self) -> InsecureDistillate<[T]> {
-        return .init { try self.distil(path) }
-    }
-    
-    func distil<T: Distillable>(_ path: Path = [], to: [String: T].Type = [String: T].self) -> InsecureDistillate<[String: T]> {
-        return .init { try self.distil(path) }
-    }
-}
-
-// MARK: - distil option functions
-
-public extension JSON {
-    func option<T: Distillable>(_ path: Path = [], to: T?.Type = (T?).self) throws -> T? {
+    public func option<T: Distillable>(_ path: Path, to: T?.Type) throws -> T? {
         do {
             return try distil(path, to: T.self)
-        } catch let DistillError.missingPath(missing) where missing == heapPath + path {
+        } catch let DistillError.missingPath(missing) where missing == path {
             return nil
         }
-    }
-    
-    func option<T: Distillable>(_ path: Path = [], to: [T]?.Type = ([T]?).self) throws -> [T]? {
-        return try option(path).map([T].distil)
-    }
-    
-    func option<T: Distillable>(_ path: Path = [], to: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
-        return try option(path).map([String: T].distil)
-    }
-}
-
-// MARK: - lazy distil option functions
-
-public extension JSON {
-    func option<T: Distillable>(_ path: Path = [], to: T?.Type = (T?).self) -> InsecureDistillate<T?> {
-        return .init { try self.option(path) }
-    }
-    
-    func option<T: Distillable>(_ path: Path = [], to: [T]?.Type = ([T]?).self) -> InsecureDistillate<[T]?> {
-        return .init { try self.option(path) }
-    }
-    
-    func option<T: Distillable>(_ path: Path = [], to: [String: T]?.Type = ([String: T]?).self) -> InsecureDistillate<[String: T]?> {
-        return .init { try self.option(path) }
     }
 }
 

@@ -7,43 +7,43 @@
 //
 
 public protocol JSONType {
-    var currentPath: Path { get }
-    
-    func asJSON() -> JSON
+    func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T
+    func option<T: Distillable>(_ path: Path, to: T?.Type) throws -> T?
 }
 
 // MARK: - distil functions with type constraints
 
 public extension JSONType {
     func to<T: Distillable>(_: T.Type) throws -> T {
-        return try distil(to: T.self)
+        return try distil()
     }
     
     func to<T: Distillable>(_: [T].Type) throws -> [T] {
-        return try distil(to: [T].self)
+        return try distil()
     }
     
     func to<T: Distillable>(_: [String: T].Type) throws -> [String: T] {
-        return try distil(to: [String: T].self)
+        return try distil()
     }
 }
 
 // MARK: - distil functions
 
 public extension JSONType {
-    public func distil<T: Distillable>(_ path: Path = [], to: T.Type = T.self) throws -> T {
-        let path = currentPath + path
-        return try asJSON().distil(path, to: to)
+    func distil<T: Distillable>(_ path: Path = []) throws -> T {
+        return try distil(path, to: T.self)
     }
     
-    public func distil<T: Distillable>(_ path: Path = [], to: [T].Type = [T].self) throws -> [T] {
-        let path = currentPath + path
-        return try asJSON().distil(path, to: to)
+    func distil<T: Distillable>(to: T.Type) throws -> T {
+        return try distil([], to: to)
     }
     
-    public func distil<T: Distillable>(_ path: Path = [], to: [String: T].Type = [String: T].self) throws -> [String: T] {
-        let path = currentPath + path
-        return try asJSON().distil(path, to: to)
+    func distil<T: Distillable>(_ path: Path = [], to: [T].Type = [T].self) throws -> [T] {
+        return try .distil(json: distil(path))
+    }
+    
+    func distil<T: Distillable>(_ path: Path = [], to: [String: T].Type = [String: T].self) throws -> [String: T] {
+        return try .distil(json: distil(path))
     }
 }
 
@@ -66,16 +66,20 @@ public extension JSONType {
 // MARK: - distil option functions
 
 public extension JSONType {
-    func option<T: Distillable>(_ path: Path = [], to: T?.Type = (T?).self) throws -> T? {
-        return try option(path) { try distil($0, to: T.self) }
+    func option<T: Distillable>(_ path: Path = []) throws -> T? {
+        return try option(path, to: (T?).self)
+    }
+    
+    func option<T: Distillable>(to: T?.Type) throws -> T? {
+        return try option([], to: to)
     }
     
     func option<T: Distillable>(_ path: Path = [], to: [T]?.Type = ([T]?).self) throws -> [T]? {
-        return try option(path) { try distil($0, to: [T].self) }
+        return try option(path).map([T].distil)
     }
     
     func option<T: Distillable>(_ path: Path = [], to: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
-        return try option(path) { try distil($0, to: [String: T].self) }
+        return try option(path).map([String: T].distil)
     }
 }
 
@@ -92,17 +96,5 @@ public extension JSONType {
     
     func option<T: Distillable>(_ path: Path = [], to: [String: T]?.Type = ([String: T]?).self) -> InsecureDistillate<[String: T]?> {
         return .init { try self.option(path) }
-    }
-}
-
-// MARK: - private functions
-
-private extension JSONType {
-    func option<T>(_ path: Path, distil: (Path) throws -> T) throws -> T? {
-        do {
-            return try distil(path)
-        } catch let DistillError.missingPath(missing) where missing == currentPath + path {
-            return nil
-        }
     }
 }
