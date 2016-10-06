@@ -54,12 +54,25 @@ do {
     
 }
 
-let jsonString = "{\"key\': 100}"
+let jsonString = "{\"key\" 100}"
 let j2 = JSON(string: jsonString)
 
 do {
     
     let v: Int = try j2.distil("key")
+    
+} catch let error {
+    
+    print(error)
+    
+}
+
+let jsonData = jsonString.data(using: .utf8, allowLossyConversion: false)!
+let j3 = JSON(data: jsonData)
+
+do {
+    
+    let v: Int = try j3.distil("key")
     
 } catch let error {
     

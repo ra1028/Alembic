@@ -23,7 +23,13 @@ public final class JSON {
     }
     
     public convenience init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) {
-        self.init(raw: data) { try serialize(data: data, options: options) }
+        self.init(raw: data) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: options)
+            } catch {
+                throw DistillError.failedToSerialize(with: data)
+            }
+        }
     }
     
     public convenience init(
@@ -33,9 +39,14 @@ public final class JSON {
         options: JSONSerialization.ReadingOptions = .allowFragments) {
         self.init(raw: string) {
             guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
-                throw DistillError.typeMismatch(expected: String.self, actual: string)
+                throw DistillError.failedToSerialize(with: string)
             }
-            return try serialize(data: data, options: options)
+            
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: options)
+            } catch {
+                throw DistillError.failedToSerialize(with: string)
+            }
         }
     }
     
@@ -120,14 +131,6 @@ private extension JSON {
         let object = try createObject()
         let elements = ArraySlice(path.elements)
         return try cast(distilRecursive(object: object, elements: elements))
-    }
-}
-
-private func serialize(data: Data, options: JSONSerialization.ReadingOptions) throws -> Any {
-    do {
-        return try JSONSerialization.jsonObject(with: data, options: options)
-    } catch {
-        throw DistillError.typeMismatch(expected: Data.self, actual: data)
     }
 }
 

@@ -10,6 +10,7 @@ public enum DistillError: Error {
     case missingPath(Path)
     case typeMismatch(expected: Any.Type, actual: Any)
     case filteredValue(type: Any.Type, value: Any)
+    case failedToSerialize(with: Any)
 }
 
 // MARK: - CustomStringConvertible
@@ -23,6 +24,8 @@ extension DistillError: CustomStringConvertible {
             return "typeMismatch(expected: \(expected), actual: \(type(of: actual))(\(actual)))"
         case let .filteredValue(type, value):
             return "filteredValue(type: \(type), value: \(value))"
+        case let .failedToSerialize(with: with):
+            return "failedToSerialize(with: \(type(of: with))(\(with)))"
         }
     }
 }
