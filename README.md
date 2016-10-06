@@ -470,7 +470,7 @@ let j = JSON(jsonObject)
 ```
 function
 ```Swift
-let date: Date = j.distil("time_string", to: String.self)  // "Apr 1, 2016, 12:00 AM"
+let date: Date = j.distil("time_string", as: String.self)  // "Apr 1, 2016, 12:00 AM"
     .filter { !$0.isEmpty }
     .flatMap { dateString in
         let fmt = DateFormatter()
@@ -484,9 +484,9 @@ __Tips__
 When the transforming is complicated, often generic type is missing.  
 At that time, set the type explicitly as following:  
 ```Swift
-let value: String = try j.distil("number", to: Int.self).map { "Number \($0)" }
+let value: String = try j.distil("number", as: Int.self).map { "Number \($0)" }
 let value: String = try (j <| "number")(Int.self).map { "Number \($0)" }
-let value: String = try j["number"].distil(to: Int.self).map { "Number \($0)" }
+let value: String = try j["number"].distil(as: Int.self).map { "Number \($0)" }
 ```
 
 You can create `Distillate` by `Distillate.filter`, `Distillate.error(error)` and `Distillate.just(value)`.  
@@ -496,7 +496,7 @@ Example:
 ```Swift
 struct FindAppleError: Error {}
 
-let message: String = try j.distil("number_of_apples", to: Int.self)
+let message: String = try j.distil("number_of_apples", as: Int.self)
     .flatMap { count -> Distillate<String> in
         count > 0 ? .just("\(count) apples found!!") : .filter
     }
@@ -510,7 +510,7 @@ let jsonObject = ["user": ["name": "john doe"]]
 let j = JSON(jsonObject)
 ```
 ```Swift
-j.distil(["user", "name"], to: String.self)
+j.distil(["user", "name"], as: String.self)
     .map { name in "User name is \(name)" }
     .value { message in
         print(message)

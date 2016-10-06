@@ -23,11 +23,11 @@ public final class LazyJSON {
 // MARK: - JSONType
 
 extension LazyJSON: JSONType {
-    public func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T {
+    public func distil<T: Distillable>(_ path: Path, as: T.Type) throws -> T {
         return try rootJSON.distil(currentPath + path)
     }
     
-    public func option<T: Distillable>(_ path: Path, to: T?.Type) throws -> T? {
+    public func option<T: Distillable>(_ path: Path, as: T?.Type) throws -> T? {
         return try rootJSON.option(currentPath + path)
     }
 }

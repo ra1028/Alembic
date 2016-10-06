@@ -59,7 +59,7 @@ public final class JSON {
 // MARK: - JSONType
 
 extension JSON: JSONType {
-    public func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T {
+    public func distil<T: Distillable>(_ path: Path, as: T.Type) throws -> T {
         let object: Any = try distilRecursive(path: path)
         do {
             return try .distil(json: .init(object))
@@ -68,9 +68,9 @@ extension JSON: JSONType {
         }
     }
     
-    public func option<T: Distillable>(_ path: Path, to: T?.Type) throws -> T? {
+    public func option<T: Distillable>(_ path: Path, as: T?.Type) throws -> T? {
         do {
-            return try distil(path, to: T.self)
+            return try distil(path, as: T.self)
         } catch let DistillError.missingPath(missing) where missing == path {
             return nil
         }

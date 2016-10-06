@@ -41,7 +41,7 @@ do {
     let missing: String? = try j["missing"].option()
     let nested: Int = try j["nested"]["key"].distil()
     let nestedOpt: Int? = try j["nested"]["key"].option()
-    let value = try j["value"].distil(to: Int.self).map { $0 * 2 }.value {
+    let value = try j["value"].distil(as: Int.self).map { $0 * 2 }.value {
         print($0); return
     }
     
