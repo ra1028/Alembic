@@ -67,11 +67,6 @@ let str1: String = try j.distil("str1")
 let str2: String = try j <| "str2"
 let str3: String = try j["str3"].distil()
 ```
-```Swift
-j.distil("str1").value { (str1: String) in ... }
-(j < | "str2").value { (str2: String) in ... }
-j["str3"].distil().value { (str3: String) in ... }
-```
 Object mapping
 
 ```Swift
@@ -141,22 +136,22 @@ import Alembic
 ```
 JSON from Any
 ```Swift
-let j = JSON(jsonObject)
+let j = JSON(any)
 ```
 JSON from Data
 ```Swift
-let j = JSON(data: jsonData)
+let j = JSON(data: data)
 ```
 ```Swift
-let j = JSON(data: jsonData, options: .allowFragments)
+let j = JSON(data: data, options: .allowFragments)
 ```
 JSON from String  
 ```Swift
-let j = JSON(string: jsonString)
+let j = JSON(string: string)
 ```
 ```Swift
 let j = JSON(
-    string: jsonString,
+    string: string,
     encoding: .utf8,
     allowLossyConversion: false,
     options: .allowFragments
@@ -193,8 +188,8 @@ __Default supported types__
 
 __Example__
 ```Swift
-let jsonObject = ["key": "string"]
-let j = JSON(jsonObject)
+let object = ["key": "string"]
+let j = JSON(object)
 ```
 ```Swift
 let string: String = try j.distil("key")  // "string"
@@ -219,10 +214,8 @@ Keys and indexes can be containing in the same array.
 
 __Example__
 ```Swift
-let jsonObject = [
-    "nested": ["array": [1, 2, 3, 4, 5]]
-]
-let j = JSON(jsonObject)
+let object = ["nested": ["array": [1, 2, 3, 4, 5]]]
+let j = JSON(object)
 ```
 ```Swift
 let int: Int = try j.distil(["nested", "array", 2])  // 3        
@@ -238,7 +231,7 @@ let int: Int = try j["nested"]["array"][2].distil()  // 3
 __Tips__  
 Syntax like [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) is here:  
 ```Swift
-let json = try JSON(data: jsonData)
+let json = try JSON(data: data)
 let userName = try json[0]["user"]["name"].to(String.self)
 ```
 
@@ -248,10 +241,8 @@ If the key is missing or value is null, returns nil.
 
 __Example__
 ```Swift
-let jsonObject = [
-    "nested": [:] // Nested key is nothing...
-]
-let j = JSON(jsonObject)
+let object = ["nested": [:]] // Nested key is nothing...
+let j = JSON(object)
 ```
 ```Swift
 let int: Int? = try j.option(["nested", "key"])  // nil
@@ -269,8 +260,8 @@ If implement `Distillable` or `InitDistillable` protocol to existing classes lik
 
 __Example__
 ```Swift
-let jsonObject = ["key": "http://example.com"]
-let j = JSON(jsonObject)
+let object = ["key": "http://example.com"]
+let j = JSON(object)
 ```
 Distillable
 ```Swift
@@ -299,13 +290,13 @@ Then, parse the objects from JSON to all your model properties.
 
 __Example__
 ```Swift
-let jsonObject = [
+let object = [
     "key": [
         "string_key": "string",
         "option_int_key": NSNull()
     ]
 ]
-let j = JSON(jsonObject)
+let j = JSON(object)
 ```
 Distillable
 ```Swift
@@ -465,8 +456,8 @@ throw DistillError.filteredValue.</td>
 
 __Example__
 ```Swift
-let jsonObject = ["time_string": "2016-04-01 00:00:00"]
-let j = JSON(jsonObject)
+let object = ["time_string": "2016-04-01 00:00:00"]
+let j = JSON(object)
 ```
 function
 ```Swift
@@ -485,7 +476,11 @@ When the transforming is complicated, often generic type is missing.
 At that time, set the type explicitly as following:  
 ```Swift
 let value: String = try j.distil("number", as: Int.self).map { "Number \($0)" }
+```
+```Swift
 let value: String = try (j <| "number")(Int.self).map { "Number \($0)" }
+```
+```Swift
 let value: String = try j["number"].distil(as: Int.self).map { "Number \($0)" }
 ```
 
@@ -504,29 +499,13 @@ let message: String = try j.distil("number_of_apples", as: Int.self)
     .catch { error in "Anything not found... | Error: \(error)" }
 ```
 
-In case of need, you can use way to get value as followings.  
-```Swift
-let jsonObject = ["user": ["name": "john doe"]]
-let j = JSON(jsonObject)
-```
-```Swift
-j.distil(["user", "name"], as: String.self)
-    .map { name in "User name is \(name)" }
-    .value { message in
-        print(message)
-    }
-    .error { error in
-        // Do error handling
-    }
-```
-
 ### Error handling
 Alembic has powerfull error handling designs as following.  
 It will be help your fail-safe coding.  
 
 __DistillError__
 - missingPath(Path)  
-- typeMismatch(expected: Any.Type, actual: Any)  
+- typeMismatch(expected: Any.Type, actual: Any, path: Path)  
 - filteredValue(type: Any.Type, value: Any)  
 - failedToSerialize(with: Any)  
 

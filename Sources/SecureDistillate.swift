@@ -23,13 +23,6 @@ public extension SecureDistillate {
         return thunk()
     }
     
-    @discardableResult
-    func value(_ handler: (Value) -> Void) -> SecureDistillate<Value> {
-        let v = thunk()
-        handler(v)
-        return .init { v }
-    }
-    
     func to(_: Value.Type) -> Value {
         return value()
     }

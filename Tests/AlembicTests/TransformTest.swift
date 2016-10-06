@@ -192,39 +192,6 @@ class TransformTest: XCTestCase {
             }
         }
     }
-    
-    func testValueCallbacks() {
-        let j = JSON(object)
-        
-        j.distil("key", as: String.self)
-            .value {
-                XCTAssertEqual($0, "value")
-            }
-            .error {
-                XCTFail("\($0)")
-        }
-        
-        j.option("null", as: (String?).self)
-            .value { XCTAssertEqual($0, nil) }
-            .error { XCTFail("\($0)") }
-        
-        j.distil("key", as: String.self)
-            .map { s -> String in "map_" + s }
-            .value { XCTAssertEqual($0, "map_value") }
-            .map { s -> String in "twice_" + s }
-            .value { XCTAssertEqual($0, "twice_map_value") }
-            .error { XCTFail("\($0)") }
-            .filter { _ in false }
-            .value { _ in XCTFail("Expect the error to occur") }
-            .error {
-                if case let DistillError.filteredValue(type, value) = $0 {
-                    XCTAssertNotNil(type as? String.Type)
-                    XCTAssertNotNil(value as? String)
-                    return
-                }
-                XCTFail("\($0)")
-        }
-    }
 }
 
 #if os(Linux)
@@ -234,7 +201,6 @@ extension TransformTest {
             ("testTransform", testTransform),
             ("testSubscriptTransform", testSubscriptTransform),
             ("testCreateDistillate", testCreateDistillate),
-            ("testValueCallbacks", testValueCallbacks),
         ]
     }
 }
