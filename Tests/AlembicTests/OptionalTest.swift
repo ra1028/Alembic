@@ -43,9 +43,10 @@ class OptionalTest: XCTestCase {
             _ = try (j <|? "string").to((Int?).self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "Alembic")
+            XCTAssertEqual(path, "string")
         } catch let e {
             XCTFail("\(e)")
         }
@@ -74,9 +75,10 @@ class OptionalTest: XCTestCase {
             _ = try j["string"].option().to((Int?).self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "Alembic")
+            XCTAssertEqual(path, "string")
         } catch let e {
             XCTFail("\(e)")
         }
@@ -89,9 +91,10 @@ class OptionalTest: XCTestCase {
             _ = try (j <|? "int").to((String?).self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual) {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
             XCTAssert(expected == String.self)
             XCTAssertEqual(actual as? Int, 777)
+            XCTAssertEqual(path, "int")
         } catch let e {
             XCTFail("\(e)")
         }

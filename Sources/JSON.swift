@@ -65,6 +65,8 @@ extension JSON: JSONType {
             return try .distil(json: .init(object))
         } catch let DistillError.missingPath(missing) {
             throw DistillError.missingPath(path + missing)
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
+            throw DistillError.typeMismatch(expected: expected, actual: actual, path: path + mismatchPath)
         }
     }
     
@@ -97,9 +99,22 @@ extension JSON: CustomDebugStringConvertible {
 
 private extension JSON {
     func distilRecursive<T>(path: Path) throws -> T {
+        var distilledPath: Path = []
+        
+        func cast<T>(_ object: Any) throws -> T {
+            guard let value = object as? T else {
+                throw DistillError.typeMismatch(expected: T.self, actual: object, path: distilledPath)
+            }
+            return value
+        }
+        
         func distilRecursive(object: Any, elements: ArraySlice<PathElement>) throws -> Any {
-            switch elements.first {
-            case let .key(key)?:
+            guard let first = elements.first else { return object }
+            
+            distilledPath = distilledPath + .init(element: first)
+            
+            switch first {
+            case let .key(key):
                 let dictionary: [String: Any] = try cast(object)
                 
                 guard let value = dictionary[key], !(value is NSNull) else {
@@ -108,7 +123,7 @@ private extension JSON {
                 
                 return try distilRecursive(object: value, elements: elements.dropFirst())
                 
-            case let .index(index)?:
+            case let .index(index):
                 let array: [Any] = try cast(object)
                 
                 guard array.count > index else {
@@ -122,9 +137,6 @@ private extension JSON {
                 }
                 
                 return try distilRecursive(object: value, elements: elements.dropFirst())
-                
-            case .none:
-                return object
             }
         }
         
@@ -132,11 +144,4 @@ private extension JSON {
         let elements = ArraySlice(path.elements)
         return try cast(distilRecursive(object: object, elements: elements))
     }
-}
-
-private func cast<T>(_ object: Any) throws -> T {
-    guard let value = object as? T else {
-        throw DistillError.typeMismatch(expected: T.self, actual: object)
-    }
-    return value
 }

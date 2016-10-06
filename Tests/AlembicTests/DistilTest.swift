@@ -78,9 +78,10 @@ class DistilTest: XCTestCase {
             _ = try (j <| "int_string").to(Int.self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "1")
+            XCTAssertEqual(path, "int_string")
         } catch let e {
             XCTFail("\(e)")
         }
@@ -142,10 +143,7 @@ extension DistilTest {
 
 extension URL: Distillable {
     public static func distil(json j: JSON) throws -> URL {
-        guard let url = try self.init(string: j.distil()) else {
-            throw DistillError.typeMismatch(expected: URL.self, actual: j.raw)
-        }
-        return url
+        return try j.distil().flatMap(self.init(string:))
     }
 }
 
