@@ -429,28 +429,6 @@ throw DistillError.filteredValue.</td>
 <td>throw</td>
 </tr>
 
-<tr>
-<td>replaceEmpty(Value)</td>
-<td>If the value is empty of CollectionType, replace it.</td>
-<td>Value</td>
-<td>throw</td>
-</tr>
-
-<tr>
-<td>replaceEmpty(() throws -> Value)</td>
-<td>If the value is empty of CollectionType, replace it.</td>
-<td>Value</td>
-<td>throw</td>
-</tr>
-
-<tr>
-<td>filterEmpty()</td>
-<td>If the value is empty of CollectionType,<br>
-throw DistillError.filteredValue.</td>
-<td>Value</td>
-<td>throw</td>
-</tr>
-
 </tbody>
 </table>
 

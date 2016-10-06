@@ -47,6 +47,8 @@ class SerializeTest: XCTestCase {
         
         do {
             _ = try j.distil("key1", as: String.self)
+            
+            XCTFail("Expect the error to occur")
         } catch let DistillError.failedToSerialize(with: with) {
             XCTAssertEqual(with as? String, "")
         } catch let e {
@@ -59,6 +61,8 @@ class SerializeTest: XCTestCase {
         
         do {
             _ = try j.distil("key1", as: String.self)
+            
+            XCTFail("Expect the error to occur")
         } catch let DistillError.failedToSerialize(with: with) {
             XCTAssertEqual(with as? Data, Data())
         } catch let e {
