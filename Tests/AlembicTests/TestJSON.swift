@@ -89,3 +89,10 @@ let transformTestJSONObject: [String: Any] = [
     "array": [String](),
     "nested": ["nested_key": "nested_value"]
 ]
+
+let serializeTestJSONString = "{" +
+    "\"key1\": 100," +
+    "\"key2\": \"ABC\"" +
+"}"
+
+let serializeTestJSONData = serializeTestJSONString.data(using: .utf8)!
