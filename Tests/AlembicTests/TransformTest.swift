@@ -30,8 +30,6 @@ class TransformTest: XCTestCase {
                 .catch("catch_return")
             let replaceNil: String = try (j <|? "null")
                 .replaceNil("replace_nil")
-            let replaceEmpty: [String] = try (j <| "array")
-                .replaceEmpty(["replace_empty"])
             
             XCTAssertEqual(map, "map_value")
             XCTAssertEqual(flatMap, "flatMap_value_with_nested_value")
@@ -39,7 +37,6 @@ class TransformTest: XCTestCase {
             XCTAssertEqual(flatMapError, "flat_map_error")
             XCTAssertEqual(catchUp, "catch_return")
             XCTAssertEqual(replaceNil, "replace_nil")
-            XCTAssertEqual(replaceEmpty, ["replace_empty"])
         } catch let e {
             XCTFail("\(e)")
         }
@@ -84,19 +81,6 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try (j <| "array")
-                .filterEmpty()
-                .to([String].self)
-            
-            XCTFail("Expect the error to occur")
-        } catch let DistillError.filteredValue(type, value) {
-            XCTAssertNotNil(type as? [String].Type)
-            XCTAssert((value as? [String])?.isEmpty ?? false)
-        } catch let e {
-            XCTFail("\(e)")
-        }
-        
-        do {
             _ = try (j <| "missing_key")
                 .mapError { _ in TestError() }
                 .to(String.self)
@@ -134,7 +118,7 @@ class TransformTest: XCTestCase {
     func testCreateDistillate() {
         let j = JSON(object)
         
-        let just = Distillate<String>.just("just")
+        let just = Distillate.just("just")
         XCTAssertEqual(just.to(String.self), "just")
         
         do {
@@ -149,7 +133,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try Distillate<String>.filter.to(String.self)
+            _ = try Distillate.filter.to(String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type: type, value: value) {
@@ -160,7 +144,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try Distillate<String>.error(TestError()).to(String.self)
+            _ = try Distillate.error(TestError()).to(String.self)
             
             XCTFail("Expect the error to occur")
         } catch let e {
@@ -192,39 +176,6 @@ class TransformTest: XCTestCase {
             }
         }
     }
-    
-    func testValueCallbacks() {
-        let j = JSON(object)
-        
-        j.distil("key", to: String.self)
-            .value {
-                XCTAssertEqual($0, "value")
-            }
-            .error {
-                XCTFail("\($0)")
-        }
-        
-        j.option("null", to: (String?).self)
-            .value { XCTAssertEqual($0, nil) }
-            .error { XCTFail("\($0)") }
-        
-        j.distil("key", to: String.self)
-            .map { s -> String in "map_" + s }
-            .value { XCTAssertEqual($0, "map_value") }
-            .map { s -> String in "twice_" + s }
-            .value { XCTAssertEqual($0, "twice_map_value") }
-            .error { XCTFail("\($0)") }
-            .filter { _ in false }
-            .value { _ in XCTFail("Expect the error to occur") }
-            .error {
-                if case let DistillError.filteredValue(type, value) = $0 {
-                    XCTAssertNotNil(type as? String.Type)
-                    XCTAssertNotNil(value as? String)
-                    return
-                }
-                XCTFail("\($0)")
-        }
-    }
 }
 
 #if os(Linux)
@@ -234,7 +185,6 @@ extension TransformTest {
             ("testTransform", testTransform),
             ("testSubscriptTransform", testSubscriptTransform),
             ("testCreateDistillate", testCreateDistillate),
-            ("testValueCallbacks", testValueCallbacks),
         ]
     }
 }

@@ -12,26 +12,23 @@ import struct Foundation.Data
 
 public final class JSON {
     public let raw: Any
-    public let currentPath = Path.empty
-    
-    public subscript(element: PathElement) -> LazyJSON {
-        return .init(json: self, path: .init(element: element))
-    }
+    fileprivate let createObject: () throws -> Any
     
     public subscript(element: PathElement...) -> LazyJSON {
-        return .init(json: self, path: .init(elements: element))
+        return .init(rootJSON: self, currentPath: .init(elements: element))
     }
     
-    public init(_ raw: Any) {
-        self.raw = raw
+    public convenience init(_ raw: Any) {
+        self.init(raw: raw) { raw }
     }
     
-    public convenience init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) throws {
-        do {
-            let json = try JSONSerialization.jsonObject(with: data, options: options)
-            self.init(json)
-        } catch {
-            throw DistillError.typeMismatch(expected: Data.self, actual: data)
+    public convenience init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) {
+        self.init(raw: data) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: options)
+            } catch {
+                throw DistillError.failedToSerialize(with: data)
+            }
         }
     }
     
@@ -39,42 +36,46 @@ public final class JSON {
         string: String,
         encoding: String.Encoding = .utf8,
         allowLossyConversion: Bool = false,
-        options: JSONSerialization.ReadingOptions = .allowFragments) throws {
-        guard let json = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
-            throw DistillError.typeMismatch(expected: String.self, actual: string)
-        }
-        try self.init(data: json, options: options)
-    }
-}
-
-// MARK: - distil functions
-
-public extension JSON {
-    public func distil<T: Distillable>(_ path: Path, to: T.Type) throws -> T {
-        do {
-            let object: Any = try distilRecursive(raw, path)
-            return try .distil(json: JSON(object))
-        } catch let DistillError.missingPath(missing) where path != missing {
-            throw DistillError.missingPath(path + missing)
+        options: JSONSerialization.ReadingOptions = .allowFragments) {
+        self.init(raw: string) {
+            guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
+                throw DistillError.failedToSerialize(with: string)
+            }
+            
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: options)
+            } catch {
+                throw DistillError.failedToSerialize(with: string)
+            }
         }
     }
     
-    public func distil<T: Distillable>(_ path: Path, to: [T].Type) throws -> [T] {
-        let object: Any = try distilRecursive(raw, path)
-        return try .distil(json: JSON(object))
-    }
-    
-    public func distil<T: Distillable>(_ path: Path, to: [String: T].Type) throws -> [String: T] {
-        let object: Any = try distilRecursive(raw, path)
-        return try .distil(json: JSON(object))
+    private init(raw: Any, createObject: @escaping () throws -> Any) {
+        self.raw = raw
+        self.createObject = createObject
     }
 }
 
 // MARK: - JSONType
 
 extension JSON: JSONType {
-    public func asJSON() -> JSON {
-        return self
+    public func distil<T: Distillable>(_ path: Path, as: T.Type) throws -> T {
+        let object: Any = try distilRecursive(path: path)
+        do {
+            return try .distil(json: .init(object))
+        } catch let DistillError.missingPath(missing) {
+            throw DistillError.missingPath(path + missing)
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
+            throw DistillError.typeMismatch(expected: expected, actual: actual, path: path + mismatchPath)
+        }
+    }
+    
+    public func option<T: Distillable>(_ path: Path, as: T?.Type) throws -> T? {
+        do {
+            return try distil(path, as: T.self)
+        } catch let DistillError.missingPath(missing) where missing == path {
+            return nil
+        }
     }
 }
 
@@ -96,44 +97,51 @@ extension JSON: CustomDebugStringConvertible {
 
 // MARK: - private functions
 
-private func distilRecursive<T>(_ raw: Any, _ path: Path) throws -> T {
-    func distilRecursive(_ object: Any, _ elements: ArraySlice<PathElement>) throws -> Any {
-        switch elements.first {
-        case let .key(key)?:
-            let dictionary: [String: Any] = try cast(object)
-            
-            guard let value = dictionary[key], !(value is NSNull) else {
-                throw DistillError.missingPath(path)
+private extension JSON {
+    func distilRecursive<T>(path: Path) throws -> T {
+        var distilledPath: Path = []
+        
+        func cast<T>(_ object: Any) throws -> T {
+            guard let value = object as? T else {
+                throw DistillError.typeMismatch(expected: T.self, actual: object, path: distilledPath)
             }
-            
-            return try distilRecursive(value, elements.dropFirst())
-            
-        case let .index(index)?:
-            let array: [Any] = try cast(object)
-            
-            guard array.count > index else {
-                throw DistillError.missingPath(path)
-            }
-            
-            let value = array[index]
-            
-            if value is NSNull {
-                throw DistillError.missingPath(path)
-            }
-            
-            return try distilRecursive(value, elements.dropFirst())
-            
-        case .none:
-            return object
+            return value
         }
+        
+        func distilRecursive(object: Any, elements: ArraySlice<PathElement>) throws -> Any {
+            guard let first = elements.first else { return object }
+            
+            distilledPath = distilledPath + .init(element: first)
+            
+            switch first {
+            case let .key(key):
+                let dictionary: [String: Any] = try cast(object)
+                
+                guard let value = dictionary[key], !(value is NSNull) else {
+                    throw DistillError.missingPath(path)
+                }
+                
+                return try distilRecursive(object: value, elements: elements.dropFirst())
+                
+            case let .index(index):
+                let array: [Any] = try cast(object)
+                
+                guard array.count > index else {
+                    throw DistillError.missingPath(path)
+                }
+                
+                let value = array[index]
+                
+                if value is NSNull {
+                    throw DistillError.missingPath(path)
+                }
+                
+                return try distilRecursive(object: value, elements: elements.dropFirst())
+            }
+        }
+        
+        let object = try createObject()
+        let elements = ArraySlice(path.elements)
+        return try cast(distilRecursive(object: object, elements: elements))
     }
-    
-    return try cast(distilRecursive(raw, ArraySlice(path.elements)))
-}
-
-private func cast<T>(_ object: Any) throws -> T {
-    guard let value = object as? T else {
-        throw DistillError.typeMismatch(expected: T.self, actual: object)
-    }
-    return value
 }

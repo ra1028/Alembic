@@ -78,9 +78,10 @@ class DistilTest: XCTestCase {
             _ = try (j <| "int_string").to(Int.self)
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual) where expected == Int.self && actual as? String == "1" {
+        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "1")
+            XCTAssertEqual(path, "int_string")
         } catch let e {
             XCTFail("\(e)")
         }
@@ -124,23 +125,6 @@ class DistilTest: XCTestCase {
             XCTFail("\(e)")
         }
     }
-    
-    func testJSONType() {
-        let j0 = JSON(object)
-        XCTAssertEqual(j0.currentPath, Path.empty)
-        let j1 = j0[1]
-        XCTAssertEqual(j1.currentPath, Path(elements: [1]))
-        let j2 = j1[2]
-        XCTAssertEqual(j2.currentPath, Path(elements: [1, 2]))
-        let j3 = j2[3]
-        XCTAssertEqual(j3.currentPath, Path(elements: [1, 2, 3]))
-        let j4 = j3["A"]
-        XCTAssertEqual(j4.currentPath, Path(elements: [1, 2, 3, "A"]))
-        let j5 = j4["B"]
-        XCTAssertEqual(j5.currentPath, Path(elements: [1, 2, 3, "A", "B"]))
-        let j6 = j5["C"]
-        XCTAssertEqual(j6.currentPath, Path(elements: [1, 2, 3, "A", "B", "C"]))
-    }
 }
 
 #if os(Linux)
@@ -152,7 +136,6 @@ extension DistilTest {
             ("testDistillError", testDistillError),
             ("testClassMapping", testClassMapping),
             ("testStructMapping", testStructMapping),
-            ("testJSONType", testJSONType),
         ]
     }
 }
@@ -160,10 +143,7 @@ extension DistilTest {
 
 extension URL: Distillable {
     public static func distil(json j: JSON) throws -> URL {
-        guard let url = try self.init(string: j.distil()) else {
-            throw DistillError.typeMismatch(expected: URL.self, actual: j.raw)
-        }
-        return url
+        return try j.distil().flatMap(self.init(string:))
     }
 }
 
@@ -172,7 +152,7 @@ private enum Gender: String, Distillable {
     case female = "female"
 }
 
-private final class User: InitDistillable {
+private final class User: Brewable {
     let id: Int
     let name: String
     let weight: Double

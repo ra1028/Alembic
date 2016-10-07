@@ -4,15 +4,15 @@
 
 <p align="center">
 
-<a href="https://developer.apple.com/swift"><img alt="Swift3" src="https://img.shields.io/badge/swift3-compatible-orange.svg?style=flat"/></a>
+<a href="https://developer.apple.com/swift"><img alt="Swift3" src="https://img.shields.io/badge/language-swift3-orange.svg?style=flat"/></a>
 <a href="https://travis-ci.org/ra1028/Alembic"><img alt="Build Status" src="https://travis-ci.org/ra1028/Alembic.svg?branch=master"/></a>
 <a href="https://codebeat.co/projects/github-com-ra1028-alembic"><img alt="CodeBeat" src="https://codebeat.co/badges/09cc20c0-4cba-4c78-8e20-39f41d86c587"/></a></br>
 
 <a href="https://cocoapods.org/pods/Alembic"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Alembic.svg"/></a>
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-yellow.svg?style=flat"/></a>
-<a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SwiftPM-compatible-red.svg"/></a></br>
+<a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SwiftPM-compatible-blue.svg"/></a></br>
 
-<a href="https://developer.apple.com/swift/"><img alt="Platform" src="https://img.shields.io/badge/platforms-iOS%20%7C%20OSX%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Linux-green.svg"/></a>
+<a href="https://developer.apple.com/swift/"><img alt="Platform" src="https://img.shields.io/badge/platform-iOS%20%7C%20OSX%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Linux-green.svg"/></a>
 <a href="https://github.com/ra1028/Alembic/blob/master/LICENSE"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-000000.svg?style=flat"/></a></br>
 
 </p>
@@ -63,14 +63,13 @@ let j = JSON(obj)
 ```
 Value parsing
 ```Swift
-let str1: String = try j.distil("str1")
-let str2: String = try j <| "str2"
-let str3: String = try j["str3"].distil()
+let value: String = try j.distil("key")
 ```
 ```Swift
-j.distil("str1").value { (str1: String) in ... }
-(j < | "str2").value { (str2: String) in ... }
-j["str3"].distil().value { (str3: String) in ... }
+let value: String = try j <| "key"
+```
+```Swift
+let value: String = try j["key"].distil()
 ```
 Object mapping
 
@@ -83,8 +82,8 @@ struct User: Distillable {
 
     static func distil(json j: JSON) throws -> User {
         return try User(
-            name: j <| "name",
-            avatarUrl: (j <| "avatar_url").flatMap(URL.init(string:))
+            name: j.distil("name"),
+            avatarUrl: j.distil("avatar_url").flatMap(URL.init(string:))
         )
     }
 }
@@ -141,22 +140,22 @@ import Alembic
 ```
 JSON from Any
 ```Swift
-let j = JSON(jsonObject)
+let j = JSON(any)
 ```
 JSON from Data
 ```Swift
-let j = try JSON(data: jsonData)
+let j = JSON(data: data)
 ```
 ```Swift
-let j = try JSON(data: jsonData, options: .allowFragments)
+let j = JSON(data: data, options: .allowFragments)
 ```
 JSON from String  
 ```Swift
-let j = try JSON(string: jsonString)
+let j = JSON(string: string)
 ```
 ```Swift
-let j = try JSON(
-    string: jsonString,
+let j = JSON(
+    string: string,
     encoding: .utf8,
     allowLossyConversion: false,
     options: .allowFragments
@@ -164,10 +163,15 @@ let j = try JSON(
 ```
 
 ### JSON parsing
-To enable parsing, a class, struct, or enum just needs to implement the `Distillable` protocol.  
+To enable parsing, a class, struct, or enum just needs to implement the `Distillable` or `Brewable` protocol.  
 ```Swift
 public protocol Distillable {
     static func distil(json j: JSON) throws -> Self
+}
+```
+```Swift
+public protocol Brewable: Distillable {
+    init(json j: JSON) throws
 }
 ```
 
@@ -193,8 +197,8 @@ __Default supported types__
 
 __Example__
 ```Swift
-let jsonObject = ["key": "string"]
-let j = JSON(jsonObject)
+let object = ["key": "string"]
+let j = JSON(object)
 ```
 ```Swift
 let string: String = try j.distil("key")  // "string"
@@ -215,14 +219,12 @@ It's same if use operator or subscript.
 
 ### Nested objects parsing
 Supports parsing nested objects with keys and indexes.  
-Keys and indexes can be summarized in the same array.  
+Keys and indexes can be containing in the same array.  
 
 __Example__
 ```Swift
-let jsonObject = [
-    "nested": ["array": [1, 2, 3, 4, 5]]
-]
-let j = JSON(jsonObject)
+let object = ["nested": ["array": [1, 2, 3, 4, 5]]]
+let j = JSON(object)
 ```
 ```Swift
 let int: Int = try j.distil(["nested", "array", 2])  // 3        
@@ -238,20 +240,18 @@ let int: Int = try j["nested"]["array"][2].distil()  // 3
 __Tips__  
 Syntax like [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) is here:  
 ```Swift
-let json = try JSON(data: jsonData)
+let json = JSON(data: data)
 let userName = try json[0]["user"]["name"].to(String.self)
 ```
 
 ### Optional objects parsing
-Has functions to parsing optional objects.  
-If the key is missing, returns nil.  
+Also supports to parse optional objects.  
+If the key is missing or value is null, returns nil.  
 
 __Example__
 ```Swift
-let jsonObject = [
-    "nested": [:] // Nested key is nothing...
-]
-let j = JSON(jsonObject)
+let object = ["nested": [:]] // Nested key is nothing...
+let j = JSON(object)
 ```
 ```Swift
 let int: Int? = try j.option(["nested", "key"])  // nil
@@ -265,12 +265,12 @@ let int: Int? = try j["nested"]["key"].option()  // nil
 ```
 
 ### Custom value parsing
-If implement `Distillable` or `InitDistillable` protocol to existing classes like `URL`, it be able to parse from JSON.  
+If implement `Distillable` or `Brewable` protocol to existing classes like `URL`, it can be parse from JSON.  
 
 __Example__
 ```Swift
-let jsonObject = ["key": "http://example.com"]
-let j = JSON(jsonObject)
+let object = ["key": "http://example.com"]
+let j = JSON(object)
 ```
 Distillable
 ```Swift
@@ -280,9 +280,9 @@ extension URL: Distillable {
     }
 }
 ```
-InitDistillable
+Brewable
 ```Swift
-extension URL: InitDistillable {
+extension URL: Brewable {
     public init(json j: JSON) throws {
         self = try j.distil().flatMap(URL.init(string:))
     }
@@ -293,19 +293,19 @@ let url: URL = try j <| "key"  // http://example.com
 ```
 
 ### Object mapping  
-To mapping your models, need confirm to the `Distillable` or `InitDistillable` protocol.  
+To mapping your models, need implements the `Distillable` or `Brewable` protocol.  
 Then, parse the objects from JSON to all your model properties.  
-`InitDistillable` protocol can't implement to __non__ `final` class.  
+__`Brewable` protocol can't implement to non `final` class.__  
 
 __Example__
 ```Swift
-let jsonObject = [
+let object = [
     "key": [
         "string_key": "string",
         "option_int_key": NSNull()
     ]
 ]
-let j = JSON(jsonObject)
+let j = JSON(object)
 ```
 Distillable
 ```Swift
@@ -321,9 +321,9 @@ struct Sample: Distillable {
     }
 }
 ```
-InitDistillable
+Brewable
 ```Swift
-struct Sample: InitDistillable {
+struct Sample: Brewable {
     let string: String
     let int: Int?
 
@@ -339,7 +339,7 @@ let sample: Sample = try j <| "key"  // Sample
 
 ### Value transformation
 Alembic supports functional value transformation during the parsing process like `String` -> `Date`.  
-Functions that extract value from JSON are possible to return `Distillate` object.  
+Parsing functions are also can return `Distillate` object.  
 So, you can use 'map' 'flatMap' and other following useful functions.  
 
 <table>
@@ -438,39 +438,17 @@ throw DistillError.filteredValue.</td>
 <td>throw</td>
 </tr>
 
-<tr>
-<td>replaceEmpty(Value)</td>
-<td>If the value is empty of CollectionType, replace it.</td>
-<td>Value</td>
-<td>throw</td>
-</tr>
-
-<tr>
-<td>replaceEmpty(() throws -> Value)</td>
-<td>If the value is empty of CollectionType, replace it.</td>
-<td>Value</td>
-<td>throw</td>
-</tr>
-
-<tr>
-<td>filterEmpty()</td>
-<td>If the value is empty of CollectionType,<br>
-throw DistillError.filteredValue.</td>
-<td>Value</td>
-<td>throw</td>
-</tr>
-
 </tbody>
 </table>
 
 __Example__
 ```Swift
-let jsonObject = ["time_string": "2016-04-01 00:00:00"]
-let j = JSON(jsonObject)
+let object = ["time_string": "2016-04-01 00:00:00"]
+let j = JSON(object)
 ```
 function
 ```Swift
-let date: Date = j.distil("time_string", to: String.self)  // "Apr 1, 2016, 12:00 AM"
+let date: Date = j.distil("time_string", as: String.self)  // "Apr 1, 2016, 12:00 AM"
     .filter { !$0.isEmpty }
     .flatMap { dateString in
         let fmt = DateFormatter()
@@ -484,9 +462,13 @@ __Tips__
 When the transforming is complicated, often generic type is missing.  
 At that time, set the type explicitly as following:  
 ```Swift
-let value: String = try j.distil("number", to: Int.self).map { "Number \($0)" }
+let value: String = try j.distil("number", as: Int.self).map { "Number \($0)" }
+```
+```Swift
 let value: String = try (j <| "number")(Int.self).map { "Number \($0)" }
-let value: String = try j["number"].distil(to: Int.self).map { "Number \($0)" }
+```
+```Swift
+let value: String = try j["number"].distil(as: Int.self).map { "Number \($0)" }
 ```
 
 You can create `Distillate` by `Distillate.filter`, `Distillate.error(error)` and `Distillate.just(value)`.  
@@ -496,7 +478,7 @@ Example:
 ```Swift
 struct FindAppleError: Error {}
 
-let message: String = try j.distil("number_of_apples", to: Int.self)
+let message: String = try j.distil("number_of_apples", as: Int.self)
     .flatMap { count -> Distillate<String> in
         count > 0 ? .just("\(count) apples found!!") : .filter
     }
@@ -504,29 +486,15 @@ let message: String = try j.distil("number_of_apples", to: Int.self)
     .catch { error in "Anything not found... | Error: \(error)" }
 ```
 
-Alembic allows you to receive a value functinally as following.  
-```Swift
-let jsonObject = ["user": ["name": "john doe"]]
-let j = JSON(jsonObject)
-```
-```Swift
-j.distil(["user", "name"], to: String.self)
-    .map { name in "User name is \(name)" }
-    .value { message in
-        print(message)
-    }
-    .error { error in
-        // Do error handling
-    }
-```
-
 ### Error handling
-Alembic has simple error handling designs as following.  
+Alembic has powerfull error handling designs as following.  
+It will be help your fail-safe coding.  
 
 __DistillError__
 - missingPath(Path)  
-- typeMismatch(expected: Any.Type, actual: Any)  
+- typeMismatch(expected: Any.Type, actual: Any, path: Path)  
 - filteredValue(type: Any.Type, value: Any)  
+- failedToSerialize(with: Any)  
 
 <table>
 <thead>

@@ -9,10 +9,6 @@
 public struct Path {
     let elements: [PathElement]
     
-    public static var empty: Path {
-        return .init(elements: [])
-    }
-    
     public init(element: PathElement) {
         elements = [element]
     }
