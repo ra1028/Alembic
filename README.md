@@ -23,7 +23,7 @@
 
 ---
 
-### _Alembic_ is now __Linux Ready__!
+### :penguin: _Alembic_ is now __Linux Ready!__ :penguin:
 ### [Learn how to use _Alembic_ on IBM Swift Sandbox](https://swiftlang.ng.bluemix.net/#/repl?gitPackage=https:%2F%2Fgithub%2Ecom%2Fra1028%2FAlembic%2DSample%2Egit)  
 
 ---
@@ -49,11 +49,10 @@
 ---
 
 ## Introduction
-_Alembic_ is a functional JSON parser designed as the monad.  
+_Alembic_ is library for provide functional JSON parsing and object-mapping that designed as monad.  
 Monad is provide a benefit that you can express the lazy evaluated transformation such as map or filter.  
 Besides, it's very scalable, because parseable value or class types are generic via protocol-oriented.  
 Type-safe and fail-safe designs would be also helps your quick development.  
-So, it's able to use more practically instead of [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON), [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper) and any other JSON parsing libs.    
 
 ---
 
@@ -72,9 +71,8 @@ let value: String = try j <| "key"
 let value: String = try j["key"].distil()
 ```
 Object mapping
-
 ```Swift
-let user: User = try j <| "user"
+let user: User = try j.distil("user")
 
 struct User: Distillable {
     let name: String
@@ -86,6 +84,13 @@ struct User: Distillable {
             avatarUrl: j.distil("avatar_url").flatMap(URL.init(string:))
         )
     }
+}
+```
+Using like [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)  
+```Swift
+let json = JSON(data: data)
+if let userName = try? json[0]["user"]["name"].to(String.self) {
+    print(userName)
 }
 ```
 
@@ -235,13 +240,6 @@ let int: Int = try j <| ["nested", "array", 2]  // 3
 ```Swift
 let int: Int = try j["nested", "array", 2].distil()  // 3  
 let int: Int = try j["nested"]["array"][2].distil()  // 3  
-```
-
-__Tips__  
-Syntax like [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) is here:  
-```Swift
-let json = JSON(data: data)
-let userName = try json[0]["user"]["name"].to(String.self)
 ```
 
 ### Optional objects parsing
