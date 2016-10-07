@@ -2,8 +2,8 @@
 //  SerializeTest.swift
 //  Alembic
 //
-//  Created by 青山 遼 on 2016/10/06.
-//  Copyright © 2016年 Ryo Aoyama. All rights reserved.
+//  Created by Ryo Aoyama on 10/06/16.
+//  Copyright © 2016 Ryo Aoyama. All rights reserved.
 //
 
 import Foundation
