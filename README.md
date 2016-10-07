@@ -63,9 +63,13 @@ let j = JSON(obj)
 ```
 Value parsing
 ```Swift
-let str1: String = try j.distil("str1")
-let str2: String = try j <| "str2"
-let str3: String = try j["str3"].distil()
+let value: String = try j.distil("key")
+```
+```Swift
+let value: String = try j <| "key"
+```
+```Swift
+let value: String = try j["key"].distil()
 ```
 Object mapping
 
@@ -159,10 +163,15 @@ let j = JSON(
 ```
 
 ### JSON parsing
-To enable parsing, a class, struct, or enum just needs to implement the `Distillable` protocol.  
+To enable parsing, a class, struct, or enum just needs to implement the `Distillable` or `Brewable` protocol.  
 ```Swift
 public protocol Distillable {
     static func distil(json j: JSON) throws -> Self
+}
+```
+```Swift
+public protocol Brewable: Distillable {
+    init(json j: JSON) throws
 }
 ```
 
