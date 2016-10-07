@@ -144,7 +144,7 @@ extension OptionalTest {
 }
 #endif
 
-private final class User: InitDistillable {
+private final class User: Brewable {
     let id: Int
     let name: String
     let email: String

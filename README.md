@@ -12,7 +12,7 @@
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-yellow.svg?style=flat"/></a>
 <a href="https://github.com/apple/swift-package-manager"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SwiftPM-compatible-blue.svg"/></a></br>
 
-<a href="https://developer.apple.com/swift/"><img alt="Platform" src="https://img.shields.io/badge/platforms-iOS%20%7C%20OSX%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Linux-lightgray.svg"/></a>
+<a href="https://developer.apple.com/swift/"><img alt="Platform" src="https://img.shields.io/badge/platform-iOS%20%7C%20OSX%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Linux-green.svg"/></a>
 <a href="https://github.com/ra1028/Alembic/blob/master/LICENSE"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-000000.svg?style=flat"/></a></br>
 
 </p>
@@ -78,8 +78,8 @@ struct User: Distillable {
 
     static func distil(json j: JSON) throws -> User {
         return try User(
-            name: j <| "name",
-            avatarUrl: (j <| "avatar_url").flatMap(URL.init(string:))
+            name: j.distil("name"),
+            avatarUrl: j.distil("avatar_url").flatMap(URL.init(string:))
         )
     }
 }
@@ -256,7 +256,7 @@ let int: Int? = try j["nested"]["key"].option()  // nil
 ```
 
 ### Custom value parsing
-If implement `Distillable` or `InitDistillable` protocol to existing classes like `URL`, it can be parse from JSON.  
+If implement `Distillable` or `Brewable` protocol to existing classes like `URL`, it can be parse from JSON.  
 
 __Example__
 ```Swift
@@ -271,9 +271,9 @@ extension URL: Distillable {
     }
 }
 ```
-InitDistillable
+Brewable
 ```Swift
-extension URL: InitDistillable {
+extension URL: Brewable {
     public init(json j: JSON) throws {
         self = try j.distil().flatMap(URL.init(string:))
     }
@@ -284,9 +284,9 @@ let url: URL = try j <| "key"  // http://example.com
 ```
 
 ### Object mapping  
-To mapping your models, need confirm to the `Distillable` or `InitDistillable` protocol.  
+To mapping your models, need implements the `Distillable` or `Brewable` protocol.  
 Then, parse the objects from JSON to all your model properties.  
-`InitDistillable` protocol can't implement to __non__ `final` class.  
+__`Brewable` protocol can't implement to non `final` class.__  
 
 __Example__
 ```Swift
@@ -312,9 +312,9 @@ struct Sample: Distillable {
     }
 }
 ```
-InitDistillable
+Brewable
 ```Swift
-struct Sample: InitDistillable {
+struct Sample: Brewable {
     let string: String
     let int: Int?
 
