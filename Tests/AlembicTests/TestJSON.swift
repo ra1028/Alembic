@@ -14,6 +14,7 @@ let distilTestJSONObject: [String: Any] = [
     "double": 77.7,
     "float": 77.7 as Float,
     "bool": true,
+    "null": NSNull(),
     "array": [
         "A", "B", "C"
     ],

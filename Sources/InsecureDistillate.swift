@@ -23,6 +23,28 @@ public extension InsecureDistillate {
         return try thunk()
     }
     
+    @discardableResult
+    func value(_ handler: (Value) -> Void) -> InsecureDistillate<Value> {
+        do {
+            let v = try value()
+            handler(v)
+            return .init { v }
+        } catch let e {
+            return .init { throw e }
+        }
+    }
+    
+    @discardableResult
+    func error(_ handler: (Error) -> Void) -> InsecureDistillate<Value> {
+        do {
+            let v = try value()
+            return .init { v }
+        } catch let e {
+            handler(e)
+            return .init { throw e }
+        }
+    }
+    
     func to(_: Value.Type) throws -> Value {
         return try value()
     }

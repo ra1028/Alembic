@@ -61,6 +61,33 @@ class DistilTest: XCTestCase {
         }
     }
     
+    func testDistilHandler() {
+        let j = JSON(object)
+        
+        j.distil(["user", "name"], as: String.self)
+            .value { XCTAssertEqual($0, "ra1028") }
+            .error { XCTFail("\($0)") }
+        
+        j.option("null", as: (String?).self)
+            .value { XCTAssertEqual($0, nil) }
+            .error { XCTFail("\($0)") }
+        
+        j.distil(["user", "name"], as: String.self)
+            .map { s -> String in "User name is " + s }
+            .value { XCTAssertEqual($0, "User name is ra1028") }
+            .error { XCTFail("\($0)") }
+            .filter { _ in false }
+            .value { _ in XCTFail("Expect the error to occur") }
+            .error {
+                if case let DistillError.filteredValue(type, value) = $0 {
+                    XCTAssertNotNil(type as? String.Type)
+                    XCTAssertEqual(value as? String, "User name is ra1028")
+                    return
+                }
+                XCTFail("\($0)")
+        }
+    }
+    
     func testDistillError() {
         let j = JSON(object)
         
@@ -133,6 +160,7 @@ extension DistilTest {
         return [
             ("testDistil", testDistil),
             ("testDistilSubscript", testDistilSubscript),
+            ("testDistilHandler", testDistilHandler),
             ("testDistillError", testDistillError),
             ("testClassMapping", testClassMapping),
             ("testStructMapping", testStructMapping),
