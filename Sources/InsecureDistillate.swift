@@ -24,7 +24,7 @@ public extension InsecureDistillate {
     }
     
     @discardableResult
-    func value(handler: (Value) -> Void) -> InsecureDistillate<Value> {
+    func value(_ handler: (Value) -> Void) -> InsecureDistillate<Value> {
         do {
             let v = try value()
             handler(v)
@@ -35,7 +35,7 @@ public extension InsecureDistillate {
     }
     
     @discardableResult
-    func error(handler: (Error) -> Void) -> InsecureDistillate<Value> {
+    func error(_ handler: (Error) -> Void) -> InsecureDistillate<Value> {
         do {
             let v = try value()
             return .init { v }
