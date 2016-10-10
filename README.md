@@ -484,6 +484,22 @@ let message: String = try j.distil("number_of_apples", as: Int.self)
     .catch { error in "Anything not found... | Error: \(error)" }
 ```
 
+Alembic enable you to receive a value with closure.  
+```Swift
+let jsonObject = ["user": ["name": "Robert Downey, Jr."]]
+let j = JSON(jsonObject)
+```
+```Swift		
+j.distil(["user", "name"], to: String.self)
+    .map { name in "User name is \(name)" }
+    .value { message in
+        print(message)  // "Robert Downey, Jr."
+    }
+    .error { error in
+        print(error)  // NOP
+    }
+```
+
 ### Error handling
 Alembic has powerfull error handling designs as following.  
 It will be help your fail-safe coding.  
