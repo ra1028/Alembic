@@ -119,7 +119,7 @@ class TransformTest: XCTestCase {
         let j = JSON(object)
         
         let just = Distillate.just("just")
-        XCTAssertEqual(just.to(String.self), "just")
+        XCTAssertEqual(just.value(), "just")
         
         do {
             _ = try Distillate<String>.filter.to(String.self)

@@ -59,7 +59,7 @@ public extension InsecureDistillate {
     }
     
     func `catch`(_ handler: @escaping (Error) -> Value) -> SecureDistillate<Value> {
-        return .init(self.catch(handler))
+        return .init { self.catch(handler) }
     }
     
     func `catch`(_ element: @autoclosure () -> Value) -> Value {
