@@ -29,7 +29,7 @@ public final class JSON {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: options)
             } catch {
-                throw DistillError.failedToSerialize(with: data)
+                throw DistillError.serializeFailed(with: data)
             }
         }
     }
@@ -41,13 +41,13 @@ public final class JSON {
         options: JSONSerialization.ReadingOptions = .allowFragments) {
         self.init(raw: string) {
             guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
-                throw DistillError.failedToSerialize(with: string)
+                throw DistillError.serializeFailed(with: string)
             }
             
             do {
                 return try JSONSerialization.jsonObject(with: data, options: options)
             } catch {
-                throw DistillError.failedToSerialize(with: string)
+                throw DistillError.serializeFailed(with: string)
             }
         }
     }

@@ -508,7 +508,7 @@ __DistillError__
 - missingPath(Path)  
 - typeMismatch(expected: Any.Type, actual: Any, path: Path)  
 - filteredValue(type: Any.Type, value: Any)  
-- failedToSerialize(with: Any)  
+- serializeFailed(with: Any)  
 
 <table>
 <thead>
