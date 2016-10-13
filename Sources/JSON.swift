@@ -108,19 +108,15 @@ extension JSON: CustomDebugStringConvertible {
 
 private extension JSON {
     func distilRecursive<T>(path: Path) throws -> T {
-        var distilledPath: Path = []
-        
         func cast<T>(_ object: Any) throws -> T {
             guard let value = object as? T else {
-                throw DistillError.typeMismatch(expected: T.self, actual: object, path: distilledPath)
+                throw DistillError.typeMismatch(expected: T.self, actual: object, path: path)
             }
             return value
         }
         
         func distilRecursive(object: Any, elements: ArraySlice<PathElement>) throws -> Any {
             guard let first = elements.first else { return object }
-            
-            distilledPath = distilledPath + .init(element: first)
             
             switch first {
             case let .key(key):
