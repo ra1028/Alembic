@@ -12,7 +12,9 @@ import struct Foundation.Data
 
 public final class JSON {
     public let raw: Any
-    fileprivate let createObject: () throws -> Any
+    
+    private let evaluate: () throws -> Any
+    private var cached: Any?
     
     public subscript(element: PathElement...) -> LazyJSON {
         return .init(rootJSON: self, currentPath: .init(elements: element))
@@ -50,9 +52,16 @@ public final class JSON {
         }
     }
     
-    private init(raw: Any, createObject: @escaping () throws -> Any) {
+    private init(raw: Any, evaluate: @escaping () throws -> Any) {
         self.raw = raw
-        self.createObject = createObject
+        self.evaluate = evaluate
+    }
+    
+    fileprivate func jsonObject() throws -> Any {
+        if let cached = cached { return cached }
+        let jsonObject = try evaluate()
+        cached = jsonObject
+        return jsonObject
     }
 }
 
@@ -140,7 +149,7 @@ private extension JSON {
             }
         }
         
-        let object = try createObject()
+        let object = try jsonObject()
         let elements = ArraySlice(path.elements)
         return try cast(distilRecursive(object: object, elements: elements))
     }
