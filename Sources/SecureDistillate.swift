@@ -7,27 +7,32 @@
 //
 
 public final class SecureDistillate<Value>: Distillate<Value> {
-    fileprivate let thunk: () -> Value
+    private let evaluate: () -> Value
+    private lazy var cached: Value = self.evaluate()
     
-    init(_ thunk: @escaping () -> Value) {
-        self.thunk = thunk
+    init(_ evaluate: @escaping () -> Value) {
+        self.evaluate = evaluate
+    }
+    
+    convenience init(_ value: @autoclosure @escaping () -> Value) {
+        self.init(value)
     }
     
     override func _value() throws -> Value {
         return value()
     }
+    
+    public func value() -> Value {
+        return cached
+    }
 }
 
 public extension SecureDistillate {
-    func value() -> Value {
-        return thunk()
-    }
-    
     @discardableResult
     func value(_ handler: (Value) -> Void) -> SecureDistillate<Value> {
-        let v = thunk()
+        let v = value()
         handler(v)
-        return .init { v }
+        return .init(v)
     }
     
     func to(_: Value.Type) -> Value {
