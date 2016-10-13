@@ -7,7 +7,7 @@
 //
 
 public extension Distillate {
-    static var filter: InsecureDistillate<Value> {
+    static func filter() -> InsecureDistillate<Value> {
         return error(DistillError.filteredValue(type: Value.self, value: ()))
     }
     

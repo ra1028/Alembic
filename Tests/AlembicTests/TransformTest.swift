@@ -122,7 +122,7 @@ class TransformTest: XCTestCase {
         XCTAssertEqual(just.value(), "just")
         
         do {
-            _ = try Distillate<String>.filter.to(String.self)
+            _ = try Distillate<String>.filter().to(String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type: type, value: value) {
@@ -133,7 +133,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try Distillate.filter.to(String.self)
+            _ = try Distillate.filter().to(String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type: type, value: value) {
@@ -153,7 +153,7 @@ class TransformTest: XCTestCase {
         
         do {
             _ = try (j <| "key")(String.self)
-                .flatMap { _ in .filter }
+                .flatMap { _ in .filter() }
                 .to(String.self)
             
             XCTFail("Expect the error to occur")
