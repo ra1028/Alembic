@@ -7,22 +7,26 @@
 //
 
 public final class InsecureDistillate<Value>: Distillate<Value> {
-    fileprivate let thunk: () throws -> Value
+    private let evaluate: () throws -> Value
+    private var cached: Value?
     
-    init(_ thunk: @escaping () throws -> Value) {
-        self.thunk = thunk
+    init(_ evaluate: @escaping () throws -> Value) {
+        self.evaluate = evaluate
     }
     
     override func _value() throws -> Value {
         return try value()
     }
+    
+    public func value() throws -> Value {
+        if let cached = cached { return cached }
+        let value = try evaluate()
+        self.cached = value
+        return value
+    }
 }
 
 public extension InsecureDistillate {
-    func value() throws -> Value {
-        return try thunk()
-    }
-    
     @discardableResult
     func value(_ handler: (Value) -> Void) -> InsecureDistillate<Value> {
         do {

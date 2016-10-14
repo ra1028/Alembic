@@ -469,7 +469,7 @@ let value: String = try (j <| "number")(Int.self).map { "Number \($0)" }
 let value: String = try j["number"].distil(as: Int.self).map { "Number \($0)" }
 ```
 
-You can create `Distillate` by `Distillate.filter`, `Distillate.error(error)` and `Distillate.just(value)`.  
+You can create `Distillate` by `Distillate.filter()`, `Distillate.error(error)` and `Distillate.just(value)`.  
 It's provide more convenience to value-transformation.  
 Example:  
 
@@ -478,7 +478,7 @@ struct FindAppleError: Error {}
 
 let message: String = try j.distil("number_of_apples", as: Int.self)
     .flatMap { count -> Distillate<String> in
-        count > 0 ? .just("\(count) apples found!!") : .filter
+        count > 0 ? .just("\(count) apples found!!") : .filter()
     }
     .flatMapError { _ in .error(FindAppleError()) }
     .catch { error in "Anything not found... | Error: \(error)" }
@@ -508,7 +508,7 @@ __DistillError__
 - missingPath(Path)  
 - typeMismatch(expected: Any.Type, actual: Any, path: Path)  
 - filteredValue(type: Any.Type, value: Any)  
-- failedToSerialize(with: Any)  
+- serializeFailed(with: Any)  
 
 <table>
 <thead>

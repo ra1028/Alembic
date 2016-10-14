@@ -12,7 +12,9 @@ import struct Foundation.Data
 
 public final class JSON {
     public let raw: Any
-    fileprivate let createObject: () throws -> Any
+    
+    private let evaluate: () throws -> Any
+    private var cached: Any?
     
     public subscript(element: PathElement...) -> LazyJSON {
         return .init(rootJSON: self, currentPath: .init(elements: element))
@@ -27,7 +29,7 @@ public final class JSON {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: options)
             } catch {
-                throw DistillError.failedToSerialize(with: data)
+                throw DistillError.serializeFailed(with: data)
             }
         }
     }
@@ -39,20 +41,27 @@ public final class JSON {
         options: JSONSerialization.ReadingOptions = .allowFragments) {
         self.init(raw: string) {
             guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
-                throw DistillError.failedToSerialize(with: string)
+                throw DistillError.serializeFailed(with: string)
             }
             
             do {
                 return try JSONSerialization.jsonObject(with: data, options: options)
             } catch {
-                throw DistillError.failedToSerialize(with: string)
+                throw DistillError.serializeFailed(with: string)
             }
         }
     }
     
-    private init(raw: Any, createObject: @escaping () throws -> Any) {
+    private init(raw: Any, evaluate: @escaping () throws -> Any) {
         self.raw = raw
-        self.createObject = createObject
+        self.evaluate = evaluate
+    }
+    
+    fileprivate func jsonObject() throws -> Any {
+        if let cached = cached { return cached }
+        let jsonObject = try evaluate()
+        cached = jsonObject
+        return jsonObject
     }
 }
 
@@ -99,19 +108,15 @@ extension JSON: CustomDebugStringConvertible {
 
 private extension JSON {
     func distilRecursive<T>(path: Path) throws -> T {
-        var distilledPath: Path = []
-        
         func cast<T>(_ object: Any) throws -> T {
             guard let value = object as? T else {
-                throw DistillError.typeMismatch(expected: T.self, actual: object, path: distilledPath)
+                throw DistillError.typeMismatch(expected: T.self, actual: object, path: path)
             }
             return value
         }
         
         func distilRecursive(object: Any, elements: ArraySlice<PathElement>) throws -> Any {
             guard let first = elements.first else { return object }
-            
-            distilledPath = distilledPath + .init(element: first)
             
             switch first {
             case let .key(key):
@@ -140,7 +145,7 @@ private extension JSON {
             }
         }
         
-        let object = try createObject()
+        let object = try jsonObject()
         let elements = ArraySlice(path.elements)
         return try cast(distilRecursive(object: object, elements: elements))
     }
