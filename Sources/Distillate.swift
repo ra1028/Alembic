@@ -42,7 +42,7 @@ public extension Distillate {
     
     func flatMap<T>(_ transform: (Value) throws -> T?) throws -> T {
         let optional = try map(transform)
-        guard let v = optional else { throw DistillError.filteredValue(type: T.self, value: optional) }
+        guard let v = optional else { throw DistillError.filteredValue(type: T.self, value: optional as Any) }
         return v
     }
     

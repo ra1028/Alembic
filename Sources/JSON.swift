@@ -16,7 +16,7 @@ public final class JSON {
     private let evaluate: () throws -> Any
     private var cached: Any?
     
-    public subscript(element: PathElement...) -> LazyJSON {
+    public subscript(element: Path.Element...) -> LazyJSON {
         return .init(rootJSON: self, currentPath: .init(elements: element))
     }
     
@@ -115,7 +115,7 @@ private extension JSON {
             return value
         }
         
-        func distilRecursive(object: Any, elements: ArraySlice<PathElement>) throws -> Any {
+        func distilRecursive(object: Any, elements: ArraySlice<Path.Element>) throws -> Any {
             guard let first = elements.first else { return object }
             
             switch first {
