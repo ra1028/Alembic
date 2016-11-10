@@ -10,7 +10,7 @@ public final class LazyJSON {
     fileprivate let rootJSON: JSON
     fileprivate let currentPath: Path
     
-    public subscript(element: PathElement...) -> LazyJSON {
+    public subscript(element: Path.Element...) -> LazyJSON {
         return .init(rootJSON: rootJSON, currentPath: currentPath + .init(elements: element))
     }
     

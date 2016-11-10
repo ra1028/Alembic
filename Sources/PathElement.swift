@@ -6,15 +6,17 @@
 //  Copyright © 2016年 Ryo Aoyama. All rights reserved.
 //
 
-public enum PathElement {
-    case key(String)
-    case index(Int)
+public extension Path {
+    enum Element {
+        case key(String)
+        case index(Int)
+    }
 }
 
 // MARK: - Equatable
 
-extension PathElement: Equatable {
-    public static func == (lhs: PathElement, rhs: PathElement) -> Bool {
+extension Path.Element: Equatable {
+    public static func == (lhs: Path.Element, rhs: Path.Element) -> Bool {
         switch (lhs, rhs) {
         case let (.key(lKey), .key(rKey)): return lKey == rKey
         case let (.index(lIndex), .index(rIndex)): return lIndex == rIndex
@@ -25,7 +27,7 @@ extension PathElement: Equatable {
 
 // MARK: - CustomStringConvertible
 
-extension PathElement: CustomStringConvertible {
+extension Path.Element: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .key(key): return "\(key)"
@@ -36,7 +38,7 @@ extension PathElement: CustomStringConvertible {
 
 // MARK: - CustomDebugStringConvertible
 
-extension PathElement: CustomDebugStringConvertible {
+extension Path.Element: CustomDebugStringConvertible {
     public var debugDescription: String {
         return description
     }
@@ -44,7 +46,7 @@ extension PathElement: CustomDebugStringConvertible {
 
 // MARK: - ExpressibleByStringLiteral
 
-extension PathElement: ExpressibleByStringLiteral {
+extension Path.Element: ExpressibleByStringLiteral {
     public init(unicodeScalarLiteral value: String) {
         self = .key(value)
     }
@@ -60,7 +62,7 @@ extension PathElement: ExpressibleByStringLiteral {
 
 // MARK: - ExpressibleByIntegerLiteral
 
-extension PathElement: ExpressibleByIntegerLiteral {
+extension Path.Element: ExpressibleByIntegerLiteral {
     public init(integerLiteral value: Int) {
         self = .index(value)
     }

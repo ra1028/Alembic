@@ -7,13 +7,13 @@
 //
 
 public struct Path {
-    let elements: [PathElement]
+    let elements: [Element]
     
-    public init(element: PathElement) {
+    public init(element: Element) {
         elements = [element]
     }
     
-    public init(elements: [PathElement]) {
+    public init(elements: [Element]) {
         self.elements = elements
     }
 }
@@ -73,7 +73,7 @@ extension Path: ExpressibleByIntegerLiteral {
 // MARK: - ExpressibleByArrayLiteral
 
 extension Path: ExpressibleByArrayLiteral {
-    public init(arrayLiteral elements: PathElement...) {
+    public init(arrayLiteral elements: Element...) {
         self.init(elements: elements)
     }
 }
