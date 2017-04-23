@@ -14,9 +14,3 @@ public final class SecureDistillate<Value>: Distillate<Value> {
         return cached
     }
 }
-
-public extension SecureDistillate {
-    func to(_: Value.Type) -> Value {
-        return value()
-    }
-}

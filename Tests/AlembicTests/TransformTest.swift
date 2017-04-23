@@ -34,9 +34,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try (j <| "key")(String.self)
-                .flatMap { _ in nil }
-                .to(String.self)
+            _ = try (j <| "key")(String.self).flatMap { _ in nil } as String
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type, value) {
@@ -47,9 +45,8 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try (j <| "key")
-                .filter { $0 == "error" }
-                .to(String.self)
+            _ = try (j <| "key").filter { $0 == "error" } as String
+            
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type, value) {
@@ -60,9 +57,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try (j <|? "null")
-                .filterNil()
-                .to(String.self)
+            _ = try (j <|? "null").filterNil() as String
         
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type, value) {
@@ -73,9 +68,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try (j <| "missing_key")
-                .mapError { _ in TestError() }
-                .to(String.self)
+            _ = try (j <| "missing_key").mapError { _ in TestError() } as String
             
             XCTFail("Expect the error to occur")
         } catch let e {
@@ -86,17 +79,12 @@ class TransformTest: XCTestCase {
     func testSubscriptTransform() {
         let j = JSON(object)
         
-        let map = j["key"].distil()
-            .map { "map_" + $0 }
-            .catch("")
-            .to(String.self)
+        let map = j["key"].distil().map { "map_" + $0 }.catch("").value() as String
         
         XCTAssertEqual(map, "map_value")
         
         do {
-            _ = try j["null"].option()
-                .filterNil()
-                .to(String.self)
+            _ = try j["null"].option().filterNil() as String
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type, value) {
@@ -114,7 +102,7 @@ class TransformTest: XCTestCase {
         XCTAssertEqual(just.value(), "just")
         
         do {
-            _ = try Distillate<String>.filter().to(String.self)
+            _ = try Distillate<String>.filter().value()
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type: type, value: value) {
@@ -125,7 +113,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try Distillate.filter().to(String.self)
+            _ = try Distillate.filter().value() as String
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type: type, value: value) {
@@ -136,7 +124,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try Distillate.error(TestError()).to(String.self)
+            _ = try Distillate.error(TestError()).value() as String
             
             XCTFail("Expect the error to occur")
         } catch let e {
@@ -144,9 +132,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try (j <| "key")(String.self)
-                .flatMap { _ in .filter() }
-                .to(String.self)
+            _ = try (j <| "key")(String.self).flatMap { _ in .filter() } as String
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type: type, value: value) {
@@ -157,9 +143,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try (j <| "missing_key")(String.self)
-                .flatMapError { _ in .error(TestError()) }
-                .to(String.self)
+            _ = try (j <| "missing_key")(String.self).flatMapError { _ in .error(TestError()) } as String
             
             XCTFail("Expect the error to occur")
         } catch let e {

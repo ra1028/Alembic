@@ -19,10 +19,6 @@ public final class InsecureDistillate<Value>: Distillate<Value> {
 }
 
 public extension InsecureDistillate {
-    func to(_: Value.Type) throws -> Value {
-        return try value()
-    }
-    
     func `catch`(_ handler: (Error) -> Value) -> Value {
         do { return try value() }
         catch let e { return handler(e) }
