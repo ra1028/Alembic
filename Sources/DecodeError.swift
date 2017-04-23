@@ -1,4 +1,4 @@
-public enum DistillError: Error {
+public enum DecodeError: Error {
     case missingPath(Path)
     case typeMismatch(expected: Any.Type, actual: Any, path: Path)
     case filteredValue(type: Any.Type, value: Any)
@@ -7,7 +7,7 @@ public enum DistillError: Error {
 
 // MARK: - CustomStringConvertible
 
-extension DistillError: CustomStringConvertible {
+extension DecodeError: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .missingPath(path):
@@ -24,7 +24,7 @@ extension DistillError: CustomStringConvertible {
 
 // MARK: - CustomDebugStringConvertible
 
-extension DistillError: CustomDebugStringConvertible {    
+extension DecodeError: CustomDebugStringConvertible {    
     public var debugDescription: String {
         return description
     }

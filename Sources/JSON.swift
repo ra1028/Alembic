@@ -21,7 +21,7 @@ public final class JSON {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: options)
             } catch {
-                throw DistillError.serializeFailed(with: data)
+                throw DecodeError.serializeFailed(with: data)
             }
         }
     }
@@ -33,13 +33,13 @@ public final class JSON {
         options: JSONSerialization.ReadingOptions = .allowFragments) {
         self.init(raw: string) {
             guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
-                throw DistillError.serializeFailed(with: string)
+                throw DecodeError.serializeFailed(with: string)
             }
             
             do {
                 return try JSONSerialization.jsonObject(with: data, options: options)
             } catch {
-                throw DistillError.serializeFailed(with: string)
+                throw DecodeError.serializeFailed(with: string)
             }
         }
     }
@@ -65,10 +65,10 @@ extension JSON: JSONProtocol {
             let object: Any = try self.distilRecursive(path: path)
             do {
                 return try .value(from: .init(object))
-            } catch let DistillError.missingPath(missing) {
-                throw DistillError.missingPath(path + missing)
-            } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
-                throw DistillError.typeMismatch(expected: expected, actual: actual, path: path + mismatchPath)
+            } catch let DecodeError.missingPath(missing) {
+                throw DecodeError.missingPath(path + missing)
+            } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
+                throw DecodeError.typeMismatch(expected: expected, actual: actual, path: path + mismatchPath)
             }
         }
     }
@@ -77,7 +77,7 @@ extension JSON: JSONProtocol {
         return .init {
             do {
                 return try *self.distil(path, as: T.self)
-            } catch let DistillError.missingPath(missing) where missing == path {
+            } catch let DecodeError.missingPath(missing) where missing == path {
                 return nil
             }
         }
@@ -106,7 +106,7 @@ private extension JSON {
     func distilRecursive<T>(path: Path) throws -> T {
         func cast<T>(_ object: Any) throws -> T {
             guard let value = object as? T else {
-                throw DistillError.typeMismatch(expected: T.self, actual: object, path: path)
+                throw DecodeError.typeMismatch(expected: T.self, actual: object, path: path)
             }
             return value
         }
@@ -119,7 +119,7 @@ private extension JSON {
                 let dictionary: [String: Any] = try cast(object)
                 
                 guard let value = dictionary[key], !(value is NSNull) else {
-                    throw DistillError.missingPath(path)
+                    throw DecodeError.missingPath(path)
                 }
                 
                 return try distilRecursive(object: value, elements: elements.dropFirst())
@@ -128,13 +128,13 @@ private extension JSON {
                 let array: [Any] = try cast(object)
                 
                 guard array.count > index else {
-                    throw DistillError.missingPath(path)
+                    throw DecodeError.missingPath(path)
                 }
                 
                 let value = array[index]
                 
                 if value is NSNull {
-                    throw DistillError.missingPath(path)
+                    throw DecodeError.missingPath(path)
                 }
                 
                 return try distilRecursive(object: value, elements: elements.dropFirst())

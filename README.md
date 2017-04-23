@@ -371,7 +371,7 @@ So, you can use 'map' 'flatMap' and other following useful functions.
 <td>flatMap(Value throws -> U?)</td>
 <td>Returns the non-nil value.<br>
 If the transformed value is nil,<br>
-throw DistillError.filteredValue</td>
+throw DecodeError.filteredValue</td>
 <td>U.Wrapped</td>
 <td>throw</td>
 </tr>
@@ -393,7 +393,7 @@ throw DistillError.filteredValue</td>
 <tr>
 <td>filter(Value throws -> Bool)</td>
 <td>If the value is filtered by predicates,<br>
-throw DistillError.filteredValue.</td>
+throw DecodeError.filteredValue.</td>
 <td>Value</td>
 <td>throw</td>
 </tr>
@@ -431,7 +431,7 @@ Error handling is not required.</td>
 <tr>
 <td>filterNone()</td>
 <td>If the value is nil,<br>
-throw DistillError.filteredValue.</td>
+throw DecodeError.filteredValue.</td>
 <td>Value.Wrapped</td>
 <td>throw</td>
 </tr>
@@ -504,7 +504,7 @@ j.distil(["user", "name"], to: String.self)
 Alembic has powerfull error handling designs as following.  
 It will be help your fail-safe coding.  
 
-__DistillError__
+__DecodeError__
 - missingPath(Path)  
 - typeMismatch(expected: Any.Type, actual: Any, path: Path)  
 - filteredValue(type: Any.Type, value: Any)  

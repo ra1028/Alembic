@@ -53,14 +53,14 @@ class DistilTest: XCTestCase {
         }
     }
     
-    func testDistillError() {
+    func testDecodeError() {
         let json = JSON(object)
         
         do {
             _ = try *json.distil("missing_key") as String
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.missingPath(path) where path == "missing_key" {
+        } catch let DecodeError.missingPath(path) where path == "missing_key" {
             XCTAssert(true)
         } catch let e {
             XCTFail("\(e)")
@@ -70,7 +70,7 @@ class DistilTest: XCTestCase {
             _ = try *json.distil("int_string") as Int
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
+        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "1")
             XCTAssertEqual(path, "int_string")
@@ -126,7 +126,7 @@ extension DistilTest {
             ("testDistil", testDistil),
             ("testDistilSubscript", testDistilSubscript),
             ("testDistilHandler", testDistilHandler),
-            ("testDistillError", testDistillError),
+            ("testDecodeError", testDecodeError),
             ("testClassMapping", testClassMapping),
             ("testStructMapping", testStructMapping),
         ]

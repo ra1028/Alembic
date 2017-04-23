@@ -35,7 +35,7 @@ class OptionalTest: XCTestCase {
             _ = try *json.distil("string") as Int?
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
+        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "Alembic")
             XCTAssertEqual(path, "string")
@@ -67,7 +67,7 @@ class OptionalTest: XCTestCase {
             _ = try *json["string"].option() as Int?
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
+        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
             XCTAssert(expected == Int.self)
             XCTAssertEqual(actual as? String, "Alembic")
             XCTAssertEqual(path, "string")
@@ -83,7 +83,7 @@ class OptionalTest: XCTestCase {
             _ = try *json.distil("int") as String?
             
             XCTFail("Expect the error to occur")
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
+        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
             XCTAssert(expected == String.self)
             XCTAssertEqual(actual as? Int, 777)
             XCTAssertEqual(path, "int")
@@ -113,7 +113,7 @@ class OptionalTest: XCTestCase {
             XCTFail("Expected the error to occur")
         } catch let e {
             switch e {
-            case let DistillError.missingPath(path):
+            case let DecodeError.missingPath(path):
                 XCTAssert(path == ["user2", "contact", "email"])
             default:
                 XCTFail("\(e)")

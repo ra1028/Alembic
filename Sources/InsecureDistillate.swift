@@ -16,7 +16,7 @@ public final class InsecureDistillate<Value>: Distillate {
 
 public extension InsecureDistillate {
     static var filter: InsecureDistillate<Value> {
-        return error(DistillError.filteredValue(type: Value.self, value: ()))
+        return error(DecodeError.filteredValue(type: Value.self, value: ()))
     }
     
     static func error(_ error: Error) -> InsecureDistillate<Value> {
