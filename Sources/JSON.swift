@@ -60,7 +60,7 @@ public final class JSON {
 // MARK: - JSONProtocol
 
 extension JSON: JSONProtocol {
-    public func distil<T: Decodable>(_ path: Path, as: T.Type) -> InDecoded<T> {
+    public func distil<T: Decodable>(_ path: Path, as: T.Type) -> ThrowableDecoded<T> {
         return .init {
             let object: Any = try self.distilRecursive(path: path)
             do {
@@ -73,7 +73,7 @@ extension JSON: JSONProtocol {
         }
     }
     
-    public func option<T: Decodable>(_ path: Path, as: T?.Type) -> InDecoded<T?> {
+    public func option<T: Decodable>(_ path: Path, as: T?.Type) -> ThrowableDecoded<T?> {
         return .init {
             do {
                 return try *self.distil(path, as: T.self)

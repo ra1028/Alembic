@@ -1,4 +1,4 @@
-public final class InDecoded<Value>: DecodedProtocol {
+public final class ThrowableDecoded<Value>: DecodedProtocol {
     private let create: () throws -> Value
     private var cachedValue: Value?
     
@@ -14,12 +14,12 @@ public final class InDecoded<Value>: DecodedProtocol {
     }
 }
 
-public extension InDecoded {
-    static var filter: InDecoded<Value> {
+public extension ThrowableDecoded {
+    static var filter: ThrowableDecoded<Value> {
         return error(DecodeError.filteredValue(type: Value.self, value: ()))
     }
     
-    static func error(_ error: Error) -> InDecoded<Value> {
+    static func error(_ error: Error) -> ThrowableDecoded<Value> {
         return .init { throw error }
     }
     
@@ -34,14 +34,14 @@ public extension InDecoded {
         return self.catch { _ in element() }
     }
     
-    func mapError(_ f: @escaping (Error) throws -> Error) -> InDecoded<Value> {
+    func mapError(_ f: @escaping (Error) throws -> Error) -> ThrowableDecoded<Value> {
         return .init {
             do { return try *self }
             catch let e { throw try f(e) }
         }
     }
     
-    func flatMapError<T: DecodedProtocol>(_ f: @escaping (Error) throws -> T) -> InDecoded<Value> where T.Value == Value {
+    func flatMapError<T: DecodedProtocol>(_ f: @escaping (Error) throws -> T) -> ThrowableDecoded<Value> where T.Value == Value {
         return .init {
             do { return try *self }
             catch let e { return try f(e).value() }

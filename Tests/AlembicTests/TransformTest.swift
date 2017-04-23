@@ -98,7 +98,7 @@ class TransformTest: XCTestCase {
         XCTAssertEqual(*value, "value")
         
         do {
-            _ = try *InDecoded<String>.filter
+            _ = try *ThrowableDecoded<String>.filter
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.filteredValue(type: type, value: value) {
@@ -109,7 +109,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *InDecoded<String>.filter
+            _ = try *ThrowableDecoded<String>.filter
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.filteredValue(type: type, value: value) {
@@ -120,7 +120,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *InDecoded<String>.error(TestError())
+            _ = try *ThrowableDecoded<String>.error(TestError())
             
             XCTFail("Expect the error to occur")
         } catch let e {
@@ -128,7 +128,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *json.distil("key", as: String.self).flatMap { _ in InDecoded.filter } as String
+            _ = try *json.distil("key", as: String.self).flatMap { _ in ThrowableDecoded.filter } as String
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.filteredValue(type: type, value: value) {
@@ -139,7 +139,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *json.distil("missing_key").flatMapError { _ in InDecoded.error(TestError()) } as String
+            _ = try *json.distil("missing_key").flatMapError { _ in ThrowableDecoded.error(TestError()) } as String
             
             XCTFail("Expect the error to occur")
         } catch let e {
