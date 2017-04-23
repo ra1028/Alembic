@@ -20,15 +20,12 @@ class TransformTest: XCTestCase {
                 .flatMapError { _ in .just("flat_map_error") }
             let catchUp: String = (j <| "error")
                 .catch("catch_return")
-            let replaceNil: String = try (j <|? "null")
-                .replaceNil("replace_nil")
             
             XCTAssertEqual(map, "map_value")
             XCTAssertEqual(flatMap, "flatMap_value_with_nested_value")
             XCTAssertEqual(flatMapOptional, "nested_value")
             XCTAssertEqual(flatMapError, "flat_map_error")
             XCTAssertEqual(catchUp, "catch_return")
-            XCTAssertEqual(replaceNil, "replace_nil")
         } catch let e {
             XCTFail("\(e)")
         }
