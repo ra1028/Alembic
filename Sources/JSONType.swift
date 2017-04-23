@@ -1,92 +1,40 @@
 public protocol JSONProtocol {
-    func distil<T: Distillable>(_ path: Path, as: T.Type) throws -> T
-    func option<T: Distillable>(_ path: Path, as: T?.Type) throws -> T?
+    func distil<T: Distillable>(_ path: Path, as: T.Type) -> InsecureDistillate<T>
+    func option<T: Distillable>(_ path: Path, as: T?.Type) -> InsecureDistillate<T?>
 }
 
-// MARK: - distil functions with type constraints
-
 public extension JSONProtocol {
-    func to<T: Distillable>(_: T.Type) throws -> T {
-        return try distil()
+    func distil<T: Distillable>(_ path: Path = []) -> InsecureDistillate<T> {
+        return distil(path, as: T.self)
     }
     
-    func to<T: Distillable>(_: [T].Type) throws -> [T] {
-        return try distil()
-    }
-    
-    func to<T: Distillable>(_: [String: T].Type) throws -> [String: T] {
-        return try distil()
-    }
-}
-
-// MARK: - distil functions
-
-public extension JSONProtocol {
-    func distil<T: Distillable>(_ path: Path = []) throws -> T {
-        return try distil(path, as: T.self)
-    }
-    
-    func distil<T: Distillable>(as: T.Type) throws -> T {
-        return try distil([], as: `as`)
-    }
-    
-    func distil<T: Distillable>(_ path: Path = [], as: [T].Type = [T].self) throws -> [T] {
-        return try .distil(json: distil(path))
-    }
-    
-    func distil<T: Distillable>(_ path: Path = [], as: [String: T].Type = [String: T].self) throws -> [String: T] {
-        return try .distil(json: distil(path))
-    }
-}
-
-// MARK: - lazy distil functions
-
-public extension JSONProtocol {
-    func distil<T: Distillable>(_ path: Path = [], as: T.Type = T.self) -> InsecureDistillate<T> {
-        return .init { try self.distil(path) }
+    func distil<T: Distillable>(_ as: T.Type) -> InsecureDistillate<T> {
+        return distil([], as: `as`)
     }
     
     func distil<T: Distillable>(_ path: Path = [], as: [T].Type = [T].self) -> InsecureDistillate<[T]> {
-        return .init { try self.distil(path) }
+        return .init { try .distil(json: *self.distil(path)) }
     }
     
     func distil<T: Distillable>(_ path: Path = [], as: [String: T].Type = [String: T].self) -> InsecureDistillate<[String: T]> {
-        return .init { try self.distil(path) }
+        return .init { try .distil(json: *self.distil(path)) }
     }
 }
 
-// MARK: - distil option functions
-
 public extension JSONProtocol {
-    func option<T: Distillable>(_ path: Path = []) throws -> T? {
-        return try option(path, as: (T?).self)
+    func option<T: Distillable>(_ path: Path = []) -> InsecureDistillate<T?> {
+        return option(path, as: T?.self)
     }
     
-    func option<T: Distillable>(as: T?.Type) throws -> T? {
-        return try option([], as: `as`)
+    func option<T: Distillable>(_ as: T?.Type) -> InsecureDistillate<T?> {
+        return option([], as: `as`)
     }
     
-    func option<T: Distillable>(_ path: Path = [], as: [T]?.Type = ([T]?).self) throws -> [T]? {
-        return try option(path).map([T].distil)
+    func option<T: Distillable>(_ path: Path = [], as: [T]?.Type = [T]?.self) -> InsecureDistillate<[T]?> {
+        return .init { try self.option(path).value().map([T].distil) }
     }
     
-    func option<T: Distillable>(_ path: Path = [], as: [String: T]?.Type = ([String: T]?).self) throws -> [String: T]? {
-        return try option(path).map([String: T].distil)
-    }
-}
-
-// MARK: - lazy distil option functions
-
-public extension JSONProtocol {
-    func option<T: Distillable>(_ path: Path = [], as: T?.Type = (T?).self) -> InsecureDistillate<T?> {
-        return .init { try self.option(path) }
-    }
-    
-    func option<T: Distillable>(_ path: Path = [], as: [T]?.Type = ([T]?).self) -> InsecureDistillate<[T]?> {
-        return .init { try self.option(path) }
-    }
-    
-    func option<T: Distillable>(_ path: Path = [], as: [String: T]?.Type = ([String: T]?).self) -> InsecureDistillate<[String: T]?> {
-        return .init { try self.option(path) }
+    func option<T: Distillable>(_ path: Path = [], as: [String: T]?.Type = [String: T]?.self) -> InsecureDistillate<[String: T]?> {
+        return .init { try self.option(path).value().map([String: T].distil) }
     }
 }

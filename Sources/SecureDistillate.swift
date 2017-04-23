@@ -15,4 +15,12 @@ public extension SecureDistillate {
     static func value(_ value: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
         return .init(value)
     }
+    
+    func map<T>(_ transform: @escaping (Value) -> T) -> SecureDistillate<T> {
+        return .init { transform(*self) }
+    }
+    
+    func flatMap<T>(_ transform: @escaping (Value) -> SecureDistillate<T>) -> SecureDistillate<T> {
+        return map(transform).value()
+    }
 }

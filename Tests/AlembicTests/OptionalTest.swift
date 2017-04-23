@@ -8,15 +8,15 @@ class OptionalTest: XCTestCase {
         let j = JSON(object)
         
         do {
-            let string: String? = try j <|? "string"
-            let int: Int? = try j <|? "int"
-            let double: Double? = try j <|? "double"
-            let float: Float? = try j <|? "float"
-            let bool: Bool? = try j <|? "bool"
-            let array: [String]? = try j <|? "array"
-            let dictionary: [String: Int]? = try j <|? "dictionary"
-            let nestedValue: Int? = try j <|? ["nested", "array", 2]
-            let nestedArray: [Int]? = try j <|? ["nested", "array"]
+            let string: String? = try j.option("string").value()
+            let int: Int? = try *j.option("int")
+            let double: Double? = try *j.option("double")
+            let float: Float? = try *j.option("float")
+            let bool: Bool? = try *j.option("bool")
+            let array: [String]? = try *j.option("array")
+            let dictionary: [String: Int]? = try *j.option("dictionary")
+            let nestedValue: Int? = try *j.option(["nested", "array", 2])
+            let nestedArray: [Int]? = try *j.option(["nested", "array"])
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(int, 777)
@@ -32,7 +32,7 @@ class OptionalTest: XCTestCase {
         }
         
         do {
-            _ = try j <|? "string" as Int?
+            _ = try *j.distil("string") as Int?
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -48,11 +48,11 @@ class OptionalTest: XCTestCase {
         let j = JSON(object)
         
         do {
-            let string: String? = try j["string"].option()
-            let bool: Bool? = try j["bool"].option()
-            let array: [String]? = try j["array"].option()
-            let dictionary: [String: Int]? = try j["dictionary"].option()
-            let nestedValue: Int? = try j["nested", "array", 2].option()
+            let string: String? = try *j["string"].option()
+            let bool: Bool? = try *j["bool"].option()
+            let array: [String]? = try *j["array"].option()
+            let dictionary: [String: Int]? = try *j["dictionary"].option()
+            let nestedValue: Int? = try *j["nested", "array", 2].option()
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertNil(bool)
@@ -64,7 +64,7 @@ class OptionalTest: XCTestCase {
         }
         
         do {
-            _ = try j["string"].option() as Int?
+            _ = try *j["string"].option() as Int?
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -80,7 +80,7 @@ class OptionalTest: XCTestCase {
         let j = JSON(object)
         
         do {
-            _ = try j <|? "int" as String?
+            _ = try *j.distil("int") as String?
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -96,7 +96,7 @@ class OptionalTest: XCTestCase {
         let j = JSON(object)
         
         do {
-            let user: User? = try j <|? "user1"
+            let user: User? = try *j.option("user1")
             
             XCTAssert(user == nil)
         } catch let e {
@@ -108,7 +108,7 @@ class OptionalTest: XCTestCase {
         let j = JSON(object)
         
         do {
-            _ = try j <|? "user2" as User?
+            _ = try *j.distil("user2") as User?
             
             XCTFail("Expected the error to occur")
         } catch let e {
@@ -142,8 +142,10 @@ private final class User: Brewable {
     let email: String
     
     required init(json j: JSON) throws {
-        _ = try (id = j <| "id",
-                 name = j <| "name",
-                 email = j <| ["contact", "email"])
+        _ = try (
+            id = *j.distil("id"),
+            name = *j.distil("name"),
+            email = *j.distil(["contact", "email"])
+        )
     }
 }

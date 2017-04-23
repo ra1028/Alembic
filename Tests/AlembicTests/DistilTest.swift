@@ -9,15 +9,15 @@ class DistilTest: XCTestCase {
         let j = JSON(object)
         
         do {
-            let string: String = try j <| "string"
-            let int: Int = try j <| "int"
-            let double: Double = try j <| "double"
-            let float: Float = try j <| "float"
-            let bool: Bool = try j <| "bool"
-            let array: [String] = try j <| "array"
-            let dictionary: [String: Int] = try j <| "dictionary"
-            let nestedValue: Int = try j <| ["nested", "array", 2]
-            let nestedArray: [Int] = try j <| ["nested", "array"]
+            let string: String = try *j.distil("string")
+            let int: Int = try *j.distil("int")
+            let double: Double = try *j.distil("double")
+            let float: Float = try *j.distil("float")
+            let bool: Bool = try *j.distil("bool")
+            let array: [String] = try *j.distil("array")
+            let dictionary: [String: Int] = try *j.distil("dictionary")
+            let nestedValue: Int = try *j.distil(["nested", "array", 2])
+            let nestedArray: [Int] = try *j.distil(["nested", "array"])
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(int, 777)
@@ -37,11 +37,11 @@ class DistilTest: XCTestCase {
         do {
             let j = JSON(object)
             
-            let string: String = try j["string"].distil()
-            let array: [String] = try j["array"].distil()
-            let dictionary: [String: Int] = try j["dictionary"].distil()
-            let nestedValue: Int = try j["nested", "array", 2].distil()
-            let subscriptChain: Int = try j["nested"]["array"][2].distil()
+            let string: String = try *j["string"].distil()
+            let array: [String] = try *j["array"].distil()
+            let dictionary: [String: Int] = try *j["dictionary"].distil()
+            let nestedValue: Int = try *j["nested", "array", 2].distil()
+            let subscriptChain: Int = try *j["nested"]["array"][2].distil()
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(array, ["A", "B", "C"])
@@ -57,7 +57,7 @@ class DistilTest: XCTestCase {
         let j = JSON(object)
         
         do {
-            _ = try j <| "missing_key" as String
+            _ = try *j.distil("missing_key") as String
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.missingPath(path) where path == "missing_key" {
@@ -67,7 +67,7 @@ class DistilTest: XCTestCase {
         }
         
         do {
-            _ = try j <| "int_string" as Int
+            _ = try *j.distil("int_string") as Int
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -83,7 +83,7 @@ class DistilTest: XCTestCase {
         let j = JSON(object)
         
         do {
-            let user: User = try j <| "user"
+            let user: User = try *j.distil("user")
             
             XCTAssertEqual(user.id, 100)
             XCTAssertEqual(user.name, "ra1028")
@@ -102,7 +102,7 @@ class DistilTest: XCTestCase {
         do {
             let j = JSON(object)
             
-            let numbers: Numbers = try j <| "numbers"
+            let numbers: Numbers = try *j.distil("numbers")
             
             XCTAssertEqual(numbers.number, 1)
             XCTAssertEqual(numbers.int8, 2)
@@ -136,7 +136,7 @@ extension DistilTest {
 
 extension URL: Distillable {
     public static func distil(json j: JSON) throws -> URL {
-        return try j.distil().flatMap(self.init(string:))
+        return try *j.distil().flatMap(self.init(string:))
     }
 }
 
@@ -156,14 +156,16 @@ private final class User: Brewable {
     let friends: [User]
     
     required init(json j: JSON) throws {
-        _ = try (id = j <| "id",
-                 name = j <| "name",
-                 weight = j <| "weight",
-                 gender = j <| "gender",
-                 smoker = j <| "smoker",
-                 email = j <| ["contact", "email"],
-                 url = j <| ["contact", "url"],
-                 friends = j <| "friends")
+        _ = try (
+            id = *j.distil("id"),
+            name = *j.distil("name"),
+            weight = *j.distil("weight"),
+            gender = *j.distil("gender"),
+            smoker = *j.distil("smoker"),
+            email = *j.distil(["contact", "email"]),
+            url = *j.distil(["contact", "url"]),
+            friends = *j.distil("friends")
+        )
     }
 }
 
@@ -180,15 +182,15 @@ private struct Numbers: Distillable {
     
     fileprivate static func distil(json j: JSON) throws -> Numbers {
         return try Numbers(
-            number: j <| "number",
-            int8: j <| "int8",
-            uint8: j <| "uint8",
-            int16: j <| "int16",
-            uint16: j <| "uint16",
-            int32: j <| "int32",
-            uint32: j <| "uint32",
-            int64: j <| "int64",
-            uint64: j <| "uint64"
+            number: *j.distil("number"),
+            int8: *j.distil("int8"),
+            uint8: *j.distil("uint8"),
+            int16: *j.distil("int16"),
+            uint16: *j.distil("uint16"),
+            int32: *j.distil("int32"),
+            uint32: *j.distil("uint32"),
+            int64: *j.distil("int64"),
+            uint64: *j.distil("uint64")
         )
     }
 }

@@ -10,8 +10,8 @@ class SerializeTest: XCTestCase {
         let j = JSON(string: string)
         
         do {
-            let i: Int = try j <| "key1"
-            let s: String = try j <| "key2"
+            let i: Int = try *j.distil("key1")
+            let s: String = try *j.distil("key2")
             
             XCTAssertEqual(i, 100)
             XCTAssertEqual(s, "ABC")
@@ -24,8 +24,8 @@ class SerializeTest: XCTestCase {
         let j = JSON(data: data)
         
         do {
-            let i: Int = try j <| "key1"
-            let s: String = try j <| "key2"
+            let i: Int = try *j.distil("key1")
+            let s: String = try *j.distil("key2")
             
             XCTAssertEqual(i, 100)
             XCTAssertEqual(s, "ABC")
@@ -38,7 +38,7 @@ class SerializeTest: XCTestCase {
         let j = JSON(string: "")
         
         do {
-            _ = try j.distil("key1", as: String.self)
+            _ = try *j.distil("key1", as: String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.serializeFailed(with: with) {
@@ -52,7 +52,7 @@ class SerializeTest: XCTestCase {
         let j = JSON(data: .init())
         
         do {
-            _ = try j.distil("key1", as: String.self)
+            _ = try *j.distil("key1", as: String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.serializeFailed(with: with) {

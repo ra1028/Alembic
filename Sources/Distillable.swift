@@ -106,7 +106,7 @@ public extension RawRepresentable where Self: Distillable, RawValue: Distillable
 extension Array where Element: Distillable {
     public static func distil(json j: JSON) throws -> [Element] {
         let arr: [Any] = try cast(j)
-        return try arr.map { try JSON($0).distil() }
+        return try arr.map { try *JSON($0).distil() }
     }
 }
 
@@ -114,7 +114,7 @@ extension Dictionary where Key == String, Value: Distillable {
     public static func distil(json j: JSON) throws -> [String: Value] {
         let dic: [String: Any] = try cast(j)
         var new = [String: Value](minimumCapacity: dic.count)
-        try dic.forEach { try new.updateValue(JSON($1).distil(), forKey: $0) }
+        try dic.forEach { try new.updateValue(*JSON($1).distil(), forKey: $0) }
         return new
     }
 }

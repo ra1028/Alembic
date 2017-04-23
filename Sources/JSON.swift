@@ -60,22 +60,26 @@ public final class JSON {
 // MARK: - JSONProtocol
 
 extension JSON: JSONProtocol {
-    public func distil<T: Distillable>(_ path: Path, as: T.Type) throws -> T {
-        let object: Any = try distilRecursive(path: path)
-        do {
-            return try .distil(json: .init(object))
-        } catch let DistillError.missingPath(missing) {
-            throw DistillError.missingPath(path + missing)
-        } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
-            throw DistillError.typeMismatch(expected: expected, actual: actual, path: path + mismatchPath)
+    public func distil<T: Distillable>(_ path: Path, as: T.Type) -> InsecureDistillate<T> {
+        return .init {
+            let object: Any = try self.distilRecursive(path: path)
+            do {
+                return try .distil(json: .init(object))
+            } catch let DistillError.missingPath(missing) {
+                throw DistillError.missingPath(path + missing)
+            } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
+                throw DistillError.typeMismatch(expected: expected, actual: actual, path: path + mismatchPath)
+            }
         }
     }
     
-    public func option<T: Distillable>(_ path: Path, as: T?.Type) throws -> T? {
-        do {
-            return try distil(path, as: T.self)
-        } catch let DistillError.missingPath(missing) where missing == path {
-            return nil
+    public func option<T: Distillable>(_ path: Path, as: T?.Type) -> InsecureDistillate<T?> {
+        return .init {
+            do {
+                return try *self.distil(path, as: T.self)
+            } catch let DistillError.missingPath(missing) where missing == path {
+                return nil
+            }
         }
     }
 }

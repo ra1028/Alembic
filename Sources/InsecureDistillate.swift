@@ -23,38 +23,28 @@ public extension InsecureDistillate {
         return .init { throw error }
     }
     
-    func `catch`(_ handler: (Error) -> Value) -> Value {
-        do { return try value() }
-        catch let e { return handler(e) }
-    }
-    
     func `catch`(_ handler: @escaping (Error) -> Value) -> SecureDistillate<Value> {
-        return .init { self.catch(handler) }
-    }
-    
-    func `catch`(_ element: @autoclosure () -> Value) -> Value {
-        return self.catch { _ in element() }
+        return .init {
+            do { return try *self }
+            catch let e { return handler(e) }
+        }
     }
     
     func `catch`( _ element: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
         return self.catch { _ in element() }
     }
     
-    func mapError(_ f: (Error) throws -> Error) throws -> Value {
-        do { return try value() }
-        catch let e { throw try f(e) }
-    }
-    
     func mapError(_ f: @escaping (Error) throws -> Error) -> InsecureDistillate<Value> {
-        return .init { try self.mapError(f) }
+        return .init {
+            do { return try *self }
+            catch let e { throw try f(e) }
+        }
     }
     
-    func flatMapError<T: Distillate>(_ f: (Error) throws -> T) throws -> Value where Value == T.Value {
-        do { return try value() }
-        catch let e { return try f(e).value() }
-    }
-    
-    func flatMapError<T: Distillate>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> where Value == T.Value {
-        return .init { try self.flatMapError(f) }
+    func flatMapError<T: Distillate>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> where T.Value == Value {
+        return .init {
+            do { return try *self }
+            catch let e { return try f(e).value() }
+        }
     }
 }
