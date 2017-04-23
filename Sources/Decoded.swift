@@ -1,4 +1,4 @@
-public final class SecureDistillate<Value>: DecodedProtocol {
+public final class Decoded<Value>: DecodedProtocol {
     private let create: () -> Value
     private lazy var cachedValue: Value = self.create()
     
@@ -11,16 +11,16 @@ public final class SecureDistillate<Value>: DecodedProtocol {
     }
 }
 
-public extension SecureDistillate {
-    static func value(_ value: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
+public extension Decoded {
+    static func value(_ value: @autoclosure @escaping () -> Value) -> Decoded<Value> {
         return .init(value)
     }
     
-    func map<T>(_ transform: @escaping (Value) -> T) -> SecureDistillate<T> {
+    func map<T>(_ transform: @escaping (Value) -> T) -> Decoded<T> {
         return .init { transform(*self) }
     }
     
-    func flatMap<T>(_ transform: @escaping (Value) -> SecureDistillate<T>) -> SecureDistillate<T> {
+    func flatMap<T>(_ transform: @escaping (Value) -> Decoded<T>) -> Decoded<T> {
         return map(transform).value()
     }
 }
