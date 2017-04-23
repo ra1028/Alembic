@@ -6,9 +6,9 @@
 //  Copyright © 2016年 Ryo Aoyama. All rights reserved.
 //
 
-public extension Distillate where Value: OptionalConvertible {
+public extension Distillate where Value: OptionalProtocol {
     func replaceNil(_ handler: () throws -> Value.Wrapped) throws -> Value.Wrapped {
-        return try _value().optionalValue ?? handler()
+        return try _value().optional ?? handler()
     }
     
     func replaceNil(_ handler: @escaping () throws -> Value.Wrapped) -> InsecureDistillate<Value.Wrapped> {
@@ -24,7 +24,7 @@ public extension Distillate where Value: OptionalConvertible {
     }
     
     func filterNil() throws -> Value.Wrapped {
-        return try filter { $0.optionalValue != nil }.optionalValue!
+        return try filter { $0.optional != nil }.optional!
     }
     
     func filterNil() -> InsecureDistillate<Value.Wrapped> {
