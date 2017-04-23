@@ -1,15 +1,15 @@
-public protocol Distillate {
+public protocol DecodedProtocol {
     associatedtype Value
     
     func value() throws -> Value
 }
 
-public extension Distillate {
+public extension DecodedProtocol {
     func map<T>(_ transform: @escaping (Value) throws -> T) -> InsecureDistillate<T> {
         return .init { try transform(self.value()) }
     }
     
-    func flatMap<T: Distillate>(_ transform: @escaping (Value) throws -> T) -> InsecureDistillate<T.Value> {
+    func flatMap<T: DecodedProtocol>(_ transform: @escaping (Value) throws -> T) -> InsecureDistillate<T.Value> {
         return .init { try self.map(transform).value().value() }
     }
     
@@ -30,7 +30,7 @@ public extension Distillate {
     }
 }
 
-public extension Distillate where Value: OptionalProtocol {
+public extension DecodedProtocol where Value: OptionalProtocol {
     func filterNone() -> InsecureDistillate<Value.Wrapped> {
         return .init { try self.filter { $0.optional != nil }.value().optional! }
     }

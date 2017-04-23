@@ -1,4 +1,4 @@
-public final class SecureDistillate<Value>: Distillate {
+public final class SecureDistillate<Value>: DecodedProtocol {
     private let create: () -> Value
     private lazy var cachedValue: Value = self.create()
     

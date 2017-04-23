@@ -1,4 +1,4 @@
-public final class InsecureDistillate<Value>: Distillate {
+public final class InsecureDistillate<Value>: DecodedProtocol {
     private let create: () throws -> Value
     private var cachedValue: Value?
     
@@ -41,7 +41,7 @@ public extension InsecureDistillate {
         }
     }
     
-    func flatMapError<T: Distillate>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> where T.Value == Value {
+    func flatMapError<T: DecodedProtocol>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> where T.Value == Value {
         return .init {
             do { return try *self }
             catch let e { return try f(e).value() }
