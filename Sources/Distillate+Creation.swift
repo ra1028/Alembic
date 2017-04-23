@@ -1,5 +1,5 @@
 public extension Distillate {
-    static func filter() -> InsecureDistillate<Value> {
+    static var filter: InsecureDistillate<Value> {
         return error(DistillError.filteredValue(type: Value.self, value: ()))
     }
     
