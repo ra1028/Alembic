@@ -168,14 +168,14 @@ let j = JSON(
 ```
 
 ### JSON parsing
-To enable parsing, a class, struct, or enum just needs to implement the `Decodable` or `Brewable` protocol.  
+To enable parsing, a class, struct, or enum just needs to implement the `Decodable` or `Initializable` protocol.  
 ```Swift
 public protocol Decodable {
     static func value(from json: JSON) throws -> Self
 }
 ```
 ```Swift
-public protocol Brewable: Decodable {
+public protocol Initializable: Decodable {
     init(json j: JSON) throws
 }
 ```
@@ -263,7 +263,7 @@ let int: Int? = try j["nested"]["key"].option()  // nil
 ```
 
 ### Custom value parsing
-If implement `Decodable` or `Brewable` protocol to existing classes like `URL`, it can be parse from JSON.  
+If implement `Decodable` or `Initializable` protocol to existing classes like `URL`, it can be parse from JSON.  
 
 __Example__
 ```Swift
@@ -278,9 +278,9 @@ extension URL: Decodable {
     }
 }
 ```
-Brewable
+Initializable
 ```Swift
-extension URL: Brewable {
+extension URL: Initializable {
     public init(json j: JSON) throws {
         self = try j.distil().flatMap(URL.init(string:))
     }
@@ -291,9 +291,9 @@ let url: URL = try j <| "key"  // http://example.com
 ```
 
 ### Object mapping  
-To mapping your models, need implements the `Decodable` or `Brewable` protocol.  
+To mapping your models, need implements the `Decodable` or `Initializable` protocol.  
 Then, parse the objects from JSON to all your model properties.  
-__`Brewable` protocol can't implement to non `final` class.__  
+__`Initializable` protocol can't implement to non `final` class.__  
 
 __Example__
 ```Swift
@@ -319,9 +319,9 @@ struct Sample: Decodable {
     }
 }
 ```
-Brewable
+Initializable
 ```Swift
-struct Sample: Brewable {
+struct Sample: Initializable {
     let string: String
     let int: Int?
 

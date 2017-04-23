@@ -145,7 +145,7 @@ private enum Gender: String, Decodable {
     case female = "female"
 }
 
-private final class User: Brewable {
+private final class User: Initializable {
     let id: Int
     let name: String
     let weight: Double
