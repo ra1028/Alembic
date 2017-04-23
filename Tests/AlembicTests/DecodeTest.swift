@@ -2,22 +2,22 @@ import Foundation
 import XCTest
 @testable import Alembic
 
-class DistilTest: XCTestCase {
-    let object = distilTestJSONObject
+class DecodeTest: XCTestCase {
+    let object = decodeTestJson
     
-    func testDistil() {
+    func testDecode() {
         let json = JSON(object)
         
         do {
-            let string: String = try *json.distil("string")
-            let int: Int = try *json.distil("int")
-            let double: Double = try *json.distil("double")
-            let float: Float = try *json.distil("float")
-            let bool: Bool = try *json.distil("bool")
-            let array: [String] = try *json.distil("array")
-            let dictionary: [String: Int] = try *json.distil("dictionary")
-            let nestedValue: Int = try *json.distil(["nested", "array", 2])
-            let nestedArray: [Int] = try *json.distil(["nested", "array"])
+            let string: String = try *json.decode("string")
+            let int: Int = try *json.decode("int")
+            let double: Double = try *json.decode("double")
+            let float: Float = try *json.decode("float")
+            let bool: Bool = try *json.decode("bool")
+            let array: [String] = try *json.decode("array")
+            let dictionary: [String: Int] = try *json.decode("dictionary")
+            let nestedValue: Int = try *json.decode(["nested", "array", 2])
+            let nestedArray: [Int] = try *json.decode(["nested", "array"])
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(int, 777)
@@ -33,15 +33,15 @@ class DistilTest: XCTestCase {
         }
     }
     
-    func testDistilSubscript() {
+    func testDecodeSubscript() {
         do {
             let json = JSON(object)
             
-            let string: String = try *json["string"].distil()
-            let array: [String] = try *json["array"].distil()
-            let dictionary: [String: Int] = try *json["dictionary"].distil()
-            let nestedValue: Int = try *json["nested", "array", 2].distil()
-            let subscriptChain: Int = try *json["nested"]["array"][2].distil()
+            let string: String = try *json["string"].decode()
+            let array: [String] = try *json["array"].decode()
+            let dictionary: [String: Int] = try *json["dictionary"].decode()
+            let nestedValue: Int = try *json["nested", "array", 2].decode()
+            let subscriptChain: Int = try *json["nested"]["array"][2].decode()
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(array, ["A", "B", "C"])
@@ -57,7 +57,7 @@ class DistilTest: XCTestCase {
         let json = JSON(object)
         
         do {
-            _ = try *json.distil("missing_key") as String
+            _ = try *json.decode("missing_key") as String
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.missingPath(path) where path == "missing_key" {
@@ -67,7 +67,7 @@ class DistilTest: XCTestCase {
         }
         
         do {
-            _ = try *json.distil("int_string") as Int
+            _ = try *json.decode("int_string") as Int
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -83,7 +83,7 @@ class DistilTest: XCTestCase {
         let json = JSON(object)
         
         do {
-            let user: User = try *json.distil("user")
+            let user: User = try *json.decode("user")
             
             XCTAssertEqual(user.id, 100)
             XCTAssertEqual(user.name, "ra1028")
@@ -102,7 +102,7 @@ class DistilTest: XCTestCase {
         do {
             let json = JSON(object)
             
-            let numbers: Numbers = try *json.distil("numbers")
+            let numbers: Numbers = try *json.decode("numbers")
             
             XCTAssertEqual(numbers.number, 1)
             XCTAssertEqual(numbers.int8, 2)
@@ -136,7 +136,7 @@ extension DistilTest {
 
 extension URL: Decodable {
     public static func value(from json: JSON) throws -> URL {
-        return try *json.distil().flatMap(self.init(string:))
+        return try *json.decode().flatMap(self.init(string:))
     }
 }
 
@@ -157,14 +157,14 @@ private final class User: Initializable {
     
     required init(with json: JSON) throws {
         _ = try (
-            id = *json.distil("id"),
-            name = *json.distil("name"),
-            weight = *json.distil("weight"),
-            gender = *json.distil("gender"),
-            smoker = *json.distil("smoker"),
-            email = *json.distil(["contact", "email"]),
-            url = *json.distil(["contact", "url"]),
-            friends = *json.distil("friends")
+            id = *json.decode("id"),
+            name = *json.decode("name"),
+            weight = *json.decode("weight"),
+            gender = *json.decode("gender"),
+            smoker = *json.decode("smoker"),
+            email = *json.decode(["contact", "email"]),
+            url = *json.decode(["contact", "url"]),
+            friends = *json.decode("friends")
         )
     }
 }
@@ -182,15 +182,15 @@ private struct Numbers: Decodable {
     
     fileprivate static func value(from json: JSON) throws -> Numbers {
         return try Numbers(
-            number: *json.distil("number"),
-            int8: *json.distil("int8"),
-            uint8: *json.distil("uint8"),
-            int16: *json.distil("int16"),
-            uint16: *json.distil("uint16"),
-            int32: *json.distil("int32"),
-            uint32: *json.distil("uint32"),
-            int64: *json.distil("int64"),
-            uint64: *json.distil("uint64")
+            number: *json.decode("number"),
+            int8: *json.decode("int8"),
+            uint8: *json.decode("uint8"),
+            int16: *json.decode("int16"),
+            uint16: *json.decode("uint16"),
+            int32: *json.decode("int32"),
+            uint32: *json.decode("uint32"),
+            int64: *json.decode("int64"),
+            uint64: *json.decode("uint64")
         )
     }
 }

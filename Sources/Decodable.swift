@@ -106,7 +106,7 @@ public extension RawRepresentable where Self: Decodable, RawValue: Decodable {
 extension Array where Element: Decodable {
     public static func value(from json: JSON) throws -> [Element] {
         let arr: [Any] = try cast(json)
-        return try arr.map { try *JSON($0).distil() }
+        return try arr.map { try *JSON($0).decode() }
     }
 }
 
@@ -114,7 +114,7 @@ extension Dictionary where Key == String, Value: Decodable {
     public static func value(from json: JSON) throws -> [String: Value] {
         let dic: [String: Any] = try cast(json)
         var new = [String: Value](minimumCapacity: dic.count)
-        try dic.forEach { try new.updateValue(*JSON($1).distil(), forKey: $0) }
+        try dic.forEach { try new.updateValue(*JSON($1).decode(), forKey: $0) }
         return new
     }
 }

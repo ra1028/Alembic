@@ -15,12 +15,12 @@ public final class LazyJSON {
 // MARK: - JSONProtocol
 
 extension LazyJSON: JSONProtocol {
-    public func distil<T: Decodable>(_ path: Path, as: T.Type) -> ThrowableDecoded<T> {
-        return rootJSON.distil(currentPath + path)
+    public func decode<T: Decodable>(_ path: Path, as: T.Type) -> ThrowableDecoded<T> {
+        return rootJSON.decode(currentPath + path)
     }
     
-    public func option<T: Decodable>(_ path: Path, as: T?.Type) -> ThrowableDecoded<T?> {
-        return rootJSON.option(currentPath + path)
+    public func decodeOption<T: Decodable>(_ path: Path, as: T?.Type) -> ThrowableDecoded<T?> {
+        return rootJSON.decodeOption(currentPath + path)
     }
 }
 

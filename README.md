@@ -62,17 +62,17 @@ let j = JSON(obj)
 ```
 Value parsing
 ```Swift
-let value: String = try j.distil("key")
+let value: String = try j.decode("key")
 ```
 ```Swift
 let value: String = try j <| "key"
 ```
 ```Swift
-let value: String = try j["key"].distil()
+let value: String = try j["key"].decode()
 ```
 Object mapping
 ```Swift
-let user: User = try j.distil("user")
+let user: User = try j.decode("user")
 
 struct User: Decodable {
     let name: String
@@ -80,8 +80,8 @@ struct User: Decodable {
 
     static func value(from json: JSON) throws -> User {
         return try User(
-            name: j.distil("name"),
-            avatarUrl: j.distil("avatar_url").flatMap(URL.init(string:))
+            name: j.decode("name"),
+            avatarUrl: j.decode("avatar_url").flatMap(URL.init(string:))
         )
     }
 }
@@ -206,19 +206,19 @@ let object = ["key": "string"]
 let j = JSON(object)
 ```
 ```Swift
-let string: String = try j.distil("key")  // "string"
+let string: String = try j.decode("key")  // "string"
 ```
 ```Swift
 let string: String = try j <| "key"  // "string"
 ```
 ```Swift
-let string: String = try j["key"].distil()  // "string"
+let string: String = try j["key"].decode()  // "string"
 ```
 
 __Tips__  
 You can set the generic type as following:  
 ```Swift
-let string = try j.distil("key").to(String.self)  // "string"
+let string = try j.decode("key").to(String.self)  // "string"
 ```
 It's same if use operator or subscript.  
 
@@ -232,14 +232,14 @@ let object = ["nested": ["array": [1, 2, 3, 4, 5]]]
 let j = JSON(object)
 ```
 ```Swift
-let int: Int = try j.distil(["nested", "array", 2])  // 3        
+let int: Int = try j.decode(["nested", "array", 2])  // 3        
 ```
 ```Swift
 let int: Int = try j <| ["nested", "array", 2]  // 3  
 ```
 ```Swift
-let int: Int = try j["nested", "array", 2].distil()  // 3  
-let int: Int = try j["nested"]["array"][2].distil()  // 3  
+let int: Int = try j["nested", "array", 2].decode()  // 3  
+let int: Int = try j["nested"]["array"][2].decode()  // 3  
 ```
 
 ### Optional objects parsing
@@ -252,14 +252,14 @@ let object = ["nested": [:]] // Nested key is nothing...
 let j = JSON(object)
 ```
 ```Swift
-let int: Int? = try j.option(["nested", "key"])  // nil
+let int: Int? = try j.decodeOption(["nested", "key"])  // nil
 ```
 ```Swift
 let int: Int? = try j <|? ["nested", "key"]  // nil
 ```
 ```Swift
-let int: Int? = try j["nested", "key"].option()  // nil
-let int: Int? = try j["nested"]["key"].option()  // nil
+let int: Int? = try j["nested", "key"].decodeOption()  // nil
+let int: Int? = try j["nested"]["key"].decodeOption()  // nil
 ```
 
 ### Custom value parsing
@@ -274,7 +274,7 @@ Decodable
 ```Swift
 extension URL: Decodable {
     public static func value(from json: JSON) throws -> URL {
-        return try j.distil().flatMap(self.init(string:))
+        return try j.decode().flatMap(self.init(string:))
     }
 }
 ```
@@ -282,7 +282,7 @@ Initializable
 ```Swift
 extension URL: Initializable {
     public init(json j: JSON) throws {
-        self = try j.distil().flatMap(URL.init(string:))
+        self = try j.decode().flatMap(URL.init(string:))
     }
 }
 ```
@@ -446,7 +446,7 @@ let j = JSON(object)
 ```
 function
 ```Swift
-let date: Date = j.distil("time_string", as: String.self)  // "Apr 1, 2016, 12:00 AM"
+let date: Date = j.decode("time_string", as: String.self)  // "Apr 1, 2016, 12:00 AM"
     .filter { !$0.isEmpty }
     .flatMap { dateString in
         let fmt = DateFormatter()
@@ -460,13 +460,13 @@ __Tips__
 When the transforming is complicated, often generic type is missing.  
 At that time, set the type explicitly as following:  
 ```Swift
-let value: String = try j.distil("number", as: Int.self).map { "Number \($0)" }
+let value: String = try j.decode("number", as: Int.self).map { "Number \($0)" }
 ```
 ```Swift
 let value: String = try (j <| "number")(Int.self).map { "Number \($0)" }
 ```
 ```Swift
-let value: String = try j["number"].distil(as: Int.self).map { "Number \($0)" }
+let value: String = try j["number"].decode(as: Int.self).map { "Number \($0)" }
 ```
 
 You can create `Distillate` by `Distillate.filter()`, `Distillate.error(error)` and `Distillate.just(value)`.  
@@ -476,7 +476,7 @@ Example:
 ```Swift
 struct FindAppleError: Error {}
 
-let message: String = try j.distil("number_of_apples", as: Int.self)
+let message: String = try j.decode("number_of_apples", as: Int.self)
     .flatMap { count -> Distillate<String> in
         count > 0 ? .just("\(count) apples found!!") : .filter()
     }
@@ -490,7 +490,7 @@ let jsonObject = ["user": ["name": "Robert Downey, Jr."]]
 let j = JSON(jsonObject)
 ```
 ```Swift		
-j.distil(["user", "name"], to: String.self)
+j.decode(["user", "name"], to: String.self)
     .map { name in "User name is \(name)" }
     .value { message in
         print(message)  // "Robert Downey, Jr."
@@ -525,9 +525,9 @@ __DecodeError__
 
 <tr>
 <td>
-try j.distil(path)<br>
+try j.decode(path)<br>
 try j <| path<br>
-try j[path].distil()<br>
+try j[path].decode()<br>
 </td>
 <td>throw</td>
 <td>throw</td>
@@ -537,9 +537,9 @@ try j[path].distil()<br>
 
 <tr>
 <td>
-try j.option(path)<br>
+try j.decodeOption(path)<br>
 try j <|? path<br>
-try j[path].option()<br>
+try j[path].decodeOption()<br>
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -549,9 +549,9 @@ try j[path].option()<br>
 
 <tr>
 <td>
-try? j.distil(path)<br>
+try? j.decode(path)<br>
 try? j <| path<br>
-try? j[path].distil()<br>
+try? j[path].decode()<br>
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -561,9 +561,9 @@ try? j[path].distil()<br>
 
 <tr>
 <td>
-try? j.option(path)<br>
+try? j.decodeOption(path)<br>
 try? j <|? path<br>
-try? j[path].option()<br>
+try? j[path].decodeOption()<br>
 </td>
 <td>nil</td>
 <td>nil</td>
@@ -575,12 +575,12 @@ try? j[path].option()<br>
 </table>
 
 __Don't wanna handling the error?__  
-If you don't care about error handling, use `try?` or `j.distil("key").catch(value)`.  
+If you don't care about error handling, use `try?` or `j.decode("key").catch(value)`.  
 ```Swift
-let value: String? = try? j.distil("key")
+let value: String? = try? j.decode("key")
 ```
 ```Swift
-let value: String = j.distil("key").catch("sub-value")
+let value: String = j.decode("key").catch("sub-value")
 ```
 
 ---

@@ -5,8 +5,8 @@ import struct Foundation.Data
 public final class JSON {
     public let raw: Any
     
-    private let evaluate: () throws -> Any
-    private var cached: Any?
+    private let create: () throws -> Any
+    private var cachedJsonObject: Any?
     
     public subscript(element: Path.Element...) -> LazyJSON {
         return .init(rootJSON: self, currentPath: .init(elements: element))
@@ -44,15 +44,15 @@ public final class JSON {
         }
     }
     
-    private init(raw: Any, evaluate: @escaping () throws -> Any) {
+    private init(raw: Any, create: @escaping () throws -> Any) {
         self.raw = raw
-        self.evaluate = evaluate
+        self.create = create
     }
     
     fileprivate func jsonObject() throws -> Any {
-        if let cached = cached { return cached }
-        let jsonObject = try evaluate()
-        cached = jsonObject
+        if let cachedJsonObject = cachedJsonObject { return cachedJsonObject }
+        let jsonObject = try create()
+        cachedJsonObject = jsonObject
         return jsonObject
     }
 }
@@ -60,9 +60,9 @@ public final class JSON {
 // MARK: - JSONProtocol
 
 extension JSON: JSONProtocol {
-    public func distil<T: Decodable>(_ path: Path, as: T.Type) -> ThrowableDecoded<T> {
+    public func decode<T: Decodable>(_ path: Path, as: T.Type) -> ThrowableDecoded<T> {
         return .init {
-            let object: Any = try self.distilRecursive(path: path)
+            let object: Any = try self.decodeRecursive(path: path)
             do {
                 return try .value(from: .init(object))
             } catch let DecodeError.missingPath(missing) {
@@ -73,10 +73,10 @@ extension JSON: JSONProtocol {
         }
     }
     
-    public func option<T: Decodable>(_ path: Path, as: T?.Type) -> ThrowableDecoded<T?> {
+    public func decodeOption<T: Decodable>(_ path: Path, as: T?.Type) -> ThrowableDecoded<T?> {
         return .init {
             do {
-                return try *self.distil(path, as: T.self)
+                return try *self.decode(path, as: T.self)
             } catch let DecodeError.missingPath(missing) where missing == path {
                 return nil
             }
@@ -103,7 +103,7 @@ extension JSON: CustomDebugStringConvertible {
 // MARK: - private functions
 
 private extension JSON {
-    func distilRecursive<T>(path: Path) throws -> T {
+    func decodeRecursive<T>(path: Path) throws -> T {
         func cast<T>(_ object: Any) throws -> T {
             guard let value = object as? T else {
                 throw DecodeError.typeMismatch(expected: T.self, actual: object, path: path)
@@ -111,7 +111,7 @@ private extension JSON {
             return value
         }
         
-        func distilRecursive(object: Any, elements: ArraySlice<Path.Element>) throws -> Any {
+        func decodeRecursive(object: Any, elements: ArraySlice<Path.Element>) throws -> Any {
             guard let first = elements.first else { return object }
             
             switch first {
@@ -122,7 +122,7 @@ private extension JSON {
                     throw DecodeError.missingPath(path)
                 }
                 
-                return try distilRecursive(object: value, elements: elements.dropFirst())
+                return try decodeRecursive(object: value, elements: elements.dropFirst())
                 
             case let .index(index):
                 let array: [Any] = try cast(object)
@@ -137,12 +137,12 @@ private extension JSON {
                     throw DecodeError.missingPath(path)
                 }
                 
-                return try distilRecursive(object: value, elements: elements.dropFirst())
+                return try decodeRecursive(object: value, elements: elements.dropFirst())
             }
         }
         
         let object = try jsonObject()
         let elements = ArraySlice(path.elements)
-        return try cast(distilRecursive(object: object, elements: elements))
+        return try cast(decodeRecursive(object: object, elements: elements))
     }
 }

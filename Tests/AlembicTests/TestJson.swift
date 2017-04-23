@@ -1,6 +1,6 @@
 import Foundation
 
-let distilTestJSONObject: [String: Any] = [
+let decodeTestJson: [String: Any] = [
     "string": "Alembic",
     "int": 777,
     "double": 77.7,
@@ -57,7 +57,7 @@ let distilTestJSONObject: [String: Any] = [
     ]
 ]
 
-let optionalTestJSONObject: [String: Any] = [
+let optionTestJson: [String: Any] = [
     "string": "Alembic",
     "int": 777,
     "float": 77.7 as Float,
@@ -76,16 +76,16 @@ let optionalTestJSONObject: [String: Any] = [
     ]
 ]
 
-let transformTestJSONObject: [String: Any] = [
+let transformTestJson: [String: Any] = [
     "key": "value",
     "null": NSNull(),
     "array": [String](),
     "nested": ["nested_key": "nested_value"]
 ]
 
-let serializeTestJSONString = "{" +
+let serializeTestJsonString = "{" +
     "\"key1\": 100," +
     "\"key2\": \"ABC\"" +
 "}"
 
-let serializeTestJSONData = serializeTestJSONString.data(using: .utf8)!
+let serializeTestJsonData = serializeTestJsonString.data(using: .utf8)!

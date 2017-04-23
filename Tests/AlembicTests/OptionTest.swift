@@ -1,22 +1,22 @@
 import XCTest
 @testable import Alembic
 
-class OptionalTest: XCTestCase {
-    let object = optionalTestJSONObject
+class OptionTest: XCTestCase {
+    let object = optionTestJson
     
-    func testOptional() {
+    func testOption() {
         let json = JSON(object)
         
         do {
-            let string: String? = try *json.option("string")
-            let int: Int? = try *json.option("int")
-            let double: Double? = try *json.option("double")
-            let float: Float? = try *json.option("float")
-            let bool: Bool? = try *json.option("bool")
-            let array: [String]? = try *json.option("array")
-            let dictionary: [String: Int]? = try *json.option("dictionary")
-            let nestedValue: Int? = try *json.option(["nested", "array", 2])
-            let nestedArray: [Int]? = try *json.option(["nested", "array"])
+            let string: String? = try *json.decodeOption("string")
+            let int: Int? = try *json.decodeOption("int")
+            let double: Double? = try *json.decodeOption("double")
+            let float: Float? = try *json.decodeOption("float")
+            let bool: Bool? = try *json.decodeOption("bool")
+            let array: [String]? = try *json.decodeOption("array")
+            let dictionary: [String: Int]? = try *json.decodeOption("dictionary")
+            let nestedValue: Int? = try *json.decodeOption(["nested", "array", 2])
+            let nestedArray: [Int]? = try *json.decodeOption(["nested", "array"])
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(int, 777)
@@ -32,7 +32,7 @@ class OptionalTest: XCTestCase {
         }
         
         do {
-            _ = try *json.distil("string") as Int?
+            _ = try *json.decode("string") as Int?
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -44,15 +44,15 @@ class OptionalTest: XCTestCase {
         }
     }
     
-    func testOptionalSubscript() {
+    func testOptionSubscript() {
         let json = JSON(object)
         
         do {
-            let string: String? = try *json["string"].option()
-            let bool: Bool? = try *json["bool"].option()
-            let array: [String]? = try *json["array"].option()
-            let dictionary: [String: Int]? = try *json["dictionary"].option()
-            let nestedValue: Int? = try *json["nested", "array", 2].option()
+            let string: String? = try *json["string"].decodeOption()
+            let bool: Bool? = try *json["bool"].decodeOption()
+            let array: [String]? = try *json["array"].decodeOption()
+            let dictionary: [String: Int]? = try *json["dictionary"].decodeOption()
+            let nestedValue: Int? = try *json["nested", "array", 2].decodeOption()
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertNil(bool)
@@ -64,7 +64,7 @@ class OptionalTest: XCTestCase {
         }
         
         do {
-            _ = try *json["string"].option() as Int?
+            _ = try *json["string"].decodeOption() as Int?
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -76,11 +76,11 @@ class OptionalTest: XCTestCase {
         }
     }
     
-    func testOptionalError() {
+    func testOptionError() {
         let json = JSON(object)
         
         do {
-            _ = try *json.distil("int") as String?
+            _ = try *json.decode("int") as String?
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -92,11 +92,11 @@ class OptionalTest: XCTestCase {
         }
     }
     
-    func testOptionalMapping() {
+    func testOptionMapping() {
         let json = JSON(object)
         
         do {
-            let user: User? = try *json.option("user1")
+            let user: User? = try *json.decodeOption("user1")
             
             XCTAssert(user == nil)
         } catch let e {
@@ -104,11 +104,11 @@ class OptionalTest: XCTestCase {
         }
     }
     
-    func testOptionalMappingError() {
+    func testOptionMappingError() {
         let json = JSON(object)
         
         do {
-            _ = try *json.distil("user2") as User?
+            _ = try *json.decode("user2") as User?
             
             XCTFail("Expected the error to occur")
         } catch let e {
@@ -143,9 +143,9 @@ private final class User: Initializable {
     
     required init(with json: JSON) throws {
         _ = try (
-            id = *json.distil("id"),
-            name = *json.distil("name"),
-            email = *json.distil(["contact", "email"])
+            id = *json.decode("id"),
+            name = *json.decode("name"),
+            email = *json.decode(["contact", "email"])
         )
     }
 }

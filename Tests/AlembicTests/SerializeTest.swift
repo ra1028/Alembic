@@ -3,15 +3,15 @@ import XCTest
 @testable import Alembic
 
 class SerializeTest: XCTestCase {
-    let string = serializeTestJSONString
-    let data = serializeTestJSONData
+    let string = serializeTestJsonString
+    let data = serializeTestJsonData
     
     func testSerializeString() {
         let json = JSON(string: string)
         
         do {
-            let i: Int = try *json.distil("key1")
-            let s: String = try *json.distil("key2")
+            let i: Int = try *json.decode("key1")
+            let s: String = try *json.decode("key2")
             
             XCTAssertEqual(i, 100)
             XCTAssertEqual(s, "ABC")
@@ -24,8 +24,8 @@ class SerializeTest: XCTestCase {
         let json = JSON(data: data)
         
         do {
-            let i: Int = try *json.distil("key1")
-            let s: String = try *json.distil("key2")
+            let i: Int = try *json.decode("key1")
+            let s: String = try *json.decode("key2")
             
             XCTAssertEqual(i, 100)
             XCTAssertEqual(s, "ABC")
@@ -38,7 +38,7 @@ class SerializeTest: XCTestCase {
         let json = JSON(string: "")
         
         do {
-            _ = try *json.distil("key1", as: String.self)
+            _ = try *json.decode("key1", as: String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.serializeFailed(with: with) {
@@ -52,7 +52,7 @@ class SerializeTest: XCTestCase {
         let json = JSON(data: .init())
         
         do {
-            _ = try *json.distil("key1", as: String.self)
+            _ = try *json.decode("key1", as: String.self)
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.serializeFailed(with: with) {

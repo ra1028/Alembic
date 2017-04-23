@@ -1,9 +1,9 @@
 prefix operator *
 
-public prefix func *<T>(distillate: Decoded<T>) -> T {
-    return distillate.value()
+public prefix func *<T>(decoded: Decoded<T>) -> T {
+    return decoded.value()
 }
 
-public prefix func *<T>(distillate: ThrowableDecoded<T>) throws -> T {
-    return try distillate.value()
+public prefix func *<T>(decoded: ThrowableDecoded<T>) throws -> T {
+    return try decoded.value()
 }
