@@ -24,7 +24,6 @@
 		2A1EDAA61D9AF2C300CE4C9E /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA941D9AF2C300CE4C9E /* Path.swift */; };
 		2A1EDAA71D9AF2C300CE4C9E /* PathElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA951D9AF2C300CE4C9E /* PathElement.swift */; };
 		2A1EDAA81D9AF2C300CE4C9E /* SecureDistillate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA961D9AF2C300CE4C9E /* SecureDistillate.swift */; };
-		2A1EDAA91D9AF2C300CE4C9E /* StringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA971D9AF2C300CE4C9E /* StringConvertible.swift */; };
 		6B43DC281DA6274300A5CE94 /* JSONType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B43DC261DA6274300A5CE94 /* JSONType.swift */; };
 		6B43DC291DA6274300A5CE94 /* LazyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B43DC271DA6274300A5CE94 /* LazyJSON.swift */; };
 		6BAFE1051DA63A9A003278FF /* SerializeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAFE1031DA63A59003278FF /* SerializeTest.swift */; };
@@ -61,7 +60,6 @@
 		2A1EDA941D9AF2C300CE4C9E /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		2A1EDA951D9AF2C300CE4C9E /* PathElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathElement.swift; sourceTree = "<group>"; };
 		2A1EDA961D9AF2C300CE4C9E /* SecureDistillate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureDistillate.swift; sourceTree = "<group>"; };
-		2A1EDA971D9AF2C300CE4C9E /* StringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringConvertible.swift; sourceTree = "<group>"; };
 		6B43DC261DA6274300A5CE94 /* JSONType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONType.swift; sourceTree = "<group>"; };
 		6B43DC271DA6274300A5CE94 /* LazyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyJSON.swift; sourceTree = "<group>"; };
 		6BAFE1031DA63A59003278FF /* SerializeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializeTest.swift; sourceTree = "<group>"; };
@@ -138,7 +136,6 @@
 				2A1EDA941D9AF2C300CE4C9E /* Path.swift */,
 				2A1EDA951D9AF2C300CE4C9E /* PathElement.swift */,
 				2A1EDA961D9AF2C300CE4C9E /* SecureDistillate.swift */,
-				2A1EDA971D9AF2C300CE4C9E /* StringConvertible.swift */,
 				2A1EDA8C1D9AF2C300CE4C9E /* Info.plist */,
 			);
 			path = Sources;
@@ -254,7 +251,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A1EDAA91D9AF2C300CE4C9E /* StringConvertible.swift in Sources */,
 				2A1EDAA01D9AF2C300CE4C9E /* InsecureDistillate.swift in Sources */,
 				2A1EDA991D9AF2C300CE4C9E /* Distillate.swift in Sources */,
 				2A1EDAA11D9AF2C300CE4C9E /* JSON.swift in Sources */,

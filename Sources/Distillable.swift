@@ -110,7 +110,7 @@ extension Array where Element: Distillable {
     }
 }
 
-extension Dictionary where Key: StringConvertible, Value: Distillable {
+extension Dictionary where Key == String, Value: Distillable {
     public static func distil(json j: JSON) throws -> [String: Value] {
         let dic: [String: Any] = try cast(j)
         var new = [String: Value](minimumCapacity: dic.count)
