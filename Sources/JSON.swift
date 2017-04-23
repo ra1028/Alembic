@@ -57,9 +57,9 @@ public final class JSON {
     }
 }
 
-// MARK: - JSONType
+// MARK: - JSONProtocol
 
-extension JSON: JSONType {
+extension JSON: JSONProtocol {
     public func distil<T: Distillable>(_ path: Path, as: T.Type) throws -> T {
         let object: Any = try distilRecursive(path: path)
         do {

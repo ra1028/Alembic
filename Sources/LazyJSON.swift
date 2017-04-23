@@ -12,9 +12,9 @@ public final class LazyJSON {
     }
 }
 
-// MARK: - JSONType
+// MARK: - JSONProtocol
 
-extension LazyJSON: JSONType {
+extension LazyJSON: JSONProtocol {
     public func distil<T: Distillable>(_ path: Path, as: T.Type) throws -> T {
         return try rootJSON.distil(currentPath + path)
     }

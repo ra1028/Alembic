@@ -1,11 +1,11 @@
-public protocol JSONType {
+public protocol JSONProtocol {
     func distil<T: Distillable>(_ path: Path, as: T.Type) throws -> T
     func option<T: Distillable>(_ path: Path, as: T?.Type) throws -> T?
 }
 
 // MARK: - distil functions with type constraints
 
-public extension JSONType {
+public extension JSONProtocol {
     func to<T: Distillable>(_: T.Type) throws -> T {
         return try distil()
     }
@@ -21,7 +21,7 @@ public extension JSONType {
 
 // MARK: - distil functions
 
-public extension JSONType {
+public extension JSONProtocol {
     func distil<T: Distillable>(_ path: Path = []) throws -> T {
         return try distil(path, as: T.self)
     }
@@ -41,7 +41,7 @@ public extension JSONType {
 
 // MARK: - lazy distil functions
 
-public extension JSONType {
+public extension JSONProtocol {
     func distil<T: Distillable>(_ path: Path = [], as: T.Type = T.self) -> InsecureDistillate<T> {
         return .init { try self.distil(path) }
     }
@@ -57,7 +57,7 @@ public extension JSONType {
 
 // MARK: - distil option functions
 
-public extension JSONType {
+public extension JSONProtocol {
     func option<T: Distillable>(_ path: Path = []) throws -> T? {
         return try option(path, as: (T?).self)
     }
@@ -77,7 +77,7 @@ public extension JSONType {
 
 // MARK: - lazy distil option functions
 
-public extension JSONType {
+public extension JSONProtocol {
     func option<T: Distillable>(_ path: Path = [], as: T?.Type = (T?).self) -> InsecureDistillate<T?> {
         return .init { try self.option(path) }
     }
