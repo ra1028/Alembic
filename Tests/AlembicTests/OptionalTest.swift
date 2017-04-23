@@ -5,18 +5,18 @@ class OptionalTest: XCTestCase {
     let object = optionalTestJSONObject
     
     func testOptional() {
-        let j = JSON(object)
+        let json = JSON(object)
         
         do {
-            let string: String? = try j.option("string").value()
-            let int: Int? = try *j.option("int")
-            let double: Double? = try *j.option("double")
-            let float: Float? = try *j.option("float")
-            let bool: Bool? = try *j.option("bool")
-            let array: [String]? = try *j.option("array")
-            let dictionary: [String: Int]? = try *j.option("dictionary")
-            let nestedValue: Int? = try *j.option(["nested", "array", 2])
-            let nestedArray: [Int]? = try *j.option(["nested", "array"])
+            let string: String? = try *json.option("string")
+            let int: Int? = try *json.option("int")
+            let double: Double? = try *json.option("double")
+            let float: Float? = try *json.option("float")
+            let bool: Bool? = try *json.option("bool")
+            let array: [String]? = try *json.option("array")
+            let dictionary: [String: Int]? = try *json.option("dictionary")
+            let nestedValue: Int? = try *json.option(["nested", "array", 2])
+            let nestedArray: [Int]? = try *json.option(["nested", "array"])
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(int, 777)
@@ -32,7 +32,7 @@ class OptionalTest: XCTestCase {
         }
         
         do {
-            _ = try *j.distil("string") as Int?
+            _ = try *json.distil("string") as Int?
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -45,14 +45,14 @@ class OptionalTest: XCTestCase {
     }
     
     func testOptionalSubscript() {
-        let j = JSON(object)
+        let json = JSON(object)
         
         do {
-            let string: String? = try *j["string"].option()
-            let bool: Bool? = try *j["bool"].option()
-            let array: [String]? = try *j["array"].option()
-            let dictionary: [String: Int]? = try *j["dictionary"].option()
-            let nestedValue: Int? = try *j["nested", "array", 2].option()
+            let string: String? = try *json["string"].option()
+            let bool: Bool? = try *json["bool"].option()
+            let array: [String]? = try *json["array"].option()
+            let dictionary: [String: Int]? = try *json["dictionary"].option()
+            let nestedValue: Int? = try *json["nested", "array", 2].option()
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertNil(bool)
@@ -64,7 +64,7 @@ class OptionalTest: XCTestCase {
         }
         
         do {
-            _ = try *j["string"].option() as Int?
+            _ = try *json["string"].option() as Int?
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -77,10 +77,10 @@ class OptionalTest: XCTestCase {
     }
     
     func testOptionalError() {
-        let j = JSON(object)
+        let json = JSON(object)
         
         do {
-            _ = try *j.distil("int") as String?
+            _ = try *json.distil("int") as String?
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -93,10 +93,10 @@ class OptionalTest: XCTestCase {
     }
     
     func testOptionalMapping() {
-        let j = JSON(object)
+        let json = JSON(object)
         
         do {
-            let user: User? = try *j.option("user1")
+            let user: User? = try *json.option("user1")
             
             XCTAssert(user == nil)
         } catch let e {
@@ -105,10 +105,10 @@ class OptionalTest: XCTestCase {
     }
     
     func testOptionalMappingError() {
-        let j = JSON(object)
+        let json = JSON(object)
         
         do {
-            _ = try *j.distil("user2") as User?
+            _ = try *json.distil("user2") as User?
             
             XCTFail("Expected the error to occur")
         } catch let e {
@@ -141,11 +141,11 @@ private final class User: Brewable {
     let name: String
     let email: String
     
-    required init(json j: JSON) throws {
+    required init(with json: JSON) throws {
         _ = try (
-            id = *j.distil("id"),
-            name = *j.distil("name"),
-            email = *j.distil(["contact", "email"])
+            id = *json.distil("id"),
+            name = *json.distil("name"),
+            email = *json.distil(["contact", "email"])
         )
     }
 }

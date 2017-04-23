@@ -74,11 +74,11 @@ Object mapping
 ```Swift
 let user: User = try j.distil("user")
 
-struct User: Distillable {
+struct User: Decodable {
     let name: String
     let avatarUrl: URL
 
-    static func distil(json j: JSON) throws -> User {
+    static func value(from json: JSON) throws -> User {
         return try User(
             name: j.distil("name"),
             avatarUrl: j.distil("avatar_url").flatMap(URL.init(string:))
@@ -168,14 +168,14 @@ let j = JSON(
 ```
 
 ### JSON parsing
-To enable parsing, a class, struct, or enum just needs to implement the `Distillable` or `Brewable` protocol.  
+To enable parsing, a class, struct, or enum just needs to implement the `Decodable` or `Brewable` protocol.  
 ```Swift
-public protocol Distillable {
-    static func distil(json j: JSON) throws -> Self
+public protocol Decodable {
+    static func value(from json: JSON) throws -> Self
 }
 ```
 ```Swift
-public protocol Brewable: Distillable {
+public protocol Brewable: Decodable {
     init(json j: JSON) throws
 }
 ```
@@ -197,8 +197,8 @@ __Default supported types__
 - `Int64`  
 - `UInt64`  
 - `RawRepresentable`  
-- `Array<T: Distillable>`  
-- `Dictionary<String, T: Distillable>`  
+- `Array<T: Decodable>`  
+- `Dictionary<String, T: Decodable>`  
 
 __Example__
 ```Swift
@@ -263,17 +263,17 @@ let int: Int? = try j["nested"]["key"].option()  // nil
 ```
 
 ### Custom value parsing
-If implement `Distillable` or `Brewable` protocol to existing classes like `URL`, it can be parse from JSON.  
+If implement `Decodable` or `Brewable` protocol to existing classes like `URL`, it can be parse from JSON.  
 
 __Example__
 ```Swift
 let object = ["key": "http://example.com"]
 let j = JSON(object)
 ```
-Distillable
+Decodable
 ```Swift
-extension URL: Distillable {
-    public static func distil(json j: JSON) throws -> URL {
+extension URL: Decodable {
+    public static func value(from json: JSON) throws -> URL {
         return try j.distil().flatMap(self.init(string:))
     }
 }
@@ -291,7 +291,7 @@ let url: URL = try j <| "key"  // http://example.com
 ```
 
 ### Object mapping  
-To mapping your models, need implements the `Distillable` or `Brewable` protocol.  
+To mapping your models, need implements the `Decodable` or `Brewable` protocol.  
 Then, parse the objects from JSON to all your model properties.  
 __`Brewable` protocol can't implement to non `final` class.__  
 
@@ -305,13 +305,13 @@ let object = [
 ]
 let j = JSON(object)
 ```
-Distillable
+Decodable
 ```Swift
-struct Sample: Distillable {
+struct Sample: Decodable {
     let string: String
     let int: Int?
 
-    static func distil(json j: JSON) throws -> Sample {
+    static func value(from json: JSON) throws -> Sample {
         return try Sample(
             string: j <| "string_key",
             int: j <|? "option_int_key"

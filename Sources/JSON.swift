@@ -60,11 +60,11 @@ public final class JSON {
 // MARK: - JSONProtocol
 
 extension JSON: JSONProtocol {
-    public func distil<T: Distillable>(_ path: Path, as: T.Type) -> InsecureDistillate<T> {
+    public func distil<T: Decodable>(_ path: Path, as: T.Type) -> InsecureDistillate<T> {
         return .init {
             let object: Any = try self.distilRecursive(path: path)
             do {
-                return try .distil(json: .init(object))
+                return try .value(from: .init(object))
             } catch let DistillError.missingPath(missing) {
                 throw DistillError.missingPath(path + missing)
             } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
@@ -73,7 +73,7 @@ extension JSON: JSONProtocol {
         }
     }
     
-    public func option<T: Distillable>(_ path: Path, as: T?.Type) -> InsecureDistillate<T?> {
+    public func option<T: Decodable>(_ path: Path, as: T?.Type) -> InsecureDistillate<T?> {
         return .init {
             do {
                 return try *self.distil(path, as: T.self)

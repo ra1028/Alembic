@@ -6,18 +6,18 @@ class DistilTest: XCTestCase {
     let object = distilTestJSONObject
     
     func testDistil() {
-        let j = JSON(object)
+        let json = JSON(object)
         
         do {
-            let string: String = try *j.distil("string")
-            let int: Int = try *j.distil("int")
-            let double: Double = try *j.distil("double")
-            let float: Float = try *j.distil("float")
-            let bool: Bool = try *j.distil("bool")
-            let array: [String] = try *j.distil("array")
-            let dictionary: [String: Int] = try *j.distil("dictionary")
-            let nestedValue: Int = try *j.distil(["nested", "array", 2])
-            let nestedArray: [Int] = try *j.distil(["nested", "array"])
+            let string: String = try *json.distil("string")
+            let int: Int = try *json.distil("int")
+            let double: Double = try *json.distil("double")
+            let float: Float = try *json.distil("float")
+            let bool: Bool = try *json.distil("bool")
+            let array: [String] = try *json.distil("array")
+            let dictionary: [String: Int] = try *json.distil("dictionary")
+            let nestedValue: Int = try *json.distil(["nested", "array", 2])
+            let nestedArray: [Int] = try *json.distil(["nested", "array"])
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(int, 777)
@@ -35,13 +35,13 @@ class DistilTest: XCTestCase {
     
     func testDistilSubscript() {
         do {
-            let j = JSON(object)
+            let json = JSON(object)
             
-            let string: String = try *j["string"].distil()
-            let array: [String] = try *j["array"].distil()
-            let dictionary: [String: Int] = try *j["dictionary"].distil()
-            let nestedValue: Int = try *j["nested", "array", 2].distil()
-            let subscriptChain: Int = try *j["nested"]["array"][2].distil()
+            let string: String = try *json["string"].distil()
+            let array: [String] = try *json["array"].distil()
+            let dictionary: [String: Int] = try *json["dictionary"].distil()
+            let nestedValue: Int = try *json["nested", "array", 2].distil()
+            let subscriptChain: Int = try *json["nested"]["array"][2].distil()
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(array, ["A", "B", "C"])
@@ -54,10 +54,10 @@ class DistilTest: XCTestCase {
     }
     
     func testDistillError() {
-        let j = JSON(object)
+        let json = JSON(object)
         
         do {
-            _ = try *j.distil("missing_key") as String
+            _ = try *json.distil("missing_key") as String
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.missingPath(path) where path == "missing_key" {
@@ -67,7 +67,7 @@ class DistilTest: XCTestCase {
         }
         
         do {
-            _ = try *j.distil("int_string") as Int
+            _ = try *json.distil("int_string") as Int
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -80,10 +80,10 @@ class DistilTest: XCTestCase {
     }
     
     func testClassMapping() {
-        let j = JSON(object)
+        let json = JSON(object)
         
         do {
-            let user: User = try *j.distil("user")
+            let user: User = try *json.distil("user")
             
             XCTAssertEqual(user.id, 100)
             XCTAssertEqual(user.name, "ra1028")
@@ -100,9 +100,9 @@ class DistilTest: XCTestCase {
     
     func testStructMapping() {
         do {
-            let j = JSON(object)
+            let json = JSON(object)
             
-            let numbers: Numbers = try *j.distil("numbers")
+            let numbers: Numbers = try *json.distil("numbers")
             
             XCTAssertEqual(numbers.number, 1)
             XCTAssertEqual(numbers.int8, 2)
@@ -134,13 +134,13 @@ extension DistilTest {
 }
 #endif
 
-extension URL: Distillable {
-    public static func distil(json j: JSON) throws -> URL {
-        return try *j.distil().flatMap(self.init(string:))
+extension URL: Decodable {
+    public static func value(from json: JSON) throws -> URL {
+        return try *json.distil().flatMap(self.init(string:))
     }
 }
 
-private enum Gender: String, Distillable {
+private enum Gender: String, Decodable {
     case male = "male"
     case female = "female"
 }
@@ -155,21 +155,21 @@ private final class User: Brewable {
     let url: URL
     let friends: [User]
     
-    required init(json j: JSON) throws {
+    required init(with json: JSON) throws {
         _ = try (
-            id = *j.distil("id"),
-            name = *j.distil("name"),
-            weight = *j.distil("weight"),
-            gender = *j.distil("gender"),
-            smoker = *j.distil("smoker"),
-            email = *j.distil(["contact", "email"]),
-            url = *j.distil(["contact", "url"]),
-            friends = *j.distil("friends")
+            id = *json.distil("id"),
+            name = *json.distil("name"),
+            weight = *json.distil("weight"),
+            gender = *json.distil("gender"),
+            smoker = *json.distil("smoker"),
+            email = *json.distil(["contact", "email"]),
+            url = *json.distil(["contact", "url"]),
+            friends = *json.distil("friends")
         )
     }
 }
 
-private struct Numbers: Distillable {
+private struct Numbers: Decodable {
     let number: NSNumber
     let int8: Int8
     let uint8: UInt8
@@ -180,17 +180,17 @@ private struct Numbers: Distillable {
     let int64: Int64
     let uint64: UInt64
     
-    fileprivate static func distil(json j: JSON) throws -> Numbers {
+    fileprivate static func value(from json: JSON) throws -> Numbers {
         return try Numbers(
-            number: *j.distil("number"),
-            int8: *j.distil("int8"),
-            uint8: *j.distil("uint8"),
-            int16: *j.distil("int16"),
-            uint16: *j.distil("uint16"),
-            int32: *j.distil("int32"),
-            uint32: *j.distil("uint32"),
-            int64: *j.distil("int64"),
-            uint64: *j.distil("uint64")
+            number: *json.distil("number"),
+            int8: *json.distil("int8"),
+            uint8: *json.distil("uint8"),
+            int16: *json.distil("int16"),
+            uint16: *json.distil("uint16"),
+            int32: *json.distil("int32"),
+            uint32: *json.distil("uint32"),
+            int64: *json.distil("int64"),
+            uint64: *json.distil("uint64")
         )
     }
 }

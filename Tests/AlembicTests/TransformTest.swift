@@ -7,18 +7,18 @@ class TransformTest: XCTestCase {
     let object = transformTestJSONObject
     
     func testTransform() {
-        let j = JSON(object)
+        let json = JSON(object)
         
         do {
-            let map: String = try *j.distil("key")
+            let map: String = try *json.distil("key")
                 .map { "map_" + $0 }
-            let flatMap: String = try *j.distil(["nested", "nested_key"])
-                .flatMap { v in j.distil("key").map { "flatMap_" + $0 + "_with_" + v } }
-            let flatMapOptional: String = try *j.distil(["nested", "nested_key"], as: String.self)
+            let flatMap: String = try *json.distil(["nested", "nested_key"])
+                .flatMap { v in json.distil("key").map { "flatMap_" + $0 + "_with_" + v } }
+            let flatMapOptional: String = try *json.distil(["nested", "nested_key"], as: String.self)
                 .flatMap { $0 as String? }
-            let flatMapError: String = try *j.distil("missing_key")
+            let flatMapError: String = try *json.distil("missing_key")
                 .flatMapError { _ in SecureDistillate.value("flat_map_error") }
-            let catchUp: String = *j.distil("error")
+            let catchUp: String = *json.distil("error")
                 .catch("catch_return")
             
             XCTAssertEqual(map, "map_value")
@@ -31,7 +31,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *j.distil("key", as: String.self).flatMap { _ in nil } as String
+            _ = try *json.distil("key", as: String.self).flatMap { _ in nil } as String
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type, value) {
@@ -42,7 +42,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *j.distil("key").filter { $0 == "error" } as String
+            _ = try *json.distil("key").filter { $0 == "error" } as String
             
             
             XCTFail("Expect the error to occur")
@@ -54,7 +54,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *j.option("null").filterNone() as String
+            _ = try *json.option("null").filterNone() as String
         
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type, value) {
@@ -65,7 +65,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *j.distil("missing_key").mapError { _ in TestError() } as String
+            _ = try *json.distil("missing_key").mapError { _ in TestError() } as String
             
             XCTFail("Expect the error to occur")
         } catch let e {
@@ -74,14 +74,14 @@ class TransformTest: XCTestCase {
     }
     
     func testSubscriptTransform() {
-        let j = JSON(object)
+        let json = JSON(object)
         
-        let map = *j["key"].distil().map { "map_" + $0 }.catch("") as String
+        let map = *json["key"].distil().map { "map_" + $0 }.catch("") as String
         
         XCTAssertEqual(map, "map_value")
         
         do {
-            _ = try *j["null"].option().filterNone() as String
+            _ = try *json["null"].option().filterNone() as String
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type, value) {
@@ -93,7 +93,7 @@ class TransformTest: XCTestCase {
     }
     
     func testCreateDistillate() {
-        let j = JSON(object)
+        let json = JSON(object)
         let value = SecureDistillate.value("value")
         XCTAssertEqual(*value, "value")
         
@@ -128,7 +128,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *j.distil("key", as: String.self).flatMap { _ in InsecureDistillate.filter } as String
+            _ = try *json.distil("key", as: String.self).flatMap { _ in InsecureDistillate.filter } as String
             
             XCTFail("Expect the error to occur")
         } catch let DistillError.filteredValue(type: type, value: value) {
@@ -139,7 +139,7 @@ class TransformTest: XCTestCase {
         }
         
         do {
-            _ = try *j.distil("missing_key").flatMapError { _ in InsecureDistillate.error(TestError()) } as String
+            _ = try *json.distil("missing_key").flatMapError { _ in InsecureDistillate.error(TestError()) } as String
             
             XCTFail("Expect the error to occur")
         } catch let e {
