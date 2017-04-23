@@ -16,13 +16,6 @@ public final class SecureDistillate<Value>: Distillate<Value> {
 }
 
 public extension SecureDistillate {
-    @discardableResult
-    func value(_ handler: (Value) -> Void) -> SecureDistillate<Value> {
-        let v = value()
-        handler(v)
-        return .init { v }
-    }
-    
     func to(_: Value.Type) -> Value {
         return value()
     }
