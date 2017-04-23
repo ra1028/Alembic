@@ -1,11 +1,3 @@
-//
-//  Distillable.swift
-//  Alembic
-//
-//  Created by Ryo Aoyama on 3/13/16.
-//  Copyright © 2016 Ryo Aoyama. All rights reserved.
-//
-
 import class Foundation.NSNumber
 
 public protocol Distillable {

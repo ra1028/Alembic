@@ -1,11 +1,3 @@
-//
-//  SecureDistillate.swift
-//  Alembic
-//
-//  Created by Ryo Aoyama on 6/29/16.
-//  Copyright © 2016 Ryo Aoyama. All rights reserved.
-//
-
 public final class SecureDistillate<Value>: Distillate<Value> {
     private let evaluate: () -> Value
     private lazy var cached: Value = self.evaluate()

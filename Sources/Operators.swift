@@ -1,11 +1,3 @@
-//
-//  Operators.swift
-//  Alembic
-//
-//  Created by Ryo Aoyama on 3/25/16.
-//  Copyright © 2016 Ryo Aoyama. All rights reserved.
-//
-
 precedencegroup DistillingPrecendence {
     associativity: left
     higherThan: MultiplicationPrecedence

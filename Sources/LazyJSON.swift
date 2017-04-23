@@ -1,11 +1,3 @@
-//
-//  LazyJSON.swift
-//  Alembic
-//
-//  Created by Ryo Aoyama on 3/29/16.
-//  Copyright © 2016 Ryo Aoyama. All rights reserved.
-//
-
 public final class LazyJSON {
     fileprivate let rootJSON: JSON
     fileprivate let currentPath: Path

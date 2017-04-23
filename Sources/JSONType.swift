@@ -1,11 +1,3 @@
-//
-//  JSONType.swift
-//  Alembic
-//
-//  Created by Ryo Aoyama on 2016/09/04.
-//  Copyright © 2016年 Ryo Aoyama. All rights reserved.
-//
-
 public protocol JSONType {
     func distil<T: Distillable>(_ path: Path, as: T.Type) throws -> T
     func option<T: Distillable>(_ path: Path, as: T?.Type) throws -> T?

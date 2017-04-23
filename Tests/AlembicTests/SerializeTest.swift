@@ -1,11 +1,3 @@
-//
-//  SerializeTest.swift
-//  Alembic
-//
-//  Created by Ryo Aoyama on 10/06/16.
-//  Copyright © 2016 Ryo Aoyama. All rights reserved.
-//
-
 import Foundation
 import XCTest
 @testable import Alembic

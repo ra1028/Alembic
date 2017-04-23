@@ -1,11 +1,3 @@
-//
-//  PathElement.swift
-//  Alembic
-//
-//  Created by Ryo Aoyama on 2016/09/03.
-//  Copyright © 2016年 Ryo Aoyama. All rights reserved.
-//
-
 public extension Path {
     enum Element {
         case key(String)

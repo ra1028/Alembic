@@ -1,11 +1,3 @@
-//
-//  Distillate+Optional.swift
-//  Alembic
-//
-//  Created by Ryo Aoyama on 2016/09/04.
-//  Copyright © 2016年 Ryo Aoyama. All rights reserved.
-//
-
 public extension Distillate where Value: OptionalProtocol {
     func replaceNil(_ handler: () throws -> Value.Wrapped) throws -> Value.Wrapped {
         return try _value().optional ?? handler()
