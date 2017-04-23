@@ -1,16 +1,18 @@
-public final class SecureDistillate<Value>: Distillate<Value> {
-    private let evaluate: () -> Value
-    private lazy var cached: Value = self.evaluate()
+public final class SecureDistillate<Value>: Distillate {
+    private let create: () -> Value
+    private lazy var cachedValue: Value = self.create()
     
-    init(_ evaluate: @escaping () -> Value) {
-        self.evaluate = evaluate
-    }
-    
-    override func _value() throws -> Value {
-        return value()
+    init(_ create: @escaping () -> Value) {
+        self.create = create
     }
     
     public func value() -> Value {
-        return cached
+        return cachedValue
+    }
+}
+
+public extension SecureDistillate {
+    static func value(_ value: @autoclosure @escaping () -> Value) -> SecureDistillate<Value> {
+        return .init(value)
     }
 }

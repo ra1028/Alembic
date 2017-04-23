@@ -429,7 +429,7 @@ Error handling is not required.</td>
 </tr>
 
 <tr>
-<td>filterNil()</td>
+<td>filterNone()</td>
 <td>If the value is nil,<br>
 throw DistillError.filteredValue.</td>
 <td>Value.Wrapped</td>

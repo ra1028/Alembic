@@ -1,24 +1,28 @@
-public final class InsecureDistillate<Value>: Distillate<Value> {
-    private let evaluate: () throws -> Value
-    private var cached: Value?
+public final class InsecureDistillate<Value>: Distillate {
+    private let create: () throws -> Value
+    private var cachedValue: Value?
     
-    init(_ evaluate: @escaping () throws -> Value) {
-        self.evaluate = evaluate
-    }
-    
-    override func _value() throws -> Value {
-        return try value()
+    init(_ create: @escaping () throws -> Value) {
+        self.create = create
     }
     
     public func value() throws -> Value {
-        if let cached = cached { return cached }
-        let value = try evaluate()
-        self.cached = value
+        if let cachedValue = cachedValue { return cachedValue }
+        let value = try create()
+        self.cachedValue = value
         return value
     }
 }
 
 public extension InsecureDistillate {
+    static var filter: InsecureDistillate<Value> {
+        return error(DistillError.filteredValue(type: Value.self, value: ()))
+    }
+    
+    static func error(_ error: Error) -> InsecureDistillate<Value> {
+        return .init { throw error }
+    }
+    
     func `catch`(_ handler: (Error) -> Value) -> Value {
         do { return try value() }
         catch let e { return handler(e) }
@@ -45,12 +49,12 @@ public extension InsecureDistillate {
         return .init { try self.mapError(f) }
     }
     
-    func flatMapError<T: Distillate<Value>>(_ f: (Error) throws -> T) throws -> Value {
+    func flatMapError<T: Distillate>(_ f: (Error) throws -> T) throws -> Value where Value == T.Value {
         do { return try value() }
-        catch let e { return try f(e)._value() }
+        catch let e { return try f(e).value() }
     }
     
-    func flatMapError<T: Distillate<Value>>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> {
+    func flatMapError<T: Distillate>(_ f: @escaping (Error) throws -> T) -> InsecureDistillate<Value> where Value == T.Value {
         return .init { try self.flatMapError(f) }
     }
 }

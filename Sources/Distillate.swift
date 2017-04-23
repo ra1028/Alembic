@@ -1,18 +1,7 @@
-public class Distillate<Value> {
-    private var cached: Value?
+public protocol Distillate {
+    associatedtype Value
     
-    init() {}
-    
-    func _value() throws -> Value {
-        fatalError("Abstract method")
-    }
-    
-    fileprivate func value() throws -> Value {
-        if let cached = cached { return cached }
-        let value = try _value()
-        self.cached = value
-        return value
-    }
+    func value() throws -> Value
 }
 
 public extension Distillate {
@@ -24,11 +13,11 @@ public extension Distillate {
         return .init { try self.map(transform) }
     }
     
-    func flatMap<T, U: Distillate<T>>(_ transform: (Value) throws -> U) throws -> T {
+    func flatMap<T: Distillate>(_ transform: (Value) throws -> T) throws -> T.Value {
         return try map(transform).value()
     }
     
-    func flatMap<T, U: Distillate<T>>(_ transform: @escaping (Value) throws -> U) -> InsecureDistillate<T> {
+    func flatMap<T: Distillate>(_ transform: @escaping (Value) throws -> T) -> InsecureDistillate<T.Value> {
         return .init { try self.flatMap(transform) }
     }
     
@@ -50,5 +39,15 @@ public extension Distillate {
     
     func filter(_ predicate: @escaping (Value) throws -> Bool) -> InsecureDistillate<Value> {
         return .init { try self.filter(predicate) }
+    }
+}
+
+public extension Distillate where Value: OptionalProtocol {
+    func filterNone() throws -> Value.Wrapped {
+        return try filter { $0.optional != nil }.optional!
+    }
+    
+    func filterNone() -> InsecureDistillate<Value.Wrapped> {
+        return .init(filterNone)
     }
 }
