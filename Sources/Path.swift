@@ -1,5 +1,5 @@
 public struct Path {
-    let elements: [Element]
+    public let elements: [Element]
     
     public init(element: Element) {
         elements = [element]
