@@ -8,10 +8,6 @@ public final class JSON {
     private let create: () throws -> Any
     private var cachedJsonObject: Any?
     
-    public subscript(element: Path.Element...) -> LazyJSON {
-        return .init(rootJSON: self, currentPath: .init(elements: element))
-    }
-    
     public convenience init(_ raw: Any) {
         self.init(raw: raw) { raw }
     }
@@ -57,10 +53,8 @@ public final class JSON {
     }
 }
 
-// MARK: - JSONProtocol
-
-extension JSON: JSONProtocol {
-    public func decode<T: Decodable>(_ path: Path, as: T.Type) -> ThrowableDecoded<T> {
+public extension JSON {
+    func decode<T: Decodable>(_ path: Path = [], as: T.Type = T.self) -> ThrowableDecoded<T> {
         return .init {
             let object: Any = try self.decodeRecursive(path: path)
             do {
@@ -73,7 +67,15 @@ extension JSON: JSONProtocol {
         }
     }
     
-    public func decodeOption<T: Decodable>(_ path: Path, as: T?.Type) -> ThrowableDecoded<T?> {
+    func decode<T: Decodable>(_ path: Path = [], as: [T].Type = [T].self) -> ThrowableDecoded<[T]> {
+        return .init { try .value(from: *self.decode(path)) }
+    }
+    
+    func decode<T: Decodable>(_ path: Path = [], as: [String: T].Type = [String: T].self) -> ThrowableDecoded<[String: T]> {
+        return .init { try .value(from: *self.decode(path)) }
+    }
+    
+    func decodeOption<T: Decodable>(_ path: Path = [], as: T?.Type = T?.self) -> ThrowableDecoded<T?> {
         return .init {
             do {
                 return try *self.decode(path, as: T.self)
@@ -81,6 +83,14 @@ extension JSON: JSONProtocol {
                 return nil
             }
         }
+    }
+    
+    func decodeOption<T: Decodable>(_ path: Path = [], as: [T]?.Type = [T]?.self) -> ThrowableDecoded<[T]?> {
+        return .init { try self.decodeOption(path).value().map([T].value(from:)) }
+    }
+    
+    func decodeOption<T: Decodable>(_ path: Path = [], as: [String: T]?.Type = [String: T]?.self) -> ThrowableDecoded<[String: T]?> {
+        return .init { try self.decodeOption(path).value().map([String: T].value(from:)) }
     }
 }
 

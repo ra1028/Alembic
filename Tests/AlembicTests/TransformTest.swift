@@ -73,25 +73,6 @@ class TransformTest: XCTestCase {
         }
     }
     
-    func testSubscriptTransform() {
-        let json = JSON(object)
-        
-        let map = *json["key"].decode().map { "map_" + $0 }.catch("") as String
-        
-        XCTAssertEqual(map, "map_value")
-        
-        do {
-            _ = try *json["null"].decodeOption().filterNone() as String
-            
-            XCTFail("Expect the error to occur")
-        } catch let DecodeError.filteredValue(type, value) {
-            XCTAssertNotNil(type as? String?.Type)
-            XCTAssertNotNil(value)
-        } catch let e {
-            XCTFail("\(e)")
-        }
-    }
-    
     func testCreateDecoded() {
         let json = JSON(object)
         let value = Decoded.value("value")
@@ -155,7 +136,6 @@ extension TransformTest {
     static var allTests: [(String, (TransformTest) -> () throws -> Void)] {
         return [
             ("testTransform", testTransform),
-            ("testSubscriptTransform", testSubscriptTransform),
             ("testCreateDistillate", testCreateDistillate),
         ]
     }

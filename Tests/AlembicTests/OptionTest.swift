@@ -44,38 +44,6 @@ class OptionTest: XCTestCase {
         }
     }
     
-    func testOptionSubscript() {
-        let json = JSON(object)
-        
-        do {
-            let string: String? = try *json["string"].decodeOption()
-            let bool: Bool? = try *json["bool"].decodeOption()
-            let array: [String]? = try *json["array"].decodeOption()
-            let dictionary: [String: Int]? = try *json["dictionary"].decodeOption()
-            let nestedValue: Int? = try *json["nested", "array", 2].decodeOption()
-            
-            XCTAssertEqual(string, "Alembic")
-            XCTAssertNil(bool)
-            XCTAssertNotNil(array)
-            XCTAssertNotNil(dictionary)
-            XCTAssertNil(nestedValue)
-        } catch let e {
-            XCTFail("\(e)")
-        }
-        
-        do {
-            _ = try *json["string"].decodeOption() as Int?
-            
-            XCTFail("Expect the error to occur")
-        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
-            XCTAssert(expected == Int.self)
-            XCTAssertEqual(actual as? String, "Alembic")
-            XCTAssertEqual(path, "string")
-        } catch let e {
-            XCTFail("\(e)")
-        }
-    }
-    
     func testOptionError() {
         let json = JSON(object)
         
@@ -127,7 +95,6 @@ extension OptionalTest {
     static var allTests: [(String, (OptionalTest) -> () throws -> Void)] {
         return [
             ("testOptional", testOptional),
-            ("testOptionalSubscript", testOptionalSubscript),
             ("testOptionalError", testOptionalError),
             ("testOptionalMapping", testOptionalMapping),
             ("testOptionalMappingError", testOptionalMappingError),

@@ -33,26 +33,6 @@ class DecodeTest: XCTestCase {
         }
     }
     
-    func testDecodeSubscript() {
-        do {
-            let json = JSON(object)
-            
-            let string: String = try *json["string"].decode()
-            let array: [String] = try *json["array"].decode()
-            let dictionary: [String: Int] = try *json["dictionary"].decode()
-            let nestedValue: Int = try *json["nested", "array", 2].decode()
-            let subscriptChain: Int = try *json["nested"]["array"][2].decode()
-            
-            XCTAssertEqual(string, "Alembic")
-            XCTAssertEqual(array, ["A", "B", "C"])
-            XCTAssertEqual(dictionary, ["A": 1, "B": 2, "C": 3])
-            XCTAssertEqual(nestedValue, 3)
-            XCTAssertEqual(subscriptChain, 3)
-        } catch let e {
-            XCTFail("\(e)")
-        }
-    }
-    
     func testDecodeError() {
         let json = JSON(object)
         
@@ -124,7 +104,6 @@ extension DistilTest {
     static var allTests: [(String, (DistilTest) -> () throws -> Void)] {
         return [
             ("testDistil", testDistil),
-            ("testDistilSubscript", testDistilSubscript),
             ("testDistilHandler", testDistilHandler),
             ("testDecodeError", testDecodeError),
             ("testClassMapping", testClassMapping),
