@@ -94,7 +94,6 @@ final class ValueTest: XCTestCase {
     }
 }
 
-#if os(Linux)
 extension ValueTest {
     static var allTests: [(String, (ValueTest) -> () throws -> Void)] {
         return [
@@ -105,7 +104,6 @@ extension ValueTest {
         ]
     }
 }
-#endif
 
 private enum Gender: String, Decodable {
     case male

@@ -5,15 +5,17 @@ import struct Foundation.Data
 public final class JSON {
     public let raw: Any
     
-    private let create: () throws -> Any
-    private var cachedJsonObject: Any?
+    private let createJsonObject: () throws -> Any
+    private let jsonObjectCache = AtomicCache<Any>()
     
-    public convenience init(_ raw: Any) {
-        self.init(raw: raw) { raw }
+    public init(_ raw: Any) {
+        self.raw = raw
+        createJsonObject = { raw }
     }
     
-    public convenience init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) {
-        self.init(raw: data) {
+    public init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) {
+        self.raw = data
+        createJsonObject = {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: options)
             } catch {
@@ -22,12 +24,13 @@ public final class JSON {
         }
     }
     
-    public convenience init(
+    public init(
         string: String,
         encoding: String.Encoding = .utf8,
         allowLossyConversion: Bool = false,
         options: JSONSerialization.ReadingOptions = .allowFragments) {
-        self.init(raw: string) {
+        self.raw = string
+        createJsonObject = {
             guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
                 throw DecodeError.serializeFailed(with: string)
             }
@@ -40,16 +43,11 @@ public final class JSON {
         }
     }
     
-    private init(raw: Any, create: @escaping () throws -> Any) {
-        self.raw = raw
-        self.create = create
-    }
-    
     fileprivate func jsonObject() throws -> Any {
-        if let cachedJsonObject = cachedJsonObject { return cachedJsonObject }
-        let jsonObject = try create()
-        cachedJsonObject = jsonObject
-        return jsonObject
+        return try jsonObjectCache.updatedValue {
+            if let jsonObject = $0 { return jsonObject }
+            return try createJsonObject()
+        }
     }
 }
 

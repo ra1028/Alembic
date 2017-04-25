@@ -63,7 +63,6 @@ class SerializeTest: XCTestCase {
     }
 }
 
-#if os(Linux)
 extension SerializeTest {
     static var allTests: [(String, (SerializeTest) -> () throws -> Void)] {
         return [
@@ -74,4 +73,3 @@ extension SerializeTest {
         ]
     }
 }
-#endif

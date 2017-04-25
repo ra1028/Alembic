@@ -1,13 +1,16 @@
 public final class Decoded<Value>: DecodedProtocol {
-    private let create: () -> Value
-    private lazy var cachedValue: Value = self.create()
+    private let createValue: () -> Value
+    private let valueCache = AtomicCache<Value>()
     
-    init(_ create: @escaping () -> Value) {
-        self.create = create
+    init(_ createValue: @escaping () -> Value) {
+        self.createValue = createValue
     }
     
     public func value() -> Value {
-        return cachedValue
+        return valueCache.updatedValue {
+            if let value = $0 { return value }
+            return createValue()
+        }
     }
 }
 

@@ -24,6 +24,8 @@
 		6BAFE1051DA63A9A003278FF /* SerializeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAFE1031DA63A59003278FF /* SerializeTest.swift */; };
 		6BC490581D7B541C00677FA8 /* Alembic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BC490181D7B48D500677FA8 /* Alembic.framework */; };
 		6BF1C2C61EAD1FA800739FB6 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF1C2C51EAD1FA800739FB6 /* Operators.swift */; };
+		6BF1C2C81EAFD89200739FB6 /* AtomicCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF1C2C71EAFD89200739FB6 /* AtomicCache.swift */; };
+		6BF1C2CA1EAFD8DC00739FB6 /* PosixThreadMutexLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF1C2C91EAFD8DC00739FB6 /* PosixThreadMutexLock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		6BC490181D7B48D500677FA8 /* Alembic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alembic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BC490531D7B541C00677FA8 /* AlembicTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlembicTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BF1C2C51EAD1FA800739FB6 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		6BF1C2C71EAFD89200739FB6 /* AtomicCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtomicCache.swift; sourceTree = "<group>"; };
+		6BF1C2C91EAFD8DC00739FB6 /* PosixThreadMutexLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PosixThreadMutexLock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +128,8 @@
 				2A1EDA951D9AF2C300CE4C9E /* PathElement.swift */,
 				2A1EDA931D9AF2C300CE4C9E /* OptionalProtocol.swift */,
 				6BF1C2C51EAD1FA800739FB6 /* Operators.swift */,
+				6BF1C2C71EAFD89200739FB6 /* AtomicCache.swift */,
+				6BF1C2C91EAFD8DC00739FB6 /* PosixThreadMutexLock.swift */,
 				2A1EDA8C1D9AF2C300CE4C9E /* Info.plist */,
 			);
 			path = Sources;
@@ -241,9 +247,11 @@
 			files = (
 				2A1EDAA01D9AF2C300CE4C9E /* ThrowableDecoded.swift in Sources */,
 				2A1EDA991D9AF2C300CE4C9E /* DecodedProtocol.swift in Sources */,
+				6BF1C2CA1EAFD8DC00739FB6 /* PosixThreadMutexLock.swift in Sources */,
 				2A1EDAA11D9AF2C300CE4C9E /* JSON.swift in Sources */,
 				2A1EDAA51D9AF2C300CE4C9E /* OptionalProtocol.swift in Sources */,
 				2A1EDAA81D9AF2C300CE4C9E /* Decoded.swift in Sources */,
+				6BF1C2C81EAFD89200739FB6 /* AtomicCache.swift in Sources */,
 				2A1EDA9D1D9AF2C300CE4C9E /* DecodeError.swift in Sources */,
 				2A1EDAA71D9AF2C300CE4C9E /* PathElement.swift in Sources */,
 				6BF1C2C61EAD1FA800739FB6 /* Operators.swift in Sources */,

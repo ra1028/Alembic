@@ -131,7 +131,6 @@ final class DecodeTest: XCTestCase {
     }
 }
 
-#if os(Linux)
 extension DecodeTest {
     static var allTests: [(String, (DecodeTest) -> () throws -> Void)] {
         return [
@@ -140,4 +139,3 @@ extension DecodeTest {
         ]
     }
 }
-#endif

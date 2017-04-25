@@ -86,7 +86,6 @@ final class OptionTest: XCTestCase {
     }
 }
 
-#if os(Linux)
 extension OptionTest {
     static var allTests: [(String, (OptionTest) -> () throws -> Void)] {
         return [
@@ -97,7 +96,6 @@ extension OptionTest {
         ]
     }
 }
-#endif
 
 private final class User: Initializable {
     let id: Int
