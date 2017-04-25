@@ -31,7 +31,7 @@ public extension DecodedProtocol {
 }
 
 public extension DecodedProtocol where Value: OptionalProtocol {
-    func filterNone() -> ThrowableDecoded<Value.Wrapped> {
+    func filterNil() -> ThrowableDecoded<Value.Wrapped> {
         return .init { try self.filter { $0.optional != nil }.value().optional! }
     }
 }

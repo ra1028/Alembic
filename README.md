@@ -429,7 +429,7 @@ Error handling is not required.</td>
 </tr>
 
 <tr>
-<td>filterNone()</td>
+<td>filterNil()</td>
 <td>If the value is nil,<br>
 throw DecodeError.filteredValue.</td>
 <td>Value.Wrapped</td>

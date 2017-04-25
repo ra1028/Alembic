@@ -54,7 +54,7 @@ final class DecodeTest: XCTestCase {
         }
         
         do {
-            _ = try *json.decodeOption(for: "null").filterNone() as String
+            _ = try *json.decodeOption(for: "null").filterNil() as String
         
             XCTFail("Expect the error to occur")
         } catch let DecodeError.filteredValue(type, value) {
