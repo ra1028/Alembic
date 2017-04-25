@@ -46,9 +46,9 @@ final class ValueTest: XCTestCase {
             _ = try json.value(for: "int_string") as Int
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
+        } catch let DecodeError.typeMismatch(expected: expected, actualValue: actualValue, path: path) {
             XCTAssert(expected == Int.self)
-            XCTAssertEqual(actual as? String, "1")
+            XCTAssertEqual(actualValue as? String, "1")
             XCTAssertEqual(path, "int_string")
         } catch let e {
             XCTFail("\(e)")

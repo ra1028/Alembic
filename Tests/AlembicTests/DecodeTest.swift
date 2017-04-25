@@ -34,8 +34,7 @@ final class DecodeTest: XCTestCase {
             _ = try *json.decodeValue(for: "key", as: String.self).flatMap { _ in nil } as String
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.filteredValue(type, value) {
-            XCTAssertNotNil(type as? String.Type)
+        } catch let DecodeError.filtered(value: value) {
             XCTAssertNotNil(value)
         } catch let e {
             XCTFail("\(e)")
@@ -46,8 +45,7 @@ final class DecodeTest: XCTestCase {
             
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.filteredValue(type, value) {
-            XCTAssertNotNil(type as? String.Type)
+        } catch let DecodeError.filtered(value: value) {
             XCTAssertEqual(value as? String, "value")
         } catch let e {
             XCTFail("\(e)")
@@ -57,8 +55,7 @@ final class DecodeTest: XCTestCase {
             _ = try *json.decodeOption(for: "null").filterNil() as String
         
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.filteredValue(type, value) {
-            XCTAssertNotNil(type as? String?.Type)
+        } catch let DecodeError.filtered(value: value) {
             XCTAssertNotNil(value)
         } catch let e {
             XCTFail("\(e)")
@@ -82,8 +79,7 @@ final class DecodeTest: XCTestCase {
             _ = try *ThrowableDecoded<String>.filter
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.filteredValue(type: type, value: value) {
-            XCTAssertNotNil(type as? String.Type)
+        } catch let DecodeError.filtered(value: value) {
             XCTAssertNotNil(value as? Void)
         } catch let e {
             XCTFail("\(e)")
@@ -93,8 +89,7 @@ final class DecodeTest: XCTestCase {
             _ = try *ThrowableDecoded<String>.filter
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.filteredValue(type: type, value: value) {
-            XCTAssertNotNil(type as? String.Type)
+        } catch let DecodeError.filtered(value: value) {
             XCTAssertNotNil(value as? Void)
         } catch let e {
             XCTFail("\(e)")
@@ -112,8 +107,7 @@ final class DecodeTest: XCTestCase {
             _ = try *json.decodeValue(for: "key", as: String.self).flatMap { _ in ThrowableDecoded.filter } as String
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.filteredValue(type: type, value: value) {
-            XCTAssertNotNil(type as? String.Type)
+        } catch let DecodeError.filtered(value: value) {
             XCTAssertNotNil(value as? Void)
         } catch let e {
             XCTFail("\(e)")

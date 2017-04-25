@@ -16,7 +16,7 @@ public final class ThrowableDecoded<Value>: DecodedProtocol {
 
 public extension ThrowableDecoded {
     static var filter: ThrowableDecoded<Value> {
-        return error(DecodeError.filteredValue(type: Value.self, value: ()))
+        return error(DecodeError.filtered(value: ()))
     }
     
     static func error(_ error: Error) -> ThrowableDecoded<Value> {

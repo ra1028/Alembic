@@ -41,8 +41,8 @@ class SerializeTest: XCTestCase {
             _ = try json.value(for: "key1") as String
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.serializeFailed(with: with) {
-            XCTAssertEqual(with as? String, "")
+        } catch let DecodeError.serializeFailed(raw: raw) {
+            XCTAssertEqual(raw as? String, "")
         } catch let e {
             XCTFail("\(e)")
         }
@@ -55,8 +55,8 @@ class SerializeTest: XCTestCase {
             _ = try json.value(for: "key1") as String
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.serializeFailed(with: with) {
-            XCTAssertEqual(with as? Data, Data())
+        } catch let DecodeError.serializeFailed(raw: raw) {
+            XCTAssertEqual(raw as? Data, Data())
         } catch let e {
             XCTFail("\(e)")
         }

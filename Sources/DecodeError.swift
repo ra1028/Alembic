@@ -1,8 +1,8 @@
 public enum DecodeError: Error {
     case missingPath(Path)
-    case typeMismatch(expected: Any.Type, actual: Any, path: Path)
-    case filteredValue(type: Any.Type, value: Any)
-    case serializeFailed(with: Any)
+    case typeMismatch(expected: Any.Type, actualValue: Any, path: Path)
+    case filtered(value: Any)
+    case serializeFailed(raw: Any)
 }
 
 // MARK: - CustomStringConvertible
@@ -12,12 +12,12 @@ extension DecodeError: CustomStringConvertible {
         switch self {
         case let .missingPath(path):
             return "missingPath(\(path))"
-        case let .typeMismatch(expected: expected, actual: actual, path: path):
-            return "typeMismatch(expected: \(expected), actual: \(type(of: actual))(\(actual)), path: \(path))"
-        case let .filteredValue(type: type, value: value):
-            return "filteredValue(type: \(type), value: \(value))"
-        case let .serializeFailed(with: with):
-            return "serializeFailed(with: \(type(of: with))(\(with)))"
+        case let .typeMismatch(expected: expected, actualValue: actualValue, path: path):
+            return "typeMismatch(expected: \(expected), actualValue: \(actualValue), path: \(path))"
+        case let .filtered(value: value):
+            return "filteredValue(value: \(value))"
+        case let .serializeFailed(raw: raw):
+            return "serializeFailed(raw: \(raw))"
         }
     }
 }

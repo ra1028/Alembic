@@ -31,9 +31,9 @@ final class OptionTest: XCTestCase {
             _ = try json.option(for: "string") as Int?
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
+        } catch let DecodeError.typeMismatch(expected: expected, actualValue: actualValue, path: path) {
             XCTAssert(expected == Int.self)
-            XCTAssertEqual(actual as? String, "Alembic")
+            XCTAssertEqual(actualValue as? String, "Alembic")
             XCTAssertEqual(path, "string")
         } catch let e {
             XCTFail("\(e)")
@@ -47,9 +47,9 @@ final class OptionTest: XCTestCase {
             _ = try json.option(for: "int") as String?
             
             XCTFail("Expect the error to occur")
-        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
+        } catch let DecodeError.typeMismatch(expected: expected, actualValue: actualValue, path: path) {
             XCTAssert(expected == String.self)
-            XCTAssertEqual(actual as? Int, 777)
+            XCTAssertEqual(actualValue as? Int, 777)
             XCTAssertEqual(path, "int")
         } catch let e {
             XCTFail("\(e)")

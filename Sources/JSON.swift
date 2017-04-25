@@ -19,7 +19,7 @@ public final class JSON {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: options)
             } catch {
-                throw DecodeError.serializeFailed(with: data)
+                throw DecodeError.serializeFailed(raw: data)
             }
         }
     }
@@ -32,13 +32,13 @@ public final class JSON {
         self.raw = string
         createJsonObject = {
             guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
-                throw DecodeError.serializeFailed(with: string)
+                throw DecodeError.serializeFailed(raw: string)
             }
             
             do {
                 return try JSONSerialization.jsonObject(with: data, options: options)
             } catch {
-                throw DecodeError.serializeFailed(with: string)
+                throw DecodeError.serializeFailed(raw: string)
             }
         }
     }
@@ -59,8 +59,8 @@ public extension JSON {
             return try .value(from: .init(object))
         } catch let DecodeError.missingPath(missing) {
             throw DecodeError.missingPath(path + missing)
-        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
-            throw DecodeError.typeMismatch(expected: expected, actual: actual, path: path + mismatchPath)
+        } catch let DecodeError.typeMismatch(expected: expected, actualValue: actualValue, path: mismatchPath) {
+            throw DecodeError.typeMismatch(expected: expected, actualValue: actualValue, path: path + mismatchPath)
         }
     }
     
@@ -137,7 +137,7 @@ private extension JSON {
     func decodeRecursive<T>(path: Path) throws -> T {
         func cast<T>(_ object: Any) throws -> T {
             guard let value = object as? T else {
-                throw DecodeError.typeMismatch(expected: T.self, actual: object, path: path)
+                throw DecodeError.typeMismatch(expected: T.self, actualValue: object, path: path)
             }
             return value
         }
