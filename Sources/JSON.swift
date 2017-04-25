@@ -54,43 +54,66 @@ public final class JSON {
 }
 
 public extension JSON {
-    func decode<T: Decodable>(_ path: Path = [], as: T.Type = T.self) -> ThrowableDecoded<T> {
-        return .init {
-            let object: Any = try self.decodeRecursive(path: path)
-            do {
-                return try .value(from: .init(object))
-            } catch let DecodeError.missingPath(missing) {
-                throw DecodeError.missingPath(path + missing)
-            } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
-                throw DecodeError.typeMismatch(expected: expected, actual: actual, path: path + mismatchPath)
-            }
+    func value<T: Decodable>(for path: Path = []) throws -> T {
+        let object: Any = try decodeRecursive(path: path)
+        
+        do {
+            return try .value(from: .init(object))
+        } catch let DecodeError.missingPath(missing) {
+            throw DecodeError.missingPath(path + missing)
+        } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: mismatchPath) {
+            throw DecodeError.typeMismatch(expected: expected, actual: actual, path: path + mismatchPath)
         }
     }
     
-    func decode<T: Decodable>(_ path: Path = [], as: [T].Type = [T].self) -> ThrowableDecoded<[T]> {
-        return .init { try .value(from: *self.decode(path)) }
+    func value<T: Decodable>(for path: Path = []) throws -> [T] {
+        return try .value(from: value(for: path))
     }
     
-    func decode<T: Decodable>(_ path: Path = [], as: [String: T].Type = [String: T].self) -> ThrowableDecoded<[String: T]> {
-        return .init { try .value(from: *self.decode(path)) }
+    func value<T: Decodable>(for path: Path = []) throws -> [String: T] {
+        return try .value(from: value(for: path))
     }
     
-    func decodeOption<T: Decodable>(_ path: Path = [], as: T?.Type = T?.self) -> ThrowableDecoded<T?> {
-        return .init {
-            do {
-                return try *self.decode(path, as: T.self)
-            } catch let DecodeError.missingPath(missing) where missing == path {
-                return nil
-            }
+    func option<T: Decodable>(for path: Path = []) throws -> T? {
+        do {
+            return try value(for: path) as T
+        } catch let DecodeError.missingPath(missing) where missing == path {
+            return nil
         }
     }
     
-    func decodeOption<T: Decodable>(_ path: Path = [], as: [T]?.Type = [T]?.self) -> ThrowableDecoded<[T]?> {
-        return .init { try self.decodeOption(path).value().map([T].value(from:)) }
+    func option<T: Decodable>(for path: Path = []) throws -> [T]? {
+        return try option(for: path).map([T].value(from:))
     }
     
-    func decodeOption<T: Decodable>(_ path: Path = [], as: [String: T]?.Type = [String: T]?.self) -> ThrowableDecoded<[String: T]?> {
-        return .init { try self.decodeOption(path).value().map([String: T].value(from:)) }
+    func option<T: Decodable>(for path: Path = []) throws -> [String: T]? {
+        return try option(for: path).map([String: T].value(from:))
+    }
+}
+
+public extension JSON {
+    func decodeValue<T: Decodable>(for path: Path = [], as: T.Type = T.self) -> ThrowableDecoded<T> {
+        return .init { try self.value(for: path) }
+    }
+    
+    func decodeValue<T: Decodable>(for path: Path = [], as: [T].Type = [T].self) -> ThrowableDecoded<[T]> {
+        return .init { try self.value(for: path) }
+    }
+    
+    func decodeValue<T: Decodable>(for path: Path = [], as: [String: T].Type = [String: T].self) -> ThrowableDecoded<[String: T]> {
+        return .init { try self.value(for: path) }
+    }
+    
+    func decodeOption<T: Decodable>(for path: Path = [], as: T?.Type = T?.self) -> ThrowableDecoded<T?> {
+        return .init { try self.option(for: path) }
+    }
+    
+    func decodeOption<T: Decodable>(for path: Path = [], as: [T]?.Type = [T]?.self) -> ThrowableDecoded<[T]?> {
+        return .init { try self.option(for: path) }
+    }
+    
+    func decodeOption<T: Decodable>(for path: Path = [], as: [String: T]?.Type = [String: T]?.self) -> ThrowableDecoded<[String: T]?> {
+        return .init { try self.option(for: path) }
     }
 }
 

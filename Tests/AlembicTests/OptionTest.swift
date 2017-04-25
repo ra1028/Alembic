@@ -1,27 +1,23 @@
 import XCTest
 @testable import Alembic
 
-class OptionTest: XCTestCase {
+final class OptionTest: XCTestCase {
     let object = optionTestJson
     
     func testOption() {
         let json = JSON(object)
         
         do {
-            let string: String? = try *json.decodeOption("string")
-            let int: Int? = try *json.decodeOption("int")
-            let double: Double? = try *json.decodeOption("double")
-            let float: Float? = try *json.decodeOption("float")
-            let bool: Bool? = try *json.decodeOption("bool")
-            let array: [String]? = try *json.decodeOption("array")
-            let dictionary: [String: Int]? = try *json.decodeOption("dictionary")
-            let nestedValue: Int? = try *json.decodeOption(["nested", "array", 2])
-            let nestedArray: [Int]? = try *json.decodeOption(["nested", "array"])
+            let string: String? = try json.option(for: "string")
+            let int: Int? = try json.option(for: "int")
+            let bool: Bool? = try json.option(for: "bool")
+            let array: [String]? = try json.option(for: "array")
+            let dictionary: [String: Int]? = try json.option(for: "dictionary")
+            let nestedValue: Int? = try json.option(for: ["nested", "array", 2])
+            let nestedArray: [Int]? = try json.option(for: ["nested", "array"])
             
             XCTAssertEqual(string, "Alembic")
             XCTAssertEqual(int, 777)
-            XCTAssertNil(double)
-            XCTAssertEqual(float, 77.7)
             XCTAssertNil(bool)
             XCTAssertNotNil(array)
             XCTAssertNotNil(dictionary)
@@ -32,7 +28,7 @@ class OptionTest: XCTestCase {
         }
         
         do {
-            _ = try *json.decode("string") as Int?
+            _ = try json.option(for: "string") as Int?
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -48,7 +44,7 @@ class OptionTest: XCTestCase {
         let json = JSON(object)
         
         do {
-            _ = try *json.decode("int") as String?
+            _ = try json.option(for: "int") as String?
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.typeMismatch(expected: expected, actual: actual, path: path) {
@@ -64,7 +60,7 @@ class OptionTest: XCTestCase {
         let json = JSON(object)
         
         do {
-            let user: User? = try *json.decodeOption("user1")
+            let user: User? = try json.option(for: "user1")
             
             XCTAssert(user == nil)
         } catch let e {
@@ -76,7 +72,7 @@ class OptionTest: XCTestCase {
         let json = JSON(object)
         
         do {
-            _ = try *json.decode("user2") as User?
+            _ = try json.option(for: "user2") as User?
             
             XCTFail("Expected the error to occur")
         } catch let e {
@@ -91,13 +87,13 @@ class OptionTest: XCTestCase {
 }
 
 #if os(Linux)
-extension OptionalTest {
-    static var allTests: [(String, (OptionalTest) -> () throws -> Void)] {
+extension OptionTest {
+    static var allTests: [(String, (OptionTest) -> () throws -> Void)] {
         return [
-            ("testOptional", testOptional),
-            ("testOptionalError", testOptionalError),
-            ("testOptionalMapping", testOptionalMapping),
-            ("testOptionalMappingError", testOptionalMappingError),
+            ("testOption", testOption),
+            ("testOptionError", testOptionError),
+            ("testOptionMapping", testOptionMapping),
+            ("testOptionMappingError", testOptionMappingError),
         ]
     }
 }
@@ -110,9 +106,9 @@ private final class User: Initializable {
     
     required init(with json: JSON) throws {
         _ = try (
-            id = *json.decode("id"),
-            name = *json.decode("name"),
-            email = *json.decode(["contact", "email"])
+            id = json.value(for: "id"),
+            name = json.value(for: "name"),
+            email = json.value(for: ["contact", "email"])
         )
     }
 }

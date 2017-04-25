@@ -10,8 +10,8 @@ class SerializeTest: XCTestCase {
         let json = JSON(string: string)
         
         do {
-            let i: Int = try *json.decode("key1")
-            let s: String = try *json.decode("key2")
+            let i: Int = try json.value(for: "key1")
+            let s: String = try json.value(for: "key2")
             
             XCTAssertEqual(i, 100)
             XCTAssertEqual(s, "ABC")
@@ -24,8 +24,8 @@ class SerializeTest: XCTestCase {
         let json = JSON(data: data)
         
         do {
-            let i: Int = try *json.decode("key1")
-            let s: String = try *json.decode("key2")
+            let i: Int = try json.value(for: "key1")
+            let s: String = try json.value(for: "key2")
             
             XCTAssertEqual(i, 100)
             XCTAssertEqual(s, "ABC")
@@ -38,7 +38,7 @@ class SerializeTest: XCTestCase {
         let json = JSON(string: "")
         
         do {
-            _ = try *json.decode("key1", as: String.self)
+            _ = try json.value(for: "key1") as String
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.serializeFailed(with: with) {
@@ -52,7 +52,7 @@ class SerializeTest: XCTestCase {
         let json = JSON(data: .init())
         
         do {
-            _ = try *json.decode("key1", as: String.self)
+            _ = try json.value(for: "key1") as String
             
             XCTFail("Expect the error to occur")
         } catch let DecodeError.serializeFailed(with: with) {

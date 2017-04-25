@@ -1,6 +1,6 @@
 import Foundation
 
-let decodeTestJson: [String: Any] = [
+let valueTestJson: [String: Any] = [
     "string": "Alembic",
     "int": 777,
     "double": 77.7,
@@ -76,7 +76,7 @@ let optionTestJson: [String: Any] = [
     ]
 ]
 
-let transformTestJson: [String: Any] = [
+let decodeTestJson: [String: Any] = [
     "key": "value",
     "null": NSNull(),
     "array": [String](),

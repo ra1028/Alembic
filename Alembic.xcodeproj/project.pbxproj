@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A1EDA761D9AE6F100CE4C9E /* DecodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA6D1D9AE6F100CE4C9E /* DecodeTest.swift */; };
+		2A1EDA761D9AE6F100CE4C9E /* ValueTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA6D1D9AE6F100CE4C9E /* ValueTest.swift */; };
 		2A1EDA7B1D9AE6F100CE4C9E /* OptionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA731D9AE6F100CE4C9E /* OptionTest.swift */; };
 		2A1EDA7C1D9AE6F100CE4C9E /* TestJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA741D9AE6F100CE4C9E /* TestJson.swift */; };
-		2A1EDA7D1D9AE6F100CE4C9E /* TransformTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA751D9AE6F100CE4C9E /* TransformTest.swift */; };
+		2A1EDA7D1D9AE6F100CE4C9E /* DecodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA751D9AE6F100CE4C9E /* DecodeTest.swift */; };
 		2A1EDA981D9AF2C300CE4C9E /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA861D9AF2C300CE4C9E /* Decodable.swift */; };
 		2A1EDA991D9AF2C300CE4C9E /* DecodedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA871D9AF2C300CE4C9E /* DecodedProtocol.swift */; };
 		2A1EDA9D1D9AF2C300CE4C9E /* DecodeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1EDA8B1D9AF2C300CE4C9E /* DecodeError.swift */; };
@@ -37,11 +37,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2A1EDA6D1D9AE6F100CE4C9E /* DecodeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecodeTest.swift; sourceTree = "<group>"; };
+		2A1EDA6D1D9AE6F100CE4C9E /* ValueTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTest.swift; sourceTree = "<group>"; };
 		2A1EDA6E1D9AE6F100CE4C9E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A1EDA731D9AE6F100CE4C9E /* OptionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionTest.swift; sourceTree = "<group>"; };
 		2A1EDA741D9AE6F100CE4C9E /* TestJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestJson.swift; sourceTree = "<group>"; };
-		2A1EDA751D9AE6F100CE4C9E /* TransformTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformTest.swift; sourceTree = "<group>"; };
+		2A1EDA751D9AE6F100CE4C9E /* DecodeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecodeTest.swift; sourceTree = "<group>"; };
 		2A1EDA861D9AF2C300CE4C9E /* Decodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
 		2A1EDA871D9AF2C300CE4C9E /* DecodedProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecodedProtocol.swift; sourceTree = "<group>"; };
 		2A1EDA8B1D9AF2C300CE4C9E /* DecodeError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecodeError.swift; sourceTree = "<group>"; };
@@ -82,9 +82,9 @@
 			isa = PBXGroup;
 			children = (
 				2A1EDA741D9AE6F100CE4C9E /* TestJson.swift */,
-				2A1EDA6D1D9AE6F100CE4C9E /* DecodeTest.swift */,
+				2A1EDA6D1D9AE6F100CE4C9E /* ValueTest.swift */,
 				2A1EDA731D9AE6F100CE4C9E /* OptionTest.swift */,
-				2A1EDA751D9AE6F100CE4C9E /* TransformTest.swift */,
+				2A1EDA751D9AE6F100CE4C9E /* DecodeTest.swift */,
 				6BAFE1031DA63A59003278FF /* SerializeTest.swift */,
 				2A1EDA6E1D9AE6F100CE4C9E /* Info.plist */,
 			);
@@ -257,9 +257,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A1EDA761D9AE6F100CE4C9E /* DecodeTest.swift in Sources */,
+				2A1EDA761D9AE6F100CE4C9E /* ValueTest.swift in Sources */,
 				2A1EDA7B1D9AE6F100CE4C9E /* OptionTest.swift in Sources */,
-				2A1EDA7D1D9AE6F100CE4C9E /* TransformTest.swift in Sources */,
+				2A1EDA7D1D9AE6F100CE4C9E /* DecodeTest.swift in Sources */,
 				6BAFE1051DA63A9A003278FF /* SerializeTest.swift in Sources */,
 				2A1EDA7C1D9AE6F100CE4C9E /* TestJson.swift in Sources */,
 			);
