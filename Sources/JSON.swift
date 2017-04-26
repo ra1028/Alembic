@@ -3,50 +3,33 @@ import class Foundation.NSNull
 import struct Foundation.Data
 
 public final class JSON {
-    public let raw: Any
+    public let rawValue: Any
     
-    private let createJsonObject: () throws -> Any
-    private let jsonObjectCache = AtomicCache<Any>()
-    
-    public init(_ raw: Any) {
-        self.raw = raw
-        createJsonObject = { raw }
+    public init(_ rawValue: Any) {
+        self.rawValue = rawValue
     }
     
-    public init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) {
-        self.raw = data
-        createJsonObject = {
-            do {
-                return try JSONSerialization.jsonObject(with: data, options: options)
-            } catch {
-                throw DecodeError.serializeFailed(raw: data)
-            }
+    public convenience init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) throws {
+        do {
+            try self.init(JSONSerialization.jsonObject(with: data, options: options))
+        } catch {
+            throw DecodeError.serializeFailed(value: data)
         }
     }
     
-    public init(
+    public convenience init(
         string: String,
         encoding: String.Encoding = .utf8,
         allowLossyConversion: Bool = false,
-        options: JSONSerialization.ReadingOptions = .allowFragments) {
-        self.raw = string
-        createJsonObject = {
-            guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
-                throw DecodeError.serializeFailed(raw: string)
-            }
-            
-            do {
-                return try JSONSerialization.jsonObject(with: data, options: options)
-            } catch {
-                throw DecodeError.serializeFailed(raw: string)
-            }
+        options: JSONSerialization.ReadingOptions = .allowFragments) throws {
+        guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
+            throw DecodeError.serializeFailed(value: string)
         }
-    }
-    
-    fileprivate func jsonObject() throws -> Any {
-        return try jsonObjectCache.updatedValue {
-            if let jsonObject = $0 { return jsonObject }
-            return try createJsonObject()
+        
+        do {
+            try self.init(JSONSerialization.jsonObject(with: data, options: options))
+        } catch {
+            throw DecodeError.serializeFailed(value: string)
         }
     }
 }
@@ -57,10 +40,10 @@ public extension JSON {
         
         do {
             return try .value(from: .init(object))
-        } catch let DecodeError.missingPath(missing) {
-            throw DecodeError.missingPath(path + missing)
-        } catch let DecodeError.typeMismatch(expected: expected, actualValue: actualValue, path: mismatchPath) {
-            throw DecodeError.typeMismatch(expected: expected, actualValue: actualValue, path: path + mismatchPath)
+        } catch let DecodeError.missing(path: missing) {
+            throw DecodeError.missing(path: path + missing)
+        } catch let DecodeError.typeMismatch(value: value, expected: expected, path: mismatchPath) {
+            throw DecodeError.typeMismatch(value: value, expected: expected, path: path + mismatchPath)
         }
     }
     
@@ -75,7 +58,7 @@ public extension JSON {
     func option<T: Decodable>(for path: Path = []) throws -> T? {
         do {
             return try value(for: path) as T
-        } catch let DecodeError.missingPath(missing) where missing == path {
+        } catch let DecodeError.missing(path: missing) where missing == path {
             return nil
         }
     }
@@ -119,7 +102,7 @@ public extension JSON {
 
 extension JSON: CustomStringConvertible {
     public var description: String {
-        return "JSON(\(raw))"
+        return "JSON(\(rawValue))"
     }
 }
 
@@ -135,45 +118,44 @@ extension JSON: CustomDebugStringConvertible {
 
 private extension JSON {
     func decodeRecursive<T>(path: Path) throws -> T {
-        func cast<T>(_ object: Any) throws -> T {
-            guard let value = object as? T else {
-                throw DecodeError.typeMismatch(expected: T.self, actualValue: object, path: path)
+        func cast<T>(_ value: Any) throws -> T {
+            guard let castedValue = value as? T else {
+                throw DecodeError.typeMismatch(value: value, expected: T.self, path: path)
             }
-            return value
+            return castedValue
         }
         
-        func decodeRecursive(object: Any, elements: ArraySlice<Path.Element>) throws -> Any {
-            guard let first = elements.first else { return object }
+        func decodeRecursive(value: Any, elements: ArraySlice<Path.Element>) throws -> Any {
+            guard let first = elements.first else { return value }
             
             switch first {
             case let .key(key):
-                let dictionary: [String: Any] = try cast(object)
+                let dictionary: [String: Any] = try cast(value)
                 
                 guard let value = dictionary[key], !(value is NSNull) else {
-                    throw DecodeError.missingPath(path)
+                    throw DecodeError.missing(path: path)
                 }
                 
-                return try decodeRecursive(object: value, elements: elements.dropFirst())
+                return try decodeRecursive(value: value, elements: elements.dropFirst())
                 
             case let .index(index):
-                let array: [Any] = try cast(object)
+                let array: [Any] = try cast(value)
                 
                 guard array.count > index else {
-                    throw DecodeError.missingPath(path)
+                    throw DecodeError.missing(path: path)
                 }
                 
                 let value = array[index]
                 
                 if value is NSNull {
-                    throw DecodeError.missingPath(path)
+                    throw DecodeError.missing(path: path)
                 }
                 
-                return try decodeRecursive(object: value, elements: elements.dropFirst())
+                return try decodeRecursive(value: value, elements: elements.dropFirst())
             }
         }
         
-        let object = try jsonObject()
         let elements = ArraySlice(path.elements)
-        return try cast(decodeRecursive(object: object, elements: elements))
+        return try cast(decodeRecursive(value: rawValue, elements: elements))
     }
 }

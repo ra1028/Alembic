@@ -12,37 +12,37 @@ extension JSON: Decodable {
 
 extension String: Decodable {
     public static func value(from json: JSON) throws -> String {
-        return try cast(json)
+        return try cast(json.rawValue)
     }
 }
 
 extension Int: Decodable {
     public static func value(from json: JSON) throws -> Int {
-        return try cast(json)
+        return try cast(json.rawValue)
     }
 }
 
 extension Double: Decodable {
     public static func value(from json: JSON) throws -> Double {
-        return try cast(json)
+        return try cast(json.rawValue)
     }
 }
 
 extension Float: Decodable {
     public static func value(from json: JSON) throws -> Float {
-        return try cast(json)
+        return try cast(json.rawValue)
     }
 }
 
 extension Bool: Decodable {
     public static func value(from json: JSON) throws -> Bool {
-        return try cast(json)
+        return try cast(json.rawValue)
     }
 }
 
 extension NSNumber: Decodable {
     public static func value(from json: JSON) throws -> Self {
-        return try cast(json)
+        return try cast(json.rawValue)
     }
 }
 
@@ -97,7 +97,7 @@ extension UInt64: Decodable {
 public extension RawRepresentable where Self: Decodable, RawValue: Decodable {
     static func value(from json: JSON) throws -> Self {
         guard let value = try self.init(rawValue: .value(from: json)) else {
-            throw DecodeError.typeMismatch(expected: Self.self, actualValue: json.raw, path: [])
+            throw DecodeError.typeMismatch(value: json.rawValue, expected: Self.self, path: [])
         }
         return value
     }
@@ -105,23 +105,23 @@ public extension RawRepresentable where Self: Decodable, RawValue: Decodable {
 
 extension Array where Element: Decodable {
     public static func value(from json: JSON) throws -> [Element] {
-        let array: [Any] = try cast(json)
+        let array: [Any] = try cast(json.rawValue)
         return try array.map { try JSON($0).value() }
     }
 }
 
 extension Dictionary where Key == String, Value: Decodable {
     public static func value(from json: JSON) throws -> [String: Value] {
-        let rawDictionary: [String: Any] = try cast(json)
+        let rawDictionary: [String: Any] = try cast(json.rawValue)
         var dictionary = [String: Value](minimumCapacity: rawDictionary.count)
         try rawDictionary.forEach { try dictionary.updateValue(JSON($1).value(), forKey: $0) }
         return dictionary
     }
 }
 
-private func cast<T>(_ j: JSON) throws -> T {
-    guard let value = j.raw as? T else {
-        throw DecodeError.typeMismatch(expected: T.self, actualValue: j.raw, path: [])
+private func cast<T>(_ value: Any) throws -> T {
+    guard let castedValue = value as? T else {
+        throw DecodeError.typeMismatch(value: value, expected: T.self, path: [])
     }
-    return value
+    return castedValue
 }

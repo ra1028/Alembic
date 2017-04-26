@@ -16,16 +16,16 @@ public extension DecodedProtocol {
     func flatMap<T>(_ transform: @escaping (Value) throws -> T?) -> ThrowableDecoded<T> {
         return .init {
             let optional = try self.map(transform).value()
-            guard let value = optional else { throw DecodeError.filtered(value: optional as Any) }
+            guard let value = optional else { throw DecodeError.filtered(value: optional as Any, type: Value.self) }
             return value
         }
     }
     
     func filter(_ predicate: @escaping (Value) throws -> Bool) -> ThrowableDecoded<Value> {
         return .init {
-            let v = try self.value()
-            guard try predicate(v) else { throw DecodeError.filtered(value: v) }
-            return v
+            let value = try self.value()
+            guard try predicate(value) else { throw DecodeError.filtered(value: value, type: Value.self) }
+            return value
         }
     }
 }
