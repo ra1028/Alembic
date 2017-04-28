@@ -23,15 +23,15 @@ public extension ThrowableDecoded {
         return .init { throw error }
     }
     
-    func `catch`(_ value: @escaping (Error) -> Value) -> Decoded<Value> {
+    func recover(with value: @escaping (Error) -> Value) -> Decoded<Value> {
         return .init {
             do { return try *self }
             catch let e { return value(e) }
         }
     }
     
-    func `catch`( _ value: @autoclosure @escaping () -> Value) -> Decoded<Value> {
-        return self.catch { _ in value() }
+    func recover(_ value: @autoclosure @escaping () -> Value) -> Decoded<Value> {
+        return self.recover { _ in value() }
     }
     
     func mapError(_ transfrom: @escaping (Error) -> Error) -> ThrowableDecoded<Value> {
