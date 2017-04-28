@@ -1,6 +1,6 @@
 public enum DecodeError: Error {
-    case missing(path: Path)
-    case typeMismatch(value: Any, expected: Any.Type, path: Path)
+    case missing(path: JSON.Path)
+    case typeMismatch(value: Any, expected: Any.Type, path: JSON.Path)
     case filtered(value: Any, type: Any.Type)
     case serializeFailed(value: Any)
 }

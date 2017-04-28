@@ -5,7 +5,7 @@ import func Foundation.pthread_mutex_destroy
 import func Foundation.pthread_mutex_lock
 import func Foundation.pthread_mutex_unlock
 
-final class PosixThreadMutexLock: NSLocking {
+final class PosixThreadMutex: NSLocking {
     private var mutex = pthread_mutex_t()
     
     init() {

@@ -23,28 +23,28 @@ public extension ThrowableDecoded {
         return .init { throw error }
     }
     
-    func `catch`(_ handler: @escaping (Error) -> Value) -> Decoded<Value> {
+    func `catch`(_ value: @escaping (Error) -> Value) -> Decoded<Value> {
         return .init {
             do { return try *self }
-            catch let e { return handler(e) }
+            catch let e { return value(e) }
         }
     }
     
-    func `catch`( _ element: @autoclosure @escaping () -> Value) -> Decoded<Value> {
-        return self.catch { _ in element() }
+    func `catch`( _ value: @autoclosure @escaping () -> Value) -> Decoded<Value> {
+        return self.catch { _ in value() }
     }
     
-    func mapError(_ f: @escaping (Error) throws -> Error) -> ThrowableDecoded<Value> {
+    func mapError(_ transfrom: @escaping (Error) -> Error) -> ThrowableDecoded<Value> {
         return .init {
             do { return try *self }
-            catch let e { throw try f(e) }
+            catch let e { throw transfrom(e) }
         }
     }
     
-    func flatMapError<T: DecodedProtocol>(_ f: @escaping (Error) throws -> T) -> ThrowableDecoded<Value> where T.Value == Value {
+    func flatMapError<T: DecodedProtocol>(_ f: @escaping (Error) -> T) -> ThrowableDecoded<Value> where T.Value == Value {
         return .init {
             do { return try *self }
-            catch let e { return try f(e).value() }
+            catch let e { return try *f(e) }
         }
     }
 }

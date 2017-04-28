@@ -1,9 +1,12 @@
 final class AtomicCache<Value> {
-    private let lock = PosixThreadMutexLock()
+    private let lock = PosixThreadMutex()
     private var _value: Value?
     
     var value: Value? {
-        return updatedOption { $0 }
+        lock.lock()
+        defer { lock.unlock() }
+        
+        return _value
     }
     
     @discardableResult
@@ -24,23 +27,5 @@ final class AtomicCache<Value> {
         let value = update(_value)
         _value = value
         return value
-    }
-    
-    @discardableResult
-    func updatedOption(_ update: (Value?) throws -> Value?) throws -> Value? {
-        lock.lock()
-        defer { lock.unlock() }
-        
-        _value = try update(_value)
-        return _value
-    }
-    
-    @discardableResult
-    func updatedOption(_ update: (Value?) -> Value?) -> Value? {
-        lock.lock()
-        defer { lock.unlock() }
-        
-        _value = update(_value)
-        return _value
     }
 }

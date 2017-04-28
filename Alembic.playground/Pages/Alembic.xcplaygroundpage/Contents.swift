@@ -6,5 +6,22 @@
  > 3. Open Alembic playground in project navigator.
  > 4. Enjoy the Alembic!
 */
-import Alembic
+//import Alembic
+//
+//let object: [String: Any] = ["key": "value"]
+//
+//let json = JSON(object)
+//do {
+//    let value: Int = try *json.decodeValue(for: "key", as: String.self).map { _ in 100 }
+//    print(value)
+//} catch let e {
+//    print(e)
+//}
+
+let optional: String? = "aaa"
+let any: Any? = optional
+
+if let r = any as? String? {
+    print(r)
+}
 

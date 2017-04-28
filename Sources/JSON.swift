@@ -36,7 +36,7 @@ public final class JSON {
 
 public extension JSON {
     func value<T: Decodable>(for path: Path = []) throws -> T {
-        let object: Any = try decodeRecursive(path: path)
+        let object: Any = try retrive(with: path)
         
         do {
             return try .value(from: .init(object))
@@ -117,7 +117,7 @@ extension JSON: CustomDebugStringConvertible {
 // MARK: - private functions
 
 private extension JSON {
-    func decodeRecursive<T>(path: Path) throws -> T {
+    func retrive<T>(with path: Path) throws -> T {
         func cast<T>(_ value: Any) throws -> T {
             guard let castedValue = value as? T else {
                 throw DecodeError.typeMismatch(value: value, expected: T.self, path: path)
@@ -125,7 +125,7 @@ private extension JSON {
             return castedValue
         }
         
-        func decodeRecursive(value: Any, elements: ArraySlice<Path.Element>) throws -> Any {
+        func retrive(from value: Any, with elements: ArraySlice<Path.Element>) throws -> Any {
             guard let first = elements.first else { return value }
             
             switch first {
@@ -136,7 +136,7 @@ private extension JSON {
                     throw DecodeError.missing(path: path)
                 }
                 
-                return try decodeRecursive(value: value, elements: elements.dropFirst())
+                return try retrive(from: value, with: elements.dropFirst())
                 
             case let .index(index):
                 let array: [Any] = try cast(value)
@@ -151,11 +151,11 @@ private extension JSON {
                     throw DecodeError.missing(path: path)
                 }
                 
-                return try decodeRecursive(value: value, elements: elements.dropFirst())
+                return try retrive(from: value, with: elements.dropFirst())
             }
         }
         
         let elements = ArraySlice(path.elements)
-        return try cast(decodeRecursive(value: rawValue, elements: elements))
+        return try cast(retrive(from: rawValue, with: elements))
     }
 }

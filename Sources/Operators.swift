@@ -4,6 +4,6 @@ public prefix func *<T>(decoded: Decoded<T>) -> T {
     return decoded.value()
 }
 
-public prefix func *<T>(decoded: ThrowableDecoded<T>) throws -> T {
+public prefix func *<T: DecodedProtocol>(decoded: T) throws -> T.Value {
     return try decoded.value()
 }
