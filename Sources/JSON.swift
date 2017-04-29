@@ -11,7 +11,8 @@ public final class JSON {
     
     public convenience init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) throws {
         do {
-            try self.init(JSONSerialization.jsonObject(with: data, options: options))
+            let rawValue = try JSONSerialization.jsonObject(with: data, options: options)
+            self.init(rawValue)
         } catch {
             throw DecodeError.serializeFailed(value: data)
         }
@@ -27,8 +28,8 @@ public final class JSON {
         }
         
         do {
-            try self.init(JSONSerialization.jsonObject(with: data, options: options))
-        } catch {
+            try self.init(data: data, options: options)
+        } catch DecodeError.serializeFailed {
             throw DecodeError.serializeFailed(value: string)
         }
     }
