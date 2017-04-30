@@ -8,7 +8,7 @@ public extension DecodedProtocol {
     func map<T>(_ transform: @escaping (Value) throws -> T) -> ThrowDecoded<T> {
         return .init {
             do {
-                let value = try *self
+                let value = try self*
                 return try transform(value)
             } catch let error {
                 throw error
@@ -17,7 +17,7 @@ public extension DecodedProtocol {
     }
     
     func flatMap<T: DecodedProtocol>(_ transform: @escaping (Value) throws -> T) -> ThrowDecoded<T.Value> {
-        return map { try *transform($0) }
+        return map { try transform($0)* }
     }
     
     func flatMap<T>(_ transform: @escaping (Value) throws -> T?) -> ThrowDecoded<T> {
@@ -30,7 +30,7 @@ public extension DecodedProtocol {
     
     func filter(_ predicate: @escaping (Value) throws -> Bool) -> ThrowDecoded<Value> {
         return .init {
-            let value = try *self
+            let value = try self*
             guard try predicate(value) else { throw DecodeError.filtered(value: value, type: Value.self) }
             return value
         }
@@ -40,7 +40,7 @@ public extension DecodedProtocol {
 public extension DecodedProtocol where Value: OptionalProtocol {
     func filterNil() -> ThrowDecoded<Value.Wrapped> {
         return .init {
-            let optional = try self.value().optional
+            let optional = try self*.optional
             guard let value = optional else { throw DecodeError.filtered(value: optional as Any, type: Value.self) }
             return value
         }

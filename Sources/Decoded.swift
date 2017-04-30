@@ -20,10 +20,10 @@ public extension Decoded {
     }
     
     func map<T>(_ transform: @escaping (Value) -> T) -> Decoded<T> {
-        return .init { transform(*self) }
+        return .init { transform(self*) }
     }
     
     func flatMap<T>(_ transform: @escaping (Value) -> Decoded<T>) -> Decoded<T> {
-        return *map(transform)
+        return map(transform)*
     }
 }

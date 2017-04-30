@@ -25,7 +25,7 @@ public extension ThrowDecoded {
     
     func recover(with value: @escaping (Error) -> Value) -> Decoded<Value> {
         return .init {
-            do { return try *self }
+            do { return try self* }
             catch let e { return value(e) }
         }
     }
@@ -36,15 +36,15 @@ public extension ThrowDecoded {
     
     func mapError(_ transfrom: @escaping (Error) -> Error) -> ThrowDecoded<Value> {
         return .init {
-            do { return try *self }
+            do { return try self* }
             catch let e { throw transfrom(e) }
         }
     }
     
     func flatMapError<T: DecodedProtocol>(_ f: @escaping (Error) -> T) -> ThrowDecoded<Value> where T.Value == Value {
         return .init {
-            do { return try *self }
-            catch let e { return try *f(e) }
+            do { return try self* }
+            catch let e { return try f(e)* }
         }
     }
 }
