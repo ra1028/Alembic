@@ -1,12 +1,12 @@
 public final class ThrowDecoded<Value>: DecodedProtocol {
-    private let createValue: () throws -> Value
+    private let create: () throws -> Value
     
-    init(_ createValue: @escaping () throws -> Value) {
-        self.createValue = createValue
+    init(_ create: @escaping () throws -> Value) {
+        self.create = create
     }
     
     public func value() throws -> Value {
-        return try createValue()
+        return try create()
     }
 }
 

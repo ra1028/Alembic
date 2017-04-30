@@ -1,12 +1,12 @@
 public final class Decoded<Value>: DecodedProtocol {
-    private let createValue: () -> Value
+    private let create: () -> Value
     
-    init(_ createValue: @escaping () -> Value) {
-        self.createValue = createValue
+    init(_ create: @escaping () -> Value) {
+        self.create = create
     }
     
     public func value() -> Value {
-        return createValue()
+        return create()
     }
 }
 

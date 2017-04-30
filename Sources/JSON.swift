@@ -3,7 +3,7 @@ import class Foundation.NSNull
 import struct Foundation.Data
 
 public final class JSON {
-    public let rawValue: Any
+    public var rawValue: Any
     
     public init(_ rawValue: Any) {
         self.rawValue = rawValue
