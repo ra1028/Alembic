@@ -74,27 +74,27 @@ public extension JSON {
 }
 
 public extension JSON {
-    func decodeValue<T: Decodable>(for path: Path = [], as: T.Type = T.self) -> ThrowableDecoded<T> {
+    func decodeValue<T: Decodable>(for path: Path = [], as: T.Type = T.self) -> ThrowDecoded<T> {
         return .init { try self.value(for: path) }
     }
     
-    func decodeValue<T: Decodable>(for path: Path = [], as: [T].Type = [T].self) -> ThrowableDecoded<[T]> {
+    func decodeValue<T: Decodable>(for path: Path = [], as: [T].Type = [T].self) -> ThrowDecoded<[T]> {
         return .init { try self.value(for: path) }
     }
     
-    func decodeValue<T: Decodable>(for path: Path = [], as: [String: T].Type = [String: T].self) -> ThrowableDecoded<[String: T]> {
+    func decodeValue<T: Decodable>(for path: Path = [], as: [String: T].Type = [String: T].self) -> ThrowDecoded<[String: T]> {
         return .init { try self.value(for: path) }
     }
     
-    func decodeOption<T: Decodable>(for path: Path = [], as: T?.Type = T?.self) -> ThrowableDecoded<T?> {
+    func decodeOption<T: Decodable>(for path: Path = [], as: T?.Type = T?.self) -> ThrowDecoded<T?> {
         return .init { try self.option(for: path) }
     }
     
-    func decodeOption<T: Decodable>(for path: Path = [], as: [T]?.Type = [T]?.self) -> ThrowableDecoded<[T]?> {
+    func decodeOption<T: Decodable>(for path: Path = [], as: [T]?.Type = [T]?.self) -> ThrowDecoded<[T]?> {
         return .init { try self.option(for: path) }
     }
     
-    func decodeOption<T: Decodable>(for path: Path = [], as: [String: T]?.Type = [String: T]?.self) -> ThrowableDecoded<[String: T]?> {
+    func decodeOption<T: Decodable>(for path: Path = [], as: [String: T]?.Type = [String: T]?.self) -> ThrowDecoded<[String: T]?> {
         return .init { try self.option(for: path) }
     }
 }

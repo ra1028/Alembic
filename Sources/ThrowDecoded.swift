@@ -1,4 +1,4 @@
-public final class ThrowableDecoded<Value>: DecodedProtocol {
+public final class ThrowDecoded<Value>: DecodedProtocol {
     private let createValue: () throws -> Value
     private let valueCache = AtomicCache<Value>()
     
@@ -14,12 +14,12 @@ public final class ThrowableDecoded<Value>: DecodedProtocol {
     }
 }
 
-public extension ThrowableDecoded {
-    static var filter: ThrowableDecoded<Value> {
+public extension ThrowDecoded {
+    static var filter: ThrowDecoded<Value> {
         return error(DecodeError.filtered(value: (), type: Value.self))
     }
     
-    static func error(_ error: Error) -> ThrowableDecoded<Value> {
+    static func error(_ error: Error) -> ThrowDecoded<Value> {
         return .init { throw error }
     }
     
@@ -34,14 +34,14 @@ public extension ThrowableDecoded {
         return self.recover { _ in value() }
     }
     
-    func mapError(_ transfrom: @escaping (Error) -> Error) -> ThrowableDecoded<Value> {
+    func mapError(_ transfrom: @escaping (Error) -> Error) -> ThrowDecoded<Value> {
         return .init {
             do { return try *self }
             catch let e { throw transfrom(e) }
         }
     }
     
-    func flatMapError<T: DecodedProtocol>(_ f: @escaping (Error) -> T) -> ThrowableDecoded<Value> where T.Value == Value {
+    func flatMapError<T: DecodedProtocol>(_ f: @escaping (Error) -> T) -> ThrowDecoded<Value> where T.Value == Value {
         return .init {
             do { return try *self }
             catch let e { return try *f(e) }

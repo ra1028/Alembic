@@ -5,7 +5,7 @@ public protocol DecodedProtocol {
 }
 
 public extension DecodedProtocol {
-    func map<T>(_ transform: @escaping (Value) throws -> T) -> ThrowableDecoded<T> {
+    func map<T>(_ transform: @escaping (Value) throws -> T) -> ThrowDecoded<T> {
         return .init {
             do {
                 let value = try *self
@@ -16,11 +16,11 @@ public extension DecodedProtocol {
         }
     }
     
-    func flatMap<T: DecodedProtocol>(_ transform: @escaping (Value) throws -> T) -> ThrowableDecoded<T.Value> {
+    func flatMap<T: DecodedProtocol>(_ transform: @escaping (Value) throws -> T) -> ThrowDecoded<T.Value> {
         return map { try *transform($0) }
     }
     
-    func flatMap<T>(_ transform: @escaping (Value) throws -> T?) -> ThrowableDecoded<T> {
+    func flatMap<T>(_ transform: @escaping (Value) throws -> T?) -> ThrowDecoded<T> {
         return map {
             let optional = try transform($0)
             guard let value = optional else { throw DecodeError.filtered(value: optional as Any, type: T.self) }
@@ -28,7 +28,7 @@ public extension DecodedProtocol {
         }
     }
     
-    func filter(_ predicate: @escaping (Value) throws -> Bool) -> ThrowableDecoded<Value> {
+    func filter(_ predicate: @escaping (Value) throws -> Bool) -> ThrowDecoded<Value> {
         return .init {
             let value = try *self
             guard try predicate(value) else { throw DecodeError.filtered(value: value, type: Value.self) }
@@ -38,7 +38,7 @@ public extension DecodedProtocol {
 }
 
 public extension DecodedProtocol where Value: OptionalProtocol {
-    func filterNil() -> ThrowableDecoded<Value.Wrapped> {
+    func filterNil() -> ThrowDecoded<Value.Wrapped> {
         return .init {
             let optional = try self.value().optional
             guard let value = optional else { throw DecodeError.filtered(value: optional as Any, type: Value.self) }
