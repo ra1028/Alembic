@@ -7,13 +7,22 @@
  > 4. Enjoy the Alembic!
 */
 import Alembic
+import Foundation
 
 let object: [String: Any] = ["key": "value"]
 
 let json = JSON(object)
 do {
-    let value: Int = try json.decodeValue(for: "key", as: String.self).map { _ in 100 }
-    print(value)
+    let decoded: ThrowDecoded<Date> = json.decodeValue(for: "key", as: String.self).map { _ in Date() }
+    
+    let value1 = try decoded*
+    
+    print(value1)
+    sleep(1)
+    
+    let value2 = try decoded*
+    
+    print(value2)
 } catch let e {
     print(e)
 }

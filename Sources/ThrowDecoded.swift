@@ -1,16 +1,12 @@
 public final class ThrowDecoded<Value>: DecodedProtocol {
     private let createValue: () throws -> Value
-    private let valueCache = AtomicCache<Value>()
     
     init(_ createValue: @escaping () throws -> Value) {
         self.createValue = createValue
     }
     
     public func value() throws -> Value {
-        return try valueCache.updatedValue {
-            if let value = $0 { return value }
-            return try createValue()
-        }
+        return try createValue()
     }
 }
 
