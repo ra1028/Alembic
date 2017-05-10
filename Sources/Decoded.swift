@@ -1,25 +1,28 @@
 public final class Decoded<Value>: DecodedProtocol {
-    private let create: () -> Value
+    public let path: JSON.Path
     
-    init(_ create: @escaping () -> Value) {
-        self.create = create
+    private let createValue: () -> Value
+    
+    init(path: JSON.Path, createValue: @escaping () -> Value) {
+        self.path = path
+        self.createValue = createValue
     }
     
     public func value() -> Value {
-        return create()
+        return createValue()
     }
 }
 
 public extension Decoded {
     static func value(_ value: @autoclosure @escaping () -> Value) -> Decoded<Value> {
-        return .init(value)
+        return .init(path: [], createValue: value)
     }
     
     func map<T>(_ transform: @escaping (Value) -> T) -> Decoded<T> {
-        return .init { transform(self*) }
+        return .init(path: path) { transform(self.value()) }
     }
     
     func flatMap<T>(_ transform: @escaping (Value) -> Decoded<T>) -> Decoded<T> {
-        return map(transform)*
+        return .init(path: path) { transform(self.value()).value() }
     }
 }
