@@ -97,7 +97,7 @@ extension UInt64: Decodable {
 public extension RawRepresentable where Self: Decodable, RawValue: Decodable {
     static func value(from json: JSON) throws -> Self {
         guard let value = try self.init(rawValue: .value(from: json)) else {
-            throw JSON.Error.typeMismatch(value: json.rawValue, expected: Self.self, path: [])
+            throw JSON.Error.typeMismatch(expected: Self.self, actualValue: json.rawValue, path: [])
         }
         return value
     }
@@ -121,7 +121,7 @@ extension Dictionary where Key == String, Value: Decodable {
 
 private func cast<T>(_ value: Any) throws -> T {
     guard let castedValue = value as? T else {
-        throw JSON.Error.typeMismatch(value: value, expected: T.self, path: [])
+        throw JSON.Error.typeMismatch(expected: T.self, actualValue: value, path: [])
     }
     return castedValue
 }

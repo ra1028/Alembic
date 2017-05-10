@@ -43,8 +43,8 @@ public extension JSON {
             return try .value(from: .init(object))
         } catch let JSON.Error.missing(path: missing) {
             throw JSON.Error.missing(path: path + missing)
-        } catch let JSON.Error.typeMismatch(value: value, expected: expected, path: mismatchPath) {
-            throw JSON.Error.typeMismatch(value: value, expected: expected, path: path + mismatchPath)
+        } catch let JSON.Error.typeMismatch(expected: expected, actualValue: actualValue, path: mismatchPath) {
+            throw JSON.Error.typeMismatch(expected: expected, actualValue: actualValue, path: path + mismatchPath)
         }
     }
     
@@ -109,7 +109,7 @@ private extension JSON {
     func retrive<T>(with path: Path) throws -> T {
         func cast<T>(_ value: Any) throws -> T {
             guard let castedValue = value as? T else {
-                throw JSON.Error.typeMismatch(value: value, expected: T.self, path: path)
+                throw JSON.Error.typeMismatch(expected: T.self, actualValue: value, path: path)
             }
             return castedValue
         }
