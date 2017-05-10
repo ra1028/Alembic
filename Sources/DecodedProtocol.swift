@@ -7,14 +7,6 @@ public protocol DecodedProtocol {
 }
 
 public extension DecodedProtocol {
-    func option() throws -> Value? {
-        do {
-            return try value()
-        } catch let JSON.Error.missing(path: missing) where missing == path {
-            return nil
-        }
-    }
-    
     func map<T>(_ transform: @escaping (Value) throws -> T) -> ThrowDecoded<T> {
         return .init(path: path) {
             do {

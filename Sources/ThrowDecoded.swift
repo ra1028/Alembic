@@ -11,6 +11,14 @@ public final class ThrowDecoded<Value>: DecodedProtocol {
     public func value() throws -> Value {
         return try createValue()
     }
+    
+    public func option() throws -> Value? {
+        do {
+            return try value()
+        } catch let JSON.Error.missing(path: missing) where missing == path {
+            return nil
+        }
+    }
 }
 
 public extension ThrowDecoded {
