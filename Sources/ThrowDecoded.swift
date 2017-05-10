@@ -12,7 +12,7 @@ public final class ThrowDecoded<Value>: DecodedProtocol {
 
 public extension ThrowDecoded {
     static var filter: ThrowDecoded<Value> {
-        return error(DecodeError.filtered(value: (), type: Value.self))
+        return error(JSON.Error.filtered(value: (), type: Value.self))
     }
     
     static func error(_ error: Error) -> ThrowDecoded<Value> {

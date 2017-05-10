@@ -14,7 +14,7 @@ public final class JSON {
             let rawValue = try JSONSerialization.jsonObject(with: data, options: options)
             self.init(rawValue)
         } catch {
-            throw DecodeError.serializeFailed(value: data)
+            throw JSON.Error.serializeFailed(value: data)
         }
     }
     
@@ -24,13 +24,13 @@ public final class JSON {
         allowLossyConversion: Bool = false,
         options: JSONSerialization.ReadingOptions = .allowFragments) throws {
         guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
-            throw DecodeError.serializeFailed(value: string)
+            throw JSON.Error.serializeFailed(value: string)
         }
         
         do {
             try self.init(data: data, options: options)
-        } catch DecodeError.serializeFailed {
-            throw DecodeError.serializeFailed(value: string)
+        } catch JSON.Error.serializeFailed {
+            throw JSON.Error.serializeFailed(value: string)
         }
     }
 }
@@ -41,10 +41,10 @@ public extension JSON {
         
         do {
             return try .value(from: .init(object))
-        } catch let DecodeError.missing(path: missing) {
-            throw DecodeError.missing(path: path + missing)
-        } catch let DecodeError.typeMismatch(value: value, expected: expected, path: mismatchPath) {
-            throw DecodeError.typeMismatch(value: value, expected: expected, path: path + mismatchPath)
+        } catch let JSON.Error.missing(path: missing) {
+            throw JSON.Error.missing(path: path + missing)
+        } catch let JSON.Error.typeMismatch(value: value, expected: expected, path: mismatchPath) {
+            throw JSON.Error.typeMismatch(value: value, expected: expected, path: path + mismatchPath)
         }
     }
     
@@ -59,7 +59,7 @@ public extension JSON {
     func option<T: Decodable>(for path: Path = []) throws -> T? {
         do {
             return try value(for: path) as T
-        } catch let DecodeError.missing(path: missing) where missing == path {
+        } catch let JSON.Error.missing(path: missing) where missing == path {
             return nil
         }
     }
@@ -121,7 +121,7 @@ private extension JSON {
     func retrive<T>(with path: Path) throws -> T {
         func cast<T>(_ value: Any) throws -> T {
             guard let castedValue = value as? T else {
-                throw DecodeError.typeMismatch(value: value, expected: T.self, path: path)
+                throw JSON.Error.typeMismatch(value: value, expected: T.self, path: path)
             }
             return castedValue
         }
@@ -134,7 +134,7 @@ private extension JSON {
                 let dictionary: [String: Any] = try cast(value)
                 
                 guard let value = dictionary[key], !(value is NSNull) else {
-                    throw DecodeError.missing(path: path)
+                    throw JSON.Error.missing(path: path)
                 }
                 
                 return try retrive(from: value, with: elements.dropFirst())
@@ -143,13 +143,13 @@ private extension JSON {
                 let array: [Any] = try cast(value)
                 
                 guard array.count > index else {
-                    throw DecodeError.missing(path: path)
+                    throw JSON.Error.missing(path: path)
                 }
                 
                 let value = array[index]
                 
                 if value is NSNull {
-                    throw DecodeError.missing(path: path)
+                    throw JSON.Error.missing(path: path)
                 }
                 
                 return try retrive(from: value, with: elements.dropFirst())
