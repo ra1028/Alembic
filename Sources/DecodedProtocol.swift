@@ -26,8 +26,12 @@ public extension DecodedProtocol {
         }
     }
     
-    func flatMap<T: DecodedProtocol>(_ transform: @escaping (Value) throws -> T) -> ThrowDecoded<T.Value> {
-        return map { try transform($0).value() }
+    func flatMap<T>(_ transform: @escaping (Value) -> Decoded<T>) -> ThrowDecoded<T> {
+        return _flatMap(transform)
+    }
+    
+    func flatMap<T>(_ transform: @escaping (Value) -> ThrowDecoded<T>) -> ThrowDecoded<T> {
+        return _flatMap(transform)
     }
     
     func flatMap<T>(_ transform: @escaping (Value) throws -> T?) -> ThrowDecoded<T> {
@@ -54,5 +58,11 @@ public extension DecodedProtocol where Value: OptionalProtocol {
             guard let value = optional else { throw JSON.Error.filtered(value: optional as Any, type: Value.self) }
             return value
         }
+    }
+}
+
+private extension DecodedProtocol {
+    func _flatMap<T: DecodedProtocol>(_ transform: @escaping (Value) throws -> T) -> ThrowDecoded<T.Value> {
+        return map { try transform($0).value() }
     }
 }

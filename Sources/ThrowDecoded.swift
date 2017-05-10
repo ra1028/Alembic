@@ -14,6 +14,10 @@ public final class ThrowDecoded<Value>: DecodedProtocol {
 }
 
 public extension ThrowDecoded {
+    static func value(_ value: @autoclosure @escaping () -> Value) -> ThrowDecoded<Value> {
+        return .init(path: [], createValue: value)
+    }
+    
     static var filter: ThrowDecoded<Value> {
         return error(JSON.Error.filtered(value: (), type: Value.self))
     }
@@ -22,28 +26,35 @@ public extension ThrowDecoded {
         return .init(path: []) { throw error }
     }
     
-    func recover(with value: @escaping (Error) -> Value) -> Decoded<Value> {
+    func recover(_ value: @escaping (Error) -> Value) -> Decoded<Value> {
         return .init(path: path) {
             do { return try self.value() }
-            catch let e { return value(e) }
+            catch let error { return value(error) }
         }
     }
     
-    func recover(_ value: @autoclosure @escaping () -> Value) -> Decoded<Value> {
+    func recover(with value: @autoclosure @escaping () -> Value) -> Decoded<Value> {
         return recover { _ in value() }
     }
     
     func mapError(_ transfrom: @escaping (Error) -> Error) -> ThrowDecoded<Value> {
         return .init(path: path) {
             do { return try self.value() }
-            catch let e { throw transfrom(e) }
+            catch let error { throw transfrom(error) }
         }
     }
     
-    func flatMapError<T: DecodedProtocol>(_ f: @escaping (Error) -> T) -> ThrowDecoded<Value> where T.Value == Value {
+    func flatMapError(_ transform: @escaping (Error) -> Decoded<Value>) -> Decoded<Value> {
         return .init(path: path) {
             do { return try self.value() }
-            catch let e { return try f(e).value() }
+            catch let error { return transform(error).value() }
+        }
+    }
+    
+    func flatMapError(_ transform: @escaping (Error) -> ThrowDecoded<Value>) -> ThrowDecoded<Value> {
+        return .init(path: path) {
+            do { return try self.value() }
+            catch let error { return try transform(error).value() }
         }
     }
 }
