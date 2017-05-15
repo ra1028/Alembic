@@ -22,7 +22,7 @@ public final class ThrowDecoded<Value>: DecodedProtocol {
 }
 
 public extension ThrowDecoded {
-    static func value(_ value: @autoclosure @escaping () -> Value) -> ThrowDecoded<Value> {
+    static func value(_ value: @autoclosure @escaping () throws -> Value) -> ThrowDecoded<Value> {
         return .init(path: [], createValue: value)
     }
     
