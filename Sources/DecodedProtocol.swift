@@ -9,12 +9,8 @@ public protocol DecodedProtocol {
 public extension DecodedProtocol {
     func map<T>(_ transform: @escaping (Value) throws -> T) -> ThrowDecoded<T> {
         return .init(path: path) {
-            do {
-                let value = try self.value()
-                return try transform(value)
-            } catch let error {
-                throw error
-            }
+            let value = try self.value()
+            return try transform(value)
         }
     }
     
@@ -35,18 +31,17 @@ public extension DecodedProtocol {
     }
     
     func filter(_ predicate: @escaping (Value) throws -> Bool) -> ThrowDecoded<Value> {
-        return .init(path: path) {
-            let value = try self.value()
-            guard try predicate(value) else { throw JSON.Error.filtered(value: value, type: Value.self) }
-            return value
+        return map {
+            guard try predicate($0) else { throw JSON.Error.filtered(value: $0, type: Value.self) }
+            return $0
         }
     }
 }
 
 public extension DecodedProtocol where Value: OptionalProtocol {
     func filterNil() -> ThrowDecoded<Value.Wrapped> {
-        return .init(path: path) {
-            let optional = try self.value().optional
+        return map {
+            let optional = $0.optional
             guard let value = optional else { throw JSON.Error.filtered(value: optional as Any, type: Value.self) }
             return value
         }

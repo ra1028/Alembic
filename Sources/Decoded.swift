@@ -23,6 +23,6 @@ public extension Decoded {
     }
     
     func flatMap<T>(_ transform: @escaping (Value) -> Decoded<T>) -> Decoded<T> {
-        return .init(path: path) { transform(self.value()).value() }
+        return map { transform($0).value() }
     }
 }

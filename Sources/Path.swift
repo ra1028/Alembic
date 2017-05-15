@@ -32,9 +32,14 @@ extension JSON.Path: Equatable {
 extension JSON.Path.Element: Equatable {
     public static func == (lhs: JSON.Path.Element, rhs: JSON.Path.Element) -> Bool {
         switch (lhs, rhs) {
-        case let (.key(lKey), .key(rKey)): return lKey == rKey
-        case let (.index(lIndex), .index(rIndex)): return lIndex == rIndex
-        default: return false
+        case let (.key(lKey), .key(rKey)):
+            return lKey == rKey
+            
+        case let (.index(lIndex), .index(rIndex)):
+            return lIndex == rIndex
+            
+        default:
+            return false
         }
     }
 }
@@ -50,8 +55,11 @@ extension JSON.Path: CustomStringConvertible {
 extension JSON.Path.Element: CustomStringConvertible {
     public var description: String {
         switch self {
-        case let .key(key): return "\(key)"
-        case let .index(index): return "\(index)"
+        case let .key(key):
+            return "\(key)"
+            
+        case let .index(index):
+            return "\(index)"
         }
     }
 }
