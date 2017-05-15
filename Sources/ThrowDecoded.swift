@@ -34,6 +34,10 @@ public extension ThrowDecoded {
         return .init(path: []) { throw error }
     }
     
+    func flatMap<T>(_ transform: @escaping (Value) -> Decoded<T>) -> ThrowDecoded<T> {
+        return map { transform($0).value() }
+    }
+    
     func recover(_ value: @escaping (Error) -> Value) -> Decoded<Value> {
         return .init(path: path) {
             do { return try self.value() }
