@@ -25,14 +25,14 @@ public extension DecodedProtocol {
     func flatMap<T>(_ transform: @escaping (Value) throws -> T?) -> ThrowDecoded<T> {
         return map {
             let optional = try transform($0)
-            guard let value = optional else { throw JSON.Error.filtered(value: optional, type: T?.self) }
+            guard let value = optional else { throw JSON.Error.unexpected(value: optional, path: self.path) }
             return value
         }
     }
     
     func filter(_ predicate: @escaping (Value) throws -> Bool) -> ThrowDecoded<Value> {
         return map {
-            guard try predicate($0) else { throw JSON.Error.filtered(value: $0, type: Value.self) }
+            guard try predicate($0) else { throw JSON.Error.unexpected(value: $0, path: self.path) }
             return $0
         }
     }
@@ -42,7 +42,7 @@ public extension DecodedProtocol where Value: OptionalProtocol {
     func filterNil() -> ThrowDecoded<Value.Wrapped> {
         return map {
             let optional = $0.optional
-            guard let value = optional else { throw JSON.Error.filtered(value: optional, type: Value.self) }
+            guard let value = optional else { throw JSON.Error.unexpected(value: optional, path: self.path) }
             return value
         }
     }

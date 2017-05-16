@@ -1,8 +1,8 @@
 public extension JSON {
     public enum Error: Swift.Error {
-        case missing(path: JSON.Path)
-        case typeMismatch(expected: Any.Type, actualValue: Any, path: JSON.Path)
-        case filtered(value: Any?, type: Any.Type)
+        case missing(path: Path)
+        case typeMismatch(expected: Any.Type, actualValue: Any, path: Path)
+        case unexpected(value: Any?, path: Path)
         case serializeFailed(value: Any)
         case custom(reason: String)
     }
@@ -19,8 +19,8 @@ extension JSON.Error: CustomStringConvertible {
         case let .typeMismatch(expected: expected, actualValue: actualValue, path: path):
             return "typeMismatch(expected: \(expected), actualValue: \(actualValue), path: \(path))"
             
-        case let .filtered(value: value, type: type):
-            return "filteredValue(value: \(String(describing: value)), type: \(type))"
+        case let .unexpected(value: value, path: path):
+            return "unexpected(value: \(String(describing: value)), path: \(path))"
             
         case let .serializeFailed(value: value):
             return "serializeFailed(value: \(value))"

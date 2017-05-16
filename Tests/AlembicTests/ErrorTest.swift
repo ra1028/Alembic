@@ -80,7 +80,7 @@ final class ErrorTest: XCTestCase {
         }
     }
     
-    func testFiltered() {
+    func testUnexpected() {
         let object: [String: Any] = ["key": "value"]
         let json = JSON(object)
         
@@ -88,9 +88,9 @@ final class ErrorTest: XCTestCase {
             _ = try json.decode(for: "key").filter { $0 == "filter" }.value() as String
             XCTFail("Expect to throw error")
         } catch let error {
-            if case let JSON.Error.filtered(value: value, type: type) = error {
+            if case let JSON.Error.unexpected(value: value, path: path) = error {
                 XCTAssertEqual(value as? String, "value")
-                XCTAssert(type == String.self)
+                XCTAssertEqual(path, "key")
             } else {
                 XCTFail("Unexpected error: \(error)")
             }
@@ -100,9 +100,9 @@ final class ErrorTest: XCTestCase {
             _ = try json.decode(for: "key").flatMap { (_: String) -> String? in nil }.value()
             XCTFail("Expect to throw error")
         } catch let error {
-            if case let JSON.Error.filtered(value: value, type: type) = error {
+            if case let JSON.Error.unexpected(value: value, path: path) = error {
                 XCTAssertNil(value)
-                XCTAssert(type == String?.self)
+                XCTAssertEqual(path, "key")
             } else {
                 XCTFail("Unexpected error: \(error)")
             }
@@ -112,9 +112,9 @@ final class ErrorTest: XCTestCase {
             _ = try json.decode(for: "key").map { (_: String) -> String? in nil }.filterNil().value()
             XCTFail("Expect to throw error")
         } catch let error {
-            if case let JSON.Error.filtered(value: value, type: type) = error {
+            if case let JSON.Error.unexpected(value: value, path: path) = error {
                 XCTAssertNil(value)
-                XCTAssert(type == String?.self)
+                XCTAssertEqual(path, "key")
             } else {
                 XCTFail("Unexpected error: \(error)")
             }
