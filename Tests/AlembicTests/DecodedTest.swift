@@ -4,18 +4,18 @@ import XCTest
 
 final class DecodedTest: XCTestCase {
     func testInitialize() {
-        let valueDecoded: Decoded<String> = .value("value")
+        let valueDecoded = Decoded.value("value")
         XCTAssertEqual(valueDecoded.value(), "value")
     }
     
     func testTransform() {
-        let decoded: Decoded<String> = .value("decoded")
+        let decoded = Decoded.value("decoded")
         
-        let map = decoded.map { $0 + "-map" }.value()
-        let flatMap = decoded.flatMap { .value($0 + "-flatMap") }.value()
+        let map = decoded.map { $0 + "-map" }
+        XCTAssertEqual(map.value(), "decoded-map")
         
-        XCTAssertEqual(map, "decoded-map")
-        XCTAssertEqual(flatMap, "decoded-flatMap")
+        let flatMap = decoded.flatMap { .value($0 + "-flatMap") }
+        XCTAssertEqual(flatMap.value(), "decoded-flatMap")
     }
 }
 
