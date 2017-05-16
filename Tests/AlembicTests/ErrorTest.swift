@@ -196,6 +196,11 @@ final class ErrorTest: XCTestCase {
 extension ErrorTest {
     static var allTests: [(String, (ErrorTest) -> () throws -> Void)] {
         return [
+            ("testMissing", testCustom),
+            ("testCustom", testTypeMismatch),
+            ("testCustom", testUnexpected),
+            ("testCustom", testSerializeFailed),
+            ("testCustom", testCustom)
         ]
     }
 }
