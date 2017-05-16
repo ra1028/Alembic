@@ -5,11 +5,12 @@ import XCTest
 final class ValueTest: XCTestCase {
     func testDefaultDecodableValues() {
         let object: [String: Any] = [
-            "string": "string",
-            "int": 100,
-            "double": 100 as Double,
-            "float": 100 as Float,
-            "bool": true,
+            "String": "String",
+            "Int": 100,
+            "UInt": 100 as UInt,
+            "Double": 100 as Double,
+            "Float": 100 as Float,
+            "Bool": true,
             "NSNumber": 100 as NSNumber,
             "Int8": 100 as NSNumber,
             "UInt8": 100 as NSNumber,
@@ -20,23 +21,25 @@ final class ValueTest: XCTestCase {
             "Int64": 100 as NSNumber,
             "UInt64": 100 as NSNumber
         ]
-        
         let json = JSON(object)
         
         do {
-            let string: String = try json.value(for: "string")
-            XCTAssertEqual(string, "string")
+            let string: String = try json.value(for: "String")
+            XCTAssertEqual(string, "String")
             
-            let int: Int = try json.value(for: "int")
+            let int: Int = try json.value(for: "Int")
             XCTAssertEqual(int, 100)
             
-            let double: Double = try json.value(for: "double")
+            let uint: UInt = try json.value(for: "UInt")
+            XCTAssertEqual(uint, 100)
+            
+            let double: Double = try json.value(for: "Double")
             XCTAssertEqual(double, 100)
             
-            let float: Float = try json.value(for: "float")
+            let float: Float = try json.value(for: "Float")
             XCTAssertEqual(float, 100)
             
-            let bool: Bool = try json.value(for: "bool")
+            let bool: Bool = try json.value(for: "Bool")
             XCTAssertEqual(bool, true)
             
             let nsNumber: NSNumber = try json.value(for: "NSNumber")
@@ -70,6 +73,18 @@ final class ValueTest: XCTestCase {
         }
     }
     
+    func testNestedValue() {
+        let object: [String: Any] = ["key": ["nested": ["A", "B", "C"]]]
+        let json = JSON(object)
+        
+        do {
+            let value: String = try json.value(for: ["key", "nested", 0])
+            XCTAssertEqual(value, "A")
+        } catch let error {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
     func testDecodableRawPresentable() {
         enum StringRawPresentable: String, Decodable {
             case test
@@ -83,7 +98,6 @@ final class ValueTest: XCTestCase {
             "testString": "test",
             "testInt": 0
         ]
-        
         let json = JSON(object)
         
         do {
@@ -98,10 +112,7 @@ final class ValueTest: XCTestCase {
     }
     
     func testDecodableArray() {
-        let object: [String: Any] = [
-            "stringArray": ["A", "B", "C", "D", "E"]
-        ]
-        
+        let object: [String: Any] = ["stringArray": ["A", "B", "C", "D", "E"]]
         let json = JSON(object)
         
         do {
@@ -113,10 +124,7 @@ final class ValueTest: XCTestCase {
     }
     
     func testDecodableDictionary() {
-        let object: [String: Any] = [
-            "stringDictionary": ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4]
-        ]
-        
+        let object: [String: Any] = ["stringDictionary": ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4]]
         let json = JSON(object)
         
         do {
@@ -140,10 +148,7 @@ final class ValueTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = [
-            "test": ["string": "string", "int": 100]
-        ]
-        
+        let object: [String: Any] = ["test": ["string": "string", "int": 100]]
         let json = JSON(object)
         
         do {
@@ -173,10 +178,7 @@ final class ValueTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = [
-            "test": ["string": "string", "int": 100]
-        ]
-        
+        let object: [String: Any] = ["test": ["string": "string", "int": 100]]
         let json = JSON(object)
         
         do {
@@ -199,10 +201,7 @@ final class ValueTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = [
-            "test": ["string": "string", "int": 100]
-        ]
-        
+        let object: [String: Any] = ["test": ["string": "string", "int": 100]]
         let json = JSON(object)
         
         do {
@@ -225,10 +224,7 @@ final class ValueTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = [
-            "test": ["string": "string", "int": 100]
-        ]
-        
+        let object: [String: Any] = ["test": ["string": "string", "int": 100]]
         let json = JSON(object)
         
         do {
@@ -244,6 +240,14 @@ final class ValueTest: XCTestCase {
 extension ValueTest {
     static var allTests: [(String, (ValueTest) -> () throws -> Void)] {
         return [
+            ("testDefaultDecodableValues", testDefaultDecodableValues),
+            ("testDecodableRawPresentable", testDecodableRawPresentable),
+            ("testDecodableArray", testDecodableArray),
+            ("testDecodableDictionary", testDecodableDictionary),
+            ("testDecodableStruct", testDecodableStruct),
+            ("testDecodableClass", testDecodableClass),
+            ("testInitializableStruct", testInitializableStruct),
+            ("testInitializableClass", testInitializableClass)
         ]
     }
 }

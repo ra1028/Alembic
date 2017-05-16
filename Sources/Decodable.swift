@@ -22,6 +22,12 @@ extension Int: Decodable {
     }
 }
 
+extension UInt: Decodable {
+    public static func value(from json: JSON) throws -> UInt {
+        return try cast(json.rawValue)
+    }
+}
+
 extension Double: Decodable {
     public static func value(from json: JSON) throws -> Double {
         return try cast(json.rawValue)

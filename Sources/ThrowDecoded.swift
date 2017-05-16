@@ -26,10 +26,6 @@ public extension ThrowDecoded {
         return .init(path: [], createValue: value)
     }
     
-    static var filter: ThrowDecoded<Value> {
-        return error(JSON.Error.filtered(value: (), type: Value.self))
-    }
-    
     static func error(_ error: Error) -> ThrowDecoded<Value> {
         return .init(path: []) { throw error }
     }    

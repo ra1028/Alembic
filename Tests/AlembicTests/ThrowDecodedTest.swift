@@ -11,23 +11,13 @@ final class ThrowDecodedTest: XCTestCase {
         let valueDecoded = ThrowDecoded.value("value")
         XCTAssertEqual(try? valueDecoded.value(), "value")
         
-        let filterDecoded = ThrowDecoded<String>.filter
-        do {
-            _ = try filterDecoded.value()
-            XCTFail("Expect filterDecoded has not value")
-        } catch let error {
-            if case JSON.Error.filtered = error {} else {
-                XCTFail("Invalid error: \(error)")
-            }
-        }
-        
         let errorDecoded = ThrowDecoded<String>.error(Error.test)
         do {
             _ = try errorDecoded.value()
-            XCTFail("Expect errorDecoded has not value")
+            XCTFail("Expect to throw error")
         } catch let error {
             if case Error.test = error {} else {
-                XCTFail("Invalid error: \(error)")
+                XCTFail("Unexpected error: \(error)")
             }
         }
     }
@@ -69,7 +59,7 @@ final class ThrowDecodedTest: XCTestCase {
             _ = try mapError.value()
         } catch let error {
             if case Error.b = error {} else {
-                XCTFail("Invalid error: \(error)")
+                XCTFail("Unexpected error: \(error)")
             }
         }
         
