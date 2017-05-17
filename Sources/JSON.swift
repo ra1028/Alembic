@@ -41,10 +41,12 @@ public extension JSON {
         
         do {
             return try .value(from: .init(object))
-        } catch let JSON.Error.missing(path: missing) {
-            throw JSON.Error.missing(path: path + missing)
+        } catch let JSON.Error.missing(path: missingPath) {
+            throw JSON.Error.missing(path: path + missingPath)
         } catch let JSON.Error.typeMismatch(expected: expected, actualValue: actualValue, path: mismatchPath) {
             throw JSON.Error.typeMismatch(expected: expected, actualValue: actualValue, path: path + mismatchPath)
+        } catch let JSON.Error.unexpected(value: value, path: unexpectedPath) {
+            throw JSON.Error.unexpected(value: value, path: path + unexpectedPath)
         }
     }
     

@@ -83,12 +83,12 @@ extension DecodeTest {
     static var allTests: [(String, (DecodeTest) -> () throws -> Void)] {
         return [
             ("testDecodeValue", testDecodeValue),
-            ("testDecodeValue", testDecodeOptionValue),
-            ("testDecodeValue", testDecodeMissingValue),
-            ("testDecodeValue", testDecodeArray),
-            ("testDecodeOptionArray", testDecodeValue),
-            ("testDecodeValue", testDecodeDictionary),
-            ("testDecodeValue", testDecodeOptionDictionary)
+            ("testDecodeOptionValue", testDecodeOptionValue),
+            ("testDecodeMissingValue", testDecodeMissingValue),
+            ("testDecodeArray", testDecodeArray),
+            ("testDecodeValue", testDecodeValue),
+            ("testDecodeDictionary", testDecodeDictionary),
+            ("testDecodeOptionDictionary", testDecodeOptionDictionary)
         ]
     }
 }
