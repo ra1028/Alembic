@@ -248,7 +248,7 @@ final class ValueTest: XCTestCase {
     func testDeepNestedValueForPerformance() {
         let key = "key"
         let value = "value"
-        let nestedCount = 10000
+        let nestedCount = 5000
         let dictionary = [String: Any](key: key, value: value, nestedUntil: nestedCount)
         let path = JSON.Path(elements: (0..<nestedCount).map { _ in .key(key) })
         
