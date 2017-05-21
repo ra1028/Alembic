@@ -3,11 +3,10 @@ import XCTest
 @testable import Alembic
 
 final class OptionTest: XCTestCase {
-    private let object: [String: Any] = [
+    private let json: JSON = [
         "dictionary": ["key": "value"],
         "array": [0, 1, 2, 3, 4, 5]
     ]
-    private lazy var json: JSON = .init(self.object)
     
     func testExistingValue() {
         do {

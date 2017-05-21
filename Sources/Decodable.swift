@@ -120,7 +120,7 @@ extension Dictionary where Key == String, Value: Decodable {
     public static func value(from json: JSON) throws -> [String: Value] {
         let rawDictionary: [String: Any] = try cast(json.rawValue)
         var dictionary = [String: Value](minimumCapacity: rawDictionary.count)
-        try rawDictionary.forEach { try dictionary.updateValue(JSON($1).value(), forKey: $0) }
+        try rawDictionary.forEach { try dictionary[$0] = JSON($1).value() }
         return dictionary
     }
 }

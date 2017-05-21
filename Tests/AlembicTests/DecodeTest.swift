@@ -3,17 +3,12 @@ import XCTest
 @testable import Alembic
 
 final class DecodeTest: XCTestCase {
-    private let valueObject: [String: Any] = [
+    private let valueJson: JSON = [
         "value": "value",
         "key": ["nested": "value"]
     ]
-    private lazy var valueJson: JSON = .init(self.valueObject)
-    
-    private let arrayObject: [String: Any] = ["array": ["A", "B", "C", "D", "E"]]
-    private lazy var arrayJson: JSON = .init(self.arrayObject)
-    
-    private let dictionaryObject: [String: Any] = ["dictionary": ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4]]
-    private lazy var dictionaryJson: JSON = .init(self.dictionaryObject)
+    private let arrayJson: JSON = ["array": ["A", "B", "C", "D", "E"]]
+    private let dictionaryJson: JSON = ["dictionary": ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4]]
     
     func testDecodeValue() {
         do {

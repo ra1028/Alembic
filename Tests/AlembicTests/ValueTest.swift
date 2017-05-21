@@ -4,7 +4,7 @@ import XCTest
 
 final class ValueTest: XCTestCase {
     func testDefaultDecodableValues() {
-        let object: [String: Any] = [
+        let json: JSON = [
             "String": "String",
             "Int": 100,
             "UInt": 100 as UInt,
@@ -21,7 +21,6 @@ final class ValueTest: XCTestCase {
             "Int64": 100 as NSNumber,
             "UInt64": 100 as NSNumber
         ]
-        let json = JSON(object)
         
         do {
             let string: String = try json.value(for: "String")
@@ -74,8 +73,7 @@ final class ValueTest: XCTestCase {
     }
     
     func testNestedValue() {
-        let object: [String: Any] = ["key": ["nested": ["A", "B", "C"]]]
-        let json = JSON(object)
+        let json: JSON = ["key": ["nested": ["A", "B", "C"]]]
         
         do {
             let value: String = try json.value(for: ["key", "nested", 0])
@@ -94,11 +92,10 @@ final class ValueTest: XCTestCase {
             case test
         }
         
-        let object: [String: Any] = [
+        let json: JSON = [
             "testString": "test",
             "testInt": 0
         ]
-        let json = JSON(object)
         
         do {
             let stringRawPresentable: StringRawPresentable = try json.value(for: "testString")
@@ -112,8 +109,7 @@ final class ValueTest: XCTestCase {
     }
     
     func testDecodableArray() {
-        let object: [String: Any] = ["stringArray": ["A", "B", "C", "D", "E"]]
-        let json = JSON(object)
+        let json: JSON = ["stringArray": ["A", "B", "C", "D", "E"]]
         
         do {
             let array: [String] = try json.value(for: "stringArray")
@@ -124,8 +120,7 @@ final class ValueTest: XCTestCase {
     }
     
     func testDecodableDictionary() {
-        let object: [String: Any] = ["stringDictionary": ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4]]
-        let json = JSON(object)
+        let json: JSON = ["stringDictionary": ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4]]
         
         do {
             let dictionary: [String: Int] = try json.value(for: "stringDictionary")
@@ -148,8 +143,7 @@ final class ValueTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = ["test": ["string": "string", "int": 100]]
-        let json = JSON(object)
+        let json: JSON = ["test": ["string": "string", "int": 100]]
         
         do {
             let test: Test = try json.value(for: "test")
@@ -178,8 +172,7 @@ final class ValueTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = ["test": ["string": "string", "int": 100]]
-        let json = JSON(object)
+        let json: JSON = ["test": ["string": "string", "int": 100]]
         
         do {
             let test: Test = try json.value(for: "test")
@@ -201,8 +194,7 @@ final class ValueTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = ["test": ["string": "string", "int": 100]]
-        let json = JSON(object)
+        let json: JSON = ["test": ["string": "string", "int": 100]]
         
         do {
             let test: Test = try json.value(for: "test")
@@ -224,8 +216,7 @@ final class ValueTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = ["test": ["string": "string", "int": 100]]
-        let json = JSON(object)
+        let json: JSON = ["test": ["string": "string", "int": 100]]
         
         do {
             let test: Test = try json.value(for: "test")

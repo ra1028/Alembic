@@ -7,8 +7,7 @@ final class JSONTest: XCTestCase {
     private lazy var jsonData: Data = self.jsonString.data(using: .utf8)!
     
     func testInitializeFromAny() {
-        let jsonObject: [String: Any] = ["key": "value"]
-        let json = JSON(jsonObject)
+        let json: JSON = ["key": "value"]
         XCTAssertEqual(json.rawValue, ["key": "value"])
     }
     

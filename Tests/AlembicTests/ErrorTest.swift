@@ -12,8 +12,7 @@ final class ErrorTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = ["test": [:]]
-        let json = JSON(object)
+        let json: JSON = ["test": [:]]
         
         do {
             _ = try json.value(for: "missing") as String
@@ -44,8 +43,7 @@ final class ErrorTest: XCTestCase {
     }
 
     func testTypeMismatch() {
-        let object: [String: Any] = ["int": 100]
-        let json = JSON(object)
+        let json: JSON = ["int": 100]
         
         do {
             _ = try json.value(for: "int") as String
@@ -72,8 +70,7 @@ final class ErrorTest: XCTestCase {
     }
     
     func testUnexpected() {
-        let object: [String: Any] = ["key": "value"]
-        let json = JSON(object)
+        let json: JSON = ["key": "value"]
         
         do {
             _ = try json.decode(for: "key").filter { $0 == "filter" }.value() as String
@@ -136,8 +133,7 @@ final class ErrorTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = ["key": "value"]
-        let json = JSON(object)
+        let json: JSON = ["key": "value"]
         
         do {
             _ = try json.value(for: "key") as Test
@@ -192,10 +188,7 @@ final class ErrorTest: XCTestCase {
             }
         }
         
-        let object: [String: Any] = [
-            "test": ["typeMismatch": 100, "unexpected": "value"]
-        ]
-        let json = JSON(object)
+        let json: JSON = ["test": ["typeMismatch": 100, "unexpected": "value"]]
         
         do {
             _ = try json.value(for: "test") as Missing

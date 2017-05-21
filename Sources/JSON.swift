@@ -3,7 +3,7 @@ import class Foundation.NSNull
 import struct Foundation.Data
 
 public final class JSON {
-    public var rawValue: Any
+    public let rawValue: Any
     
     public init(_ rawValue: Any) {
         self.rawValue = rawValue
@@ -102,6 +102,24 @@ extension JSON: CustomStringConvertible {
 extension JSON: CustomDebugStringConvertible {
     public var debugDescription: String {
         return description
+    }
+}
+
+// MARK: - ExpressibleByArrayLiteral
+
+extension JSON: ExpressibleByArrayLiteral {
+    public convenience init(arrayLiteral elements: Any...) {
+        self.init(elements)
+    }
+}
+
+// MARK: - ExpressibleByDictionaryLiteral
+
+extension JSON: ExpressibleByDictionaryLiteral {
+    public convenience init(dictionaryLiteral elements: (String, Any)...) {
+        var dictionary = [String: Any](minimumCapacity: elements.count)
+        elements.forEach { dictionary[$0] = $1 }
+        self.init(dictionary)
     }
 }
 
