@@ -21,17 +21,11 @@ final class DecodeTest: XCTestCase {
     
     func testDecodeOptionValue() {
         do {
-            let optionValue: String? = try valueJson.decode(for: "value").option()
-            XCTAssertEqual(optionValue, "value")
-        } catch let error {
-            XCTFail("Unexpected error: \(error)")
-        }
-    }
-    
-    func testDecodeMissingValue() {
-        do {
-            let optionValue: String? = try valueJson.decode(for: ["key", "missing"]).option()
-            XCTAssertNil(optionValue)
+            let existing: String? = try valueJson.decode(for: "value").option()
+            XCTAssertEqual(existing, "value")
+            
+            let missing: String? = try valueJson.decode(for: "missing").option()
+            XCTAssertNil(missing)
         } catch let error {
             XCTFail("Unexpected error: \(error)")
         }
@@ -48,8 +42,11 @@ final class DecodeTest: XCTestCase {
     
     func testDecodeOptionArray() {
         do {
-            let optionArray: [String]? = try arrayJson.decode(for: "array").option()
-            XCTAssert(optionArray.map { $0 == ["A", "B", "C", "D", "E"] } ?? false)
+            let existing: [String]? = try arrayJson.decode(for: "array").option()
+            XCTAssert(existing.map { $0 == ["A", "B", "C", "D", "E"] } ?? false)
+            
+            let missing: [String]? = try arrayJson.decode(for: "missing").option()
+            XCTAssertNil(missing)
         } catch let error {
             XCTFail("Unexpected error: \(error)")
         }
@@ -66,8 +63,11 @@ final class DecodeTest: XCTestCase {
     
     func testDecodeOptionDictionary() {
         do {
-            let optionDictionary: [String: Int]? = try dictionaryJson.decode(for: "dictionary").option()
-            XCTAssert(optionDictionary.map { $0 == ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4] } ?? false)
+            let existing: [String: Int]? = try dictionaryJson.decode(for: "dictionary").option()
+            XCTAssert(existing.map { $0 == ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4] } ?? false)
+            
+            let missing: [String: Int]? = try dictionaryJson.decode(for: "missing").option()
+            XCTAssertNil(missing)
         } catch let error {
             XCTFail("Unexpected error: \(error)")
         }
@@ -79,9 +79,8 @@ extension DecodeTest {
         return [
             ("testDecodeValue", testDecodeValue),
             ("testDecodeOptionValue", testDecodeOptionValue),
-            ("testDecodeMissingValue", testDecodeMissingValue),
             ("testDecodeArray", testDecodeArray),
-            ("testDecodeValue", testDecodeValue),
+            ("testDecodeOptionArray", testDecodeOptionArray),
             ("testDecodeDictionary", testDecodeDictionary),
             ("testDecodeOptionDictionary", testDecodeOptionDictionary)
         ]
