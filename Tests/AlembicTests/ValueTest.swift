@@ -244,6 +244,45 @@ final class ValueTest: XCTestCase {
             }
         }
     }
+    
+    func testDeepNestedValueForPerformance() {
+        let key = "key"
+        let value = "value"
+        let nestedCount = 10000
+        let dictionary = [String: Any](key: key, value: value, nestedUntil: nestedCount)
+        let path = JSON.Path(elements: (0..<nestedCount).map { _ in .key(key) })
+        
+        let json = JSON(dictionary)
+        
+        measure {
+            do {
+                let nestedValue: String = try json.value(for: path)
+                XCTAssertEqual(nestedValue, value)
+            } catch let error {
+                XCTFail("Unexpected error: \(error)")
+            }
+        }
+    }
+}
+
+private extension Dictionary where Value == Any {
+    init(key: Key, value: Value, nestedUntil nestedCount: Int) {
+        func create(nestedUntil nestedCount: Int) -> [Key: Any] {
+            var dictionary = [Key: Any]()
+            
+            let nestedValue: Any
+            if nestedCount > 1 {
+                nestedValue = create(nestedUntil: nestedCount - 1)
+            } else {
+                nestedValue = value
+            }
+            
+            dictionary[key] = nestedValue
+            return dictionary
+        }
+        
+        self = create(nestedUntil: nestedCount)
+    }
 }
 
 extension ValueTest {
