@@ -295,7 +295,8 @@ extension ValueTest {
             ("testDecodableStruct", testDecodableStruct),
             ("testDecodableClass", testDecodableClass),
             ("testInitializableStruct", testInitializableStruct),
-            ("testInitializableClass", testInitializableClass)
+            ("testInitializableClass", testInitializableClass),
+            ("testDeepNestedValueForPerformance", testDeepNestedValueForPerformance)
         ]
     }
 }
