@@ -2,14 +2,14 @@ import class Foundation.JSONSerialization
 import class Foundation.NSNull
 import struct Foundation.Data
 
-public final class JSON {
+public struct JSON {
     public let rawValue: Any
     
     public init(_ rawValue: Any) {
         self.rawValue = rawValue
     }
     
-    public convenience init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) throws {
+    public init(data: Data, options: JSONSerialization.ReadingOptions = .allowFragments) throws {
         do {
             let rawValue = try JSONSerialization.jsonObject(with: data, options: options)
             self.init(rawValue)
@@ -18,7 +18,7 @@ public final class JSON {
         }
     }
     
-    public convenience init(
+    public init(
         string: String,
         encoding: String.Encoding = .utf8,
         allowLossyConversion: Bool = false,
@@ -108,7 +108,7 @@ extension JSON: CustomDebugStringConvertible {
 // MARK: - ExpressibleByArrayLiteral
 
 extension JSON: ExpressibleByArrayLiteral {
-    public convenience init(arrayLiteral elements: Any...) {
+    public init(arrayLiteral elements: Any...) {
         self.init(elements)
     }
 }
@@ -116,7 +116,7 @@ extension JSON: ExpressibleByArrayLiteral {
 // MARK: - ExpressibleByDictionaryLiteral
 
 extension JSON: ExpressibleByDictionaryLiteral {
-    public convenience init(dictionaryLiteral elements: (String, Any)...) {
+    public init(dictionaryLiteral elements: (String, Any)...) {
         var dictionary = [String: Any](minimumCapacity: elements.count)
         elements.forEach { dictionary[$0] = $1 }
         self.init(dictionary)
