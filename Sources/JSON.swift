@@ -117,7 +117,8 @@ extension JSON: ExpressibleByArrayLiteral {
 
 extension JSON: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, Any)...) {
-        let dictionary = [String: Any](uniqueKeysWithValues: elements)
+        var dictionary = [String: Any].init(minimumCapacity: elements.count)
+        elements.forEach { dictionary[$0.0] = $0.1 }
         self.init(dictionary)
     }
 }

@@ -7,9 +7,9 @@ XCTMain([
     testCase(JSONTest.allTests),
     testCase(ValueTest.allTests),
     testCase(OptionTest.allTests),
-    testCase(DecodeTest.allTests),
-    testCase(DecodedTest.allTests),
-    testCase(ThrowDecodedTest.allTests),
+    testCase(ParseTest.allTests),
+    testCase(ParsedTest.allTests),
+    testCase(ThrowParsedTest.allTests),
     testCase(PathTest.allTests),
     testCase(ErrorTest.allTests)
 ])
