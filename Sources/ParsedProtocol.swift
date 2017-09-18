@@ -49,6 +49,7 @@ public extension ParsedProtocol where Value: OptionalProtocol {
 }
 
 private extension ParsedProtocol {
+    @inline(__always)
     func _flatMap<T: ParsedProtocol>(_ transform: @escaping (Value) throws -> T) -> ThrowParsed<T.Value> {
         return map { try transform($0).value() }
     }

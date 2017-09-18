@@ -269,7 +269,7 @@ private extension Dictionary where Value == Any {
     init(key: Key, value: Value, nestedUntil nestedCount: Int) {
         func create(nestedUntil nestedCount: Int) -> [Key: Value] {
             var dictionary = [Key: Value]()
-
+            
             let nestedValue: Value
             if nestedCount > 1 {
                 nestedValue = create(nestedUntil: nestedCount - 1)

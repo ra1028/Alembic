@@ -1,6 +1,7 @@
 import class Foundation.JSONSerialization
 import class Foundation.NSNull
 import struct Foundation.Data
+import Foundation
 
 public struct JSON {
     public let rawValue: Any
@@ -117,8 +118,7 @@ extension JSON: ExpressibleByArrayLiteral {
 
 extension JSON: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, Any)...) {
-        var dictionary = [String: Any](minimumCapacity: elements.count)
-        elements.forEach { dictionary[$0] = $1 }
+        let dictionary = [String: Any](uniqueKeysWithValues: elements)
         self.init(dictionary)
     }
 }
@@ -126,7 +126,9 @@ extension JSON: ExpressibleByDictionaryLiteral {
 // MARK: - private functions
 
 private extension JSON {
+    @inline(__always)
     func retrive(with path: Path) throws -> Any {
+        @inline(__always)
         func retrive(from value: Any, with pathElements: ArraySlice<Path.Element>) throws -> Any {
             guard let first = pathElements.first else { return value }
             
