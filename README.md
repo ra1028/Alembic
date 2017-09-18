@@ -1,7 +1,7 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/ra1028/Alembic/master/Assets/Alembic_Logo.png" alt="Alembic" width="70%">
 </p>
-<H4 align="center">Monadic JSON parser</H4>
+<H4 align="center">A Monadic JSON Parser</H4>
 </br>
 
 <p align="center">
