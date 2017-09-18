@@ -30,6 +30,14 @@
 
 ---
 
+## Feature
+- Type-safe JSON parsing
+- Easy to parse nested value
+- Dependency free
+- No defined custom operators
+
+---
+
 ## Requirements
 - Swift 3.2 / Xcode 9 or later
 - OS X 10.9 or later
@@ -43,7 +51,7 @@
 ## Installation
 
 ### [CocoaPods](https://cocoapods.org/)  
-Add the following to your Podfile:
+Add the following to your Podfile:  
 ```ruby
 use_frameworks!
 
@@ -53,13 +61,13 @@ end
 ```
 
 ### [Carthage](https://github.com/Carthage/Carthage)  
-Add the following to your Cartfile:
+Add the following to your Cartfile:  
 ```ruby
 github "ra1028/Alembic"
 ```
 
 ### [Swift Package Manager](https://github.com/apple/swift-package-manager)
-Add the following to your Package.swift:
+Add the following to your Package.swift:  
 ```Swift
 let package = Package(
     name: "ProjectName",
@@ -68,3 +76,136 @@ let package = Package(
     ]
 )
 ```
+
+---
+
+## Example  
+In example, parse the following JSON:  
+```json
+{
+    "teams": [
+        {
+            "name": "TeamRA",
+            "url": "https://github.com/ra1028",
+            "members": [
+                {
+                    "name": "Ryo Aoyama",
+                    "age": 23
+                },
+                {
+                    "name": "John Doe",
+                    "age": 30
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### Make the JSON instance from `Any`, `Data` or `String` type JSON object.
+```swift
+// from `Any` type JSON object
+let json = JSON(object)
+```
+```swift
+// from JSON Data
+let json = try JSON(data: data)
+```
+```swift
+// from JSON String
+let json = try JSON(string: string)
+```
+
+#### Parse value from JSON:
+```swift
+let firstMemberName: String = try json.value(for: ["teams", 0, "members", 0, "name"])
+```
+
+#### Parse value from JSON with transforming:
+```swift
+let teamUrl: URL = try json.parse(String.self, for: ["teams", 0, "url"])
+        .flatMap(URL.init(string:))
+        .value()
+```
+
+#### Mapping to model from JSON:
+```swift
+struct Member: Parsable {
+    let name: String
+    let age: Int
+
+    static func value(from json: JSON) throws -> Member {
+        return try .init(
+            name: json.value(for: "name"),
+            age: json.value(for: "age")
+        )
+    }
+}
+
+struct Team: Parsable {
+    let name: String
+    let url: URL
+    let members: [Member]
+
+    static func value(from json: JSON) throws -> Team {
+        return try .init(
+            name: json.value(for: "name"),
+            url: json.parse(String.self, for: "url").flatMap(URL.init(string:)).value(),
+            members: json.value(for: "members")
+        )
+    }
+}
+```
+```swift
+let team: Team = try json.value(for: ["teams", 0])
+```
+
+---
+
+## Advanced Tips
+#### Conform to `Parsable` with initializer
+```swift
+struct Member: ParseInitializable {
+    let name: String
+    let age: Int
+
+    init(with json: JSON) throws {
+        name = try json.value(for: "name")
+        age = try json.value(for: "age")
+    }
+}
+```
+
+#### Usage Reference Files
+Value transformations:
+- [ParsedProtocol.swift](./Sources/ParsedProtocol.swift)
+- [Parsed.swift](./Sources/Parsed.swift)
+- [ThrowParsed.swift](./Sources/ThrowParsed.swift)
+
+Errors
+- [Error.swift](./Sources/Error.swift)
+
+#### More Example
+See the [Test files](./Tests/AlembicTests)
+
+---
+
+## Playground
+1. Open Alembic.xcworkspace.
+2. Build the Alembic for Mac.
+3. Open Alembic playground in project navigator.
+
+---
+
+## Contribution
+Welcome to fork and submit pull requests!
+
+Before submitting pull request, please ensure you have passed the included tests.
+If your pull request including new function, please write test cases for it.
+
+---
+
+## License
+Alembic is released under the MIT License.
+
+---
