@@ -32,6 +32,7 @@
 
 ## Feature
 - Type-safe JSON parsing
+- Monadic value transforming
 - Easy to parse nested value
 - Dependency free
 - No defined custom operators
