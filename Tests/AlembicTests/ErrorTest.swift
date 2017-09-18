@@ -34,7 +34,7 @@ final class ErrorTest: XCTestCase {
             }
             
             do {
-                _ = try json.decode(for: "test").option() as Test?
+                _ = try json.parse(for: "test").option() as Test?
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.missing(path: path) {
                 XCTAssertEqual(path, ["test", "missing"])
@@ -78,7 +78,7 @@ final class ErrorTest: XCTestCase {
         
         measure {
             do {
-                _ = try json.decode(for: "key").filter { $0 == "filter" }.value() as String
+                _ = try json.parse(for: "key").filter { $0 == "filter" }.value() as String
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.unexpected(value: value, path: path) {
                 XCTAssertEqual(value as? String, "value")
@@ -88,7 +88,7 @@ final class ErrorTest: XCTestCase {
             }
             
             do {
-                _ = try json.decode(for: "key").flatMap { (_: String) -> String? in nil }.value()
+                _ = try json.parse(for: "key").flatMap { (_: String) -> String? in nil }.value()
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.unexpected(value: value, path: path) {
                 XCTAssertNil(value)
@@ -98,7 +98,7 @@ final class ErrorTest: XCTestCase {
             }
             
             do {
-                _ = try json.decode(for: "key").map { (_: String) -> String? in nil }.filterNil().value()
+                _ = try json.parse(for: "key").map { (_: String) -> String? in nil }.filterNil().value()
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.unexpected(value: value, path: path) {
                 XCTAssertNil(value)
@@ -154,7 +154,7 @@ final class ErrorTest: XCTestCase {
             }
             
             do {
-                _ = try json.decode(for: "missing").mapError { _ in JSON.Error.custom(reason: "Custom error") }.value() as String
+                _ = try json.parse(for: "missing").mapError { _ in JSON.Error.custom(reason: "Custom error") }.value() as String
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.custom(reason: reason) {
                 XCTAssertEqual(reason, "Custom error")
@@ -163,7 +163,7 @@ final class ErrorTest: XCTestCase {
             }
             
             do {
-                _ = try json.decode(for: "missing").flatMapError { _ in .error(JSON.Error.custom(reason: "Custom error")) }.value() as String
+                _ = try json.parse(for: "missing").flatMapError { _ in .error(JSON.Error.custom(reason: "Custom error")) }.value() as String
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.custom(reason: reason) {
                 XCTAssertEqual(reason, "Custom error")
@@ -194,7 +194,7 @@ final class ErrorTest: XCTestCase {
             let value: String
             
             static func value(from json: JSON) throws -> Unexpected {
-                return try .init(value: json.decode(for: "unexpected").filter { _ in false }.value())
+                return try .init(value: json.parse(for: "unexpected").filter { _ in false }.value())
             }
         }
         

@@ -77,15 +77,15 @@ public extension JSON {
 }
 
 public extension JSON {
-    func decode<T: Parsable>(for path: Path = []) -> ThrowParsed<T> {
+    func parse<T: Parsable>(for path: Path = []) -> ThrowParsed<T> {
         return .init(path: path) { try self.value(for: path) }
     }
     
-    func decode<T: Parsable>(for path: Path = []) -> ThrowParsed<[T]> {
+    func parse<T: Parsable>(for path: Path = []) -> ThrowParsed<[T]> {
         return .init(path: path) { try self.value(for: path) }
     }
     
-    func decode<T: Parsable>(for path: Path = []) -> ThrowParsed<[String: T]> {
+    func parse<T: Parsable>(for path: Path = []) -> ThrowParsed<[String: T]> {
         return .init(path: path) { try self.value(for: path) }
     }
 }
