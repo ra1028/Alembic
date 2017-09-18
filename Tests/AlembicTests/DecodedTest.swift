@@ -2,29 +2,29 @@ import Foundation
 import XCTest
 @testable import Alembic
 
-final class DecodedTest: XCTestCase {
+final class ParsedTest: XCTestCase {
     func testInitialize() {
         measure {
-            let valueDecoded = Decoded.value("value")
-            XCTAssertEqual(valueDecoded.value(), "value")
+            let valueParsed = Parsed.value("value")
+            XCTAssertEqual(valueParsed.value(), "value")
         }
     }
     
     func testTransform() {
         measure {
-            let decoded = Decoded.value("decoded")
+            let parsed = Parsed.value("Parsed")
             
-            let map = decoded.map { $0 + "-map" }
-            XCTAssertEqual(map.value(), "decoded-map")
+            let map = parsed.map { $0 + "-map" }
+            XCTAssertEqual(map.value(), "Parsed-map")
             
-            let flatMap = decoded.flatMap { .value($0 + "-flatMap") }
-            XCTAssertEqual(flatMap.value(), "decoded-flatMap")
+            let flatMap = parsed.flatMap { .value($0 + "-flatMap") }
+            XCTAssertEqual(flatMap.value(), "Parsed-flatMap")
         }
     }
 }
 
-extension DecodedTest {
-    static var allTests: [(String, (DecodedTest) -> () throws -> Void)] {
+extension ParsedTest {
+    static var allTests: [(String, (ParsedTest) -> () throws -> Void)] {
         return [
             ("testInitialize", testInitialize),
             ("testTransform", testTransform)

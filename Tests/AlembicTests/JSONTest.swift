@@ -36,7 +36,7 @@ final class JSONTest: XCTestCase {
     }
 }
 
-private func XCTAssertEqual<T: Hashable, U: Equatable>(_ expression1: Any, _ expression2: [T : U], file: StaticString = #file, line: UInt = #line) {
+private func XCTAssertEqual<T, U: Equatable>(_ expression1: Any, _ expression2: [T : U], file: StaticString = #file, line: UInt = #line) {
     let equal = (expression1 as? [T: U]).map { $0 == expression2 } ?? false
     XCTAssert(equal, file: file, line: line)
 }

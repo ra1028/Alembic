@@ -2,19 +2,19 @@ import Foundation
 import XCTest
 @testable import Alembic
 
-final class ThrowDecodedTest: XCTestCase {
+final class ThrowParsedTest: XCTestCase {
     func testInitialize() {
         enum Error: Swift.Error {
             case test
         }
         
         measure {
-            let valueDecoded = ThrowDecoded.value("value")
-            XCTAssertEqual(try? valueDecoded.value(), "value")
+            let valueParsed = ThrowParsed.value("value")
+            XCTAssertEqual(try? valueParsed.value(), "value")
             
-            let errorDecoded = ThrowDecoded<String>.error(Error.test)
+            let errorParsed = ThrowParsed<String>.error(Error.test)
             do {
-                _ = try errorDecoded.value()
+                _ = try errorParsed.value()
                 XCTFail("Expect to throw error")
             } catch let error {
                 if case Error.test = error {} else {
@@ -30,34 +30,34 @@ final class ThrowDecodedTest: XCTestCase {
         }
         
         measure {
-            let decoded = ThrowDecoded.value("decoded")
-            let errorDecoded = ThrowDecoded<String>.error(Error.a)
+            let parsed = ThrowParsed.value("Parsed")
+            let errorParsed = ThrowParsed<String>.error(Error.a)
             
-            let map = decoded.map { $0 + "-map" }
-            XCTAssertEqual(try? map.value(), "decoded-map")
+            let map = parsed.map { $0 + "-map" }
+            XCTAssertEqual(try? map.value(), "Parsed-map")
             
-            let decodedFlatMap = decoded.flatMap { Decoded.value($0 + "-decodedFlatMap") }
-            XCTAssertEqual(try? decodedFlatMap.value(), "decoded-decodedFlatMap")
+            let ParsedFlatMap = parsed.flatMap { Parsed.value($0 + "-ParsedFlatMap") }
+            XCTAssertEqual(try? ParsedFlatMap.value(), "Parsed-ParsedFlatMap")
             
-            let throwDecodedFlatMap = decoded.flatMap { ThrowDecoded.value($0 + "-throwDecodedFlatMap") }
-            XCTAssertEqual(try? throwDecodedFlatMap.value(), "decoded-throwDecodedFlatMap")
+            let throwParsedFlatMap = parsed.flatMap { ThrowParsed.value($0 + "-throwParsedFlatMap") }
+            XCTAssertEqual(try? throwParsedFlatMap.value(), "Parsed-throwParsedFlatMap")
             
-            let optionalFlatMap = decoded.flatMap { $0 + "-optionalFlatMap" as String? }
-            XCTAssertEqual(try? optionalFlatMap.value(), "decoded-optionalFlatMap")
+            let optionalFlatMap = parsed.flatMap { $0 + "-optionalFlatMap" as String? }
+            XCTAssertEqual(try? optionalFlatMap.value(), "Parsed-optionalFlatMap")
             
-            let filter = decoded.filter { !$0.isEmpty }
-            XCTAssertEqual(try? filter.value(), "decoded")
+            let filter = parsed.filter { !$0.isEmpty }
+            XCTAssertEqual(try? filter.value(), "Parsed")
             
-            let filterNil = decoded.map { $0 as String? }.filterNil()
-            XCTAssertEqual(try? filterNil.value(), "decoded")
+            let filterNil = parsed.map { $0 as String? }.filterNil()
+            XCTAssertEqual(try? filterNil.value(), "Parsed")
             
-            let recover = errorDecoded.recover { _ in "decoded-recover" }
-            XCTAssertEqual(recover.value(), "decoded-recover")
+            let recover = errorParsed.recover { _ in "Parsed-recover" }
+            XCTAssertEqual(recover.value(), "Parsed-recover")
             
-            let recoverWith = errorDecoded.recover(with: "decoded-recoverWith")
-            XCTAssertEqual(recoverWith.value(), "decoded-recoverWith")
+            let recoverWith = errorParsed.recover(with: "Parsed-recoverWith")
+            XCTAssertEqual(recoverWith.value(), "Parsed-recoverWith")
             
-            let mapError = errorDecoded.mapError { _ in Error.b }
+            let mapError = errorParsed.mapError { _ in Error.b }
             do {
                 _ = try mapError.value()
             } catch let error {
@@ -66,17 +66,17 @@ final class ThrowDecodedTest: XCTestCase {
                 }
             }
             
-            let decodedFlatMapError = errorDecoded.flatMapError { _ in Decoded.value("decoded-decodedFlatMapError") }
-            XCTAssertEqual(decodedFlatMapError.value(), "decoded-decodedFlatMapError")
+            let ParsedFlatMapError = errorParsed.flatMapError { _ in Parsed.value("Parsed-ParsedFlatMapError") }
+            XCTAssertEqual(ParsedFlatMapError.value(), "Parsed-ParsedFlatMapError")
             
-            let throwDecodedFlatMapError = errorDecoded.flatMapError { _ in ThrowDecoded.value("decoded-throwDecodedFlatMapError") }
-            XCTAssertEqual(try? throwDecodedFlatMapError.value(), "decoded-throwDecodedFlatMapError")
+            let throwParsedFlatMapError = errorParsed.flatMapError { _ in ThrowParsed.value("Parsed-throwParsedFlatMapError") }
+            XCTAssertEqual(try? throwParsedFlatMapError.value(), "Parsed-throwParsedFlatMapError")
         }
     }
 }
 
-extension ThrowDecodedTest {
-    static var allTests: [(String, (ThrowDecodedTest) -> () throws -> Void)] {
+extension ThrowParsedTest {
+    static var allTests: [(String, (ThrowParsedTest) -> () throws -> Void)] {
         return [
             ("testInitialize", testInitialize),
             ("testTransform", testTransform)

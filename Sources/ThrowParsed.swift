@@ -1,15 +1,15 @@
-public final class ThrowDecoded<Value>: DecodedProtocol {
+public final class ThrowParsed<Value>: ParsedProtocol {
     public let path: JSON.Path
     
-    private let createValue: () throws -> Value
+    private let parser: () throws -> Value
     
-    init(path: JSON.Path, createValue: @escaping () throws -> Value) {
+    init(path: JSON.Path, parser: @escaping () throws -> Value) {
         self.path = path
-        self.createValue = createValue
+        self.parser = parser
     }
     
     public func value() throws -> Value {
-        return try createValue()
+        return try parser()
     }
     
     public func option() throws -> Value? {
@@ -21,41 +21,41 @@ public final class ThrowDecoded<Value>: DecodedProtocol {
     }
 }
 
-public extension ThrowDecoded {
-    static func value(_ value: @autoclosure @escaping () throws -> Value) -> ThrowDecoded<Value> {
-        return .init(path: [], createValue: value)
+public extension ThrowParsed {
+    static func value(_ value: @autoclosure @escaping () throws -> Value) -> ThrowParsed<Value> {
+        return .init(path: [], parser: value)
     }
     
-    static func error(_ error: Error) -> ThrowDecoded<Value> {
+    static func error(_ error: Error) -> ThrowParsed<Value> {
         return .init(path: []) { throw error }
     }    
     
-    func recover(_ value: @escaping (Error) -> Value) -> Decoded<Value> {
+    func recover(_ value: @escaping (Error) -> Value) -> Parsed<Value> {
         return .init(path: path) {
             do { return try self.value() }
             catch let error { return value(error) }
         }
     }
     
-    func recover(with value: @autoclosure @escaping () -> Value) -> Decoded<Value> {
+    func recover(with value: @autoclosure @escaping () -> Value) -> Parsed<Value> {
         return recover { _ in value() }
     }
     
-    func mapError(_ transfrom: @escaping (Error) -> Error) -> ThrowDecoded<Value> {
+    func mapError(_ transfrom: @escaping (Error) -> Error) -> ThrowParsed<Value> {
         return .init(path: path) {
             do { return try self.value() }
             catch let error { throw transfrom(error) }
         }
     }
     
-    func flatMapError(_ transform: @escaping (Error) -> Decoded<Value>) -> Decoded<Value> {
+    func flatMapError(_ transform: @escaping (Error) -> Parsed<Value>) -> Parsed<Value> {
         return .init(path: path) {
             do { return try self.value() }
             catch let error { return transform(error).value() }
         }
     }
     
-    func flatMapError(_ transform: @escaping (Error) -> ThrowDecoded<Value>) -> ThrowDecoded<Value> {
+    func flatMapError(_ transform: @escaping (Error) -> ThrowParsed<Value>) -> ThrowParsed<Value> {
         return .init(path: path) {
             do { return try self.value() }
             catch let error { return try transform(error).value() }

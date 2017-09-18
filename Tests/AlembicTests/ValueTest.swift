@@ -3,7 +3,7 @@ import XCTest
 @testable import Alembic
 
 final class ValueTest: XCTestCase {
-    func testDefaultDecodableValues() {
+    func testDefaultParsableValues() {
         let json: JSON = [
             "String": "String",
             "Int": 100,
@@ -87,12 +87,12 @@ final class ValueTest: XCTestCase {
         }
     }
 
-    func testDecodableRawPresentable() {
-        enum StringRawPresentable: String, Decodable {
+    func testParsableRawPresentable() {
+        enum StringRawPresentable: String, Parsable {
             case test
         }
 
-        enum IntRawPresentable: Int, Decodable {
+        enum IntRawPresentable: Int, Parsable {
             case test
         }
 
@@ -114,7 +114,7 @@ final class ValueTest: XCTestCase {
         }
     }
 
-    func testDecodableArray() {
+    func testParsableArray() {
         let json: JSON = ["stringArray": ["A", "B", "C", "D", "E"]]
 
         measure {
@@ -127,7 +127,7 @@ final class ValueTest: XCTestCase {
         }
     }
 
-    func testDecodableDictionary() {
+    func testParsableDictionary() {
         let json: JSON = ["stringDictionary": ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4]]
 
         measure {
@@ -140,8 +140,8 @@ final class ValueTest: XCTestCase {
         }
     }
 
-    func testDecodableStruct() {
-        struct Test: Decodable {
+    func testParsableStruct() {
+        struct Test: Parsable {
             let string: String
             let int: Int
 
@@ -166,8 +166,8 @@ final class ValueTest: XCTestCase {
         }
     }
 
-    func testDecodableClass() {
-        final class Test: Decodable {
+    func testParsableClass() {
+        final class Test: Parsable {
             let string: String
             let int: Int
 
@@ -197,8 +197,8 @@ final class ValueTest: XCTestCase {
         }
     }
 
-    func testInitializableStruct() {
-        struct Test: Initializable {
+    func testParseInitializableStruct() {
+        struct Test: ParseInitializable {
             let string: String
             let int: Int
 
@@ -221,8 +221,8 @@ final class ValueTest: XCTestCase {
         }
     }
 
-    func testInitializableClass() {
-        final class Test: Initializable {
+    func testParseInitializableClass() {
+        final class Test: ParseInitializable {
             let string: String
             let int: Int
 
@@ -290,14 +290,14 @@ private extension Dictionary where Value == Any {
 extension ValueTest {
     static var allTests: [(String, (ValueTest) -> () throws -> Void)] {
         return [
-            ("testDefaultDecodableValues", testDefaultDecodableValues),
-            ("testDecodableRawPresentable", testDecodableRawPresentable),
-            ("testDecodableArray", testDecodableArray),
-            ("testDecodableDictionary", testDecodableDictionary),
-            ("testDecodableStruct", testDecodableStruct),
-            ("testDecodableClass", testDecodableClass),
-            ("testInitializableStruct", testInitializableStruct),
-            ("testInitializableClass", testInitializableClass),
+            ("testDefaultParsableValues", testDefaultParsableValues),
+            ("testParsableRawPresentable", testParsableRawPresentable),
+            ("testParsableArray", testParsableArray),
+            ("testParsableDictionary", testParsableDictionary),
+            ("testParsableStruct", testParsableStruct),
+            ("testParsableClass", testParsableClass),
+            ("testParseInitializableStruct", testParseInitializableStruct),
+            ("testParseInitializableClass", testParseInitializableClass),
             ("testDeepNestedValueForPerformance", testDeepNestedValueForPerformance)
         ]
     }

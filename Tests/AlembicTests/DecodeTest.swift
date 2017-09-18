@@ -60,7 +60,7 @@ final class DecodeTest: XCTestCase {
         }
     }
     
-    func testDecodeDictionary() {
+    func testParsedictionary() {
         measure {
             do {
                 let dictionary: [String: Int] = try self.dictionaryJson.decode(for: "dictionary").value()
@@ -93,7 +93,7 @@ extension DecodeTest {
             ("testDecodeOptionValue", testDecodeOptionValue),
             ("testDecodeArray", testDecodeArray),
             ("testDecodeOptionArray", testDecodeOptionArray),
-            ("testDecodeDictionary", testDecodeDictionary),
+            ("testParsedictionary", testParsedictionary),
             ("testDecodeOptionDictionary", testDecodeOptionDictionary)
         ]
     }

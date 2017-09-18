@@ -36,7 +36,7 @@ public struct JSON {
 }
 
 public extension JSON {
-    func value<T: Decodable>(for path: Path = []) throws -> T {
+    func value<T: Parsable>(for path: Path = []) throws -> T {
         let value = try retrive(with: path)
         
         do {
@@ -50,15 +50,15 @@ public extension JSON {
         }
     }
     
-    func value<T: Decodable>(for path: Path = []) throws -> [T] {
+    func value<T: Parsable>(for path: Path = []) throws -> [T] {
         return try .value(from: value(for: path))
     }
     
-    func value<T: Decodable>(for path: Path = []) throws -> [String: T] {
+    func value<T: Parsable>(for path: Path = []) throws -> [String: T] {
         return try .value(from: value(for: path))
     }
     
-    func option<T: Decodable>(for path: Path = []) throws -> T? {
+    func option<T: Parsable>(for path: Path = []) throws -> T? {
         do {
             return try value(for: path) as T
         } catch let JSON.Error.missing(path: missing) where missing == path {
@@ -66,25 +66,25 @@ public extension JSON {
         }
     }
     
-    func option<T: Decodable>(for path: Path = []) throws -> [T]? {
+    func option<T: Parsable>(for path: Path = []) throws -> [T]? {
         return try option(for: path).map([T].value(from:))
     }
     
-    func option<T: Decodable>(for path: Path = []) throws -> [String: T]? {
+    func option<T: Parsable>(for path: Path = []) throws -> [String: T]? {
         return try option(for: path).map([String: T].value(from:))
     }
 }
 
 public extension JSON {
-    func decode<T: Decodable>(for path: Path = []) -> ThrowDecoded<T> {
+    func decode<T: Parsable>(for path: Path = []) -> ThrowParsed<T> {
         return .init(path: path) { try self.value(for: path) }
     }
     
-    func decode<T: Decodable>(for path: Path = []) -> ThrowDecoded<[T]> {
+    func decode<T: Parsable>(for path: Path = []) -> ThrowParsed<[T]> {
         return .init(path: path) { try self.value(for: path) }
     }
     
-    func decode<T: Decodable>(for path: Path = []) -> ThrowDecoded<[String: T]> {
+    func decode<T: Parsable>(for path: Path = []) -> ThrowParsed<[String: T]> {
         return .init(path: path) { try self.value(for: path) }
     }
 }

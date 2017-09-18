@@ -4,7 +4,7 @@ import XCTest
 
 final class ErrorTest: XCTestCase {
     func testMissing() {
-        struct Test: Decodable {
+        struct Test: Parsable {
             let missing: String
             
             static func value(from json: JSON) throws -> Test {
@@ -135,7 +135,7 @@ final class ErrorTest: XCTestCase {
     }
     
     func testCustom() {
-        struct Test: Decodable {
+        struct Test: Parsable {
             static func value(from json: JSON) throws -> Test {
                 throw JSON.Error.custom(reason: "Custom error")
             }
@@ -174,7 +174,7 @@ final class ErrorTest: XCTestCase {
     }
     
     func testAssociatedPath() {
-        struct Missing: Decodable {
+        struct Missing: Parsable {
             let value: String
             
             static func value(from json: JSON) throws -> Missing {
@@ -182,7 +182,7 @@ final class ErrorTest: XCTestCase {
             }
         }
         
-        struct TypeMismatch: Decodable {
+        struct TypeMismatch: Parsable {
             let value: String
             
             static func value(from json: JSON) throws -> TypeMismatch {
@@ -190,7 +190,7 @@ final class ErrorTest: XCTestCase {
             }
         }
         
-        struct Unexpected: Decodable {
+        struct Unexpected: Parsable {
             let value: String
             
             static func value(from json: JSON) throws -> Unexpected {
