@@ -27,9 +27,9 @@
 ---
 
 ## Requirements
-- Swift 3.1 / Xcode 8.3 or later
+- Swift 3.2 / Xcode 9 or later
 - OS X 10.9 or later
-- iOS 8.0 or later
+- iOS 9.0 or later
 - watchOS 2.0 or later
 - tvOS 9.0 or later
 - Linux
