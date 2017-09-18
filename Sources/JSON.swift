@@ -37,10 +37,10 @@ public struct JSON {
 
 public extension JSON {
     func value<T: Decodable>(for path: Path = []) throws -> T {
-        let object: Any = try retrive(with: path)
+        let value = try retrive(with: path)
         
         do {
-            return try .value(from: .init(object))
+            return try .value(from: .init(value))
         } catch let JSON.Error.missing(path: missingPath) {
             throw JSON.Error.missing(path: path + missingPath)
         } catch let JSON.Error.typeMismatch(expected: expected, actualValue: actualValue, path: mismatchPath) {
@@ -126,31 +126,20 @@ extension JSON: ExpressibleByDictionaryLiteral {
 // MARK: - private functions
 
 private extension JSON {
-    func retrive<T>(with path: Path) throws -> T {
-        func cast<T>(_ value: Any) throws -> T {
-            guard let castedValue = value as? T else {
-                throw JSON.Error.typeMismatch(expected: T.self, actualValue: value, path: path)
-            }
-            return castedValue
-        }
-        
-        func retrive(from value: Any, with elements: ArraySlice<Path.Element>) throws -> Any {
-            guard let first = elements.first else { return value }
+    func retrive(with path: Path) throws -> Any {
+        func retrive(from value: Any, with pathElements: ArraySlice<Path.Element>) throws -> Any {
+            guard let first = pathElements.first else { return value }
             
             switch first {
             case let .key(key):
-                let dictionary: [String: Any] = try cast(value)
-                
-                guard let value = dictionary[key], !(value is NSNull) else {
+                guard let dictionary = value as? [String: Any], let value = dictionary[key], !(value is NSNull) else {
                     throw JSON.Error.missing(path: path)
                 }
                 
-                return try retrive(from: value, with: elements.dropFirst())
+                return try retrive(from: value, with: pathElements.dropFirst())
                 
             case let .index(index):
-                let array: [Any] = try cast(value)
-                
-                guard array.count > index else {
+                guard let array = value as? [Any], array.count > index else {
                     throw JSON.Error.missing(path: path)
                 }
                 
@@ -160,11 +149,11 @@ private extension JSON {
                     throw JSON.Error.missing(path: path)
                 }
                 
-                return try retrive(from: value, with: elements.dropFirst())
+                return try retrive(from: value, with: pathElements.dropFirst())
             }
         }
         
-        let elements = ArraySlice(path.elements)
-        return try cast(retrive(from: rawValue, with: elements))
+        let pathElements = ArraySlice(path.elements)
+        return try retrive(from: rawValue, with: pathElements)
     }
 }
