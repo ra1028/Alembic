@@ -9,13 +9,13 @@ matrix:
       script:
         - set -o pipefail
         - xcodebuild build-for-testing test-without-building -scheme Alembic -configuration Release ENABLE_TESTABILITY=YES | xcpretty -c
-        - xcodebuild build-for-testing test-without-building -scheme Alembic -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7' ENABLE_TESTABILITY=YES | xcpretty - c
+        - xcodebuild build-for-testing test-without-building -scheme Alembic -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X' ENABLE_TESTABILITY=YES | xcpretty - c
         - xcodebuild build-for-testing test-without-building -scheme Alembic -configuration Release -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV 1080p' ENABLE_TESTABILITY=YES | xcpretty -c
         - xcodebuild build -scheme Alembic -configuration Release -sdk watchsimulator -destination 'platform=watchOS Simulator,name=Apple Watch - 38mm' ENABLE_TESTABILITY=YES | xcpretty -c
 
     - os: osx
       language: generic
-      osx_image: xcode8.3
+      osx_image: xcode9
       script:
         - swift build
         - swift test
