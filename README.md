@@ -32,7 +32,7 @@
 
 ## Feature
 - Type-safe JSON parsing
-- Monadic value transforming
+- Monadic value transformation
 - Easy to parse nested value
 - Dependency free
 - No defined custom operators
@@ -40,7 +40,7 @@
 ---
 
 ## Requirements
-- Swift 3.2 / Xcode 9 or later
+- Swift3.1 or later (Supports Swift 3.2 and Swift 4.0)
 - OS X 10.9 or later
 - iOS 9.0 or later
 - watchOS 2.0 or later
@@ -86,7 +86,7 @@ In example, parse the following JSON:
 {
     "teams": [
         {
-            "name": "TeamRA",
+            "name": "Team ra1028",
             "url": "https://github.com/ra1028",
             "members": [
                 {
@@ -119,7 +119,7 @@ let json = try JSON(string: string)
 
 #### Parse value from JSON:
 ```swift
-let firstMemberName: String = try json.value(for: ["teams", 0, "members", 0, "name"])
+let memberName: String = try json.value(for: ["teams", 0, "members", 0, "name"])
 ```
 
 #### Parse value from JSON with transforming:
