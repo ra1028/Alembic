@@ -122,13 +122,23 @@ __Parse the values type-safely__
 ```swift
 let memberName: String = try json.value(for: ["teams", 0, "members", 0, "name"])
 ```
+__Parse nullable value__
+```swift
+let missingText: String? = try json.option(for: "missingKey")
+```
 
 #### Parse value from JSON with transforming:
-__Transform values using various monadic functions.__
+__Transform value using various monadic functions.__
 ```swift
 let teamUrl: URL = try json.parse(String.self, for: ["teams", 0, "url"])
         .flatMap(URL.init(string:))
         .value()
+```
+__Transform nullable value if exist__
+```swift
+let missingUrl: URL? = try json.parse(String.self, for: "missingKey")
+        .flatMap(URL.init(string:))
+        .option()
 ```
 
 #### Mapping to model from JSON:
