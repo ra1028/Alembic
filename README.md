@@ -118,11 +118,13 @@ let json = try JSON(string: string)
 ```
 
 #### Parse value from JSON:
+__Parse the values type-safely__
 ```swift
 let memberName: String = try json.value(for: ["teams", 0, "members", 0, "name"])
 ```
 
 #### Parse value from JSON with transforming:
+__Transform values using various monadic functions.__
 ```swift
 let teamUrl: URL = try json.parse(String.self, for: ["teams", 0, "url"])
         .flatMap(URL.init(string:))
@@ -130,6 +132,7 @@ let teamUrl: URL = try json.parse(String.self, for: ["teams", 0, "url"])
 ```
 
 #### Mapping to model from JSON:
+__All types conforming to `Parsable` protocol and it's Array, Dictionary can be parsed.__  
 ```swift
 struct Member: Parsable {
     let name: String
@@ -163,7 +166,33 @@ let team: Team = try json.value(for: ["teams", 0])
 
 ---
 
-## Advanced Tips
+## Tips
+#### `Parsable` conformed types as default
+```swift
+JSON
+String
+Int
+UInt
+Double
+Float
+Bool
+NSNumber
+Int8
+UInt8
+Int16
+UInt16
+Int32
+UInt32
+Int64
+UInt64
+
+// A type that has a value conforming to `Parsable` in generics
+
+RawRepresentable where RawValue: Parsable
+Array where Element: Parsable
+Dictionary where Key == String, Value: Parsable
+```
+
 #### Conform to `Parsable` with initializer
 ```swift
 struct Member: ParseInitializable {
@@ -178,7 +207,7 @@ struct Member: ParseInitializable {
 ```
 
 #### Usage Reference Files
-Value transformations:
+Monadic functions for value transforming:
 - [ParsedProtocol.swift](./Sources/ParsedProtocol.swift)
 - [Parsed.swift](./Sources/Parsed.swift)
 - [ThrowParsed.swift](./Sources/ThrowParsed.swift)
