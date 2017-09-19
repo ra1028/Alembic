@@ -2,10 +2,19 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../Alembic/LICENSE">
+      location = "group:README.md">
    </FileRef>
    <FileRef
-      location = "group:../Alembic/README.md">
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:Alembic.podspec">
+   </FileRef>
+   <FileRef
+      location = "group:Package.swift">
+   </FileRef>
+   <FileRef
+      location = "group:Tests/LinuxMain.swift">
    </FileRef>
    <FileRef
       location = "group:Alembic.playground">
