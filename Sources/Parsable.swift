@@ -119,9 +119,7 @@ extension Array where Element: Parsable {
 extension Dictionary where Key == String, Value: Parsable {
     public static func value(from json: JSON) throws -> [String: Value] {
         let rawDictionary: [String: Any] = try cast(json.rawValue)
-        var dictionary = [String: Value](minimumCapacity: rawDictionary.count)
-        try rawDictionary.forEach { try dictionary[$0] = JSON($1).value() }
-        return dictionary
+        return try rawDictionary.mapValues { try JSON($0).value() }
     }
 }
 
