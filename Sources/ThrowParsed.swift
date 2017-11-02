@@ -1,4 +1,4 @@
-public final class ThrowParsed<Value>: ParsedProtocol {
+public struct ThrowParsed<Value>: ParsedProtocol {
     public let path: JSON.Path
     
     private let parser: () throws -> Value
