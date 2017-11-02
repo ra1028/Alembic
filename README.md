@@ -40,7 +40,7 @@
 ---
 
 ## Requirements
-- Swift3.1 or later (Supports Swift 3.2 and Swift 4.0)
+- Swift4.0 or later
 - OS X 10.9 or later
 - iOS 9.0 or later
 - watchOS 2.0 or later
