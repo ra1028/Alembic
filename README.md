@@ -5,7 +5,7 @@
 </br>
 
 <p align="center">
-<a href="https://developer.apple.com/swift"><img alt="Swift3" src="https://img.shields.io/badge/language-swift3-orange.svg?style=flat"/></a>
+<a href="https://developer.apple.com/swift"><img alt="Swift4" src="https://img.shields.io/badge/language-swift4-orange.svg?style=flat"/></a>
 <a href="https://travis-ci.org/ra1028/Alembic"><img alt="Build Status" src="https://travis-ci.org/ra1028/Alembic.svg?branch=master"/></a>
 <a href="https://codebeat.co/projects/github-com-ra1028-alembic"><img alt="CodeBeat" src="https://codebeat.co/badges/09cc20c0-4cba-4c78-8e20-39f41d86c587"/></a>
 </p>
