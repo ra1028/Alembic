@@ -195,6 +195,7 @@ Int32
 UInt32
 Int64
 UInt64
+Decimal
 
 // A type that has a value conforming to `Parsable` in generics
 

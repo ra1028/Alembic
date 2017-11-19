@@ -28,12 +28,12 @@ public extension ThrowParsed {
     
     static func error(_ error: Error) -> ThrowParsed<Value> {
         return .init(path: []) { throw error }
-    }    
+    }
     
     func recover(_ value: @escaping (Error) -> Value) -> Parsed<Value> {
         return .init(path: path) {
             do { return try self.value() }
-            catch let error { return value(error) }
+            catch { return value(error) }
         }
     }
     
@@ -44,21 +44,21 @@ public extension ThrowParsed {
     func mapError(_ transfrom: @escaping (Error) -> Error) -> ThrowParsed<Value> {
         return .init(path: path) {
             do { return try self.value() }
-            catch let error { throw transfrom(error) }
+            catch { throw transfrom(error) }
         }
     }
     
     func flatMapError(_ transform: @escaping (Error) -> Parsed<Value>) -> Parsed<Value> {
         return .init(path: path) {
             do { return try self.value() }
-            catch let error { return transform(error).value() }
+            catch { return transform(error).value() }
         }
     }
     
     func flatMapError(_ transform: @escaping (Error) -> ThrowParsed<Value>) -> ThrowParsed<Value> {
         return .init(path: path) {
             do { return try self.value() }
-            catch let error { return try transform(error).value() }
+            catch { return try transform(error).value() }
         }
     }
 }

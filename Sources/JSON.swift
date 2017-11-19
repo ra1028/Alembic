@@ -14,7 +14,7 @@ public struct JSON {
             let rawValue = try JSONSerialization.jsonObject(with: data, options: options)
             self.init(rawValue)
         } catch {
-            throw JSON.Error.serializeFailed(value: data)
+            throw JSON.Error.dataCorrupted(value: data, description: "The given data was not valid JSON data.")
         }
     }
     
@@ -24,13 +24,13 @@ public struct JSON {
         allowLossyConversion: Bool = false,
         options: JSONSerialization.ReadingOptions = .allowFragments) throws {
         guard let data = string.data(using: encoding, allowLossyConversion: allowLossyConversion) else {
-            throw JSON.Error.serializeFailed(value: string)
+            throw JSON.Error.dataCorrupted(value: string, description: "The given string could not convert to data using a given encoding.")
         }
         
         do {
             try self.init(data: data, options: options)
-        } catch JSON.Error.serializeFailed {
-            throw JSON.Error.serializeFailed(value: string)
+        } catch {
+            throw JSON.Error.dataCorrupted(value: data, description: "The given string was not valid JSON string.")
         }
     }
 }

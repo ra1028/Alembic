@@ -3,8 +3,8 @@ public extension JSON {
         case missing(path: Path)
         case typeMismatch(expected: Any.Type, actualValue: Any, path: Path)
         case unexpected(value: Any?, path: Path)
-        case serializeFailed(value: Any)
-        case custom(reason: String)
+        case dataCorrupted(value: Any, description: String)
+        case other(description: String)
     }
 }
 
@@ -22,11 +22,11 @@ extension JSON.Error: CustomStringConvertible {
         case let .unexpected(value: value, path: path):
             return "unexpected(value: \(String(describing: value)), path: \(path))"
             
-        case let .serializeFailed(value: value):
-            return "serializeFailed(value: \(value))"
+        case let .dataCorrupted(value: value, description: description):
+            return "dataCorrupted(value: \(value), description: \(description))"
             
-        case let .custom(reason: reason):
-            return "custom(reason: \(reason))"
+        case let .other(description: description):
+            return "other(description: \(description))"
         }
     }
 }
