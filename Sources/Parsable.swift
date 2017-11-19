@@ -13,31 +13,41 @@ extension JSON: Parsable {
 
 extension String: Parsable {
     public static func value(from json: JSON) throws -> String {
-        return try cast(from: json)
+        return try cast(json.rawValue)
     }
 }
 
 extension Bool: Parsable {
     public static func value(from json: JSON) throws -> Bool {
-        return try cast(from: json)
+        return try cast(json.rawValue)
     }
 }
 
 extension NSNumber: Parsable {
     public static func value(from json: JSON) throws -> Self {
-        return try cast(from: json)
+        do {
+            return try cast(json.rawValue)
+        } catch {
+            if let int: Int = try? cast(json.rawValue) {
+                return try cast(NSNumber(value: int))
+            } else if let double: Double = try? cast(json.rawValue) {
+                return try cast(NSNumber(value: double))
+            }
+            
+            throw error
+        }
     }
 }
 
 extension Double: Parsable {
     public static func value(from json: JSON) throws -> Double {
-        return try castNumber(from: json, \.doubleValue, Double.init(_:))
+        return try NSNumber.value(from: json).doubleValue
     }
 }
 
 extension Float: Parsable {
     public static func value(from json: JSON) throws -> Float {
-        guard let double = try? castNumber(from: json, \.doubleValue, Double.init(_:))
+        guard let double = try? NSNumber.value(from: json).doubleValue
             else { throw JSON.Error.typeMismatch(expected: Float.self, actualValue: json.rawValue, path: []) }
         
         guard Swift.abs(double) <= Double(Float.greatestFiniteMagnitude)
@@ -49,67 +59,67 @@ extension Float: Parsable {
 
 extension Int: Parsable {
     public static func value(from json: JSON) throws -> Int {
-        return try castNumber(from: json, \.intValue, Int.init(_:))
+        return try NSNumber.value(from: json).intValue
     }
 }
 
 extension UInt: Parsable {
     public static func value(from json: JSON) throws -> UInt {
-        return try castNumber(from: json, \.uintValue, UInt.init(_:))
+        return try NSNumber.value(from: json).uintValue
     }
 }
 
 extension Int8: Parsable {
     public static func value(from json: JSON) throws -> Int8 {
-        return try castNumber(from: json, \.int8Value, Int8.init(_:))
+        return try NSNumber.value(from: json).int8Value
     }
 }
 
 extension Int16: Parsable {
     public static func value(from json: JSON) throws -> Int16 {
-        return try castNumber(from: json, \.int16Value, Int16.init(_:))
+        return try NSNumber.value(from: json).int16Value
     }
 }
 
 extension Int32: Parsable {
     public static func value(from json: JSON) throws -> Int32 {
-        return try castNumber(from: json, \.int32Value, Int32.init(_:))
+        return try NSNumber.value(from: json).int32Value
     }
 }
 
 extension Int64: Parsable {
     public static func value(from json: JSON) throws -> Int64 {
-        return try castNumber(from: json, \.int64Value, Int64.init(_:))
+        return try NSNumber.value(from: json).int64Value
     }
 }
 
 extension UInt8: Parsable {
     public static func value(from json: JSON) throws -> UInt8 {
-        return try castNumber(from: json, \.uint8Value, UInt8.init(_:))
+        return try NSNumber.value(from: json).uint8Value
     }
 }
 
 extension UInt16: Parsable {
     public static func value(from json: JSON) throws -> UInt16 {
-        return try castNumber(from: json, \.uint16Value, UInt16.init(_:))
+        return try NSNumber.value(from: json).uint16Value
     }
 }
 
 extension UInt32: Parsable {
     public static func value(from json: JSON) throws -> UInt32 {
-        return try castNumber(from: json, \.uint32Value, UInt32.init(_:))
+        return try NSNumber.value(from: json).uint32Value
     }
 }
 
 extension UInt64: Parsable {
     public static func value(from json: JSON) throws -> UInt64 {
-        return try castNumber(from: json, \.uint64Value, UInt64.init(_:))
+        return try NSNumber.value(from: json).uint64Value
     }
 }
 
 extension Decimal: Parsable {
     public static func value(from json: JSON) throws -> Decimal {
-        return try castNumber(from: json, \.decimalValue, Decimal.init(_:))
+        return try NSNumber.value(from: json).decimalValue
     }
 }
 
@@ -124,34 +134,21 @@ public extension RawRepresentable where Self: Parsable, RawValue: Parsable {
 
 public extension Array where Element: Parsable {
     static func value(from json: JSON) throws -> [Element] {
-        let array: [Any] = try cast(from: json)
+        let array: [Any] = try cast(json.rawValue)
         return try array.map { try JSON($0).value() }
     }
 }
 
 public extension Dictionary where Key == String, Value: Parsable {
     static func value(from json: JSON) throws -> [String: Value] {
-        let rawDictionary: [String: Any] = try cast(from: json)
+        let rawDictionary: [String: Any] = try cast(json.rawValue)
         return try rawDictionary.mapValues { try JSON($0).value() }
     }
 }
 
-private func cast<T>(from json: JSON) throws -> T {
-    let rawValue = json.rawValue
+private func cast<T>(_ rawValue: Any) throws -> T {
     guard let value = rawValue as? T else {
         throw JSON.Error.typeMismatch(expected: T.self, actualValue: rawValue, path: [])
     }
     return value
-}
-
-private func castNumber<T>(from json: JSON, _ keyPath: @autoclosure () -> KeyPath<NSNumber, T>, _ fromInt: @autoclosure () -> (Int) throws -> T) throws -> T {
-    if let number = try? NSNumber.value(from: json) {
-        return number[keyPath: keyPath()]
-    }
-    
-    do {
-        return try cast(from: json)
-    } catch {
-        return try fromInt()(cast(from: json))
-    }
 }
