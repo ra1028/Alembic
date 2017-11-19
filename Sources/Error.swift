@@ -4,7 +4,7 @@ public extension JSON {
         case typeMismatch(expected: Any.Type, actualValue: Any, path: Path)
         case unexpected(value: Any?, path: Path)
         case serializeFailed(value: Any)
-        case custom(reason: String)
+        case other(description: String)
     }
 }
 
@@ -25,8 +25,8 @@ extension JSON.Error: CustomStringConvertible {
         case let .serializeFailed(value: value):
             return "serializeFailed(value: \(value))"
             
-        case let .custom(reason: reason):
-            return "custom(reason: \(reason))"
+        case let .other(description: description):
+            return "other(description: \(description))"
         }
     }
 }

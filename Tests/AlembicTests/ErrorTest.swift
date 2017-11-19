@@ -134,10 +134,10 @@ final class ErrorTest: XCTestCase {
         }
     }
     
-    func testCustom() {
+    func testOther() {
         struct Test: Parsable {
             static func value(from json: JSON) throws -> Test {
-                throw JSON.Error.custom(reason: "Custom error")
+                throw JSON.Error.other(description: "Other error")
             }
         }
         
@@ -147,26 +147,26 @@ final class ErrorTest: XCTestCase {
             do {
                 _ = try json.value(for: "key") as Test
                 XCTFail("Expect to throw error")
-            } catch let JSON.Error.custom(reason: reason) {
-                XCTAssertEqual(reason, "Custom error")
+            } catch let JSON.Error.other(description: description) {
+                XCTAssertEqual(description, "Other error")
             } catch let error {
                 XCTFail("Unexpected error: \(error)")
             }
             
             do {
-                _ = try json.parse(for: "missing").mapError { _ in JSON.Error.custom(reason: "Custom error") }.value() as String
+                _ = try json.parse(for: "missing").mapError { _ in JSON.Error.other(description: "Other error") }.value() as String
                 XCTFail("Expect to throw error")
-            } catch let JSON.Error.custom(reason: reason) {
-                XCTAssertEqual(reason, "Custom error")
+            } catch let JSON.Error.other(description: description) {
+                XCTAssertEqual(description, "Other error")
             } catch let error {
                 XCTFail("Unexpected error: \(error)")
             }
             
             do {
-                _ = try json.parse(for: "missing").flatMapError { _ in .error(JSON.Error.custom(reason: "Custom error")) }.value() as String
+                _ = try json.parse(for: "missing").flatMapError { _ in .error(JSON.Error.other(description: "Other error")) }.value() as String
                 XCTFail("Expect to throw error")
-            } catch let JSON.Error.custom(reason: reason) {
-                XCTAssertEqual(reason, "Custom error")
+            } catch let JSON.Error.other(description: description) {
+                XCTAssertEqual(description, "Other error")
             } catch let error {
                 XCTFail("Unexpected error: \(error)")
             }
@@ -231,11 +231,11 @@ final class ErrorTest: XCTestCase {
 extension ErrorTest {
     static var allTests: [(String, (ErrorTest) -> () throws -> Void)] {
         return [
-            ("testMissing", testCustom),
+            ("testMissing", testMissing),
             ("testTypeMismatch", testTypeMismatch),
             ("testUnexpected", testUnexpected),
             ("testSerializeFailed", testSerializeFailed),
-            ("testCustom", testCustom),
+            ("testOther", testOther),
             ("testAssociatedPath", testAssociatedPath)
         ]
     }
