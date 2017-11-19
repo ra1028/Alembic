@@ -31,13 +31,14 @@ extension NSNumber: Parsable {
 
 extension Double: Parsable {
     public static func value(from json: JSON) throws -> Double {
-        return try castNumber(from: json, \.doubleValue)
+        return try castNumber(from: json, \.doubleValue, Double.init(_:))
     }
 }
 
 extension Float: Parsable {
     public static func value(from json: JSON) throws -> Float {
-        guard let double = try? castNumber(from: json, \.doubleValue) else { throw JSON.Error.typeMismatch(expected: Float.self, actualValue: json.rawValue, path: []) }
+        guard let double = try? castNumber(from: json, \.doubleValue, Double.init(_:))
+            else { throw JSON.Error.typeMismatch(expected: Float.self, actualValue: json.rawValue, path: []) }
         
         guard Swift.abs(double) <= Double(Float.greatestFiniteMagnitude)
             else { throw JSON.Error.dataCorrupted(value: json.rawValue, description: "The parsed value(\(json.rawValue) does overflow in Float type.") }
@@ -48,67 +49,67 @@ extension Float: Parsable {
 
 extension Int: Parsable {
     public static func value(from json: JSON) throws -> Int {
-        return try castNumber(from: json, \.intValue)
+        return try castNumber(from: json, \.intValue, Int.init(_:))
     }
 }
 
 extension UInt: Parsable {
     public static func value(from json: JSON) throws -> UInt {
-        return try castNumber(from: json, \.uintValue)
+        return try castNumber(from: json, \.uintValue, UInt.init(_:))
     }
 }
 
 extension Int8: Parsable {
     public static func value(from json: JSON) throws -> Int8 {
-        return try castNumber(from: json, \.int8Value)
+        return try castNumber(from: json, \.int8Value, Int8.init(_:))
     }
 }
 
 extension Int16: Parsable {
     public static func value(from json: JSON) throws -> Int16 {
-        return try castNumber(from: json, \.int16Value)
+        return try castNumber(from: json, \.int16Value, Int16.init(_:))
     }
 }
 
 extension Int32: Parsable {
     public static func value(from json: JSON) throws -> Int32 {
-        return try castNumber(from: json, \.int32Value)
+        return try castNumber(from: json, \.int32Value, Int32.init(_:))
     }
 }
 
 extension Int64: Parsable {
     public static func value(from json: JSON) throws -> Int64 {
-        return try castNumber(from: json, \.int64Value)
+        return try castNumber(from: json, \.int64Value, Int64.init(_:))
     }
 }
 
 extension UInt8: Parsable {
     public static func value(from json: JSON) throws -> UInt8 {
-        return try castNumber(from: json, \.uint8Value)
+        return try castNumber(from: json, \.uint8Value, UInt8.init(_:))
     }
 }
 
 extension UInt16: Parsable {
     public static func value(from json: JSON) throws -> UInt16 {
-        return try castNumber(from: json, \.uint16Value)
+        return try castNumber(from: json, \.uint16Value, UInt16.init(_:))
     }
 }
 
 extension UInt32: Parsable {
     public static func value(from json: JSON) throws -> UInt32 {
-        return try castNumber(from: json, \.uint32Value)
+        return try castNumber(from: json, \.uint32Value, UInt32.init(_:))
     }
 }
 
 extension UInt64: Parsable {
     public static func value(from json: JSON) throws -> UInt64 {
-        return try castNumber(from: json, \.uint64Value)
+        return try castNumber(from: json, \.uint64Value, UInt64.init(_:))
     }
 }
 
 extension Decimal: Parsable {
     public static func value(from json: JSON) throws -> Decimal {
-        return try castNumber(from: json, \.decimalValue)
+        return try castNumber(from: json, \.decimalValue, Decimal.init(_:))
     }
 }
 
@@ -143,7 +144,14 @@ private func cast<T>(from json: JSON) throws -> T {
     return value
 }
 
-private func castNumber<T>(from json: JSON, _ keyPath: KeyPath<NSNumber, T>) throws -> T {
-    guard let number = try? NSNumber.value(from: json) else { return try cast(from: json) }
-    return number[keyPath: keyPath]
+private func castNumber<T>(from json: JSON, _ keyPath: @autoclosure () -> KeyPath<NSNumber, T>, _ fromInt: @autoclosure () -> (Int) throws -> T) throws -> T {
+    if let number = try? NSNumber.value(from: json) {
+        return number[keyPath: keyPath()]
+    }
+    
+    do {
+        return try cast(from: json)
+    } catch {
+        return try fromInt()(cast(from: json))
+    }
 }
