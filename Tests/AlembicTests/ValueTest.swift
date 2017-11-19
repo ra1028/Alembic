@@ -4,25 +4,29 @@ import XCTest
 
 final class ValueTest: XCTestCase {
     func testDefaultParsableValues() {
-        let json: JSON = [
+        let jsonString = """
+            {
             "String": "String",
             "Int": 100,
-            "UInt": 100 as UInt,
-            "Double": 100 as Double,
-            "Float": 100 as Float,
+            "UInt": 100,
+            "Double": 100,
+            "Float": 100,
             "Bool": true,
-            "NSNumber": 100 as NSNumber,
-            "Int8": 100 as NSNumber,
-            "UInt8": 100 as NSNumber,
-            "Int16": 100 as NSNumber,
-            "UInt16": 100 as NSNumber,
-            "Int32": 100 as NSNumber,
-            "UInt32": 100 as NSNumber,
-            "Int64": 100 as NSNumber,
-            "UInt64": 100 as NSNumber
-        ]
+            "NSNumber": 100,
+            "Int8": 100,
+            "UInt8": 100,
+            "Int16": 100,
+            "UInt16": 100,
+            "Int32": 100,
+            "UInt32": 100,
+            "Int64": 100,
+            "UInt64": 100
+            }
+            """
         
         do {
+            let json = try JSON(string: jsonString)
+            
             let string: String = try json.value(for: "String")
             XCTAssertEqual(string, "String")
             
