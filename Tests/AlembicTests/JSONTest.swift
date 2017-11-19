@@ -7,31 +7,25 @@ final class JSONTest: XCTestCase {
     private lazy var jsonData: Data = self.jsonString.data(using: .utf8)!
     
     func testInitializeFromAny() {
-        measure {
-            let json: JSON = ["key": "value"]
-            XCTAssertEqual(json.rawValue, ["key": "value"])
-        }
+        let json: JSON = ["key": "value"]
+        XCTAssertEqual(json.rawValue, ["key": "value"])
     }
     
     func testInitializeFromData() {
-        measure {
-            do {
-                let json = try JSON(data: self.jsonData)
-                XCTAssertEqual(json.rawValue, ["key": "value"])
-            } catch {
-                XCTFail("error: \(error)")
-            }
+        do {
+            let json = try JSON(data: self.jsonData)
+            XCTAssertEqual(json.rawValue, ["key": "value"])
+        } catch {
+            XCTFail("error: \(error)")
         }
     }
     
     func testInitializeFromString() {
-        measure {
-            do {
-                let json = try JSON(string: self.jsonString)
-                XCTAssertEqual(json.rawValue, ["key": "value"])
-            } catch {
-                XCTFail("error: \(error)")
-            }
+        do {
+            let json = try JSON(string: self.jsonString)
+            XCTAssertEqual(json.rawValue, ["key": "value"])
+        } catch {
+            XCTFail("error: \(error)")
         }
     }
 }
