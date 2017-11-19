@@ -1,4 +1,6 @@
 import class Foundation.NSNumber
+import let Foundation.kCFBooleanTrue
+import let Foundation.kCFBooleanFalse
 
 public protocol Parsable {
     static func value(from json: JSON) throws -> Self
@@ -16,87 +18,96 @@ extension String: Parsable {
     }
 }
 
-extension Int: Parsable {
-    public static func value(from json: JSON) throws -> Int {
-        return try cast(json.rawValue)
-    }
-}
-
-extension UInt: Parsable {
-    public static func value(from json: JSON) throws -> UInt {
-        return try cast(json.rawValue)
-    }
-}
-
-extension Double: Parsable {
-    public static func value(from json: JSON) throws -> Double {
-        return try cast(json.rawValue)
-    }
-}
-
-extension Float: Parsable {
-    public static func value(from json: JSON) throws -> Float {
-        return try cast(json.rawValue)
-    }
-}
-
-extension Bool: Parsable {
-    public static func value(from json: JSON) throws -> Bool {
-        return try cast(json.rawValue)
-    }
-}
-
 extension NSNumber: Parsable {
     public static func value(from json: JSON) throws -> Self {
         return try cast(json.rawValue)
     }
 }
 
-extension Int8: Parsable {
-    public static func value(from json: JSON) throws -> Int8 {
-        return try NSNumber.value(from: json).int8Value
+extension Bool: Parsable {
+    public static func value(from json: JSON) throws -> Bool {
+        let number = try NSNumber.value(from: json)
+        if number === kCFBooleanTrue { return true }
+        else if number === kCFBooleanFalse { return false }
+        
+        throw JSON.Error.typeMismatch(expected: Bool.self, actualValue: value, path: [])
     }
 }
 
-extension UInt8: Parsable {
-    public static func value(from json: JSON) throws -> UInt8 {
-        return try NSNumber.value(from: json).uint8Value
+extension Double: Parsable {
+    public static func value(from json: JSON) throws -> Double {
+        return try castNotBooleanNumber(json.rawValue).doubleValue
+    }
+}
+
+extension Float: Parsable {
+    public static func value(from json: JSON) throws -> Float {
+        let number = try castNotBooleanNumber(json.rawValue)
+        let double = number.doubleValue
+        guard abs(double) <= Double(Float.greatestFiniteMagnitude)
+            else { throw JSON.Error.dataCorrupted(value: number, description: "The parsed number(\(number) does overflow in Float type.") }
+        
+        return .init(double)
+    }
+}
+
+extension Int: Parsable {
+    public static func value(from json: JSON) throws -> Int {
+        return try castNotBooleanNumber(json.rawValue).intValue
+    }
+}
+
+extension UInt: Parsable {
+    public static func value(from json: JSON) throws -> UInt {
+        return try castNotBooleanNumber(json.rawValue).uintValue
+    }
+}
+
+extension Int8: Parsable {
+    public static func value(from json: JSON) throws -> Int8 {
+        return try castNotBooleanNumber(json.rawValue).int8Value
     }
 }
 
 extension Int16: Parsable {
     public static func value(from json: JSON) throws -> Int16 {
-        return try NSNumber.value(from: json).int16Value
-    }
-}
-
-extension UInt16: Parsable {
-    public static func value(from json: JSON) throws -> UInt16 {
-        return try NSNumber.value(from: json).uint16Value
+        return try castNotBooleanNumber(json.rawValue).int16Value
     }
 }
 
 extension Int32: Parsable {
     public static func value(from json: JSON) throws -> Int32 {
-        return try NSNumber.value(from: json).int32Value
-    }
-}
-
-extension UInt32: Parsable {
-    public static func value(from json: JSON) throws -> UInt32 {
-        return try NSNumber.value(from: json).uint32Value
+        return try castNotBooleanNumber(json.rawValue).int32Value
     }
 }
 
 extension Int64: Parsable {
     public static func value(from json: JSON) throws -> Int64 {
-        return try NSNumber.value(from: json).int64Value
+        return try castNotBooleanNumber(json.rawValue).int64Value
+    }
+}
+
+extension UInt8: Parsable {
+    public static func value(from json: JSON) throws -> UInt8 {
+        return try castNotBooleanNumber(json.rawValue).uint8Value
+    }
+}
+
+extension UInt16: Parsable {
+    public static func value(from json: JSON) throws -> UInt16 {
+        return try castNotBooleanNumber(json.rawValue).uint16Value
+    }
+}
+
+extension UInt32: Parsable {
+    public static func value(from json: JSON) throws -> UInt32 {
+        return try castNotBooleanNumber(json.rawValue).uint32Value
     }
 }
 
 extension UInt64: Parsable {
     public static func value(from json: JSON) throws -> UInt64 {
-        return try NSNumber.value(from: json).uint64Value
+        return try castNotBooleanNumber(json.rawValue).uint64Value
     }
 }
 
@@ -109,15 +120,15 @@ public extension RawRepresentable where Self: Parsable, RawValue: Parsable {
     }
 }
 
-extension Array where Element: Parsable {
-    public static func value(from json: JSON) throws -> [Element] {
+public extension Array where Element: Parsable {
+    static func value(from json: JSON) throws -> [Element] {
         let array: [Any] = try cast(json.rawValue)
         return try array.map { try JSON($0).value() }
     }
 }
 
-extension Dictionary where Key == String, Value: Parsable {
-    public static func value(from json: JSON) throws -> [String: Value] {
+public extension Dictionary where Key == String, Value: Parsable {
+    static func value(from json: JSON) throws -> [String: Value] {
         let rawDictionary: [String: Any] = try cast(json.rawValue)
         return try rawDictionary.mapValues { try JSON($0).value() }
     }
@@ -128,4 +139,12 @@ private func cast<T>(_ value: Any) throws -> T {
         throw JSON.Error.typeMismatch(expected: T.self, actualValue: value, path: [])
     }
     return castedValue
+}
+
+private func castNotBooleanNumber(_ value: Any) throws -> NSNumber {
+    guard let number = value as? NSNumber, number !== kCFBooleanTrue && number !== kCFBooleanFalse else {
+        throw JSON.Error.typeMismatch(expected: NSNumber.self, actualValue: value, path: [])
+    }
+    
+    return number
 }
