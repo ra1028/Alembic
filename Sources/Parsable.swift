@@ -1,4 +1,5 @@
 import class Foundation.NSNumber
+import struct Foundation.Decimal
 import let Foundation.kCFBooleanTrue
 import let Foundation.kCFBooleanFalse
 
@@ -108,6 +109,13 @@ extension UInt32: Parsable {
 extension UInt64: Parsable {
     public static func value(from json: JSON) throws -> UInt64 {
         return try castNotBooleanNumber(json.rawValue).uint64Value
+    }
+}
+
+extension Decimal: Parsable {
+    public static func value(from json: JSON) throws -> Decimal {
+        do { return try cast(json.rawValue) }
+        catch { return try .init(cast(json.rawValue) as Double) }
     }
 }
 

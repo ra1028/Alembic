@@ -20,7 +20,8 @@ final class ValueTest: XCTestCase {
             "Int32": 100,
             "UInt32": 100,
             "Int64": 100,
-            "UInt64": 100
+            "UInt64": 100,
+            "Decimal": 100
             }
             """
         
@@ -71,6 +72,9 @@ final class ValueTest: XCTestCase {
             
             let uint64: UInt64 = try json.value(for: "UInt64")
             XCTAssertEqual(uint64, 100)
+            
+            let decimal: Decimal = try json.value(for: "Decimal")
+            XCTAssertEqual(decimal, 100)
         } catch {
             XCTFail("Unexpected error: \(error)")
         }
