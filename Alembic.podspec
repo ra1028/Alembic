@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'Alembic'
-  spec.version  = '3.1.0'
+  spec.version  = '3.2.0'
   spec.author = { 'ra1028' => 'r.fe51028.r@gmail.com' }
   spec.homepage = 'https://github.com/ra1028'
   spec.summary = 'A Monadic JSON Parser'
