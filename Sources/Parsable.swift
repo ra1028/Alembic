@@ -45,7 +45,7 @@ extension Float: Parsable {
     public static func value(from json: JSON) throws -> Float {
         let number = try castNotBooleanNumber(json.rawValue)
         let double = number.doubleValue
-        guard abs(double) <= Double(Float.greatestFiniteMagnitude)
+        guard Swift.abs(double) <= Double(Float.greatestFiniteMagnitude)
             else { throw JSON.Error.dataCorrupted(value: number, description: "The parsed number(\(number) does overflow in Float type.") }
         
         return .init(double)
