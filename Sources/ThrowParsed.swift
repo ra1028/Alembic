@@ -28,7 +28,7 @@ public extension ThrowParsed {
     
     static func error(_ error: Error) -> ThrowParsed<Value> {
         return .init(path: []) { throw error }
-    }    
+    }
     
     func recover(_ value: @escaping (Error) -> Value) -> Parsed<Value> {
         return .init(path: path) {

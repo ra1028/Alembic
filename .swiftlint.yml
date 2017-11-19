@@ -1,0 +1,11 @@
+excluded:
+  - Tests
+
+disabled_rules:
+  - nesting
+  - statement_position
+
+trailing_whitespace:
+  ignores_empty_lines: true
+
+line_length: 160

@@ -6,4 +6,3 @@
  > 3. Open Alembic playground in project navigator.
 */
 import Alembic
-
