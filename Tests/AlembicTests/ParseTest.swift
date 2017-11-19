@@ -15,7 +15,7 @@ final class ParseTest: XCTestCase {
             do {
                 let value: String = try self.valueJson.parse(for: "value").value()
                 XCTAssertEqual(value, "value")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -29,7 +29,7 @@ final class ParseTest: XCTestCase {
                 
                 let missing: String? = try self.valueJson.parse(for: "missing").option()
                 XCTAssertNil(missing)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -40,7 +40,7 @@ final class ParseTest: XCTestCase {
             do {
                 let array: [String] = try self.arrayJson.parse(for: "array").value()
                 XCTAssertEqual(array, ["A", "B", "C", "D", "E"])
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -54,7 +54,7 @@ final class ParseTest: XCTestCase {
                 
                 let missing: [String]? = try self.arrayJson.parse(for: "missing").option()
                 XCTAssertNil(missing)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -65,7 +65,7 @@ final class ParseTest: XCTestCase {
             do {
                 let dictionary: [String: Int] = try self.dictionaryJson.parse(for: "dictionary").value()
                 XCTAssertEqual(dictionary, ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4])
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -79,7 +79,7 @@ final class ParseTest: XCTestCase {
                 
                 let missing: [String: Int]? = try self.dictionaryJson.parse(for: "missing").option()
                 XCTAssertNil(missing)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }

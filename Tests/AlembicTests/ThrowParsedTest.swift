@@ -16,7 +16,7 @@ final class ThrowParsedTest: XCTestCase {
             do {
                 _ = try errorParsed.value()
                 XCTFail("Expect to throw error")
-            } catch let error {
+            } catch {
                 if case Error.test = error {} else {
                     XCTFail("Unexpected error: \(error)")
                 }
@@ -60,7 +60,7 @@ final class ThrowParsedTest: XCTestCase {
             let mapError = errorParsed.mapError { _ in Error.b }
             do {
                 _ = try mapError.value()
-            } catch let error {
+            } catch {
                 if case Error.b = error {} else {
                     XCTFail("Unexpected error: \(error)")
                 }

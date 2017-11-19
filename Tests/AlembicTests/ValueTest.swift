@@ -68,7 +68,7 @@ final class ValueTest: XCTestCase {
 
                 let uint64: UInt64 = try json.value(for: "UInt64")
                 XCTAssertEqual(uint64, 100)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -81,7 +81,7 @@ final class ValueTest: XCTestCase {
             do {
                 let value: String = try json.value(for: ["key", "nested", 0])
                 XCTAssertEqual(value, "A")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -108,7 +108,7 @@ final class ValueTest: XCTestCase {
 
                 let intRawPresentable: IntRawPresentable = try json.value(for: "testInt")
                 XCTAssertEqual(intRawPresentable, IntRawPresentable.test)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -121,7 +121,7 @@ final class ValueTest: XCTestCase {
             do {
                 let array: [String] = try json.value(for: "stringArray")
                 XCTAssertEqual(array, ["A", "B", "C", "D", "E"])
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -134,7 +134,7 @@ final class ValueTest: XCTestCase {
             do {
                 let dictionary: [String: Int] = try json.value(for: "stringDictionary")
                 XCTAssertEqual(dictionary, ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4])
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -160,7 +160,7 @@ final class ValueTest: XCTestCase {
                 let test: Test = try json.value(for: "test")
                 XCTAssertEqual(test.string, "string")
                 XCTAssertEqual(test.int, 100)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -191,7 +191,7 @@ final class ValueTest: XCTestCase {
                 let test: Test = try json.value(for: "test")
                 XCTAssertEqual(test.string, "string")
                 XCTAssertEqual(test.int, 100)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -215,7 +215,7 @@ final class ValueTest: XCTestCase {
                 let test: Test = try json.value(for: "test")
                 XCTAssertEqual(test.string, "string")
                 XCTAssertEqual(test.int, 100)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -239,7 +239,7 @@ final class ValueTest: XCTestCase {
                 let test: Test = try json.value(for: "test")
                 XCTAssertEqual(test.string, "string")
                 XCTAssertEqual(test.int, 100)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -258,7 +258,7 @@ final class ValueTest: XCTestCase {
             do {
                 let nestedValue: String = try json.value(for: path)
                 XCTAssertEqual(nestedValue, value)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }

@@ -20,7 +20,7 @@ final class ErrorTest: XCTestCase {
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.missing(path: path) {
                 XCTAssertEqual(path, "missing")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
@@ -29,7 +29,7 @@ final class ErrorTest: XCTestCase {
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.missing(path: path) {
                 XCTAssertEqual(path, ["test", "missing"])
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
@@ -38,7 +38,7 @@ final class ErrorTest: XCTestCase {
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.missing(path: path) {
                 XCTAssertEqual(path, ["test", "missing"])
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -55,7 +55,7 @@ final class ErrorTest: XCTestCase {
                 XCTAssert(expected == String.self)
                 XCTAssertEqual(actualValue as? Int, 100)
                 XCTAssertEqual(path, "int")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
@@ -66,7 +66,7 @@ final class ErrorTest: XCTestCase {
                 XCTAssert(expected == String.self)
                 XCTAssertEqual(actualValue as? Int, 100)
                 XCTAssertEqual(path, "int")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
                 
             }
@@ -83,7 +83,7 @@ final class ErrorTest: XCTestCase {
             } catch let JSON.Error.unexpected(value: value, path: path) {
                 XCTAssertEqual(value as? String, "value")
                 XCTAssertEqual(path, "key")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
@@ -93,7 +93,7 @@ final class ErrorTest: XCTestCase {
             } catch let JSON.Error.unexpected(value: value, path: path) {
                 XCTAssertNil(value)
                 XCTAssertEqual(path, "key")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
@@ -103,7 +103,7 @@ final class ErrorTest: XCTestCase {
             } catch let JSON.Error.unexpected(value: value, path: path) {
                 XCTAssertNil(value)
                 XCTAssertEqual(path, "key")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -117,18 +117,18 @@ final class ErrorTest: XCTestCase {
             do {
                 _ = try JSON(data: jsonData)
                 XCTFail("Expect to throw error")
-            } catch let JSON.Error.serializeFailed(value: value) {
+            } catch let JSON.Error.dataCorrupted(value: value, description: _) {
                 XCTAssertEqual(value as? Data, jsonData)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
             do {
                 _ = try JSON(string: jsonString)
                 XCTFail("Expect to throw error")
-            } catch let JSON.Error.serializeFailed(value: value) {
-                XCTAssertEqual(value as? String, jsonString)
-            } catch let error {
+            } catch let JSON.Error.dataCorrupted(value: value, description: _) {
+                XCTAssertEqual(value as? Data, jsonData)
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -149,7 +149,7 @@ final class ErrorTest: XCTestCase {
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.other(description: description) {
                 XCTAssertEqual(description, "Other error")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
@@ -158,7 +158,7 @@ final class ErrorTest: XCTestCase {
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.other(description: description) {
                 XCTAssertEqual(description, "Other error")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
@@ -167,7 +167,7 @@ final class ErrorTest: XCTestCase {
                 XCTFail("Expect to throw error")
             } catch let JSON.Error.other(description: description) {
                 XCTAssertEqual(description, "Other error")
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -205,7 +205,7 @@ final class ErrorTest: XCTestCase {
                 _ = try json.value(for: "test") as Missing
             } catch let JSON.Error.missing(path: path) {
                 XCTAssert(path == ["test", "missing"])
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
@@ -213,7 +213,7 @@ final class ErrorTest: XCTestCase {
                 _ = try json.value(for: "test") as TypeMismatch
             } catch let JSON.Error.typeMismatch(expected: _, actualValue: _, path: path) {
                 XCTAssert(path == ["test", "typeMismatch"])
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
             
@@ -221,7 +221,7 @@ final class ErrorTest: XCTestCase {
                 _ = try json.value(for: "test") as Unexpected
             } catch let JSON.Error.unexpected(value: _, path: path) {
                 XCTAssert(path == ["test", "unexpected"])
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }

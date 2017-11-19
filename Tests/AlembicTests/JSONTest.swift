@@ -18,7 +18,7 @@ final class JSONTest: XCTestCase {
             do {
                 let json = try JSON(data: self.jsonData)
                 XCTAssertEqual(json.rawValue, ["key": "value"])
-            } catch let error {
+            } catch {
                 XCTFail("error: \(error)")
             }
         }
@@ -29,7 +29,7 @@ final class JSONTest: XCTestCase {
             do {
                 let json = try JSON(string: self.jsonString)
                 XCTAssertEqual(json.rawValue, ["key": "value"])
-            } catch let error {
+            } catch {
                 XCTFail("error: \(error)")
             }
         }

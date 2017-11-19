@@ -17,7 +17,7 @@ final class OptionTest: XCTestCase {
                 
                 let optionFromIndexPath: Int? = try self.json.option(for: ["array", 0])
                 XCTAssertEqual(optionFromIndexPath, 0)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -28,7 +28,7 @@ final class OptionTest: XCTestCase {
             do {
                 let optionArray: [Int]? = try self.json.option(for: "array")
                 XCTAssert(optionArray.map { $0 == [0, 1, 2, 3, 4, 5] } ?? false)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -39,7 +39,7 @@ final class OptionTest: XCTestCase {
             do {
                 let optionDictionary: [String: String]? = try self.json.option(for: "dictionary")
                 XCTAssert(optionDictionary.map { $0 == ["key": "value"] } ?? false)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -53,7 +53,7 @@ final class OptionTest: XCTestCase {
                 
                 let optionFromIndexPath: Int? = try self.json.option(for: ["array", 100])
                 XCTAssertNil(optionFromIndexPath)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -64,7 +64,7 @@ final class OptionTest: XCTestCase {
             do {
                 let optionArray: [Int]? = try self.json.option(for: "missing")
                 XCTAssertNil(optionArray)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -75,7 +75,7 @@ final class OptionTest: XCTestCase {
             do {
                 let optionDictionary: [String: String]? = try self.json.option(for: "missing")
                 XCTAssertNil(optionDictionary)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
@@ -86,7 +86,7 @@ final class OptionTest: XCTestCase {
             do {
                 let null: String? = try self.json.option(for: "null")
                 XCTAssertNil(null)
-            } catch let error {
+            } catch {
                 XCTFail("Unexpected error: \(error)")
             }
         }
