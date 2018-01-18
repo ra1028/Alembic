@@ -25,12 +25,8 @@
 
 ---
 
-### _Alembic_ is now __Linux Ready!__
-### [Try _Alembic_ on IBM Swift Sandbox](https://swiftlang.ng.bluemix.net/#/repl?gitPackage=https:%2F%2Fgithub%2Ecom%2Fra1028%2FAlembic%2DSample%2Egit)
-
----
-
 ## Feature
+- Linux Ready
 - Type-safe JSON parsing
 - Monadic value transformation
 - Easy to parse nested value
