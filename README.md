@@ -66,10 +66,12 @@ github "ra1028/Alembic"
 ### [Swift Package Manager](https://github.com/apple/swift-package-manager)
 Add the following to your Package.swift:  
 ```Swift
+// swift-tools-version:4.0
+
 let package = Package(
     name: "ProjectName",
-    dependencies: [
-        .Package(url: "https://github.com/ra1028/Alembic.git", majorVersion: 3)
+    dependencies : [
+        .package(url: "https://github.com/ra1028/Alembic.git", .upToNextMajor(from: "3"))
     ]
 )
 ```
