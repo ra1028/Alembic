@@ -4,12 +4,12 @@ import XCTest
 
 final class ParserTest: XCTestCase {
     func testInitialize() {
-        let parser = Parser.value("value")
+        let parser = JSON.Parser.value("value")
         XCTAssertEqual(parser.value(), "value")
     }
     
     func testTransform() {
-        let parser = Parser.value("value")
+        let parser = JSON.Parser.value("value")
         
         let map = parser.map { $0 + "-map" }
         XCTAssertEqual(map.value(), "value-map")

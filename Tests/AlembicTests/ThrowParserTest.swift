@@ -8,10 +8,10 @@ final class ThrowParserTest: XCTestCase {
             case test
         }
         
-        let valueParser = ThrowParser.value("value")
+        let valueParser = JSON.ThrowParser.value("value")
         XCTAssertEqual(try? valueParser.value(), "value")
         
-        let errorParser = ThrowParser<String>.error(Error.test)
+        let errorParser = JSON.ThrowParser<String>.error(Error.test)
         do {
             _ = try errorParser.value()
             XCTFail("Expect to throw error")
@@ -27,16 +27,16 @@ final class ThrowParserTest: XCTestCase {
             case a, b
         }
         
-        let parser = ThrowParser.value("value")
-        let errorParser = ThrowParser<String>.error(Error.a)
+        let parser = JSON.ThrowParser.value("value")
+        let errorParser = JSON.ThrowParser<String>.error(Error.a)
         
         let map = parser.map { $0 + "-map" }
         XCTAssertEqual(try? map.value(), "value-map")
         
-        let ParserFlatMap = parser.flatMap { Parser.value($0 + "-flatMap") }
+        let ParserFlatMap = parser.flatMap { JSON.Parser.value($0 + "-flatMap") }
         XCTAssertEqual(try? ParserFlatMap.value(), "value-flatMap")
         
-        let throwParserFlatMap = parser.flatMap { ThrowParser.value($0 + "-throwFlatMap") }
+        let throwParserFlatMap = parser.flatMap { JSON.ThrowParser.value($0 + "-throwFlatMap") }
         XCTAssertEqual(try? throwParserFlatMap.value(), "value-throwFlatMap")
         
         let optionalFlatMap = parser.filterMap { $0 + "-filterMap" as String? }
@@ -63,10 +63,10 @@ final class ThrowParserTest: XCTestCase {
             }
         }
         
-        let ParserFlatMapError = errorParser.flatMapError { _ in Parser.value("flatMapError") }
+        let ParserFlatMapError = errorParser.flatMapError { _ in JSON.Parser.value("flatMapError") }
         XCTAssertEqual(ParserFlatMapError.value(), "flatMapError")
         
-        let throwParserFlatMapError = errorParser.flatMapError { _ in ThrowParser.value("throwFlatMapError") }
+        let throwParserFlatMapError = errorParser.flatMapError { _ in JSON.ThrowParser.value("throwFlatMapError") }
         XCTAssertEqual(try? throwParserFlatMapError.value(), "throwFlatMapError")
     }
 }

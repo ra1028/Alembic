@@ -7,22 +7,22 @@ public protocol ParserProtocol {
 }
 
 public extension ParserProtocol {
-    func map<T>(_ transform: @escaping (Value) throws -> T) -> ThrowParser<T> {
+    func map<T>(_ transform: @escaping (Value) throws -> T) -> JSON.ThrowParser<T> {
         return .init(path: path) {
             let value = try self.value()
             return try transform(value)
         }
     }
     
-    func flatMap<T>(_ transform: @escaping (Value) -> Parser<T>) -> ThrowParser<T> {
+    func flatMap<T>(_ transform: @escaping (Value) -> JSON.Parser<T>) -> JSON.ThrowParser<T> {
         return _flatMap(transform)
     }
     
-    func flatMap<T>(_ transform: @escaping (Value) -> ThrowParser<T>) -> ThrowParser<T> {
+    func flatMap<T>(_ transform: @escaping (Value) -> JSON.ThrowParser<T>) -> JSON.ThrowParser<T> {
         return _flatMap(transform)
     }
     
-    func filterMap<T>(_ transform: @escaping (Value) throws -> T?) -> ThrowParser<T> {
+    func filterMap<T>(_ transform: @escaping (Value) throws -> T?) -> JSON.ThrowParser<T> {
         return map {
             let optional = try transform($0)
             guard let value = optional else { throw JSON.Error.unexpected(value: optional, path: self.path) }
@@ -30,7 +30,7 @@ public extension ParserProtocol {
         }
     }
     
-    func filter(_ predicate: @escaping (Value) throws -> Bool) -> ThrowParser<Value> {
+    func filter(_ predicate: @escaping (Value) throws -> Bool) -> JSON.ThrowParser<Value> {
         return map {
             guard try predicate($0) else { throw JSON.Error.unexpected(value: $0, path: self.path) }
             return $0
@@ -39,7 +39,7 @@ public extension ParserProtocol {
 }
 
 public extension ParserProtocol where Value: OptionalProtocol {
-    func filterNil() -> ThrowParser<Value.Wrapped> {
+    func filterNil() -> JSON.ThrowParser<Value.Wrapped> {
         return map {
             let optional = $0.optional
             guard let value = optional else { throw JSON.Error.unexpected(value: optional, path: self.path) }
@@ -50,7 +50,7 @@ public extension ParserProtocol where Value: OptionalProtocol {
 
 private extension ParserProtocol {
     @inline(__always)
-    func _flatMap<T: ParserProtocol>(_ transform: @escaping (Value) throws -> T) -> ThrowParser<T.Value> {
+    func _flatMap<T: ParserProtocol>(_ transform: @escaping (Value) throws -> T) -> JSON.ThrowParser<T.Value> {
         return map { try transform($0).value() }
     }
 }
