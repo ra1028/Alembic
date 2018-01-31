@@ -1,4 +1,6 @@
 import class Foundation.JSONSerialization
+import class Foundation.NSDictionary
+import class Foundation.NSArray
 import class Foundation.NSNull
 import struct Foundation.Data
 
@@ -127,20 +129,19 @@ extension JSON: ExpressibleByDictionaryLiteral {
 private extension JSON {
     @inline(__always)
     func retrive(with path: Path) throws -> Any {
-        @inline(__always)
-        func retrive(from value: Any, with pathElements: ArraySlice<Path.Element>) throws -> Any {
-            guard let first = pathElements.first else { return value }
-            
-            switch first {
+        var result = rawValue
+        
+        for pathElement in path {
+            switch pathElement {
             case let .key(key):
-                guard let dictionary = value as? [String: Any], let value = dictionary[key], !(value is NSNull) else {
+                guard let dictionary = result as? NSDictionary, let value = dictionary[key], !(value is NSNull) else {
                     throw JSON.Error.missing(path: path)
                 }
-                
-                return try retrive(from: value, with: pathElements.dropFirst())
+
+                result = value
                 
             case let .index(index):
-                guard let array = value as? [Any], array.count > index else {
+                guard let array = result as? NSArray, array.count > index else {
                     throw JSON.Error.missing(path: path)
                 }
                 
@@ -150,11 +151,10 @@ private extension JSON {
                     throw JSON.Error.missing(path: path)
                 }
                 
-                return try retrive(from: value, with: pathElements.dropFirst())
+                result = value
             }
         }
         
-        let pathElements = ArraySlice(path)
-        return try retrive(from: rawValue, with: pathElements)
+        return result
     }
 }
