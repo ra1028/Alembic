@@ -154,7 +154,7 @@ private extension JSON {
             }
         }
         
-        let pathElements = ArraySlice(path.elements)
+        let pathElements = ArraySlice(path)
         return try retrive(from: rawValue, with: pathElements)
     }
 }

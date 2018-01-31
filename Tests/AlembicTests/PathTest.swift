@@ -20,13 +20,13 @@ final class PathTest: XCTestCase {
         
         let mixedMultiPath: JSON.Path = ["key1", 1, "key2", 2]
         
-        XCTAssert(singleKeyPath.elements == ["key"])
-        XCTAssert(singleIndexPath.elements == [100])
+        XCTAssert(singleKeyPath == ["key"])
+        XCTAssert(singleIndexPath == [100])
         
-        XCTAssert(multiKeyPath.elements == ["key1", "key2", "key3"])
-        XCTAssert(multiIndexPath.elements == [1, 2, 3])
+        XCTAssert(multiKeyPath == ["key1", "key2", "key3"])
+        XCTAssert(multiIndexPath == [1, 2, 3])
         
-        XCTAssert(mixedMultiPath.elements == ["key1", 1, "key2", 2])
+        XCTAssert(mixedMultiPath == ["key1", 1, "key2", 2])
     }
 }
 

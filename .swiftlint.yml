@@ -4,6 +4,7 @@ excluded:
 disabled_rules:
   - nesting
   - statement_position
+  - identifier_name
 
 trailing_whitespace:
   ignores_empty_lines: true
