@@ -1,8 +1,16 @@
 import class Foundation.JSONSerialization
-import class Foundation.NSDictionary
-import class Foundation.NSArray
 import class Foundation.NSNull
 import struct Foundation.Data
+
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+    import class Foundation.NSDictionary
+    import class Foundation.NSArray
+    private typealias AnyDictionary = NSDictionary
+    private typealias AnyArray = NSArray
+#else
+    private typealias AnyDictionary = [String: Any]
+    private typealias AnyArray = [Any]
+#endif
 
 public struct JSON {
     public let rawValue: Any
@@ -134,14 +142,14 @@ private extension JSON {
         for pathElement in path {
             switch pathElement {
             case let .key(key):
-                guard let dictionary = result as? NSDictionary, let value = dictionary[key], !(value is NSNull) else {
+                guard let dictionary = result as? AnyDictionary, let value = dictionary[key], !(value is NSNull) else {
                     throw JSON.Error.missing(path: path)
                 }
 
                 result = value
                 
             case let .index(index):
-                guard let array = result as? NSArray, array.count > index else {
+                guard let array = result as? AnyArray, array.count > index else {
                     throw JSON.Error.missing(path: path)
                 }
                 
