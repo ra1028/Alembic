@@ -1,9 +1,9 @@
 Pod::Spec.new do |spec|
   spec.name = 'Alembic'
-  spec.version  = '3.2.0'
+  spec.version  = '3.3.0'
   spec.author = { 'ra1028' => 'r.fe51028.r@gmail.com' }
   spec.homepage = 'https://github.com/ra1028'
-  spec.summary = 'A Monadic JSON Parser'
+  spec.summary = 'Functional JSON Parser'
   spec.source = { :git => 'https://github.com/ra1028/Alembic.git', :tag => spec.version.to_s }
   spec.license = { :type => 'MIT', :file => 'LICENSE' }
   spec.source_files = 'Sources/**/*.swift'

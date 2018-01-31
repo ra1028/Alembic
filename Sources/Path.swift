@@ -5,7 +5,7 @@ public extension JSON {
             case index(Int)
         }
         
-        public let elements: [Element]
+        fileprivate let elements: [Element]
         
         public init(element: Element) {
             elements = [element]
@@ -14,6 +14,30 @@ public extension JSON {
         public init(elements: [Element]) {
             self.elements = elements
         }
+        
+        public static func + (lhs: JSON.Path, rhs: JSON.Path) -> JSON.Path {
+            return .init(elements: lhs.elements + rhs.elements)
+        }
+    }
+}
+
+// MARK: - RandomAccessCollection
+
+extension JSON.Path: RandomAccessCollection {
+    public var startIndex: Int {
+        return elements.startIndex
+    }
+    
+    public var endIndex: Int {
+        return elements.endIndex
+    }
+    
+    public func index(after i: Int) -> Int {
+        return i + 1
+    }
+    
+    public subscript(position: Int) -> Element {
+        return elements[position]
     }
 }
 
@@ -22,10 +46,6 @@ public extension JSON {
 extension JSON.Path: Equatable {
     public static func == (lhs: JSON.Path, rhs: JSON.Path) -> Bool {
         return lhs.elements == rhs.elements
-    }
-    
-    public static func + (lhs: JSON.Path, rhs: JSON.Path) -> JSON.Path {
-        return .init(elements: lhs.elements + rhs.elements)
     }
 }
 

@@ -25,12 +25,8 @@
 
 ---
 
-### _Alembic_ is now __Linux Ready!__
-### [Try _Alembic_ on IBM Swift Sandbox](https://swiftlang.ng.bluemix.net/#/repl?gitPackage=https:%2F%2Fgithub%2Ecom%2Fra1028%2FAlembic%2DSample%2Egit)
-
----
-
 ## Feature
+- Linux Ready
 - Type-safe JSON parsing
 - Monadic value transformation
 - Easy to parse nested value
@@ -70,10 +66,12 @@ github "ra1028/Alembic"
 ### [Swift Package Manager](https://github.com/apple/swift-package-manager)
 Add the following to your Package.swift:  
 ```Swift
+// swift-tools-version:4.0
+
 let package = Package(
     name: "ProjectName",
-    dependencies: [
-        .Package(url: "https://github.com/ra1028/Alembic.git", majorVersion: 3)
+    dependencies : [
+        .package(url: "https://github.com/ra1028/Alembic.git", .upToNextMajor(from: "3"))
     ]
 )
 ```
@@ -131,13 +129,13 @@ let missingText: String? = try json.option(for: "missingKey")
 __Transform value using various monadic functions.__
 ```swift
 let teamUrl: URL = try json.parse(String.self, for: ["teams", 0, "url"])
-        .flatMap(URL.init(string:))
+        .filterMap(URL.init(string:))
         .value()
 ```
 __Transform nullable value if exist__
 ```swift
 let missingUrl: URL? = try json.parse(String.self, for: "missingKey")
-        .flatMap(URL.init(string:))
+        .filterMap(URL.init(string:))
         .option()
 ```
 
@@ -156,6 +154,15 @@ struct Member: Parsable {
     }
 }
 
+extension URL: Parsable {
+    public static func value(from json: JSON) throws -> URL {
+        guard let url = try URL(string: json.value()) else {
+            throw JSON.Error.dataCorrupted(value: json.rawValue, description: "The value was not valid url string.")
+        }
+        return url
+    }
+}
+
 struct Team: Parsable {
     let name: String
     let url: URL
@@ -164,7 +171,7 @@ struct Team: Parsable {
     static func value(from json: JSON) throws -> Team {
         return try .init(
             name: json.value(for: "name"),
-            url: json.parse(String.self, for: "url").flatMap(URL.init(string:)).value(),
+            url: json.value(for: "url"),
             members: json.value(for: "members")
         )
     }
@@ -219,9 +226,9 @@ struct Member: ParseInitializable {
 
 #### Usage Reference Files
 Monadic functions for value transforming:
-- [ParsedProtocol.swift](./Sources/ParsedProtocol.swift)
-- [Parsed.swift](./Sources/Parsed.swift)
-- [ThrowParsed.swift](./Sources/ThrowParsed.swift)
+- [ParserProtocol.swift](./Sources/ParserProtocol.swift)
+- [Parser.swift](./Sources/Parser.swift)
+- [ThrowParser.swift](./Sources/ThrowParser.swift)
 
 Errors
 - [Error.swift](./Sources/Error.swift)

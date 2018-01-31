@@ -2,6 +2,16 @@ import class Foundation.JSONSerialization
 import class Foundation.NSNull
 import struct Foundation.Data
 
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+    import class Foundation.NSDictionary
+    import class Foundation.NSArray
+    private typealias AnyDictionary = NSDictionary
+    private typealias AnyArray = NSArray
+#else
+    private typealias AnyDictionary = [String: Any]
+    private typealias AnyArray = [Any]
+#endif
+
 public struct JSON {
     public let rawValue: Any
     
@@ -76,15 +86,15 @@ public extension JSON {
 }
 
 public extension JSON {
-    func parse<T: Parsable>(_ type: T.Type = T.self, for path: Path = []) -> ThrowParsed<T> {
+    func parse<T: Parsable>(_ type: T.Type = T.self, for path: Path = []) -> ThrowParser<T> {
         return .init(path: path) { try self.value(for: path) }
     }
     
-    func parse<T: Parsable>(_ type: [T].Type = [T].self, for path: Path = []) -> ThrowParsed<[T]> {
+    func parse<T: Parsable>(_ type: [T].Type = [T].self, for path: Path = []) -> ThrowParser<[T]> {
         return .init(path: path) { try self.value(for: path) }
     }
     
-    func parse<T: Parsable>(_ type: [String: T].Type = [String: T].self, for path: Path = []) -> ThrowParsed<[String: T]> {
+    func parse<T: Parsable>(_ type: [String: T].Type = [String: T].self, for path: Path = []) -> ThrowParser<[String: T]> {
         return .init(path: path) { try self.value(for: path) }
     }
 }
@@ -127,20 +137,19 @@ extension JSON: ExpressibleByDictionaryLiteral {
 private extension JSON {
     @inline(__always)
     func retrive(with path: Path) throws -> Any {
-        @inline(__always)
-        func retrive(from value: Any, with pathElements: ArraySlice<Path.Element>) throws -> Any {
-            guard let first = pathElements.first else { return value }
-            
-            switch first {
+        var result = rawValue
+        
+        for pathElement in path {
+            switch pathElement {
             case let .key(key):
-                guard let dictionary = value as? [String: Any], let value = dictionary[key], !(value is NSNull) else {
+                guard let dictionary = result as? AnyDictionary, let value = dictionary[key], !(value is NSNull) else {
                     throw JSON.Error.missing(path: path)
                 }
-                
-                return try retrive(from: value, with: pathElements.dropFirst())
+
+                result = value
                 
             case let .index(index):
-                guard let array = value as? [Any], array.count > index else {
+                guard let array = result as? AnyArray, array.count > index else {
                     throw JSON.Error.missing(path: path)
                 }
                 
@@ -150,11 +159,10 @@ private extension JSON {
                     throw JSON.Error.missing(path: path)
                 }
                 
-                return try retrive(from: value, with: pathElements.dropFirst())
+                result = value
             }
         }
         
-        let pathElements = ArraySlice(path.elements)
-        return try retrive(from: rawValue, with: pathElements)
+        return result
     }
 }
