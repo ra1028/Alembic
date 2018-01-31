@@ -225,7 +225,7 @@ struct Member: ParseInitializable {
 ```
 
 #### Usage Reference Files
-Monadic functions for value transforming:
+Functional operators for value transforming:
 - [ParserProtocol.swift](./Sources/ParserProtocol.swift)
 - [Parser.swift](./Sources/Parser.swift)
 - [ThrowParser.swift](./Sources/ThrowParser.swift)
