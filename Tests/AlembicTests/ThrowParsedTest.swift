@@ -39,8 +39,8 @@ final class ThrowParsedTest: XCTestCase {
         let throwParsedFlatMap = parsed.flatMap { ThrowParsed.value($0 + "-throwParsedFlatMap") }
         XCTAssertEqual(try? throwParsedFlatMap.value(), "Parsed-throwParsedFlatMap")
         
-        let optionalFlatMap = parsed.flatMap { $0 + "-optionalFlatMap" as String? }
-        XCTAssertEqual(try? optionalFlatMap.value(), "Parsed-optionalFlatMap")
+        let optionalFlatMap = parsed.filterMap { $0 + "-filterMap" as String? }
+        XCTAssertEqual(try? optionalFlatMap.value(), "Parsed-filterMap")
         
         let filter = parsed.filter { !$0.isEmpty }
         XCTAssertEqual(try? filter.value(), "Parsed")

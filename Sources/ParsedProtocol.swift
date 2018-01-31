@@ -22,7 +22,7 @@ public extension ParsedProtocol {
         return _flatMap(transform)
     }
     
-    func flatMap<T>(_ transform: @escaping (Value) throws -> T?) -> ThrowParsed<T> {
+    func filterMap<T>(_ transform: @escaping (Value) throws -> T?) -> ThrowParsed<T> {
         return map {
             let optional = try transform($0)
             guard let value = optional else { throw JSON.Error.unexpected(value: optional, path: self.path) }

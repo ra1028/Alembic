@@ -83,7 +83,7 @@ final class ErrorTest: XCTestCase {
         }
         
         do {
-            _ = try json.parse(for: "key").flatMap { (_: String) -> String? in nil }.value()
+            _ = try json.parse(for: "key").filterMap { (_: String) -> String? in nil }.value()
             XCTFail("Expect to throw error")
         } catch let JSON.Error.unexpected(value: value, path: path) {
             XCTAssertNil(value)
