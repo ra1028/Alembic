@@ -76,15 +76,15 @@ public extension JSON {
 }
 
 public extension JSON {
-    func parse<T: Parsable>(_ type: T.Type = T.self, for path: Path = []) -> ThrowParsed<T> {
+    func parse<T: Parsable>(_ type: T.Type = T.self, for path: Path = []) -> ThrowParser<T> {
         return .init(path: path) { try self.value(for: path) }
     }
     
-    func parse<T: Parsable>(_ type: [T].Type = [T].self, for path: Path = []) -> ThrowParsed<[T]> {
+    func parse<T: Parsable>(_ type: [T].Type = [T].self, for path: Path = []) -> ThrowParser<[T]> {
         return .init(path: path) { try self.value(for: path) }
     }
     
-    func parse<T: Parsable>(_ type: [String: T].Type = [String: T].self, for path: Path = []) -> ThrowParsed<[String: T]> {
+    func parse<T: Parsable>(_ type: [String: T].Type = [String: T].self, for path: Path = []) -> ThrowParser<[String: T]> {
         return .init(path: path) { try self.value(for: path) }
     }
 }

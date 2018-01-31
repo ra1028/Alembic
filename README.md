@@ -217,9 +217,9 @@ struct Member: ParseInitializable {
 
 #### Usage Reference Files
 Monadic functions for value transforming:
-- [ParsedProtocol.swift](./Sources/ParsedProtocol.swift)
-- [Parsed.swift](./Sources/Parsed.swift)
-- [ThrowParsed.swift](./Sources/ThrowParsed.swift)
+- [ParserProtocol.swift](./Sources/ParserProtocol.swift)
+- [Parser.swift](./Sources/Parser.swift)
+- [ThrowParser.swift](./Sources/ThrowParser.swift)
 
 Errors
 - [Error.swift](./Sources/Error.swift)

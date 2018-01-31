@@ -8,8 +8,8 @@ XCTMain([
     testCase(ValueTest.allTests),
     testCase(OptionTest.allTests),
     testCase(ParseTest.allTests),
-    testCase(ParsedTest.allTests),
-    testCase(ThrowParsedTest.allTests),
+    testCase(ParserTest.allTests),
+    testCase(ThrowParserTest.allTests),
     testCase(PathTest.allTests),
     testCase(ErrorTest.allTests)
 ])

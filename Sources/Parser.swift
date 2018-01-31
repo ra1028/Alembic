@@ -1,4 +1,4 @@
-public struct Parsed<Value>: ParsedProtocol {
+public struct Parser<Value>: ParserProtocol {
     public let path: JSON.Path
     
     private let parser: () -> Value
@@ -13,16 +13,16 @@ public struct Parsed<Value>: ParsedProtocol {
     }
 }
 
-public extension Parsed {
-    static func value(_ value: @autoclosure @escaping () -> Value) -> Parsed<Value> {
+public extension Parser {
+    static func value(_ value: @autoclosure @escaping () -> Value) -> Parser<Value> {
         return .init(path: [], parser: value)
     }
     
-    func map<T>(_ transform: @escaping (Value) -> T) -> Parsed<T> {
+    func map<T>(_ transform: @escaping (Value) -> T) -> Parser<T> {
         return .init(path: path) { transform(self.value()) }
     }
     
-    func flatMap<T>(_ transform: @escaping (Value) -> Parsed<T>) -> Parsed<T> {
+    func flatMap<T>(_ transform: @escaping (Value) -> Parser<T>) -> Parser<T> {
         return map { transform($0).value() }
     }
 }

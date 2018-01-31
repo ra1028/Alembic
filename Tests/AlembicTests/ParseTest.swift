@@ -52,7 +52,7 @@ final class ParseTest: XCTestCase {
         }
     }
     
-    func testParsedictionary() {
+    func testParserictionary() {
         do {
             let dictionary: [String: Int] = try self.dictionaryJson.parse(for: "dictionary").value()
             XCTAssertEqual(dictionary, ["A": 0, "B": 1, "C": 2, "D": 3, "E": 4])
@@ -81,7 +81,7 @@ extension ParseTest {
             ("testParseOptionValue", testParseOptionValue),
             ("testParseArray", testParseArray),
             ("testParseOptionArray", testParseOptionArray),
-            ("testParsedictionary", testParsedictionary),
+            ("testParserictionary", testParserictionary),
             ("testParseOptionDictionary", testParseOptionDictionary)
         ]
     }
