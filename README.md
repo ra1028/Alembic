@@ -129,13 +129,13 @@ let missingText: String? = try json.option(for: "missingKey")
 __Transform value using various monadic functions.__
 ```swift
 let teamUrl: URL = try json.parse(String.self, for: ["teams", 0, "url"])
-        .flatMap(URL.init(string:))
+        .filterMap(URL.init(string:))
         .value()
 ```
 __Transform nullable value if exist__
 ```swift
 let missingUrl: URL? = try json.parse(String.self, for: "missingKey")
-        .flatMap(URL.init(string:))
+        .filterMap(URL.init(string:))
         .option()
 ```
 
@@ -154,6 +154,15 @@ struct Member: Parsable {
     }
 }
 
+extension URL: Parsable {
+    public static func value(from json: JSON) throws -> URL {
+        guard let url = try URL(string: json.value()) else {
+            throw JSON.Error.dataCorrupted(value: json.rawValue, description: "The value was not valid url string.")
+        }
+        return url
+    }
+}
+
 struct Team: Parsable {
     let name: String
     let url: URL
@@ -162,7 +171,7 @@ struct Team: Parsable {
     static func value(from json: JSON) throws -> Team {
         return try .init(
             name: json.value(for: "name"),
-            url: json.parse(String.self, for: "url").flatMap(URL.init(string:)).value(),
+            url: json.value(for: "url"),
             members: json.value(for: "members")
         )
     }
