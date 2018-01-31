@@ -21,7 +21,7 @@ public extension JSON {
     }
 }
 
-// MARK: - ContiguousArray
+// MARK: - RandomAccessCollection
 
 extension JSON.Path: RandomAccessCollection {
     public var startIndex: Int {
