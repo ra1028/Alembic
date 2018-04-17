@@ -60,14 +60,6 @@ public extension JSON {
         }
     }
     
-    func value<T: Parsable>(_ type: [T].Type = [T].self, for path: Path = []) throws -> [T] {
-        return try .value(from: value(for: path))
-    }
-    
-    func value<T: Parsable>(_ type: [String: T].Type = [String: T].self, for path: Path = []) throws -> [String: T] {
-        return try .value(from: value(for: path))
-    }
-    
     func option<T: Parsable>(_ type: T.Type = T.self, for path: Path = []) throws -> T? {
         do {
             return try value(for: path) as T
@@ -75,26 +67,10 @@ public extension JSON {
             return nil
         }
     }
-    
-    func option<T: Parsable>(_ type: [T].Type = [T].self, for path: Path = []) throws -> [T]? {
-        return try option(for: path).map([T].value(from:))
-    }
-    
-    func option<T: Parsable>(_ type: [String: T].Type = [String: T].self, for path: Path = []) throws -> [String: T]? {
-        return try option(for: path).map([String: T].value(from:))
-    }
 }
 
 public extension JSON {
     func parse<T: Parsable>(_ type: T.Type = T.self, for path: Path = []) -> ThrowParser<T> {
-        return .init(path: path) { try self.value(for: path) }
-    }
-    
-    func parse<T: Parsable>(_ type: [T].Type = [T].self, for path: Path = []) -> ThrowParser<[T]> {
-        return .init(path: path) { try self.value(for: path) }
-    }
-    
-    func parse<T: Parsable>(_ type: [String: T].Type = [String: T].self, for path: Path = []) -> ThrowParser<[String: T]> {
         return .init(path: path) { try self.value(for: path) }
     }
 }

@@ -132,17 +132,23 @@ public extension RawRepresentable where Self: Parsable, RawValue: Parsable {
     }
 }
 
-public extension Array where Element: Parsable {
-    static func value(from json: JSON) throws -> [Element] {
-        let array: [Any] = try cast(json.rawValue)
-        return try array.map { try JSON($0).value() }
+extension Array: Parsable where Element: Parsable {
+    public static func value(from json: JSON) throws -> [Element] {
+        let rawArray: [Any] = try cast(json.rawValue)
+        return try rawArray.map { try JSON($0).value() }
     }
 }
 
-public extension Dictionary where Key == String, Value: Parsable {
-    static func value(from json: JSON) throws -> [String: Value] {
+extension Dictionary: Parsable where Key == String, Value: Parsable {
+    public static func value(from json: JSON) throws -> [String: Value] {
         let rawDictionary: [String: Any] = try cast(json.rawValue)
         return try rawDictionary.mapValues { try JSON($0).value() }
+    }
+}
+
+extension Optional: Parsable where Wrapped: Parsable {
+    public static func value(from json: JSON) throws -> Wrapped? {
+        return try .some(json.value())
     }
 }
 
