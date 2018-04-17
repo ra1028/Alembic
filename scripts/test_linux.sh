@@ -8,6 +8,11 @@ if [[ `uname` == "Darwin" ]]; then
     exit -1
   fi
 
+  if [[ ! $(docker info 2>/dev/null) ]]; then
+    echo "Is Docker running?"
+    exit -1
+  fi
+
   DOCKER_HOST_NAME=com.ryo.alembic.test
   WORKING_DIR=$(pwd)
 
