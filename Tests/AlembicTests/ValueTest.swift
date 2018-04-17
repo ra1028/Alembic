@@ -91,6 +91,17 @@ final class ValueTest: XCTestCase {
         }
     }
     
+    func testParsableOptionalNestedValue() {
+        let json: JSON = ["key": ["nested": ["A", "B", "C"]]]
+        
+        do {
+            let value: String? = try json.value(for: ["key", "nested", 0])
+            XCTAssertEqual(value, "A")
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
     func testParsableRawPresentable() {
         enum StringRawPresentable: String, Parsable {
             case test
@@ -279,6 +290,8 @@ extension ValueTest {
     static var allTests: [(String, (ValueTest) -> () throws -> Void)] {
         return [
             ("testDefaultParsableValues", testDefaultParsableValues),
+            ("testNestedValue", testNestedValue),
+            ("testNestedValue", testParsableOptionalNestedValue),
             ("testParsableRawPresentable", testParsableRawPresentable),
             ("testParsableArray", testParsableArray),
             ("testParsableDictionary", testParsableDictionary),
