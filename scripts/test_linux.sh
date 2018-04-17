@@ -23,7 +23,7 @@ elif [[ `uname` == "Linux" ]]; then
   swift test
 
 else
-  echo "Unknown OS (`uname`)"
+  echo "Unsupported OS (`uname`)"
   exit -1
 
 fi
