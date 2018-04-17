@@ -36,7 +36,7 @@
 ---
 
 ## Requirements
-- Swift4.0 or later
+- Swift4.1 or later
 - OS X 10.9 or later
 - iOS 9.0 or later
 - watchOS 2.0 or later
@@ -184,7 +184,7 @@ let team: Team = try json.value(for: ["teams", 0])
 ---
 
 ## Tips
-#### `Parsable` conformed types as default
+#### The types conformed to `Parsable` as default.  
 ```swift
 JSON
 String
@@ -203,12 +203,9 @@ UInt32
 Int64
 UInt64
 Decimal
-
-// A type that has a value conforming to `Parsable` in generics
-
-RawRepresentable where RawValue: Parsable
 Array where Element: Parsable
 Dictionary where Key == String, Value: Parsable
+Optional where Wrapped: Parsable
 ```
 
 #### Conform to `Parsable` with initializer
