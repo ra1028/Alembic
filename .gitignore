@@ -31,3 +31,7 @@ Carthage/Build
 #Swift Package Manager
 .build/
 Packages/
+
+#Gem
+.bundle
+vendor
